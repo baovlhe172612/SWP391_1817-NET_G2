@@ -13,8 +13,6 @@ public partial class ProductSize
 
     public int? Quanity { get; set; }
 
-    public double? Price { get; set; }
-
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Product Product { get; set; } = null!;
