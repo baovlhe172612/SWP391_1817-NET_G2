@@ -22,6 +22,7 @@ function ListStore() {
       key: "name",
       render: (text) => <a>{text}</a>, // custom text
     },
+    
 
   ];
 

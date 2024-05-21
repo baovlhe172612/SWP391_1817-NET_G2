@@ -21,60 +21,17 @@ function Header() {
         </div>
       </div>
       <div className="col-6">
-        <div className="header-top-right">
+        <div className="header-top-right" style={{ paddingTop: '20px' }}>
           <ul className="dropdown-wrap">
             <li className="dropdown">
-              <button
-                className="btn btn-link dropdown-toggle ht-btn"
-                type="button"
-                id="currencyButton"
-                data-bs-toggle="dropdown"
-                aria-label="currency"
-                aria-expanded="false"
-              >
-                USD
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="currencyButton">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    GBP
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    ISO
-                  </a>
-                </li>
-              </ul>
+             
+              VND
+          
             </li>
             <li className="dropdown">
-              <button
-                className="btn btn-link dropdown-toggle ht-btn"
-                type="button"
-                id="languageButton"
-                data-bs-toggle="dropdown"
-                aria-label="language"
-                aria-expanded="false"
-              >
-                English
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="languageButton">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    French
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Italian
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Spanish
-                  </a>
-                </li>
-              </ul>
+            
+                FPT University
+             
             </li>
           </ul>
         </div>
@@ -92,7 +49,7 @@ function Header() {
               <div className="header-middle-wrap position-relative">
                 <div className="header-contact d-none d-lg-flex">
                   <i className="pe-7s-call"></i>
-                  <a href="tel://+00-123-456-789">09XXXXXXXX</a>
+                  <a href="tel://+00-123-456-789">09123456789</a>
                 </div>
 
                 <Link to="/">
