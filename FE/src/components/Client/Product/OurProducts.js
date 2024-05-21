@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Product from "./Product";
+import { get } from "../../../helpers/API.helper";
 
 function OurProducts() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get("http://localhost:5264/api/ProductControlles");
+      //
+
+      console.log(data)
+      setProducts(data);
+    };
+
+    fetchApi();
+  }, []);
+
+  console.log(products)
   return (
     <>
       {/* <!-- Begin Product Area --> */}
@@ -21,7 +37,13 @@ function OurProducts() {
                 >
                   <div class="product-item-wrap row">
                     {/* <!-- PRODUCT --> */}
-                    <Product />
+
+                    {products.length > 0 && products.map(product => {
+                      return (
+                        <Product product={product}/>
+                      )
+                    })}
+
                     {/* <!-- PRODUCT --> */}
                   </div>
                 </div>
