@@ -21,7 +21,7 @@ function Header() {
         </div>
       </div>
       <div className="col-6">
-        <div className="header-top-right">
+        <div className="header-top-right" style={{ paddingTop: '20px' }}>
           <ul className="dropdown-wrap">
             <li className="dropdown">
               <button
@@ -32,49 +32,22 @@ function Header() {
                 aria-label="currency"
                 aria-expanded="false"
               >
-                USD
+              VND
               </button>
-              <ul className="dropdown-menu" aria-labelledby="currencyButton">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    GBP
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    ISO
-                  </a>
-                </li>
-              </ul>
+          
             </li>
             <li className="dropdown">
               <button
-                className="btn btn-link dropdown-toggle ht-btn"
+                className="btn btn-link dropdown-toggle ht-btn "
                 type="button"
                 id="languageButton"
                 data-bs-toggle="dropdown"
                 aria-label="language"
                 aria-expanded="false"
               >
-                English
+                FPT University
               </button>
-              <ul className="dropdown-menu" aria-labelledby="languageButton">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    French
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Italian
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Spanish
-                  </a>
-                </li>
-              </ul>
+             
             </li>
           </ul>
         </div>
