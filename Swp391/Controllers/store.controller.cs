@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swp391.Models;
 using Swp391.Service;
 
 namespace Swp391.Controllers
@@ -16,6 +17,9 @@ namespace Swp391.Controllers
             return Ok(_service.getAllStore());
         }
 
-        
+        // [HttpPost]
+        // public IActionResult createStoreController(Store store) {
+        //     return Ok(store);
+        // }
     }
 }
