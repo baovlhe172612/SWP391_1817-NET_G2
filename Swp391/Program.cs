@@ -8,11 +8,22 @@ namespace Swp391
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // Configure CORS
+
+            //add cors ?? tránh
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000") // Ch? ??nh origin c? th?
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
 
             var app = builder.Build();
 
@@ -23,12 +34,17 @@ namespace Swp391
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
+            app.UseHttpsRedirection();
 
+            app.UseCors(); // Áp d?ng chính sách CORS
+
+            app.UseAuthorization();
 
             app.MapControllers();
 
             app.Run();
+
+
         }
     }
 }
