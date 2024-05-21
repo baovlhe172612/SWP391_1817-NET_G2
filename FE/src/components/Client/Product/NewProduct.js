@@ -16,6 +16,8 @@ function NewProduct() {
       setProducts(data);
     };
 
+
+
     fetchApi();
   }, []);
   return (
