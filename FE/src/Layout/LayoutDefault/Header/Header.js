@@ -24,29 +24,13 @@ function Header() {
         <div className="header-top-right" style={{ paddingTop: '20px' }}>
           <ul className="dropdown-wrap">
             <li className="dropdown">
-              <button
-                className="btn btn-link dropdown-toggle ht-btn"
-                type="button"
-                id="currencyButton"
-                data-bs-toggle="dropdown"
-                aria-label="currency"
-                aria-expanded="false"
-              >
+             
               VND
-              </button>
           
             </li>
             <li className="dropdown">
-              <button
-                className="btn btn-link dropdown-toggle ht-btn "
-                type="button"
-                id="languageButton"
-                data-bs-toggle="dropdown"
-                aria-label="language"
-                aria-expanded="false"
-              >
+            
                 FPT University
-              </button>
              
             </li>
           </ul>
