@@ -15,5 +15,21 @@ namespace Swp391.Controllers
         {
             return Ok(_service.getAllprouct());
         }
+
+        [HttpGet("getFourProductMin")]
+        public IActionResult getFourProductMin()
+        {
+
+            var listProuctMin = _service.getAllprouct().OrderBy(product => product.Price).Take(4).ToList();
+            return Ok(listProuctMin);
+        }
+
+        [HttpGet("getFourProductNew")]
+        public IActionResult getThreeProduct()
+        {
+
+            var listProuctMin = _service.getAllprouct().OrderByDescending(product => product.ProductId).Take(4).ToList();
+            return Ok(listProuctMin);
+        }
     }
 }
