@@ -9,7 +9,6 @@ function OurProducts() {
     const fetchApi = async () => {
       const data = await get("http://localhost:5264/api/ProductControlles");
       //
-
       console.log(data)
       setProducts(data);
     };
