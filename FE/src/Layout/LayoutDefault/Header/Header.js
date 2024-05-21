@@ -65,7 +65,7 @@ function Header() {
               <div className="header-middle-wrap position-relative">
                 <div className="header-contact d-none d-lg-flex">
                   <i className="pe-7s-call"></i>
-                  <a href="tel://+00-123-456-789">09XXXXXXXX</a>
+                  <a href="tel://+00-123-456-789">09123456789</a>
                 </div>
 
                 <Link to="/">
