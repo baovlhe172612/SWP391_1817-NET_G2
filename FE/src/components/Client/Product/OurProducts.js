@@ -17,6 +17,8 @@ function OurProducts() {
     fetchApi();
   }, []);
 
+  
+
   console.log(products)
   return (
     <>
