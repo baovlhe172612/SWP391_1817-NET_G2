@@ -7,7 +7,7 @@ namespace Swp391.Service
     {
         ProductRepo _repo = new ProductRepo();
 
-        public List<Product> getAllProductUI()
+        public List<Product> getAllprouct()
         {
             return _repo.getAllProduct();
         }

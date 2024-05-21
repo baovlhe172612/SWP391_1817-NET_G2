@@ -13,7 +13,7 @@ namespace Swp391.Controllers
         [HttpGet]
         public IActionResult getAllProduct()
         {
-            return Ok(_service.getAllProductUI());
+            return Ok(_service.getAllprouct());
         }
     }
 }

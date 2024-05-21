@@ -122,11 +122,11 @@ function MenuSider() {
       children: [
         {
           key: "toping/",
-          label: <Link to="toping/">List Toping</Link>,
+          label: <Link to="topping/">List Toping</Link>,
         },
         {
           key: "toping/create",
-          label: <Link to="toping/create">Create Toping</Link>,
+          label: <Link to="topping/create">Create Toping</Link>,
         },
       ],
     },

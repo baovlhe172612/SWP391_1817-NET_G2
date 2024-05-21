@@ -23,6 +23,7 @@ import CreateEmployee from "../pages/Admin/Employee/CreateEmployee";
 import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
+import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 
 const routes = [
   {
@@ -165,6 +166,10 @@ const routes = [
               {
                 path: "/admin/orders/",
                 element: <ListOrders />,
+              },
+              {
+                path: "/admin/orders/orderdetails/",
+                element: <OrderDetails />,
               },
             ],
           },
