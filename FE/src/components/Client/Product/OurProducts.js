@@ -7,9 +7,10 @@ function OurProducts() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles");
+      const data = await get("http://localhost:5264/api/ProductControlles/getFourProductMin");
       //
-      console.log(data)
+
+
       setProducts(data);
     };
 
@@ -18,7 +19,7 @@ function OurProducts() {
 
   
 
-  console.log(products)
+
   return (
     <>
       {/* <!-- Begin Product Area --> */}
