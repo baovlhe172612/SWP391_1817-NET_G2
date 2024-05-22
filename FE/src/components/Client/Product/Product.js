@@ -12,7 +12,7 @@ function Product(props) {
           <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
         <div class="product-item">
           <div class="product-img">
-            <Link to="/productDetail">
+            <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
               <img
                 class="primary-img"
                 src= {product.img}
