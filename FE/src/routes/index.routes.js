@@ -42,7 +42,7 @@ const routes = [
       },
       {
         path: "blog",
-        element: <Blog />,
+        // element: <Blog />,
       },
       {
         path: "contact",

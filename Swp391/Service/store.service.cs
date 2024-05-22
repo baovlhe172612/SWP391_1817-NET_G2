@@ -8,7 +8,7 @@ namespace Swp391.Service
     {
         StoreRepo storeRepo = new StoreRepo();
 
-        // create store
+        // list store
         public List<StoreDtos> getAllStore()
         {
             return storeRepo.getAllStore();
