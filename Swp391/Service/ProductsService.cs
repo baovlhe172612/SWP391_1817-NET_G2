@@ -40,5 +40,7 @@ namespace Swp391.Service
             var listProuctMin = _repo.getAllProduct().OrderByDescending(product => product.ProductId).Take(4).ToList();
             return listProuctMin;
         }
+
+
     }
 }
