@@ -11,5 +11,11 @@ namespace Swp391.Service
         {
             return _repo.getAllProduct();
         }
+
+        public List<Product> getFourProductMin()
+        {
+            var listProuctMin = _repo.getAllProduct().OrderBy(product => product.Price).Take(4).ToList();
+            return listProuctMin;
+        }
     }
 }
