@@ -4,7 +4,7 @@ using Swp391.Models;
 namespace Swp391.Repository
 {
     // thao tác với dữ liệu ở đây
-    public class StoreRepo
+    public class StoreDtosRepo
     {
         // get all store
         public List<StoreDtos> getAllStore()

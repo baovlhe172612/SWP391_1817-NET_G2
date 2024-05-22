@@ -4,9 +4,9 @@ using Swp391.Repository;
 
 namespace Swp391.Service
 {
-    public class StoreService
+    public class StoreDtosService
     {
-        StoreRepo storeRepo = new StoreRepo();
+        StoreDtosRepo storeRepo = new StoreDtosRepo();
 
         // list store
         public List<StoreDtos> getAllStore()

@@ -9,7 +9,7 @@ namespace Swp391.Controllers
     [ApiController]
     public class stores : ControllerBase
     {
-        private StoreService _service = new StoreService();
+        private StoreDtosService _service = new StoreDtosService();
 
         [HttpGet]
         public IActionResult getAllStore()
