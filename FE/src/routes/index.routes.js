@@ -8,12 +8,12 @@ import ProductDetail from "../pages/Client/ProductDetail/ProductDetail";
 import LayoutDefaultAdmin from "../Layout/LayoutDefaultAdmin/LayoutDefaultAdmin";
 import Dashboard from "../pages/Admin/Dashboard/Dashboard";
 import PrivateRouter from "../components/PrivateRouter/PrivateRouter";
-import ListStore from '../pages/Admin/Store/ListStore'
-import CreateStore from '../pages/Admin/Store/CreateStore'
-import ListStoreManager from '../pages/Admin/ManagerStore/ListStoreManager'
-import CreateStoreManager from '../pages/Admin/ManagerStore/CreateStoreManager'
-import ListTable from '../pages/Admin/Table/ListTable'
-import CreateTable from '../pages/Admin/Table/CreateTable'
+import ListStore from "../pages/Admin/Store/ListStore";
+import CreateStore from "../pages/Admin/Store/CreateStore";
+import ListStoreManager from "../pages/Admin/ManagerStore/ListStoreManager";
+import CreateStoreManager from "../pages/Admin/ManagerStore/CreateStoreManager";
+import ListTable from "../pages/Admin/Table/ListTable";
+import CreateTable from "../pages/Admin/Table/CreateTable";
 import CreateCategory from "../pages/Admin/Category/CreateCategory";
 import ListCategory from "../pages/Admin/Category/ListCategory";
 import ListProductAdmin from "../pages/Admin/Product/ListProductAdmin";
@@ -24,6 +24,7 @@ import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
+import Login from "../pages/Admin/Login/Login";
 
 const routes = [
   {
@@ -60,6 +61,10 @@ const routes = [
     path: "/admin",
     element: <LayoutDefaultAdmin />,
     children: [
+      {
+        path: "/admin/login",
+        element: <Login />,
+      },
       {
         element: <PrivateRouter />,
         children: [
@@ -120,17 +125,15 @@ const routes = [
             ],
           },
           {
-            path: "/admin/category",            
+            path: "/admin/category",
             children: [
               {
                 path: "/admin/category/",
                 element: <ListCategory />,
-                
               },
               {
                 path: "/admin/category/create",
                 element: <CreateCategory />,
-                
               },
             ],
           },

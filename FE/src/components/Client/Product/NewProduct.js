@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import { get } from "../../../helpers/API.helper";
 
-
-
 function NewProduct() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles/getFourProductNew");
+      try {
+        const data = await get(
+          "http://localhost:5264/api/ProductControlles/getFourProductNew"
+        );
+        setProducts(data);
+      } catch (error) {
+        setProducts([]);
+      }
       //
-
-      console.log(data)
-      setProducts(data);
     };
 
     fetchApi();
@@ -42,11 +44,10 @@ function NewProduct() {
                   >
                     <div class="product-item-wrap row">
                       {/* <!-- PRODUCT --> */}
-                      {products.length > 0 && products.map(product => {
-                      return (
-                        <Product product={product}/>
-                      )
-                      })}
+                      {products.length > 0 &&
+                        products.map((product) => {
+                          return <Product product={product} />;
+                        })}
                       {/* <!-- PRODUCT --> */}
                     </div>
                   </div>

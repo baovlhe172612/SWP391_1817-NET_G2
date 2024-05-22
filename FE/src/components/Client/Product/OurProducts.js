@@ -7,18 +7,20 @@ function OurProducts() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles/getFourProductMin");
-      //
+      try {
+        const data = await get(
+          "http://localhost:5264/api/ProductControlles/getFourProductMin"
+        );
 
-
-      setProducts(data);
+        //
+        setProducts(data);
+      } catch (error) {
+        setProducts([]);
+      }
     };
 
     fetchApi();
   }, []);
-
-  
-
 
   return (
     <>
@@ -40,11 +42,10 @@ function OurProducts() {
                   <div class="product-item-wrap row">
                     {/* <!-- PRODUCT --> */}
 
-                    {products.length > 0 && products.map(product => {
-                      return (
-                        <Product product={product}/>
-                      )
-                    })}
+                    {products.length > 0 &&
+                      products.map((product) => {
+                        return <Product product={product} />;
+                      })}
 
                     {/* <!-- PRODUCT --> */}
                   </div>

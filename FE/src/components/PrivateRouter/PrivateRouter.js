@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom"
 
 function PrivateRouter() {
-  const checkLogin = true;
+  const checkLogin = false;
   return (
     <>
-    {checkLogin ? (<Outlet />) : (<Navigate to={"/login"}/>)}
+    {checkLogin ? (<Outlet />) : (<Navigate to={"/admin/login"}/>)}
     </>
   )
 }
