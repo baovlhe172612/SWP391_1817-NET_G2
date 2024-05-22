@@ -9,15 +9,11 @@ namespace Swp391.Repository
 {
     public class AccountRepo
     {
-        private readonly SwpfinalContext _context;
-
-        public AccountRepo(SwpfinalContext context)
-        {
-            _context = context;
-        }
 
         public async Task<List<AccountDtos>> GetAllAccountsAsync()
         {
+            SwpfinalContext _context = new SwpfinalContext();
+
             var accountsWithRoles = await (from a in _context.Accounts
                                            join r in _context.Roles on a.RoleId equals r.RoleId
                                            select new AccountDtos
