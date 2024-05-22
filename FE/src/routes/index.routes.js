@@ -29,6 +29,10 @@ import Login from "../pages/Admin/Login/Login";
 
 const routes = [
   {
+    path: "/qrcode",
+    element: <QRScanner />, // Route mặc định hiển thị QRCodeComponent
+  },
+  {
     path: "/",
     element: <LayoutDefault />,
     children: [
@@ -37,29 +41,29 @@ const routes = [
         element: <Home />,
       },
       {
-        path: "/about",
+        path: "about",
         element: <About />,
       },
       {
-        path: "/contact",
+        path: "contact",
         element: <Contact />,
       },
       {
-        path: "/cart",
+        path: "cart",
         element: <Cart />,
       },
       {
-        path: "/listProduct",
+        path: "listProduct",
         element: <ListProduct />,
       },
       {
-        path: "/productDetail",
+        path: "productDetail",
         element: <ProductDetail />,
       },
     ],
   },
   {
-    path: "/admin",
+    path: "admin",
     element: <LayoutDefaultAdmin />,
     children: [
       {
@@ -74,57 +78,57 @@ const routes = [
         element: <PrivateRouter />,
         children: [
           {
-            path: "/admin/",
+            path: "",
             element: <Dashboard />,
           },
           {
-            path: "/admin/store",
+            path: "store",
             children: [
               {
-                path: "/admin/store/",
+                path: "",
                 element: <ListStore />,
               },
               {
-                path: "/admin/store/create",
+                path: "create",
                 element: <CreateStore />,
               },
             ],
           },
           {
-            path: "/admin/manager-store",
+            path: "manager-store",
             children: [
               {
-                path: "/admin/manager-store/",
+                path: "",
                 element: <ListStoreManager />,
               },
               {
-                path: "/admin/manager-store/create",
+                path: "create",
                 element: <CreateStoreManager />,
               },
             ],
           },
           {
-            path: "/admin/table",
+            path: "table",
             children: [
               {
-                path: "/admin/table/",
+                path: "",
                 element: <ListTable />,
               },
               {
-                path: "/admin/table/create",
+                path: "create",
                 element: <CreateTable />,
               },
             ],
           },
           {
-            path: "/admin/employee",
+            path: "employee",
             children: [
               {
-                path: "/admin/employee/",
+                path: "",
                 element: <ListEmployee />,
               },
               {
-                path: "/admin/employee/create",
+                path: "create",
                 element: <CreateEmployee />,
               },
             ],
@@ -133,50 +137,50 @@ const routes = [
             path: "/admin/category",
             children: [
               {
-                path: "/admin/category/",
+                path: "",
                 element: <ListCategory />,
               },
               {
-                path: "/admin/category/create",
+                path: "create",
                 element: <CreateCategory />,
               },
             ],
           },
           {
-            path: "/admin/product",
+            path: "product",
             children: [
               {
-                path: "/admin/product/",
+                path: "",
                 element: <ListProductAdmin />,
               },
               {
-                path: "/admin/product/create",
+                path: "create",
                 element: <CreateProduct />,
               },
             ],
           },
           {
-            path: "/admin/topping",
+            path: "topping",
             children: [
               {
-                path: "/admin/topping/",
+                path: "",
                 element: <ListTopping />,
               },
               {
-                path: "/admin/topping/create",
+                path: "create",
                 element: <CreateTopping />,
               },
             ],
           },
           {
-            path: "/admin/orders",
+            path: "orders",
             children: [
               {
-                path: "/admin/orders/",
+                path: "",
                 element: <ListOrders />,
               },
               {
-                path: "/admin/orders/orderdetails/",
+                path: "orderdetails",
                 element: <OrderDetails />,
               },
             ],

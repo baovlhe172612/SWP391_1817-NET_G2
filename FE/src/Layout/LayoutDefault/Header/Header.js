@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -15,13 +15,14 @@ function Header() {
     <div className="row align-items-center">
       <div className="col-6">
         <div className="header-top-left">
-          <span className="pronia-offer">
-            HELLO EVERYONE! 25% Off All Products
+          <span className="pronia-offer" >
+            HELLO table { tableId }
           </span>
         </div>
       </div>
       <div className="col-6">
         <div className="header-top-right" style={{ paddingTop: '20px' }}>
+          
           <ul className="dropdown-wrap">
             <li className="dropdown">
              
