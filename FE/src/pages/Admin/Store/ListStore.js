@@ -1,26 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
+import {get} from '../../../helpers/API.helper'
 
 function ListStore() {
+  const [stores, setStores] = useState([]);
+
   // lấy qua API
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const data = await get("http://localhost:5264/api/stores");
+
+        if (data) {
+          setStores(data);
+        }
+      } catch (error) {
+        console.log("err in ListStore", error);
+        setStores([]);
+      }
+    };
+
+    fetchApi();
+  }, []);
   const columns = [
     {
-      title: "Store Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "StoreID",
+      dataIndex: "StoreID",
+      key: "nStoreIDame",
     },
     {
-      title: "Store location",
-      dataIndex: "location",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "StoreName",
+      dataIndex: "StoreName",
+      key: "StoreName",
     },
     {
-      title: "Account Name",
-      dataIndex: "accoutName",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "Status",
+      dataIndex: "Status",
+      key: "Status",
+      render: (status) =>
+        status == 0 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
     },
     {
       title: "Actions",
@@ -35,25 +57,21 @@ function ListStore() {
 
   ];
 
-  const data = [
-    {
-      name: "st 1",
-      location: "Hoa Lac",
-      accoutName: "Annt22"
-    },
-    {
-      name: "st 2",
-      location: "Hoa Lac",
-      accoutName: "Annt22"
-    },
-    {
-      name: "st3 3",
-      location: "Hoa Lac",
-      accoutName: "Annt22"
-      
-     
-    },
-  ];
+  let data = [];
+
+  // Nếu có data từ api => tạo data cho Table
+  if (stores.length > 0) {
+    data = stores.map((store) => {
+      return {
+        "StoreID": store.storeId,
+        "StoreName": store.storeName,
+        "Location": store.location,
+        "Email": store.email,
+        "Status": store.status,
+        key: store.storeId
+      }
+    });
+  }
     // Handler for updating a store
     const handleUpdate = (record) => {
       console.log("Update", record);
