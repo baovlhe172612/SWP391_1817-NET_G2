@@ -18,7 +18,7 @@ function Footer() {
                 <div className="footer-widget-item">
                   <div className="footer-widget-logo">
                     <a href="index.html">
-                      <img src="assets/images/logo/dark.png" alt="Logo" />
+                      <img src="assets/images/logo/fpt.png" alt="Logo" />
                     </a>
                   </div>
                   <p className="footer-widget-desc">
