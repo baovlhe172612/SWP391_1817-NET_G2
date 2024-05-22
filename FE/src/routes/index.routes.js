@@ -65,7 +65,7 @@ const routes = [
     ],
   },
   {
-    path: "admin",
+    path: "/admin",
     element: <LayoutDefaultAdmin />,
     children: [
       {
@@ -81,7 +81,7 @@ const routes = [
         element: <PrivateRouter />,
         children: [
           {
-            path: "",
+            path: "/admin/",
             element: <Dashboard />,
           },
           {

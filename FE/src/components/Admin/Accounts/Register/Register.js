@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
-import "../css/style2.css";
+// import "../css2/style2.css";
 import { Link } from "react-router-dom";
 
 function Register() {
@@ -12,6 +12,7 @@ function Register() {
     <>
       <div className="container">
         <div className="signup-content">
+          {/* FORM */}
           <div className="signup-form">
             <h2 className="form-title">Sign up</h2>
             <Form
@@ -123,6 +124,8 @@ function Register() {
               </Form.Item>
             </Form>
           </div>
+
+          {/* IMAGE */}
           <div className="signup-image">
             <figure>
               <img

@@ -1,10 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-} from "@ant-design/icons";
-import "../css/style2.css";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+// import "./login.css";
 import { Link } from "react-router-dom";
 
 function Login() {
@@ -15,6 +12,7 @@ function Login() {
     <>
       <div className="container">
         <div className="signin-content">
+          {/* IMAGE */}
           <div className="signin-image">
             <figure>
               <img
@@ -28,6 +26,7 @@ function Login() {
             </Link>
           </div>
 
+          {/* FORM */}
           <div className="signin-form">
             <h2 className="form-title">Sign in</h2>
             <Form
