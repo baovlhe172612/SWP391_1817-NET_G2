@@ -6,8 +6,11 @@ namespace Swp391.Repository
     {
         public List<Product> getAllProduct()
         {
-            SwpdemoContext context = new SwpdemoContext();
+            SwpfinalContext context = new SwpfinalContext();
             return context.Products.ToList();
         }
+
+
+
     }
 }

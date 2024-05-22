@@ -18,6 +18,8 @@ function NewProduct() {
       //
     };
 
+
+
     fetchApi();
   }, []);
   return (

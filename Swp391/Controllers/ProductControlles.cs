@@ -20,10 +20,8 @@ namespace Swp391.Controllers
         public IActionResult getFourProductMin()
         {
 
-            var listProuctMin = _service.getAllprouct().OrderBy(product => product.Price).Take(4).ToList();
-            return Ok(listProuctMin);
+            return Ok(_service.getFourProductMin());
         }
-
         [HttpGet("getFourProductNew")]
         public IActionResult getThreeProduct()
         {
@@ -31,5 +29,7 @@ namespace Swp391.Controllers
             var listProuctMin = _service.getAllprouct().OrderByDescending(product => product.ProductId).Take(4).ToList();
             return Ok(listProuctMin);
         }
+
+
     }
 }
