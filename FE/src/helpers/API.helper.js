@@ -44,16 +44,29 @@ export const post = async (url, values) => {
 
 export const deleteItem = async (url) => {
   const deleteMethod = {
-    method: "DELETE", // Method itself
-    mode: "cors", // Chế độ CORS
+    method: "DELETE",
+    mode: "cors",
     headers: {
-      "Content-type": "application/json; charset=UTF-8", // Indicates the content
+      "Content-Type": "application/json; charset=UTF-8",
     },
   };
 
-  const response = await fetch(url, deleteMethod);
-  
-  const data = response.json();
+  try {
+    const response = await fetch(url, deleteMethod);
 
-  return data;
+    if (!response.ok) {
+      // If the response status is not OK (2xx), throw an error
+      throw new Error(`Failed to delete. Status: ${response.status}`);
+    }
+
+    // Try to parse the response as JSON if there is content
+    const data = await response.json().catch(() => {
+      return null; // Return null if response is empty
+    });
+
+    return data;
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    throw error; // Re-throw the error after logging it
+  }
 };
