@@ -1,5 +1,4 @@
 import React from "react";
-
 function Footer() {
   return (
     <>
@@ -9,6 +8,7 @@ function Footer() {
         data-bg-image="assets/images/footer/bg/1-1920x465.jpg"
         style={{
           backgroundImage: `url("assets/images/footer/bg/1-1920x465.jpg")`,
+          marginTop: '100px',
         }}
       >
         <div className="footer-top section-space-top-100 pb-60">
