@@ -1,9 +1,31 @@
-import React from 'react'
-import { Col, DatePicker } from 'antd'
+import React, { useState } from 'react'
+import { Col, DatePicker, Input, Row } from 'antd'
 const { RangePicker } = DatePicker;
 
 
 function Contact() {
+    const [data, setData] = useState({});
+
+    const handleChangeInput = (e) => {
+        console.log(e.target.name)
+        console.log(e.target.value)
+        const objectNew = {
+            ...data,
+            [e.target.name]: e.target.value
+        }
+        setData(objectNew);
+
+    }
+    const handleChangeDate = (dates, dateStrings) => {
+        // console.log(dates);
+        console.log(dateStrings);
+        const objectNew = {
+            ...data,
+            date: dateStrings
+        };
+        setData(objectNew);
+    }
+    console.log(data)
     // const handleChangeDate = (dates, dateStrings) => {
     //     // console.log(dates);
     //     console.log(dateStrings);
@@ -13,6 +35,9 @@ function Contact() {
     //     };
     //     setData(objectNew);
     // }
+    const handleSubmit = () => {
+
+    }
     return (
         <>
             <main className="main-content">
@@ -59,40 +84,30 @@ function Contact() {
                                             </li>
                                         </ul>
                                     </div>
-                                    <form id="contact-form" className="contact-form"
-                                        action="https://htmlmail.hasthemes.com/mamunur/pronia.php">
-                                        <div className="group-input">
-                                            <div className="form-field me-lg-30 mb-35 mb-lg-0">
-                                                Author:
-                                            </div>
-                                           
+                                    <form onSubmit={handleSubmit} id="contact-form" className="contact-form" action="https://htmlmail.hasthemes.com/mamunur/pronia.php">
+                                        <Row gutter={[20, 20]}>
 
-                                        </div>
-                                        <div className="form-field me-lg-30 mb-35 mb-lg-0">
-                                                <input type="text" name="con_firstName" id="con_firstName"
-                                                    placeholder="Name+Phone+Email " className="input-field" autocomplete="off" />
-                                            </div>
-                                        <div style={{ paddingTop: '30px' }} className="form-field me-lg-30 mb-35 mb-lg-0">
-                                            Meseger
-                                        </div>
-                                        <div className="form-field mb-5">
-                                            <textarea name="con_message" id="con_message" placeholder="MessengerDescription"
-                                                className="textarea-field"></textarea>
-                                        </div>
-
-                                        <Col span={12}>
-                                            <p>Chọn ngày</p>
-                                            <RangePicker placeholder={["Ngày đến", "Ngày đi"]} format="DD-MM-YYYY" />
-                                        </Col>
-                                        <div className="contact-button-wrap">
-                                            <button type="submit" value="submit"
-                                                className="btn btn btn-custom-size xl-size btn-pronia-primary"
-                                                name="submit">Post
-                                                Comment</button>
-                                            <p className="form-messege mb-0"></p>
-                                        </div>
-
+                                            <Col span={24}>
+                                                <p>Author:</p>
+                                                <Input name="name" placeholder="Enter the name+email+phone" onChange={handleChangeInput} />
+                                            </Col>
+                                            <Col span={24}>
+                                                <p>Messenger</p>
+                                                <Input name="messenger" placeholder="Enter the [MessengerDescription]" onChange={handleChangeInput} />
+                                            </Col>
+                                            <Col span={12}>
+                                                <p>Chọn ngày</p>
+                                                <RangePicker placeholder={["Ngày đến", "Ngày đi"]} format="DD-MM-YYYY" onChange={handleChangeDate} />
+                                            </Col>
+                                            <Col span={24}>
+                                                <div className="contact-button-wrap">
+                                                    <button type="submit" value="submit" className="btn btn-custom-size xl-size btn-pronia-primary" name="submit">Post Comment</button>
+                                                    <p className="form-messege mb-0"></p>
+                                                </div>
+                                            </Col>
+                                        </Row>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
