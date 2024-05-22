@@ -46,34 +46,34 @@ function Header({ tableId }) {
 
       {/* Header Middle */}
       <div className="header-middle py-30">
-  <div className="container">
-    <div className="row align-items-center">
-      <div className="col-lg-12">
-        <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">              
-          <Link to="/">
-            <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
-          </Link>
-
-          <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
-            <Search placeholder="input search text" enterButton />
-            <ul className="d-flex align-items-center m-0">
-              <li className="minicart-wrap me-3 me-lg-0">
-                <Link to="/cart" className="minicart-btn toolbar-btn">
-                  <i className="pe-7s-shopbag"></i>
-                  <span className="quantity">3</span>
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-12">
+              <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
+                <Link to="/">
+                  <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
                 </Link>
-              </li>
-              {/* Mobile Menu */}
-              <li className="mobile-menu_wrap d-block d-lg-none">
-                <i className="pe-7s-menu" onClick={toggleMenu}></i>
-              </li>
-            </ul>
+
+                <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
+                  <Search placeholder="input search text" enterButton />
+                  <ul className="d-flex align-items-center m-0">
+                    <li className="minicart-wrap me-3 me-lg-0">
+                      <Link to="/cart" className="minicart-btn toolbar-btn">
+                        <i className="pe-7s-shopbag"></i>
+                        <span className="quantity">3</span>
+                      </Link>
+                    </li>
+                    {/* Mobile Menu */}
+                    <li className="mobile-menu_wrap d-block d-lg-none">
+                      <i className="pe-7s-menu" onClick={toggleMenu}></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
 
       {/* Header Middle */}
@@ -121,7 +121,7 @@ function Header({ tableId }) {
 
 
         <div className="header-bottom d-block d-lg-none">
-          
+
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -202,12 +202,28 @@ function Header({ tableId }) {
           <div className="container">
             <div className="header-nav position-relative">
               <div className="row align-items-center">
-                <div className="col-lg-3 col-6">
-                  <a href="index.html" className="header-logo">
-                    <img src="assets/images/logo/dark.png" alt="Header Logo" />
-                  </a>
+              <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
+                  <Link to="/">
+                    <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
+                  </Link>
+
+                  <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
+                    <Search placeholder="input search text" enterButton />
+                    <ul className="d-flex align-items-center m-0">
+                      <li className="minicart-wrap me-3 me-lg-0">
+                        <Link to="/cart" className="minicart-btn toolbar-btn">
+                          <i className="pe-7s-shopbag"></i>
+                          <span className="quantity">3</span>
+                        </Link>
+                      </li>
+                      {/* Mobile Menu */}
+                      <li className="mobile-menu_wrap d-block d-lg-none">
+                        <i className="pe-7s-menu" onClick={toggleMenu}></i>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="col-lg-6 d-none d-lg-block">
+                {/* <div className="col-lg-6 d-none d-lg-block">
                   <div className="main-menu">
                     <nav className="main-nav">
                       <ul>
@@ -221,39 +237,16 @@ function Header({ tableId }) {
                           <Link to="/about">About Us</Link>
                         </li>
                         <li className="megamenu-holder">
-                        <Link to="/blog">Blog</Link>
-                      </li>
+                          <Link to="/blog">Blog</Link>
+                        </li>
                         <li>
                           <Link to="/contact">Contact</Link>
                         </li>
                       </ul>
                     </nav>
                   </div>
-                </div>
-                <div className="col-lg-3 col-6">
-                  <div className="header-right">
-                    <ul>
-                    <Search placeholder="input search text" enterButton />
-
-                      <li className="minicart-wrap me-3 me-lg-0">
-                        <Link to="/cart" className="minicart-btn toolbar-btn">
-                          <i className="pe-7s-shopbag"></i>
-                          <span className="quantity">3</span>
-                        </Link>
-                      </li>
-
-                      {/* ======= MOBILE =====  */}
-                      <li className="mobile-menu_wrap d-block d-lg-none">
-                        <a
-                          href="#mobileMenu"
-                          className="mobile-menu_btn toolbar-btn pl-0"
-                        >
-                          <i className="pe-7s-menu"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                </div> */}
+            
               </div>
             </div>
           </div>
