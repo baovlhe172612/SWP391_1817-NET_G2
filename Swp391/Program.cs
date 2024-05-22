@@ -14,7 +14,7 @@ namespace Swp391
 
             // Configure CORS
 
-            //add cors ?? trï¿½nh
+            //add cors ?? tránh
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
@@ -36,7 +36,7 @@ namespace Swp391
 
             app.UseHttpsRedirection();
 
-            app.UseCors(); // ï¿½p d?ng chï¿½nh sï¿½ch CORS
+            app.UseCors(); // Áp d?ng chính sách CORS
 
             app.UseAuthorization();
 
