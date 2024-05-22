@@ -12,7 +12,7 @@ function NewProduct() {
       const data = await get("http://localhost:5264/api/ProductControlles/getFourProductNew");
       //
 
-      console.log(data)
+      console.log("data: ",data)
       setProducts(data);
     };
 

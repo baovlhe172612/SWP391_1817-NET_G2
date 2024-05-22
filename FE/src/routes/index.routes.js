@@ -25,23 +25,28 @@ import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 import QRScanner from "../pages/Client/QRScanner/QRScanner";
+import Blog from "../pages/Client/Blog/Blog";
 
 const routes = [
   {
-    path: "/",
-    element: <QRScanner />, // Route mặc định hiển thị QRCodeComponent
+    path: "/qrcode",
+    element: <QRScanner />, 
   },
   {
-    path: "home",
+    path: "/",
     element: <LayoutDefault />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <Home />,
       },
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "blog",
+        element: <Blog />,
       },
       {
         path: "contact",
