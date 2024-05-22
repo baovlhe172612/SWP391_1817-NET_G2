@@ -117,10 +117,7 @@ function Register() {
               </Form.Item>
 
               <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                >
+                <Button type="primary" htmlType="submit">
                   Register
                 </Button>
               </Form.Item>
@@ -134,7 +131,9 @@ function Register() {
               />
             </figure>
             <div>
-            <Link className="signup-image-link" to="/admin/login">I am already member</Link>
+              <Link className="signup-image-link" to="/admin/login">
+                I am already member
+              </Link>
             </div>
           </div>
         </div>
