@@ -4,6 +4,20 @@ import DeleteStoreManager from './DeleteStoreManager';
 import UpdateStoreManager from './UpdateStoreManager';
 import { get } from "../../../helpers/API.helper";
 function ListStoreManager() {
+  // Define the data for the employee table
+  const [AccountManager, setAccountManager] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get("http://localhost:5264/api/AccountControllers");
+      //
+
+
+      setAccountManager(data);
+    };
+
+    fetchApi();
+  }, []);
   const columns = [
     {
       title: "AccountID",
@@ -66,22 +80,6 @@ function ListStoreManager() {
       }
     },
   ];
-
-  const [AccountManager, setAccountManager] = useState([]);
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/AccountControllers");
-      //
-
-
-      setAccountManager(data);
-    };
-
-    fetchApi();
-  }, []);
-  // Define the data for the employee table
-
 
   return (
     <>
