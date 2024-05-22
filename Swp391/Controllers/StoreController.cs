@@ -1,25 +1,32 @@
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Swp391.Models;
 using Swp391.Service;
 
 namespace Swp391.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class stores : ControllerBase
     {
-        private StoreDtosService _service = new StoreDtosService();
+        private StoreService storeService = new StoreService();
 
-        [HttpGet]
-        public IActionResult getAllStore()
+        [HttpPost]
+        public IActionResult createStore(Store store)
         {
-            return Ok(_service.getAllStore());
-        }
+            var result = storeService.createStoreService(store);
 
-        // [HttpPost]
-        // public IActionResult createStoreController(Store store) {
-        //     return Ok(store);
-        // }
+            if (result != null)
+            {
+                return Ok(result);
+
+            } else {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Data = result
+                });
+            }
+        }
     }
 }
