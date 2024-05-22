@@ -9,12 +9,15 @@ namespace Swp391.Repository
 {
     public class AccountRepo
     {
+        
 
-        public async Task<List<AccountDtos>> GetAllAccountsAsync()
+        public List<AccountDtos> GetAllAccountsAsync()
+
         {
+
             SwpfinalContext _context = new SwpfinalContext();
 
-            var accountsWithRoles = await (from a in _context.Accounts
+            var accountsWithRoles =  (from a in _context.Accounts
                                            join r in _context.Roles on a.RoleId equals r.RoleId
                                            select new AccountDtos
                                            {
@@ -29,7 +32,7 @@ namespace Swp391.Repository
                                                RoleId = a.RoleId,
                                                Token = a.Token,
                                                RoleName = r.RoleName
-                                           }).ToListAsync();
+                                           }).ToList();
 
             return accountsWithRoles;
         }

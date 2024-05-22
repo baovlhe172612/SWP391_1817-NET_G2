@@ -14,7 +14,7 @@ namespace Swp391.Controllers
         [HttpGet]
         public IActionResult getAllAccount()
         {
-            return Ok(_service.GetAllAccountAsync());
+            return Ok(_service.GetAllAccountDtos());
         }
     }
 }

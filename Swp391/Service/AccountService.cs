@@ -5,16 +5,12 @@ namespace Swp391.Service
 {
     public class AccountService
     {
-        AccountRepo _accountRepo = new AccountRepo();
-
-        /// <summary>
-        /// lấy toàn bộ sản phẩm bằng service
-        /// </summary>
-
-        /// <returns>trả về toàn bộ tài khoản</returns>
-        public async Task<List<AccountDtos>> GetAllAccountAsync()
+       AccountRepo _accountRepo= new AccountRepo();
+        public List<AccountDtos> GetAllAccountDtos()
         {
-            return await _accountRepo.GetAllAccountsAsync();
+            return _accountRepo.GetAllAccountsAsync();           
         }
+
+        // Các phương thức khác của AccountService
     }
 }
