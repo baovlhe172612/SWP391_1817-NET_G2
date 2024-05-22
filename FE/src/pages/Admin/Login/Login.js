@@ -3,9 +3,6 @@ import { Form, Input, Button, Checkbox } from "antd";
 import {
   UserOutlined,
   LockOutlined,
-  FacebookOutlined,
-  TwitterOutlined,
-  GoogleOutlined,
 } from "@ant-design/icons";
 import "./css/style.css";
 import { Link } from "react-router-dom";

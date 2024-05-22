@@ -2,7 +2,6 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 import "./css/style.css";
-import imageRegister from "./images/signin-image.jpg";
 import { Link } from "react-router-dom";
 
 function Register() {
