@@ -73,13 +73,13 @@ function Product(props) {
             </div>
           </div>
           <div class="product-content">
-            <a class="product-name" href="shop.html">
+            <a class="product-name" href="shop.html" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
               {product.productName}
             </a>
             <div class="price-box pb-1">
-              <span class="new-price">$20.00</span>
+              <span class="new-price" style={{ fontSize: '16px' }}>{product.price}đ</span>
             </div>
-            <div class="rating-box">
+            {/* <div class="rating-box">
               <ul>
                 <li>
                   <i class="fa fa-star"></i>
@@ -97,7 +97,7 @@ function Product(props) {
                   <i class="fa fa-star"></i>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

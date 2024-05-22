@@ -142,7 +142,7 @@ function Header() {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/listProduct">Shop</Link>
+                        <Link to="/listProduct">Menu</Link>
                       </li>
                       <li>
                         <Link to="/about">About Us</Link>
