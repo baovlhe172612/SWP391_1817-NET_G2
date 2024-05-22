@@ -25,11 +25,12 @@ import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 import QRScanner from "../pages/Client/QRScanner/QRScanner";
+import Blog from "../pages/Client/Blog/Blog";
 
 const routes = [
   {
     path: "/qrcode",
-    element: <QRScanner />, // Route mặc định hiển thị QRCodeComponent
+    element: <QRScanner />, 
   },
   {
     path: "/",
@@ -42,6 +43,10 @@ const routes = [
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "blog",
+        element: <Blog />,
       },
       {
         path: "contact",
