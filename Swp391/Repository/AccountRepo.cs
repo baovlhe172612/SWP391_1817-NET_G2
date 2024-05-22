@@ -9,7 +9,11 @@ namespace Swp391.Repository
 {
     public class AccountRepo
     {
-        
+        /// <summary>
+        /// hàm trả về toàn bộ sản phẩm của repository accounts
+        /// </summary>
+
+        /// <returns>get all account by linq join between account+rol </returns>
 
         public List<AccountDtos> GetAllAccountsAsync()
 

@@ -1,5 +1,10 @@
 ﻿namespace Swp391.Dtos
 {
+    /// <summary>
+    /// DTO account + roleName
+    /// </summary>
+
+    /// <returns>get all account + roleName</returns>
     public class AccountDtos
    {
         public int AccountId { get; set; }
