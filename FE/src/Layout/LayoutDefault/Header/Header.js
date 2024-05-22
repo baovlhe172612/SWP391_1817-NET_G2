@@ -69,7 +69,7 @@ function Header() {
                 </div>
 
                 <Link to="/">
-                  <img src="assets/images/logo/dark.png" alt="Header Logo" />
+                  <img src="https://media.licdn.com/dms/image/C560BAQFRxbxHAl5oew/company-logo_200_200/0/1630668147018/fpt_corporation_logo?e=2147483647&v=beta&t=ikWPtbrtNHhHzJIg6_xdqFvTKXagGAEGpG1jubbqCzU" alt="Header Logo" />
                 </Link>
 
                 <div className="header-right">

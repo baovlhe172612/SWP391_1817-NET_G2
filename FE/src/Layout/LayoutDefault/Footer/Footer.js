@@ -18,14 +18,14 @@ function Footer() {
                 <div className="footer-widget-item">
                   <div className="footer-widget-logo">
                     <a href="index.html">
-                      <img src="assets/images/logo/dark.png" alt="Logo" />
+                      <img src="https://media.licdn.com/dms/image/C560BAQFRxbxHAl5oew/company-logo_200_200/0/1630668147018/fpt_corporation_logo?e=2147483647&v=beta&t=ikWPtbrtNHhHzJIg6_xdqFvTKXagGAEGpG1jubbqCzU" alt="Logo" />
                     </a>
                   </div>
-                  <p className="footer-widget-desc">
-                    Lorem ipsum dolor sit amet, consec adipisl elit, sed do
-                    eiusmod tempor
+                  <p className="footer-widget-desc" style={{ fontStyle: 'italic' }}>
+                  Our mission is to quench your thirst and nourish your body 
+                  with meticulously purified water. 
                     <br />
-                    incidio ut labore et dolore magna.
+                    Perfect for athletes and health-conscious individuals
                   </p>
                   <div className="social-link with-border">
                     <ul>
@@ -151,24 +151,21 @@ function Footer() {
                   </ul>
                 </div>
               </div>
+
+              
               <div className="col-lg-3 pt-40">
                 <div className="footer-contact-info">
-                  <h3 className="footer-widget-title">Got Question? Call Us</h3>
-                  <a className="number" href="tel://123-456-789">
-                    123 456 789
-                  </a>
+
                   <div className="address">
                     <ul>
-                      <li>Your Address Goes Here</li>
+                      <li>Address : Hoa Lac High Tech Park, Hanoi, Vietnam
+                      </li>
                     </ul>
                   </div>
                 </div>
                 <div className="payment-method">
                   <a href="#">
-                    <img
-                      src="assets/images/payment/1.png"
-                      alt="Payment Method"
-                    />
+                    
                   </a>
                 </div>
               </div>
@@ -181,14 +178,14 @@ function Footer() {
               <div className="col-lg-12">
                 <div className="copyright">
                   <span className="copyright-text">
-                    © 2021 Pronia Made with{" "}
-                    <i className="fa fa-heart text-danger"></i> by
+                    © 2024 SWP391 by {" "}
+                     
                     <a
-                      href="https://hasthemes.com/"
+                      href="https://www.youtube.com/watch?v=V8ZQ3ga6xEY"
                       rel="noopener"
                       target="_blank"
                     >
-                      HasThemes
+                      SE1817_Net_Group2
                     </a>{" "}
                   </span>
                 </div>

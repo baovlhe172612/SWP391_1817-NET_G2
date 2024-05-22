@@ -26,7 +26,7 @@ function OurProducts() {
       <div class="product-area section-space-top-100">
         <div class="container">
           <div class="section-title-wrap m-2">
-            <h2 class="section-title mb-0">Products Sale</h2>
+            <h2 class="section-title mb-0">Drinks Sale</h2>
           </div>
           <div class="row">
             <div class="col-lg-12 mb-3">
