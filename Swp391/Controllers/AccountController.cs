@@ -6,7 +6,7 @@ namespace Swp391.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountControllers : ControllerBase
+    public class AccountController : ControllerBase
     {
         private AccountService _service = new AccountService();
 
