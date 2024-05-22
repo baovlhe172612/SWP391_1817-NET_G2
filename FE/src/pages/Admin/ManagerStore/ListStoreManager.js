@@ -1,18 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Table, Tag } from "antd";
 import DeleteStoreManager from './DeleteStoreManager';
 import UpdateStoreManager from './UpdateStoreManager';
+import { get } from "../../../helpers/API.helper";
 function ListStoreManager() {
+  // Define the data for the employee table
+  const [AccountManager, setAccountManager] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get("http://localhost:5264/api/Account");
+      //
+
+
+      setAccountManager(data);
+    };
+
+    fetchApi();
+  }, []);
   const columns = [
+    {
+      title: "AccountID",
+      dataIndex: "accountId",
+      key: "accountId",
+       // Custom text rendering
+    },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      render: (text) => <a>{text}</a>, // Custom text rendering
+      // Custom text rendering
     },
     {
-      title: "User",
-      dataIndex: "user",
+      title: "User Name",
+      dataIndex: "userName",
       key: "user",
     },
     {
@@ -36,13 +57,13 @@ function ListStoreManager() {
       ), // Render status with color-coded tags
     },
     {
-      title: "Account ID",
-      dataIndex: "accountId",
-      key: "accountId",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
     },
     {
-      title: "Role ID",
-      dataIndex: "roleId",
+      title: "Role Name",
+      dataIndex: "roleName",
       key: "roleId",
     },
 
@@ -60,42 +81,9 @@ function ListStoreManager() {
     },
   ];
 
-  // Define the data for the employee table
-  const data = [
-    {
-      fullName: "John Doe",
-      user: "johndoe",
-      password: "password123",
-      phone: "123-456-7890",
-      status: "active",
-      accountId: "A123",
-      roleId: "Manager",
-    },
-    {
-      fullName: "Jane Smith",
-      user: "janesmith",
-      password: "password456",
-      phone: "987-654-3210",
-      status: "inactive",
-      accountId: "A124",
-      roleId: "Manager",
-
-    },
-    {
-      fullName: "Sam Johnson",
-      user: "samjohnson",
-      password: "password789",
-      phone: "555-666-7777",
-      status: "active",
-      accountId: "A125",
-      roleId: "Manager",
-
-    },
-  ];
-
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={AccountManager} />
     </>
   );
 }
