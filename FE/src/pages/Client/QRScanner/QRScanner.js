@@ -3,7 +3,7 @@ import React from 'react';
 import { Input, QRCode, Space } from 'antd';
 
 const QRScanner = () => {
-  const [text, setText] = React.useState(`http://localhost:3000/home?tableId=1`); // URL trang chủ
+  const [text, setText] = React.useState(`http://192.168.192.135:3003`); // URL trang chủ
 
   return (
     <Space direction="vertical" align="center">

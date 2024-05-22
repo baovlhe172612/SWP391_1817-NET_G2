@@ -1,23 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Table, Tag } from "antd";
 import DeleteStoreManager from './DeleteStoreManager';
 import UpdateStoreManager from './UpdateStoreManager';
+import { get } from "../../../helpers/API.helper";
 function ListStoreManager() {
+  // Define the data for the employee table
+  const [AccountManager, setAccountManager] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get("http://localhost:5264/api/Account");
+      //
+      console.log(data);
+
+      setAccountManager(data);
+    };
+
+    fetchApi();
+  }, []);
   const columns = [
+    {
+      title: "AccountID",
+      dataIndex: "accountId",
+      key: "accountId",
+       // Custom text rendering
+    },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      render: (text) => <a>{text}</a>, // Custom text rendering
+      // Custom text rendering
     },
     {
-      title: "User",
-      dataIndex: "user",
+      title: "User Name",
+      dataIndex: "userName",
       key: "user",
     },
     {
       title: "Password",
-      dataIndex: "password",
+      dataIndex: "passWord",
       key: "password",
     },
     {
@@ -29,20 +50,19 @@ function ListStoreManager() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag color={status === 'active' ? 'green' : 'red'}>
-          {status === 'active' ? 'Active' : 'Inactive'}
-        </Tag>
-      ), // Render status with color-coded tags
+      render: (status) => {
+        const statusMap = {
+          '1': { text: 'Active', color: 'green' },
+          '0': { text: 'Inactive', color: 'red' }
+        };
+        const { text, color } = statusMap[status] || { text: 'Unknown', color: 'gray' };
+        return <Tag color={color}>{text}</Tag>;
+      },
     },
+      
     {
-      title: "Account ID",
-      dataIndex: "accountId",
-      key: "accountId",
-    },
-    {
-      title: "Role ID",
-      dataIndex: "roleId",
+      title: "Role Name",
+      dataIndex: "roleName",
       key: "roleId",
     },
 
@@ -60,42 +80,11 @@ function ListStoreManager() {
     },
   ];
 
-  // Define the data for the employee table
-  const data = [
-    {
-      fullName: "John Doe",
-      user: "johndoe",
-      password: "password123",
-      phone: "123-456-7890",
-      status: "active",
-      accountId: "A123",
-      roleId: "Manager",
-    },
-    {
-      fullName: "Jane Smith",
-      user: "janesmith",
-      password: "password456",
-      phone: "987-654-3210",
-      status: "inactive",
-      accountId: "A124",
-      roleId: "Manager",
-
-    },
-    {
-      fullName: "Sam Johnson",
-      user: "samjohnson",
-      password: "password789",
-      phone: "555-666-7777",
-      status: "active",
-      accountId: "A125",
-      roleId: "Manager",
-
-    },
-  ];
-
+  console.log("AccountManager: ",AccountManager);
+  
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={AccountManager} />
     </>
   );
 }

@@ -76,6 +76,44 @@ function Header({ tableId }) {
       </div>
 
 
+      {/* Header Middle */}
+      <div className="header-middle py-30">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-12">
+              <div className="header-middle-wrap position-relative">
+                <div className="header-contact d-none d-lg-flex">
+                  <i className="pe-7s-call"></i>
+                  <a href="tel://+00-123-456-789">09123456789</a>
+                </div>
+
+                <Link to="/">
+                  <img src="https://media.licdn.com/dms/image/C560BAQFRxbxHAl5oew/company-logo_200_200/0/1630668147018/fpt_corporation_logo?e=2147483647&v=beta&t=ikWPtbrtNHhHzJIg6_xdqFvTKXagGAEGpG1jubbqCzU" alt="Header Logo" />
+                </Link>
+
+                <div className="header-right">
+                  <ul>
+                    <li>search</li>
+
+                    <li className="minicart-wrap me-3 me-lg-0">
+                      <Link to="/cart" className="minicart-btn toolbar-btn">
+                        <i className="pe-7s-shopbag"></i>
+                        <span className="quantity">3</span>
+                      </Link>
+                    </li>
+
+                    {/* Mobile Menu */}
+                    <li className="mobile-menu_wrap d-block d-lg-none">
+                      <i className="pe-7s-menu" onClick={toggleMenu}></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
 
