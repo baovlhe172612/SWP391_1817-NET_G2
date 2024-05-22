@@ -8,6 +8,8 @@ namespace Swp391.Repository
         {
             SwpdemoContext context = new SwpdemoContext();
             return context.Products.ToList();
+
+            
         }
     }
 }
