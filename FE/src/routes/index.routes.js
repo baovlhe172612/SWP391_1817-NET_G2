@@ -24,14 +24,12 @@ import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
-import QRScanner from "../pages/Client/QRScanner/QRScanner";
+// import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";
+import Login from "../components/Admin/Accounts/Login/Login";
+import Register from "../components/Admin/Accounts/Register/Register";
 
 const routes = [
-  {
-    path: "/qrcode",
-    element: <QRScanner />, 
-  },
   {
     path: "/",
     element: <LayoutDefault />,
@@ -71,6 +69,15 @@ const routes = [
     element: <LayoutDefaultAdmin />,
     children: [
       {
+        path: "/admin/login",
+        element: <Login />,
+      },
+      {
+        path: "/admin/register",
+        element: <Register />,
+      },
+      {
+        
         element: <PrivateRouter />,
         children: [
           {

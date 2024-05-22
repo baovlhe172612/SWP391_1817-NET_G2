@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "antd";
 
 import "./LayoutDefault.css";
@@ -17,7 +17,14 @@ const { Sider, Content } = Layout;
 
 function LayoutDefaultAdmin() {
   const [collapsed, setCollapsed] = useState(false);
-  console.log(collapsed);
+  const login = false;
+
+  useEffect(() => {
+    if (!login) {
+      setCollapsed(true);
+    }
+  }, [login]);
+
   return (
     <>
       <Layout className="layout-default">
@@ -56,7 +63,7 @@ function LayoutDefaultAdmin() {
         {/* Layout */}
         <Layout>
           <Sider className="slider" collapsed={collapsed} theme="light">
-            <MenuSider />
+          {login ? <MenuSider /> : <></>}
           </Sider>
           <Content className="content">
             <Outlet />
