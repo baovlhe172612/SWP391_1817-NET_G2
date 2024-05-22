@@ -11,7 +11,7 @@ function ListStoreManager() {
     const fetchApi = async () => {
       const data = await get("http://localhost:5264/api/Account");
       //
-
+      console.log(data);
 
       setAccountManager(data);
     };
@@ -38,7 +38,7 @@ function ListStoreManager() {
     },
     {
       title: "Password",
-      dataIndex: "password",
+      dataIndex: "passWord",
       key: "password",
     },
     {
@@ -50,17 +50,16 @@ function ListStoreManager() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag color={status === 'active' ? 'green' : 'red'}>
-          {status === 'active' ? 'Active' : 'Inactive'}
-        </Tag>
-      ), // Render status with color-coded tags
+      render: (status) => {
+        const statusMap = {
+          '1': { text: 'Active', color: 'green' },
+          '0': { text: 'Inactive', color: 'red' }
+        };
+        const { text, color } = statusMap[status] || { text: 'Unknown', color: 'gray' };
+        return <Tag color={color}>{text}</Tag>;
+      },
     },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-    },
+      
     {
       title: "Role Name",
       dataIndex: "roleName",
@@ -81,6 +80,8 @@ function ListStoreManager() {
     },
   ];
 
+  console.log("AccountManager: ",AccountManager);
+  
   return (
     <>
       <Table columns={columns} dataSource={AccountManager} />

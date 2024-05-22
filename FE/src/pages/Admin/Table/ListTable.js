@@ -51,10 +51,10 @@ function ListTable() {
           {tables
             .slice(rowIndex * 4, rowIndex * 4 + 4)
             .map((table) => (
-              <Col key={table.id} xxl={6} xl={6} lg={6} md={12} sm={24}>
+              <Col key={table.tableId} xxl={6} xl={6} lg={6} md={12} sm={24}>
                 <div className="table-item">
                   <div className="status-container">
-                    Bàn {table.id}:
+                    Bàn {table.tableId}:
                     <span className={`status ${table.status}`}>
                       {table.status === '1' ? 'Còn trống' : 'Đã full'}
                     </span>
