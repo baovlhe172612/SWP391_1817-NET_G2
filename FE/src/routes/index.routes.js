@@ -24,6 +24,7 @@ import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
+import Register from "../pages/Admin/Login/Register";
 import Login from "../pages/Admin/Login/Login";
 
 const routes = [
@@ -61,6 +62,10 @@ const routes = [
     path: "/admin",
     element: <LayoutDefaultAdmin />,
     children: [
+      {
+        path: "/admin/register",
+        element: <Register />,
+      },
       {
         path: "/admin/login",
         element: <Login />,

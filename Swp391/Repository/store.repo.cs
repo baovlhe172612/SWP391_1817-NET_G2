@@ -8,7 +8,7 @@ namespace Swp391.Repository
         // get all store
         public List<Store> getAllStore()
         {
-            SwpdemoContext context = new SwpdemoContext();
+            SwpfinalContext context = new SwpfinalContext();
             // câu lệnh để select data
             return context.Stores.ToList();
         }
@@ -16,7 +16,7 @@ namespace Swp391.Repository
         // create store
         public Store createStore(Store store)
         {
-            SwpdemoContext context = new SwpdemoContext();
+            SwpfinalContext context = new SwpfinalContext();
             // câu lệnh insert vào db
 
             // add store
