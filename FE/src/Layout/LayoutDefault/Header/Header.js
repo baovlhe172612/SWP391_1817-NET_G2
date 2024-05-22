@@ -104,7 +104,7 @@ function Header({ tableId }) {
                         <Link to="/blog">Blog</Link>
                       </li>
                       <li className="drop-holder">
-                        <Link to="/contact">Contact</Link>
+                        <Link to="/contact">FeedBack</Link>
                       </li>
                     </ul>
                   </nav>
@@ -140,7 +140,7 @@ function Header({ tableId }) {
                         <Link to="/blog">Blog</Link>
                       </li>
                       <li className="drop-holder">
-                        <Link to="/contact">Contact</Link>
+                        <Link to="/contact">FeedBack</Link>
                       </li>
                     </ul>
                   </nav>
