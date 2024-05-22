@@ -2034,6 +2034,12 @@ blockquote p {
 .header-right > ul .btn:after {
   border: 0;
 }
+@media (max-width: 992px) {
+  .header-right {
+    padding-top: 12%;
+  }
+}
+
 
 /* ---Header Logo--- */
 .header-logo {
@@ -2052,6 +2058,7 @@ blockquote p {
     width: 140px;
   }
 }
+
 
 /* ---Header Sticky--- */
 .header-sticky {
