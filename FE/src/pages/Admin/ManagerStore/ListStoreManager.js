@@ -18,6 +18,7 @@ function ListStoreManager() {
 
     fetchApi();
   }, []);
+  
   const columns = [
     {
       title: "AccountID",
@@ -59,7 +60,7 @@ function ListStoreManager() {
         return <Tag color={color}>{text}</Tag>;
       },
     },
-      
+
     {
       title: "Role Name",
       dataIndex: "roleName",
