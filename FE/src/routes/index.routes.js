@@ -28,15 +28,15 @@ import QRScanner from "../pages/Client/QRScanner/QRScanner";
 
 const routes = [
   {
-    path: "/",
+    path: "/qrcode",
     element: <QRScanner />, // Route mặc định hiển thị QRCodeComponent
   },
   {
-    path: "home",
+    path: "/",
     element: <LayoutDefault />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <Home />,
       },
       {
