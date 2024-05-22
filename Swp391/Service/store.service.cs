@@ -1,3 +1,4 @@
+using Swp391.Dtos;
 using Swp391.Models;
 using Swp391.Repository;
 
@@ -8,15 +9,15 @@ namespace Swp391.Service
         StoreRepo storeRepo = new StoreRepo();
 
         // create store
-        public List<Store> getAllStore()
+        public List<StoreDtos> getAllStore()
         {
             return storeRepo.getAllStore();
         }
 
-        // create store service
-        public Store createStoreService(Store store)
-        {
-            return storeRepo.createStore(store);
-        }
+        // // create store service
+        // public Store createStoreService(Store store)
+        // {
+        //     return storeRepo.createStore(store);
+        // }
     }
 }

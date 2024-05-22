@@ -1,70 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
+import { get } from "../../../helpers/API.helper";
 
 function ListStore() {
-  // lấy qua API
+  const [stores, setStores] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const data = await get("http://localhost:5264/api/stores");
+
+        if (data) {
+          setStores(data);
+        }
+      } catch (error) {
+        console.log("err in ListStore", error);
+        setStores([]);
+      }
+    };
+
+    fetchApi();
+  }, []);
+
   const columns = [
     {
-      title: "Store Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "StoreID",
+      dataIndex: "StoreID",
+      key: "nStoreIDame",
     },
     {
-      title: "Store location",
-      dataIndex: "location",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "StoreName",
+      dataIndex: "StoreName",
+      key: "StoreName",
     },
     {
-      title: "Account Name",
-      dataIndex: "accoutName",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "Location",
+      dataIndex: "Location",
+      key: "Location",
     },
     {
-      title: "Actions",
-      key: "actions",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button type="primary" onClick={() => handleUpdate(record)}>Update</Button>
-          <Button type="default" onClick={() => handleDelete(record)}>Delete</Button>
-        </Space>
-      ),
-    }
-
-  ];
-
-  const data = [
-    {
-      name: "st 1",
-      location: "Hoa Lac",
-      accoutName: "Annt22"
+      title: "Email",
+      dataIndex: "Email",
+      key: "Email",
     },
     {
-      name: "st 2",
-      location: "Hoa Lac",
-      accoutName: "Annt22"
-    },
-    {
-      name: "st3 3",
-      location: "Hoa Lac",
-      accoutName: "Annt22"
-      
-     
+      title: "Status",
+      dataIndex: "Status",
+      key: "Status",
+      render: (status) =>
+        status == 0 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
     },
   ];
-    // Handler for updating a store
-    const handleUpdate = (record) => {
-      console.log("Update", record);
-      // Add your update logic here
-    };
-  
-    // Handler for deleting a store
-    const handleDelete = (record) => {
-      console.log("Delete", record);
-      // Add your delete logic here
-    };
+  let data = [];
+
+  if (stores.length > 0) {
+    data = stores.map((store) => {
+      return {
+        "StoreID": store.storeId,
+        "StoreName": store.storeName,
+        "Location": store.location,
+        "Email": store.email,
+        "Status": store.status,
+        key: store.storeId
+      }
+    });
+  }
 
   return (
     <>

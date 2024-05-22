@@ -29,10 +29,6 @@ import Login from "../pages/Admin/Login/Login";
 
 const routes = [
   {
-    path: "/qrcode",
-    element: <QRScanner />, // Route mặc định hiển thị QRCodeComponent
-  },
-  {
     path: "/",
     element: <LayoutDefault />,
     children: [
