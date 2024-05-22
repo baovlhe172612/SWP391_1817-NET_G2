@@ -9,7 +9,7 @@ function ListStoreManager() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/AccountControllers");
+      const data = await get("http://localhost:5264/api/Account");
       //
 
 

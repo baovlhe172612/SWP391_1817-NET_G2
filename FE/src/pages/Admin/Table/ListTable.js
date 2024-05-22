@@ -22,10 +22,10 @@ function ListTable() {
 
   const toggleStatus = (id) => {
     setTables((prevTables) =>
-      prevTables.map((table) =>
-        table.id === id
-          ? { ...table, status: table.status === '1' ? 'full' : 'available' }
-          : table
+      prevTables.map((tables) =>
+        tables.tableId === id
+          ? { ...tables, status: tables.status === '1' ? 'full' : 'available' }
+          : tables
       )
     );
   };
@@ -60,7 +60,7 @@ function ListTable() {
                     </span>
                   </div>
                   <Button
-                    onClick={() => toggleStatus(table.id)}
+                    onClick={() => toggleStatus(table.tableId)}
                     className="status-button"
                   >
                     {table.status === '1'
