@@ -17,7 +17,7 @@ public partial class Order
 
     public double Total { get; set; }
 
-    public virtual OrderDetail? OrderDetail { get; set; }
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Store Store { get; set; } = null!;
 

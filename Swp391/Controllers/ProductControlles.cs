@@ -10,26 +10,30 @@ namespace Swp391.Controllers
     {
         private ProductsService _service = new ProductsService();
 
+
+        //phương thức này dùng để lấy toàn bộ sản phẩm
         [HttpGet]
         public IActionResult getAllProduct()
         {
             return Ok(_service.getAllprouct());
         }
 
+        //phương thức này dùng để lấy 4 sản phẩm rẻ nhất hiển thị trên trang home
         [HttpGet("getFourProductMin")]
         public IActionResult getFourProductMin()
         {
 
-            var listProuctMin = _service.getAllprouct().OrderBy(product => product.Price).Take(4).ToList();
-            return Ok(listProuctMin);
+            return Ok(_service.getFourProductMin());
         }
+
+        //phương thức này dùng để lấy 4 sản phẩm mới nhất hiển thị trên trang home
         [HttpGet("getFourProductNew")]
         public IActionResult getThreeProduct()
         {
-
-            var listProuctMin = _service.getAllprouct().OrderByDescending(product => product.ProductId).Take(4).ToList();
+            var listProuctMin = _service.getFourProductNew();
             return Ok(listProuctMin);
         }
+
 
     }
 }
