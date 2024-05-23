@@ -51,7 +51,11 @@ function Header({ tableId }) {
             <div className="col-lg-12">
               <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                 <Link to="/">
+<<<<<<< HEAD
                   <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
+=======
+                  <img src="https://media.licdn.com/dms/image/C560BAQFRxbxHAl5oew/company-logo_200_200/0/1630668147018/fpt_corporation_logo?e=2147483647&v=beta&t=ikWPtbrtNHhHzJIg6_xdqFvTKXagGAEGpG1jubbqCzU" alt="Header Logo" />
+>>>>>>> origin/lam
                 </Link>
 
                 <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
