@@ -102,6 +102,7 @@ namespace Swp391.Repository
                 Phone = newAccount.Phone,
                 RoleId = newAccount.RoleId,
                 Token = String.Empty,
+                IsDelete = newAccount.IsDelete,
             };
 
             _context.Accounts.Add(account);
