@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/Swp391.csproj": {}
+    "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj": {}
   },
   "projects": {
-    "/Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/Swp391.csproj": {
+    "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/Swp391.csproj",
+        "projectUniqueName": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
         "projectName": "Swp391",
-        "projectPath": "/Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/Swp391.csproj",
+        "projectPath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
         "packagesPath": "/Users/hoanggiatrong/.nuget/packages/",
-        "outputPath": "/Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/",
+        "outputPath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/hoanggiatrong/.nuget/NuGet/NuGet.Config"

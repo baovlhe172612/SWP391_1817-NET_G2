@@ -4,6 +4,7 @@
 *.suo
 *.userosscache
 *.sln.docstates
+
 # Build results
 [Bb]in/
 [Oo]bj/
@@ -15,4 +16,12 @@
 *.userosscache
 *.sln.docstates
 *.ide
+
+# Configuration files
+appsettings.json
+appsettings.Development.json
+
+# Intermediate files
 bin
+obj
+Properties
