@@ -7,40 +7,43 @@ export const get = async (url) => {
     },
   });
 
-  const data = response.json();
+  const data = await response.json();
 
   return data;
 };
 
 export const patch = async (url, values) => {
   const init = {
-      method: 'PATCH', // Cập nhật thông tin 
-      
-      headers: {
-      'Content-Type': 'application/json',  // Loại dữ liệu nhận về
-      Authorization: 'TOKEN' // Token được server cung cấp để xác thực
-      },
-  
-      body: JSON.stringify(values),
-  }
+    method: "PATCH", // Cập nhật thông tin
+    mode: "cors", // Chế độ CORS
+    headers: {
+      "Content-Type": "application/json", // Loại dữ liệu nhận về
+      Authorization: "TOKEN", // Token được server cung cấp để xác thực
+    },
+
+    body: JSON.stringify(values),
+  };
   const response = await fetch(url, init);
-  const data = response.json();
+  const data = await response.json();
 
   return data;
-}
+};
 //
 
 export const post = async (url, values) => {
+  console.log("data truoc khi post", values)
+
   const options = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(values)
+    method: "POST",
+    mode: "cors", // Chế độ CORS
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
   };
   const response = await fetch(url, options);
-  const data = response.json();
+  const data = await response.json();
 
   return data;
-}
+};
 
 export const deleteItem = async (url) => {
   const deleteMethod = {
@@ -52,8 +55,9 @@ export const deleteItem = async (url) => {
   };
 
   const response = await fetch(url, deleteMethod);
-  
-  const data = response.json();
+
+  const data = await response.json();
 
   return data;
 };
+

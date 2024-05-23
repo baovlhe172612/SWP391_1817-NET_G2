@@ -21,7 +21,7 @@ namespace Swp391
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000") // Ch? ??nh origin c? th?
+                    policy.AllowAnyOrigin()  
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
