@@ -25,6 +25,8 @@ public partial class Account
 
     public string Token { get; set; } = null!;
 
+    public int? IsDelete { get; set; }
+
     public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
