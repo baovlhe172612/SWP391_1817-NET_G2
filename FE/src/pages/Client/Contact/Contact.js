@@ -1,10 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Input, Row } from 'antd'
+import { post } from '../../../helpers/API.helper';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 const { RangePicker } = DatePicker;
 
 
 function Contact() {
     const [data, setData] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    // const customStyles = {
+    //     content: {
+    //         top: '50%',
+    //         left: '50%',
+    //         right: 'auto',
+    //         bottom: 'auto',
+    //         marginRight: '-50%',
+    //         transform: 'translate(-50%, -50%)',
+    //     },
+    // };
 
     const handleChangeInput = (e) => {
         console.log(e.target.name)
@@ -21,23 +35,49 @@ function Contact() {
         console.log(dateStrings);
         const objectNew = {
             ...data,
-            date: dateStrings
+            CreateDate: dateStrings
         };
         setData(objectNew);
     }
-    console.log(data)
-    // const handleChangeDate = (dates, dateStrings) => {
-    //     // console.log(dates);
-    //     console.log(dateStrings);
-    //     const objectNew = {
-    //         ...data,
-    //         date: dateStrings
-    //     };
-    //     setData(objectNew);
-    // }
-    const handleSubmit = () => {
 
-    }
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log("data in handlesubmit: ", data)
+            // Send data to the backend
+            const response = await post("http://localhost:5264/api/MessengerBox", data);
+            if (response) {
+
+                setShowModal(false);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Seen FeedBack sucessfully",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                setTimeout(() => {
+                    onReload();
+                    setData({});
+                }, 3000);
+                setData({});
+            }
+            console.log('Form submitted successfully:', response);
+            // alert('Form submitted successfully!');
+            // Optionally reset the form
+
+        } catch (error) {
+            // console.error('Error submitting the form:', error);
+            alert('Failed to submit the form.');
+        }
+    };
+    const onReload = () => {
+        window.location.reload();
+    };
+    console.log("data: ", data)
     return (
         <>
             <main className="main-content">
@@ -49,7 +89,7 @@ function Contact() {
                                     <h2 className="breadcrumb-heading">Contact</h2>
                                     <ul>
                                         <li>
-                                            <a href="home">Home</a>
+                                            <a href="/">Home</a>
                                         </li>
                                         <li>Contact Us</li>
                                     </ul>
@@ -84,25 +124,25 @@ function Contact() {
                                             </li>
                                         </ul>
                                     </div>
-                                    <form onSubmit={handleSubmit} id="contact-form" className="contact-form" action="https://htmlmail.hasthemes.com/mamunur/pronia.php">
+                                    <form onSubmit={handleSubmit} id="contact-form" className="contact-form">
                                         <Row gutter={[20, 20]}>
 
                                             <Col span={24}>
                                                 <p>Author:</p>
-                                                <Input name="name" placeholder="Enter the name+email+phone" onChange={handleChangeInput} />
+                                                <Input required name="Author" placeholder="Enter the name+email+phone" onChange={handleChangeInput} />
                                             </Col>
                                             <Col span={24}>
                                                 <p>Messenger</p>
-                                                <Input name="messenger" placeholder="Enter the [MessengerDescription]" onChange={handleChangeInput} />
+                                                <Input required name="MessengerDescription" placeholder="Enter the [MessengerDescription]" onChange={handleChangeInput} />
                                             </Col>
                                             <Col span={12}>
                                                 <p>Chọn ngày</p>
-                                                <RangePicker placeholder={["Ngày đến", "Ngày đi"]} format="DD-MM-YYYY" onChange={handleChangeDate} />
+                                                <DatePicker required onChange={handleChangeDate} />
                                             </Col>
                                             <Col span={24}>
                                                 <div className="contact-button-wrap">
                                                     <button type="submit" value="submit" className="btn btn-custom-size xl-size btn-pronia-primary" name="submit">Post Comment</button>
-                                                    <p className="form-messege mb-0"></p>
+
                                                 </div>
                                             </Col>
                                         </Row>
