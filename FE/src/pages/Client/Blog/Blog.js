@@ -7,12 +7,13 @@ function Blog() {
             <div class="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
                 <div class="container h-100">
                     <div class="row h-100">
+                        {/* Phần dưới chữ Bog */}
                         <div class="col-lg-12">
                             <div class="breadcrumb-item">
                                 <h2 class="breadcrumb-heading">Blog</h2>
                                 <ul>
                                     <li>
-                                        <a href="index.html">Home</a>
+                                        <a href="/">Home</a>
                                     </li>
                                     <li>Blog Grid View</li>
                                 </ul>
@@ -21,11 +22,13 @@ function Blog() {
                     </div>
                 </div>
             </div>
+
             <div class="blog-area section-space-y-axis-100">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-3 col-lg-4 order-2 pt-5 pt-lg-0">
                             <div class="sidebar-area">
+                                {/* Thanh search bên tay phải:  */}
                                 <div class="widgets-searchbox">
                                     <form id="widgets-searchbox">
                                         <input class="input-field" type="text" placeholder="Search"/>
@@ -34,6 +37,8 @@ function Blog() {
                                         </button>
                                     </form>
                                 </div>
+
+                                {/* Category cho từng sản phẩm  */}
                                 <div class="widgets-area">
                                     <div class="widgets-item pt-0">
                                         <h2 class="widgets-title mb-4">Categories</h2>
@@ -47,41 +52,26 @@ function Blog() {
                                             <li>
                                                 <a href="#">
                                                     <i class="fa fa-chevron-right"></i>
-                                                    Bansai <span>(12)</span>
+                                                    Trà sữa <span>(12)</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
                                                     <i class="fa fa-chevron-right"></i>
-                                                    House Plants <span>(22)</span>
+                                                    Cà Phê <span>(22)</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
                                                     <i class="fa fa-chevron-right"></i>
-                                                    Indoor Living <span>(19)</span>
+                                                    Nước ép <span>(19)</span>
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-chevron-right"></i>
-                                                    Perennnials <span>(17)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-chevron-right"></i>
-                                                    Plant For Gift <span>(01)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-chevron-right"></i>
-                                                    Garden Tools <span>(12)</span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                                                                                                              
+                                        </ul>                                      
                                     </div>
+
+                                    {/* Bài đăng gần đây */}
                                     <div class="widgets-item">
                                         <h2 class="widgets-title mb-4">Recent Post</h2>
                                         <div class="swiper-container widgets-list-slider">
@@ -177,8 +167,10 @@ function Blog() {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Đồ uống phổ biến */}
                                     <div class="widgets-item">
-                                        <h2 class="widgets-title mb-4">Populer Tags</h2>
+                                        <h2 class="widgets-title mb-4">Đồ uống phổ biến</h2>
                                         <ul class="widgets-tag">
                                             <li>
                                                 <a href="#">Fashion</a>
@@ -200,22 +192,12 @@ function Blog() {
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
-                                <div class="banner-item widgets-banner img-hover-effect">
-                                    <div class="banner-img">
-                                        <img src="assets/images/sidebar/banner/1-270x300.jpg" alt="Banner Image"/>
-                                    </div>
-                                    <div class="banner-content text-position-center">
-                                        <span class="collection">New Collection</span>
-                                        <h3 class="title">Plant Port</h3>
-                                        <div class="button-wrap">
-                                            <a class="btn btn-custom-size sm-size btn-pronia-primary" href="shop.html">Shop
-                                                Now</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                              
+                               
                             </div>
                         </div>
+
+                        {/* Bên trái: Danh sách các bài đăng */}
                         <div class="col-xl-9 col-lg-8 order-1">
                             <div class="blog-item-wrap row g-y-30">
                                 <div class="col-md-6">
@@ -383,7 +365,7 @@ function Blog() {
                                                 sed do eiusmod tempor incidio ut labore et dolore magna aliqua.</p>
                                         </div>
                                         <div class="ratio ratio-16x9">
-                                            <iframe src="https://www.youtube.com/embed/fkoEj95puX0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                                            <iframe src="https://www.youtube.com/embed/ovs-7L5WEPM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
                                             </iframe>
                                         </div>
                                     </div>
