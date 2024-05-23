@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Product(props) {
   const { product } = props
   // console.log(props)
-  //console.log(product)
+  console.log("product",product)
   return (
     <>
       {product ? (
@@ -12,6 +12,7 @@ function Product(props) {
           <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
         <div class="product-item">
           <div class="product-img">
+            <div>{product.productId}</div>
             <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
               <img
                 class="primary-img"
@@ -28,7 +29,7 @@ function Product(props) {
               <ul>
                 <li>
                   <a
-                    href="wishlist.html"
+                
                     data-tippy="Add to wishlist"
                     data-tippy-inertia="true"
                     data-tippy-animation="shift-away"
@@ -39,23 +40,12 @@ function Product(props) {
                     <i class="pe-7s-like"></i>
                   </a>
                 </li>
-                <li
-                  class="quuickview-btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#quickModal"
-                >
-                  <a
-                    href="#"
-                    data-tippy="Quickview"
-                    data-tippy-inertia="true"
-                    data-tippy-animation="shift-away"
-                    data-tippy-delay="50"
-                    data-tippy-arrow="true"
-                    data-tippy-theme="sharpborder"
-                  >
-                    <i class="pe-7s-look"></i>
-                  </a>
-                </li>
+                
+                <li>
+                      <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
+                      <i class="pe-7s-look"></i>                    
+                      </Link>
+                    </li>
                 <li>
                   <a
                     href="cart.html"

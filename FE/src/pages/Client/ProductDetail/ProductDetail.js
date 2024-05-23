@@ -127,7 +127,7 @@ function ProductDetail() {
                           <a className="btn btn-custom-size lg-size btn-pronia-primary" href="cart.html">Add to cart</a>
                         </li>
                         <li className="wishlist-btn-wrap">
-                          <a className="custom-circle-btn" href="wishlist.html">
+                          <a className="custom-circle-btn">
                             <i className="pe-7s-like"></i>
                           </a>
                         </li>
