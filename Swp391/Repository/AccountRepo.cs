@@ -5,6 +5,7 @@ using Swp391.Dtos;
 using Swp391.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Swp391.Repository
@@ -18,14 +19,14 @@ namespace Swp391.Repository
         /// <returns>get all account by linq join between account+rol </returns>
 
         public List<AccountDtos> GetAllAccountsAsync()
-
         {
 
             SwpfinalContext _context = new SwpfinalContext();
 
             var accountsWithRoles =  (from a in _context.Accounts
                                            join r in _context.Roles on a.RoleId equals r.RoleId
-                                           select new AccountDtos
+                                      where r.RoleName == "Manager" && a.IsDelete !=0
+                                      select new AccountDtos
                                            {
                                                AccountId = a.AccountId,
                                                UserName = a.UserName,
@@ -37,8 +38,10 @@ namespace Swp391.Repository
                                                Phone = a.Phone,
                                                RoleId = a.RoleId,
                                                Token = a.Token,
-                                               RoleName = r.RoleName
-                                           }).ToList();
+                                               RoleName = r.RoleName,
+                                               IsDelete = (int)a.IsDelete,                                               
+                                           }                                          
+                                           ).ToList();
 
             return accountsWithRoles;
         }
@@ -65,7 +68,8 @@ namespace Swp391.Repository
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
                                          Token = a.Token,
-                                         RoleName = r.RoleName                                      
+                                         RoleName = r.RoleName,
+                                         IsDelete = (int)a.IsDelete,
                                      }).FirstOrDefault();
 
             return accountsWithRoles;
@@ -108,19 +112,19 @@ namespace Swp391.Repository
             _context.Accounts.Add(account);
             _context.SaveChanges();
         }
-        // xoá account 
-        public void deleteAccount(int id)
+        // edit isdelete
+        public void UpdateisdeleteAccount(int id, int isdelete)
         {
             SwpfinalContext _context = new SwpfinalContext();
             var account = _context.Accounts.Find(id);
             if (account != null)
             {
-                _context.Accounts.Remove(account);
+                account.IsDelete = isdelete;
                 _context.SaveChanges();
             }
             else
             {
-                throw new Exception("Remove Fail! Account doesn't not exist");
+                throw new Exception("Update Fail! Account doesn't not exist");
             }
         }
 
