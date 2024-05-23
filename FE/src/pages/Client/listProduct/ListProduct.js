@@ -1,7 +1,18 @@
 import React from "react";
 import Product from "../../../components/Client/Product/Product"
+import { useParams } from "react-router-dom";
+import {setCookie} from "../../../helpers/Cookie.helper"
 
 function ListProduct() {
+  // Lấy id bàn trong trên url
+  const {id} = useParams();
+  console.log(id)
+  // nếu có id bàn => lưu vào cookie
+  if(id) {
+    setCookie("tableId", id, 30);
+  }
+
+  //
   return (
     <>
       <div class="shop-area section-space-y-axis-100">

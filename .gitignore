@@ -4,7 +4,6 @@
 *.suo
 *.userosscache
 *.sln.docstates
-
 # Build results
 [Bb]in/
 [Oo]bj/
@@ -16,3 +15,4 @@
 *.userosscache
 *.sln.docstates
 *.ide
+bin
