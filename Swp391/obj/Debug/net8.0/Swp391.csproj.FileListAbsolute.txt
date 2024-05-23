@@ -135,3 +135,27 @@
 /Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/Debug/net8.0/Swp391.pdb
 /Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/Debug/net8.0/Swp391.genruntimeconfig.cache
 /Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/Debug/net8.0/ref/Swp391.dll
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/bin/Debug/net8.0/appsettings.Development.json
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/bin/Debug/net8.0/appsettings.json
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/bin/Debug/net8.0/Swp391
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/bin/Debug/net8.0/Swp391.dll
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/bin/Debug/net8.0/Swp391.pdb
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.csproj.AssemblyReference.cache
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.AssemblyInfoInputs.cache
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.AssemblyInfo.cs
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.csproj.CoreCompileInputs.cache
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.MvcApplicationPartsAssemblyInfo.cs
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.MvcApplicationPartsAssemblyInfo.cache
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.sourcelink.json
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets.build.json
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets.development.json
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets/msbuild.Swp391.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets/msbuild.build.Swp391.props
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Swp391.props
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Swp391.props
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/staticwebassets.pack.json
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/scopedcss/bundle/Swp391.styles.css
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.dll
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/refint/Swp391.dll
+/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/Debug/net8.0/Swp391.pdb

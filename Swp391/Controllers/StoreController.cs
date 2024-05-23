@@ -6,7 +6,7 @@ using Swp391.Service;
 namespace Swp391.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class stores : ControllerBase
     {
         private StoreService storeService = new StoreService();
@@ -33,5 +33,33 @@ namespace Swp391.Controllers
                 });
             }
         }
+
+        [HttpPatch("delete/{id}")]
+        public IActionResult updateStoreById(int id)
+        {
+            // Xóa Store => cập nhập lại isDelete
+            var store = storeService.UpdateStoreService(id, 1);
+
+            //
+            if (store != null)
+            {
+                return Ok(new
+                {
+                    id = id,
+                    store = store,
+                });
+
+            }
+            else
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Data = store
+                });
+            }
+        }
     }
+
+
 }

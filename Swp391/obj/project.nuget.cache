@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "D3AaRU4wopY=",
+  "dgSpecHash": "cyRs5n4B60w=",
   "success": true,
-  "projectFilePath": "/Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/Swp391.csproj",
+  "projectFilePath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
   "expectedPackageFiles": [
     "/Users/hoanggiatrong/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/Users/hoanggiatrong/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",

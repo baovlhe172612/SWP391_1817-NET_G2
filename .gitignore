@@ -16,3 +16,4 @@
 *.sln.docstates
 *.ide
 bin
+obj
