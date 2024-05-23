@@ -110,7 +110,7 @@ const DeleteStoreManager = ({ record, onDelete }) => {
   const deleteAccount = async (accountId) => {
     try {
       console.log(`Deleting account with ID: ${accountId}`);
-      const response = await deleteItem(`http://localhost:5264/api/Account?id=${accountId}`);
+      const response = await deleteItem(`http://localhost:5264/api/Account/${accountId}`);
       console.log(`Delete response:`, response);
       onDelete(accountId);  // Call onDelete to update the state in the parent component
     } catch (error) {
