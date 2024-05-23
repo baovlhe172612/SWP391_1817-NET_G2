@@ -7,7 +7,7 @@ export const get = async (url) => {
     },
   });
 
-  const data = response.json();
+  const data = await response.json();
 
   return data;
 };
