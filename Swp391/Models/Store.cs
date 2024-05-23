@@ -13,6 +13,8 @@ public partial class Store
 
     public int AccountId { get; set; }
 
+    public int? IsDelete { get; set; }
+
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

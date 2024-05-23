@@ -13,6 +13,8 @@ namespace Swp391.Repository
         {
             SwpfinalContext context = new SwpfinalContext();
             return context.Products.ToList();
+
+            
         }
 
 

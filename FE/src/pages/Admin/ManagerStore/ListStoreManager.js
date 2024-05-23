@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { Space, Table, Tag, Button, Modal, message } from "antd";
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -6,14 +7,33 @@ import { get, deleteItem } from "../../../helpers/API.helper";
 
 const { confirm } = Modal;
 
+=======
+import React, { useEffect, useState } from "react";
+import { Space, Table, Tag } from "antd";
+import DeleteStoreManager from "./DeleteStoreManager";
+import UpdateStoreManager from "./UpdateStoreManager";
+import { get } from "../../../helpers/API.helper";
+import { LIST_ACCOUNT } from "../../../helpers/APILinks";
+>>>>>>> main
 function ListStoreManager() {
   // Get account
   const [AccountManager, setAccountManager] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
+<<<<<<< HEAD
       const data = await get("http://localhost:5264/api/Account");
       setAccountManager(data);
+=======
+      try {
+        const data = await get(LIST_ACCOUNT);
+        //
+        setAccountManager(data);
+      } catch (error) {
+        console.log("Err tại ListStoreManager", error);
+        setAccountManager([]);
+      }
+>>>>>>> main
     };
 
     fetchApi();
@@ -59,10 +79,13 @@ function ListStoreManager() {
       key: "status",
       render: (status) => {
         const statusMap = {
-          '1': { text: 'Active', color: 'green' },
-          '0': { text: 'Inactive', color: 'red' }
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" },
         };
-        const { text, color } = statusMap[status] || { text: 'Unknown', color: 'gray' };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray",
+        };
         return <Tag color={color}>{text}</Tag>;
       },
     },
@@ -72,18 +95,30 @@ function ListStoreManager() {
       key: "roleId",
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       render: (_, record) => {
         return (
+<<<<<<< HEAD
           <Space size="middle">         
             <DeleteStoreManager record={record} onDelete={handleDelete} /> {/* Pass the record to the delete component */}
+=======
+          <Space size="middle">
+            <UpdateStoreManager record={record} />
+            <DeleteStoreManager record={record} />{" "}
+            {/* Pass the record to the delete component */}
+>>>>>>> main
           </Space>
         );
-      }
+      },
     },
   ];
 
+<<<<<<< HEAD
+=======
+  console.log("AccountManager: ", AccountManager);
+
+>>>>>>> main
   return (
     <>
       <Table columns={columns} dataSource={AccountManager} rowKey="accountId" />
@@ -91,6 +126,7 @@ function ListStoreManager() {
   );
 }
 
+<<<<<<< HEAD
 // Define the DeleteStoreManager component outside the ListStoreManager function
 const DeleteStoreManager = ({ record, onDelete }) => {
   const showDeleteConfirm = () => {
@@ -126,4 +162,6 @@ const DeleteStoreManager = ({ record, onDelete }) => {
   );
 };
 
+=======
+>>>>>>> main
 export default ListStoreManager;
