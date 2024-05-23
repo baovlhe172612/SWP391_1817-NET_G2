@@ -25,6 +25,8 @@ public partial class SwpfinalContext : DbContext
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
+    public virtual DbSet<Payment> Payments { get; set; }
+
     public virtual DbSet<Post> Posts { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
@@ -39,17 +41,9 @@ public partial class SwpfinalContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
-    private string? GetConnectionString()
-    {
-        IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true).Build();
-        return configuration["ConnectionStrings:DBDefault"];
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        => optionsBuilder.UseSqlServer(GetConnectionString());
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=lamlam276762;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -92,8 +86,13 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.TableId).HasColumnName("TableID");
+
+            entity.HasOne(d => d.Payment).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.PaymentId)
+                .HasConstraintName("FK_Order_Payment");
 
             entity.HasOne(d => d.Store).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StoreId)
@@ -122,7 +121,17 @@ public partial class SwpfinalContext : DbContext
             entity.HasOne(d => d.ProductSize).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductSizeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderDetail_Product_Size");
+                .HasConstraintName("FK_OrderDetail_Product_Size1");
+        });
+
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(e => e.PayId);
+
+            entity.ToTable("Payment");
+
+            entity.Property(e => e.PayId).HasColumnName("PayID");
+            entity.Property(e => e.Payment1).HasColumnName("Payment");
         });
 
         modelBuilder.Entity<Post>(entity =>
@@ -207,6 +216,9 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Table");
 
             entity.Property(e => e.TableId).HasColumnName("TableID");
+            entity.Property(e => e.IsDelete)
+                .HasMaxLength(10)
+                .IsFixedLength();
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Store).WithMany(p => p.Tables)

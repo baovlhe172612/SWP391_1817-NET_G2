@@ -25,6 +25,9 @@ public partial class Account
     public int RoleId { get; set; }
 
     public string Token { get; set; } = null!;
+
+    public int? IsDelete { get; set; }
+
     [JsonIgnore]
     public virtual Role Role { get; set; } = null!;
     [JsonIgnore]
