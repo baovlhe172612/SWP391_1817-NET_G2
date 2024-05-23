@@ -12,7 +12,7 @@ function Header({ tableId }) {
   };
   return (
     <>
-
+      
       <div className={`header-top bg-pronia-primary ${!isMenuOpen ? 'd-none d-lg-block' : ''}`}>
         <div className="container">
           <div className="row align-items-center">
@@ -64,7 +64,7 @@ function Header({ tableId }) {
                         <span className="quantity">3</span>
                       </Link>
                     </li>
-                    {/* Mobile Menu */}
+                   
                     <li className="mobile-menu_wrap d-block d-lg-none">
                       <i className="pe-7s-menu" onClick={toggleMenu}></i>
                     </li>
@@ -148,8 +148,6 @@ function Header({ tableId }) {
             </div>
           </div>
         </div>
-
-
       )}
 
       {/* Main Header Area */}
@@ -196,16 +194,40 @@ function Header({ tableId }) {
 
 
         {/* ================== NAV AFTER SCROLL =============== */}
-        <div className="header-sticky py-4 py-lg-0">
+        <div className="header-sticky py-2 py-lg-0">
           <div className="container">
             <div className="header-nav position-relative">
               <div className="row align-items-center">
+                <div className="col-6">
+                  <div className="header-top-left">
+                    <span className="pronia-offer">
+                      HELLO HELLO table {tableId}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="header-top-right" style={{ paddingTop: '20px' }}>
+                    <ul className="dropdown-wrap">
+                      <li className="dropdown">VND</li>
+                      <li className="dropdown">FPT University</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="row align-items-center">
                 <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                   <Link to="/">
-                    <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
+                    <img
+                      style={{ paddingRight: '30px' }}
+                      src="assets/images/logo/dark.png"
+                      alt="Header Logo"
+                    />
                   </Link>
 
-                  <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
+                  <div
+                    style={{ paddingTop: '30px' }}
+                    className="header-right d-flex align-items-center"
+                  >
                     <Search placeholder="input search text" enterButton />
                     <ul className="d-flex align-items-center m-0">
                       <li className="minicart-wrap me-3 me-lg-0">
@@ -214,15 +236,14 @@ function Header({ tableId }) {
                           <span className="quantity">3</span>
                         </Link>
                       </li>
-                      {/* Mobile Menu */}
                       <li className="mobile-menu_wrap d-block d-lg-none">
                         <i className="pe-7s-menu" onClick={toggleMenu}></i>
                       </li>
                     </ul>
                   </div>
                 </div>
-                <div className="col-lg-6 d-none d-lg-block">
-                  <div className="main-menu">
+                <div className="col-12">
+                  <div className="main-menu d-flex justify-content-center">
                     <nav className="main-nav">
                       <ul>
                         <li className="drop-holder">
@@ -244,11 +265,11 @@ function Header({ tableId }) {
                     </nav>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
+
         {/* ================== NAV AFTER SCROLL =============== */}
 
         <div className="mobile-menu_wrapper" id="mobileMenu">
@@ -283,7 +304,7 @@ function Header({ tableId }) {
           </div>
         </div>
 
-        <div className="global-overlay"></div>
+        
       </header>
     </>
   );
