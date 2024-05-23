@@ -83,6 +83,7 @@ function ListProductAdmin() {
     },
   ];
 
+  // data for table
   let data = [
     {
       name: "Product 1",
@@ -95,6 +96,7 @@ function ListProductAdmin() {
       action: ["Detail", "Delete", "Update"],
     },
   ];
+  // if data exist => give a new data
   if(products.length > 0) {
     data = products.map((product, index) => {
       return {
