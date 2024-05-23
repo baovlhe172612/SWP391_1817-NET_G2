@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Swp391.Models;
 
-public partial class SwpdemoContext : DbContext
+public partial class SwpfinalContext : DbContext
 {
-    public SwpdemoContext()
+    public SwpfinalContext()
     {
     }
 
-    public SwpdemoContext(DbContextOptions<SwpdemoContext> options)
+    public SwpfinalContext(DbContextOptions<SwpfinalContext> options)
         : base(options)
     {
     }
@@ -39,9 +39,17 @@ public partial class SwpdemoContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
+    private string? GetConnectionString()
+    {
+        IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true).Build();
+        return configuration["ConnectionStrings:DBDefault"];
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=SWPDemo;UID=sa;PWD=lamlam276762;TrustServerCertificate=True");
+
+        => optionsBuilder.UseSqlServer(GetConnectionString());
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -100,19 +108,16 @@ public partial class SwpdemoContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.OrderId);
-
             entity.ToTable("OrderDetail");
 
-            entity.Property(e => e.OrderId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("OrderID");
+            entity.Property(e => e.OrderDetailId).HasColumnName("Order_Detail_ID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.ProductSizeId).HasColumnName("Product_SizeID");
 
-            entity.HasOne(d => d.Order).WithOne(p => p.OrderDetail)
-                .HasForeignKey<OrderDetail>(d => d.OrderId)
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderDetailID_Order");
+                .HasConstraintName("FK_OrderDetail_Order");
 
             entity.HasOne(d => d.ProductSize).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductSizeId)
@@ -140,6 +145,7 @@ public partial class SwpdemoContext : DbContext
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Img).HasColumnName("img");
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
+            entity.Property(e => e.Price).HasColumnName("price");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)

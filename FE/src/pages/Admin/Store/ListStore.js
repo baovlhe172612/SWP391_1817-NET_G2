@@ -1,5 +1,5 @@
 import React from "react";
-import { Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag } from "antd";
 
 function ListStore() {
   // lấy qua API
@@ -22,6 +22,16 @@ function ListStore() {
       key: "name",
       render: (text) => <a>{text}</a>, // custom text
     },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button type="primary" onClick={() => handleUpdate(record)}>Update</Button>
+          <Button type="default" onClick={() => handleDelete(record)}>Delete</Button>
+        </Space>
+      ),
+    }
 
   ];
 
@@ -44,6 +54,17 @@ function ListStore() {
      
     },
   ];
+    // Handler for updating a store
+    const handleUpdate = (record) => {
+      console.log("Update", record);
+      // Add your update logic here
+    };
+  
+    // Handler for deleting a store
+    const handleDelete = (record) => {
+      console.log("Delete", record);
+      // Add your delete logic here
+    };
 
   return (
     <>

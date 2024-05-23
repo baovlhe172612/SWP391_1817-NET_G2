@@ -1,16 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Product() {
+function Product(props) {
+  const { product } = props
+  // console.log(props)
+  //console.log(product)
   return (
     <>
-      <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
+      {product ? (
+        <>
+          <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
         <div class="product-item">
           <div class="product-img">
-            <Link to="/productDetail">
+            <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
               <img
                 class="primary-img"
-                src="assets/images/product/medium-size/1-8-270x300.jpg"
+                src= {product.img}
                 alt="Product Images"
               />
               {/* <img
@@ -68,13 +73,13 @@ function Product() {
             </div>
           </div>
           <div class="product-content">
-            <a class="product-name" href="shop.html">
-              Feather Reed Grass
+            <a class="product-name" href="shop.html" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
+              {product.productName}
             </a>
             <div class="price-box pb-1">
-              <span class="new-price">$20.00</span>
+              <span class="new-price" style={{ fontSize: '16px' }}>{product.price}đ</span>
             </div>
-            <div class="rating-box">
+            {/* <div class="rating-box">
               <ul>
                 <li>
                   <i class="fa fa-star"></i>
@@ -92,10 +97,16 @@ function Product() {
                   <i class="fa fa-star"></i>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
+        </>
+      ) : (
+        <>
+
+        </>
+      )}
     </>
   );
 }
