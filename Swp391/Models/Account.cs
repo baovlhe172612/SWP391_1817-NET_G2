@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Swp391.Models;
 
@@ -24,8 +25,8 @@ public partial class Account
     public int RoleId { get; set; }
 
     public string Token { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Role Role { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
 }
