@@ -1,48 +1,49 @@
 export const get = async (url) => {
   const response = await fetch(url, {
     method: "GET",
-    mode: "cors", // Chế độ CORS
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
   });
 
   const data = await response.json();
-
   return data;
 };
 
 export const patch = async (url, values) => {
   const init = {
-    method: "PATCH", // Cập nhật thông tin
-    mode: "cors", // Chế độ CORS
+    method: "PATCH",
+    mode: "cors",
     headers: {
-      "Content-Type": "application/json", // Loại dữ liệu nhận về
-      Authorization: "TOKEN", // Token được server cung cấp để xác thực
+      "Content-Type": "application/json",
+      Authorization: "TOKEN",
     },
-
     body: JSON.stringify(values),
   };
   const response = await fetch(url, init);
   const data = await response.json();
-
   return data;
 };
-//
 
 export const post = async (url, values) => {
-  console.log("data truoc khi post", values)
+  console.log("data truoc khi post", values);
 
   const options = {
     method: "POST",
-    mode: "cors", // Chế độ CORS
+    mode: "cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
   };
   const response = await fetch(url, options);
-  const data = await response.json();
 
-  return data;
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+
+  // Trả về đối tượng phản hồi
+  return response;
 };
 
 export const deleteItem = async (url) => {
@@ -55,13 +56,28 @@ export const deleteItem = async (url) => {
   };
 
   const response = await fetch(url, deleteMethod);
-
   const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.error("Error deleting item:", error);
-    throw error; // Re-throw the error after logging it
-  }
+  return data;
 };
+
+export const put = async (url, values) => {
+  const options = {
+    method: "PUT",
+    mode: "cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  };
+
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+
+  // Trả về đối tượng phản hồi
+  return response;
+};
+
+
 
