@@ -5,16 +5,26 @@ namespace Swp391.Service
 {
     public class MessengerBoxService
     {
-        private readonly MessengerRepo _repo;
+        private  MessengerRepo _repo = new MessengerRepo();
 
-        public MessengerBoxService(MessengerRepo repo)
-        {
-            _repo = repo;
-        }
+        /// <summary>
+        /// Insert feedback bằng service 
+        /// </summary>
 
         public void PostMessUI(MessengerBox messengerBox)
         {
-            _repo.PostMess(messengerBox);
+            _repo.PostMessUI(messengerBox);
+        }
+
+
+        /// <summary>
+        /// lấy toàn bộ feedback bằng service
+        /// </summary>
+
+        /// <returns>trả về toàn bộ feedback</returns>
+        public List<MessengerBox> getAllMess()
+        {
+            return _repo.getAllMess();
         }
     }
 }

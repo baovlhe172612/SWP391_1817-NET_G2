@@ -8,30 +8,38 @@ namespace Swp391.Controllers
     [ApiController]
     public class MessengerBoxController : ControllerBase
     {
-        private readonly MessengerBoxService _messengerService;
+        private readonly MessengerBoxService _messengerService = new MessengerBoxService();
 
-        public MessengerBoxController(MessengerBoxService messengerService)
-        {
-            _messengerService = messengerService;
-        }
 
+        //phương thức này dùng để insert feedback vào trong database
         [HttpPost]
-        public IActionResult CreateMessengerBox(MessengerBox messengerBox)
+        public IActionResult CreateMessengerBox([FromBody] MessengerBox messengerBox)
         {
             if (messengerBox == null)
             {
-                return BadRequest("Messenger box object is null");
+                return BadRequest(new
+                {
+                    err = "Messenger box object is null"
+                });
             }
-            else
+
+            int size = _messengerService.getAllMess().Count;
+
+            MessengerBox messenger = new MessengerBox
             {
-                _messengerService.PostMessUI(messengerBox);
+                MessengerBoxId = size + 1,  // Increment ID properly
+                Author = messengerBox.Author,
+                MessengerDescription = messengerBox.MessengerDescription,
+                CreateDate = messengerBox.CreateDate
+            };
 
-                return Ok("Messenger box created successfully");
-            }
+            _messengerService.PostMessUI(messenger);
 
-            
+            return Ok(new
+            {
+                mess = "add successfully",
+                data = messenger
+            });
         }
-
-        // Các phương thức khác của controller có thể được thêm vào ở đây
     }
 }
