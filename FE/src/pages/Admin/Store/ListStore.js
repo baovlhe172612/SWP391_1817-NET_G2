@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
 import {get} from '../../../helpers/API.helper'
+import { STORES_DTOS } from "../../../helpers/APILinks";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
@@ -9,7 +10,7 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/stores");
+        const data = await get(STORES_DTOS);
 
         if (data) {
           setStores(data);

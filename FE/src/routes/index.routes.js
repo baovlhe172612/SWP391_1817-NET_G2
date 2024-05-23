@@ -56,7 +56,7 @@ const routes = [
         element: <Cart />,
       },
       {
-        path: "listProduct",
+        path: "shop",
         element: <ListProduct />,
       },
       {

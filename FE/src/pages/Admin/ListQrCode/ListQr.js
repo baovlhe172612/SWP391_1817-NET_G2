@@ -2,6 +2,7 @@ import { Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { get } from "../../../helpers/API.helper";
 import Qr from "../../../components/Admin/QR/Qr";
+import { TABLE } from "../../../helpers/APILinks";
 
 function ListQr() {
   const [qrs, setQrs] = useState([]);
@@ -9,7 +10,7 @@ function ListQr() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/Table");
+        const data = await get(TABLE);
 
         if (data) {
           setQrs(data);

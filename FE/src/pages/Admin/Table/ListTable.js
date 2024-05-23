@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Button } from 'antd';
 import './Table.css';
 import { get } from '../../../helpers/API.helper';
+import { LIST_TABLE } from '../../../helpers/APILinks';
 
 function ListTable() {
   const [tables, setTables] = useState([]);
@@ -10,11 +11,12 @@ function ListTable() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get('http://localhost:5264/api/Table');
+        const data = await get(LIST_TABLE);
         setTables(data);
       } catch (err) {
-        setError(err.message);
-        console.error('Failed to fetch data:', err);
+        console.error('ERR tại ListTable:', err);
+        setTables([]);
+
       }
     };
     fetchApi();
