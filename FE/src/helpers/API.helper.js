@@ -47,10 +47,10 @@ export const post = async (url, values) => {
 
 export const deleteItem = async (url) => {
   const deleteMethod = {
-    method: "DELETE",
-    mode: "cors",
+    method: "DELETE", // Method itself
+    mode: "cors", // Chế độ CORS
     headers: {
-      "Content-Type": "application/json; charset=UTF-8",
+      "Content-type": "application/json; charset=UTF-8", // Indicates the content
     },
   };
 
@@ -58,10 +58,6 @@ export const deleteItem = async (url) => {
 
   const data = await response.json();
 
-    return data;
-  } catch (error) {
-    console.error("Error deleting item:", error);
-    throw error; // Re-throw the error after logging it
-  }
+  return data;
 };
 

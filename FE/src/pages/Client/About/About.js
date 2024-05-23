@@ -28,17 +28,9 @@ function About() {
                     <div className="col-lg-12">
                         <div className="about-content">
                             <h2 className="about-title">Our <span>Story</span></h2>
-                            <p className="about-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                irure dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                                id est
-                                laborum. Sed ut perspiciatis</p>
+                            <p className="about-desc">CÂU CHUYỆN NÀY LÀ CỦA CHÚNG MÌNH
+
+Highlands Coffee® được thành lập vào năm 1999, bắt nguồn từ tình yêu dành cho đất Việt cùng với cà phê và cộng đồng nơi đây. Ngay từ những ngày đầu tiên, mục tiêu của chúng mình là có thể phục vụ và góp phần phát triển cộng đồng bằng cách siết chặt thêm sự kết nối và sự gắn bó giữa người với người.</p>
                             <div className="about-signature">
                                 <img src="assets/images/about/icon/2.png" alt="Signature"/>
                             </div>
