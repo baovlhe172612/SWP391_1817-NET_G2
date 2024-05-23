@@ -10,7 +10,9 @@ namespace Swp391.Controllers
     public class storesDtos : ControllerBase
     {
         private StoreDtosService _service = new StoreDtosService();
-
+        /// <summary>
+        /// Phuơng thức GET của api/storeDtos => lấy all stores 
+        /// </summary>
         [HttpGet]
         public IActionResult getAllStore()
         {

@@ -8,6 +8,9 @@ namespace Swp391.Repository
 {
     public class StoreRepo
     {
+        /// <summary>
+        /// Thao tác với Models Store => tạo store mới
+        /// </summary>
         public void createStore(Store store)
         {
             SwpfinalContext _context = new SwpfinalContext();

@@ -6,6 +6,9 @@ namespace Swp391.Service
 {
     public class StoreDtosService
     {
+        /// <summary>
+        /// hàm trả về tất cả store
+        /// </summary>
         StoreDtosRepo storeRepo = new StoreDtosRepo();
 
         // list store

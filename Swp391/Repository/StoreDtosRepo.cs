@@ -6,11 +6,14 @@ namespace Swp391.Repository
     // thao tác với dữ liệu ở đây
     public class StoreDtosRepo
     {
-        // get all store
+        /// <summary>
+        /// Thao tác với obj StoreDtos => lấy hết list storeDtos
+        /// </summary>
         public List<StoreDtos> getAllStore()
         {
             SwpfinalContext _context = new SwpfinalContext();
 
+            // câu lệnh join Stores và Accounts
             var storeWithAccount = (from s in _context.Stores
                                     join a in _context.Accounts on s.AccountId equals a.AccountId
                                     select new StoreDtos

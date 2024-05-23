@@ -60,6 +60,10 @@ const routes = [
         element: <ListProduct />,
       },
       {
+        path: "shop/:id",
+        element: <ListProduct />,
+      },
+      {
         path: "productDetail",
         element: <ProductDetail />,
       },

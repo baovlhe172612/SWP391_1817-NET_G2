@@ -11,6 +11,9 @@ namespace Swp391.Controllers
     {
         private StoreService storeService = new StoreService();
 
+        /// <summary>
+        /// Phuơng thức POST của api/stores
+        /// </summary>
         [HttpPost]
         public IActionResult createStore(Store store)
         {
@@ -20,7 +23,9 @@ namespace Swp391.Controllers
             {
                 return Ok(result);
 
-            } else {
+            }
+            else
+            {
                 return BadRequest(new
                 {
                     Success = false,
