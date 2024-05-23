@@ -34,6 +34,9 @@ namespace Swp391.Controllers
             }
         }
 
+        /// <summary>
+        /// Phuơng thức Patch của api/stores => cập nhật lại trường IsDelete
+        /// </summary>
         [HttpPatch("delete/{id}")]
         public IActionResult updateStoreById(int id)
         {
@@ -59,7 +62,30 @@ namespace Swp391.Controllers
                 });
             }
         }
-    }
 
+        /// <summary>
+        /// Phuơng thức GET của api/stores => Get Store theo id
+        /// </summary>
+        [HttpGet("{id}")]
+        public IActionResult getStoreById(int id)
+        {
+            var store = storeService.FindStoreById(id);
+
+            //
+            if (store != null)
+            {
+                return Ok(store);
+
+            }
+            else
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Data = store
+                });
+            }
+        }
+    }
 
 }

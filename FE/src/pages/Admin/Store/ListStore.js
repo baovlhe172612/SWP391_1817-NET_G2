@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import { DELETE_STORE_ID, STORES_DTOS } from "../../../helpers/APILinks";
@@ -54,9 +55,12 @@ function ListStore() {
       key: "actions",
       render: (storeId) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleUpdate(storeId)}>
-            Update
-          </Button>
+          <Link to={`/admin/store/edit/${storeId}`}>
+            <Button
+              type="primary"
+              onClick={() => handleUpdate(storeId)}
+            >Update</Button>
+          </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
             Delete
           </Button>
@@ -99,9 +103,9 @@ function ListStore() {
     });
 
     if (confirm.isConfirmed) {
-      console.log(`${DELETE_STORE_ID}${storeId}`)
-      const data = await patch(`${DELETE_STORE_ID}${storeId}`,{
-        storeId: storeId
+      console.log(`${DELETE_STORE_ID}${storeId}`);
+      const data = await patch(`${DELETE_STORE_ID}${storeId}`, {
+        storeId: storeId,
       });
 
       if (data) {
