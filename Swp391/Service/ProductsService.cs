@@ -78,7 +78,52 @@ namespace Swp391.Service
             return products;
         }
 
+        /// <summary>
+        /// hàm sort sản phẩm
+        /// </summary>
 
+        /// <returns>hàm trả về sản phẩm được sort theo tiêu chí</returns>
+        public List<Product> getProductByPageAndCondition(int condition)
+        {
+            List<Product> listProductWithCondition = new();
 
-}
+            switch (condition)
+            {
+                case 1:
+                    {
+                        listProductWithCondition = _repo.getAllProduct()
+                                    .OrderBy(p => p.ProductId) // Sắp xếp theo ProductID
+                                    
+                                    .ToList();
+                        break;
+                    }
+                case 2:
+                    {
+                        listProductWithCondition = _repo.getAllProduct()
+                                    .OrderBy(p => p.ProductName) // Sắp xếp theo ProductID
+                                    
+                                    .ToList();
+                        break;
+                    }
+                case 3:
+                    {
+                        listProductWithCondition = _repo.getAllProduct()
+                                    .OrderByDescending(p => p.Price) // Sắp xếp theo ProductID
+                                    
+                                    .ToList();
+                        break;
+                    }
+                case 4:
+                    {
+                        listProductWithCondition = _repo.getAllProduct()
+                                    .OrderBy(p => p.Price) // Sắp xếp theo ProductID
+                                 
+                                    .ToList();
+                        break;
+                    }
+            }
+            
+            return listProductWithCondition;
+        }
+    }
 }
