@@ -93,7 +93,7 @@ function ListStoreManager() {
 
   return (
     <>
-      <Table columns={columns} dataSource={AccountManager} />
+      <Table columns={columns} dataSource={AccountManager} pagination={false}/>
     </>
   );
 }

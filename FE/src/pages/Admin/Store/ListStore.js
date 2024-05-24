@@ -17,7 +17,7 @@ function ListStore() {
 
         if (data) {
           setStores(data);
-          console.log(data)
+          console.log(data);
         }
       } catch (error) {
         console.log("err in ListStore", error);
@@ -63,9 +63,7 @@ function ListStore() {
       render: (storeId) => (
         <Space size="middle">
           <Link to={`/admin/store/edit/${storeId}`}>
-            <Button
-              type="primary"
-            >Update</Button>
+            <Button type="primary">Update</Button>
           </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
             Delete
@@ -127,7 +125,7 @@ function ListStore() {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} pagination={false} />
     </>
   );
 }

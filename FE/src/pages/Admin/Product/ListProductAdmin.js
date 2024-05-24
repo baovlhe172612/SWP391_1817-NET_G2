@@ -113,7 +113,7 @@ function ListProductAdmin() {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} pagination={false}/>
     </>
   );
 }
