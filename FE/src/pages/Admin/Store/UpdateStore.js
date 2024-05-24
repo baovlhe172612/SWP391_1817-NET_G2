@@ -1,8 +1,9 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
-import { get } from "../../../helpers/API.helper";
+import { get, patch } from "../../../helpers/API.helper";
 import { useParams } from "react-router-dom";
-import { LIST_ACCOUNT, STORE_DETAIL } from "../../../helpers/APILinks";
+import { LIST_ACCOUNT, STORE_DETAIL, UPDATE_STORE } from "../../../helpers/APILinks";
+import Swal from "sweetalert2";
 const { Option } = Select;
 
 function UpdateStore() {
@@ -24,11 +25,15 @@ function UpdateStore() {
             (dataAcc) => dataAcc.accountId == data.accountId
           ).userName;
 
+          console.log(data)
+
           // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form
           form.setFieldsValue({
+            storeId: data.storeId,
             storeName: data.storeName,
             location: data.location,
             accountId: data.userName,
+            isDelete: data.isDelete == 1 ? (true) : (false),
           });
 
           setStore(data);
@@ -41,17 +46,50 @@ function UpdateStore() {
     };
 
     fetchApi();
-  }, []);
+  }, [form]);
 
-  const handleSubmit = async (values) => {
-    console.log(values);
+  const handleSubmit = async (values, accounts) => {
+    // sửa lại biến cho accountId khi submit
+    if (isNaN(parseInt(values.accountId))) {
+      const accountId = accounts.find(
+        (account) => account.userName == values.accountId
+      ).accountId;
+
+      values.accountId = accountId;
+    } else {
+      values.accountId = parseInt(values.accountId);
+    }
+
+    // sửa lại biến switch cho isDeleted
+    values.isDelete = values.isDelete ? 1 : 0;
+
+    console.log(UPDATE_STORE)
+    console.log(values)
+    const data = await patch(UPDATE_STORE, values);
+    if(data) {
+      Swal.fire({
+        title: "Update!",
+        text: "Your file has been updated.",
+        icon: "success"
+      });
+    }
   };
 
   return (
     <>
       <h2>Edit Store</h2>
 
-      <Form name="create-room" onFinish={handleSubmit} form={form}>
+      <Form
+        name="create-room"
+        onFinish={(values) => {
+          handleSubmit(values, accounts);
+        }}
+        form={form}
+      >
+        <Form.Item label="Strore ID" name="storeId">
+          <Input readOnly />
+        </Form.Item>
+
         <Form.Item
           label="Strore name"
           name="storeName"
@@ -90,6 +128,10 @@ function UpdateStore() {
               </Option>
             ))}
           </Select>
+        </Form.Item>
+
+        <Form.Item name="isDelete" label="Switch" valuePropName="checked">
+          <Switch />
         </Form.Item>
 
         <Form.Item>
