@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
+  const [updated, setUpdated] = useState(false);
 
   // lấy qua API
   useEffect(() => {
@@ -16,6 +17,7 @@ function ListStore() {
 
         if (data) {
           setStores(data);
+          console.log(data)
         }
       } catch (error) {
         console.log("err in ListStore", error);
@@ -24,7 +26,7 @@ function ListStore() {
     };
 
     fetchApi();
-  }, []);
+  }, [updated]);
 
   // COLUMS
   const columns = [
@@ -39,11 +41,16 @@ function ListStore() {
       key: "StoreName",
     },
     {
+      title: "UserName",
+      dataIndex: "UserName",
+      key: "UserName",
+    },
+    {
       title: "Status",
       dataIndex: "Status",
       key: "Status",
       render: (status) =>
-        status == 1 ? (
+        status == 0 ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
@@ -58,7 +65,6 @@ function ListStore() {
           <Link to={`/admin/store/edit/${storeId}`}>
             <Button
               type="primary"
-              onClick={() => handleUpdate(storeId)}
             >Update</Button>
           </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
@@ -80,15 +86,13 @@ function ListStore() {
         StoreName: store.storeName,
         Location: store.location,
         Email: store.email,
+        UserName: store.userName,
         Status: store.isDelete,
         actions: store.storeId,
         key: store.storeId,
       };
     });
   }
-  // Handler for updating a store
-  const handleUpdate = async (storeId) => {};
-
   // Handler for deleting a store
   const handleDelete = async (storeId) => {
     // bởi vì Swal là file đợi => phải có await mới được
@@ -104,16 +108,19 @@ function ListStore() {
 
     if (confirm.isConfirmed) {
       console.log(`${DELETE_STORE_ID}${storeId}`);
-      const data = await patch(`${DELETE_STORE_ID}${storeId}`, {
+      const dataDelete = await patch(`${DELETE_STORE_ID}${storeId}`, {
         storeId: storeId,
       });
 
-      if (data) {
+      if (dataDelete) {
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
           icon: "success",
         });
+
+        // load lại data
+        setUpdated(!updated);
       }
     }
   };
