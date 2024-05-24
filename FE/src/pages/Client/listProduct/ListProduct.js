@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Product from "../../../components/Client/Product/Product"
-import { useParams } from "react-router-dom";
-import {setCookie} from "../../../helpers/Cookie.helper"
-import { get } from "../../../helpers/API.helper";
+
 
 function ListProduct() {
   return (

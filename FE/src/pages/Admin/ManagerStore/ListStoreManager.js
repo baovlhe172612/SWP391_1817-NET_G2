@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import DeleteStoreManager from "./DeleteStoreManager";
 import UpdateStoreManager from "./UpdateStoreManager";
 import { get } from "../../../helpers/API.helper";
-import { LIST_ACCOUNT } from "../../../helpers/APILinks";
+
 
 import { Space, Table, Tag, Button, Modal, message } from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 
 import { get, deleteItem } from "../../../helpers/API.helper";
 
