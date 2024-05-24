@@ -66,6 +66,7 @@ function UpdateStore() {
 
     const data = await patch(UPDATE_STORE, values);
     if(data) {
+      // thông báo ra màn hình
       alear_success("Update!", "updated");
     }
   };
