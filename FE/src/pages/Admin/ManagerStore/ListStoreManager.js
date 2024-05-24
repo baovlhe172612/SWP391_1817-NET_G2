@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Space, Table, Tag, message } from "antd";
-import UpdateIsDelete from "./UpdateIsDelete";
-import { get } from "../../../helpers/API.helper";
-import UpdateStoreManager from "./UpdateStoreManager";
+import React, { useEffect, useState } from 'react';
+import { Space, Table, Tag, Button, Modal, message } from "antd";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import UpdateStoreManager from './UpdateStoreManager';
+import { get, deleteItem } from "../../../helpers/API.helper";
+
+const { confirm } = Modal;
 
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
 
-  const fetchApi = async () => {
-    try {
-      const data = await get("http://localhost:5264/api/Account");     
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get("http://localhost:5264/api/Account");
       setAccountManager(data);
-    } catch (error) {
-      message.error("Error fetching accounts");
-      console.log("Error in ListStoreManager", error);
-      setAccountManager([]);
-    }
-  };
+    };
 
   useEffect(() => {
     fetchApi();
@@ -30,6 +27,8 @@ function ListStoreManager() {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
+      // Custom text rendering
+      // Custom text rendering
     },
     {
       title: "Full Name",
@@ -87,9 +86,8 @@ function ListStoreManager() {
       key: "actions",
       render: (_, record) => {
         return (
-          <Space size="middle">
-            <UpdateStoreManager/>
-            <UpdateIsDelete record={record} onReload={onReload}/>
+          <Space size="middle">         
+            <DeleteStoreManager record={record} onDelete={handleDelete} /> {/* Pass the record to the delete component */}
           </Space>
         );
       },
@@ -97,11 +95,45 @@ function ListStoreManager() {
   ];
 
   return (
-    <Table 
-      columns={columns} 
-      dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
-    />
+    <>
+      <Table columns={columns} dataSource={AccountManager} rowKey="accountId" />
+    </>
   );
 }
+
+// Define the DeleteStoreManager component outside the ListStoreManager function
+const DeleteStoreManager = ({ record, onDelete }) => {
+  const showDeleteConfirm = () => {
+    confirm({
+      title: 'Are you sure delete this account?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'This action cannot be undone',
+      onOk() {
+        return deleteAccount(record.accountId);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  const deleteAccount = async (accountId) => {
+    try {
+      console.log(`Deleting account with ID: ${accountId}`);
+      const response = await deleteItem(`http://localhost:5264/api/Account?id=${accountId}`);
+      console.log(`Delete response:`, response);
+      onDelete(accountId);  // Call onDelete to update the state in the parent component
+    } catch (error) {
+      console.error("Failed to delete account: ", error);
+      message.error('Failed to delete account');
+    }
+  };
+
+  return (
+    <Button type="danger" onClick={showDeleteConfirm} style={{ color: 'red' }}>
+      Delete
+    </Button>
+  );
+};
 
 export default ListStoreManager;

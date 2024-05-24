@@ -4833,11 +4833,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
       "projectName": "Swp391",
       "projectPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
       "outputPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\obj\\",
+=======
+      "projectUniqueName": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
+      "projectName": "Swp391",
+      "projectPath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
+      "packagesPath": "/Users/hoanggiatrong/.nuget/packages/",
+      "outputPath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/",
+>>>>>>> origin/lam
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
