@@ -1,55 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag } from "antd";
-import DeleteStoreManager from "./DeleteStoreManager";
-import UpdateStoreManager from "./UpdateStoreManager";
+import { Space, Table, Tag, message } from "antd";
+// import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
-import { LIST_ACCOUNT } from "../../../helpers/APILinks";
+// import UpdateStoreManager from "./UpdateStoreManager";
+import {Link} from "react-router-dom"
+
 function ListStoreManager() {
-  // Define the data for the employee table
   const [AccountManager, setAccountManager] = useState([]);
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const data = await get(LIST_ACCOUNT);
-        //
-        setAccountManager(data);
-      } catch (error) {
-        console.log("Err tại ListStoreManager", error);
-        setAccountManager([]);
-      }
-    };
+  const fetchApi = async () => {
+    try {
+      const data = await get("http://localhost:5264/api/Account");     
+      setAccountManager(data);
+    } catch (error) {
+      message.error("Error fetching accounts");
+      console.log("Error in ListStoreManager", error);
+      setAccountManager([]);
+    }
+  };
 
+  useEffect(() => {
     fetchApi();
   }, []);
-  
+
+  const onReload = () => {
+    fetchApi();
+};
   const columns = [
     {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
-      // Custom text rendering
     },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      // Custom text rendering
     },
     {
       title: "User Name",
       dataIndex: "userName",
-      key: "user",
+      key: "userName",
     },
     {
       title: "Password",
       dataIndex: "passWord",
-      key: "password",
+      key: "passWord",
     },
     {
       title: "Phone",
       dataIndex: "phone",
       key: "phone",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
     },
     {
       title: "Status",
@@ -67,34 +78,33 @@ function ListStoreManager() {
         return <Tag color={color}>{text}</Tag>;
       },
     },
-
     {
       title: "Role Name",
       dataIndex: "roleName",
-      key: "roleId",
+      key: "roleName",
     },
-
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => {
         return (
           <Space size="middle">
-            <UpdateStoreManager record={record} />
-            <DeleteStoreManager record={record} />{" "}
-            {/* Pass the record to the delete component */}
+            {/* <UpdateStoreManager /> */}
+            <Link to={`edit/${record.accountId}`}>
+              Update123
+            </Link>
+            {/* <UpdateIsDelete record={record} onReload={onReload}/>           */}
           </Space>
         );
       },
     },
   ];
 
-  console.log("AccountManager: ", AccountManager);
-
   return (
-    <>
-      <Table columns={columns} dataSource={AccountManager} pagination={false}/>
-    </>
+    <Table 
+      columns={columns} 
+      dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
+    />
   );
 }
 
