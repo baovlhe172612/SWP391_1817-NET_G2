@@ -4,6 +4,7 @@ import { get, patch } from "../../../helpers/API.helper";
 import { useParams } from "react-router-dom";
 import { LIST_ACCOUNT, STORE_DETAIL, UPDATE_STORE } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
+import { alear_success } from "../../../helpers/Alert.helper";
 const { Option } = Select;
 
 function UpdateStore() {
@@ -63,15 +64,9 @@ function UpdateStore() {
     // sửa lại biến switch cho isDeleted
     values.isDelete = values.isDelete ? 1 : 0;
 
-    console.log(UPDATE_STORE)
-    console.log(values)
     const data = await patch(UPDATE_STORE, values);
     if(data) {
-      Swal.fire({
-        title: "Update!",
-        text: "Your file has been updated.",
-        icon: "success"
-      });
+      alear_success("Update!", "updated");
     }
   };
 

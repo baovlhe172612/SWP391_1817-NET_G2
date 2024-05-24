@@ -16,6 +16,8 @@ namespace Swp391.Repository
         public void createStore(Store store)
         {
             _context.Stores.Add(store);
+
+            _context.SaveChanges();
         }
 
         /// <summary>

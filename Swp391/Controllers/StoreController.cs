@@ -14,7 +14,7 @@ namespace Swp391.Controllers
         /// <summary>
         /// Phuơng thức POST của api/stores
         /// </summary>
-        [HttpPost]
+        [HttpPost("POST")]
         public IActionResult createStore(Store store)
         {
             var result = storeService.createStoreService(store);
