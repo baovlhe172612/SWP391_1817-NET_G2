@@ -1,6 +1,7 @@
 import React from 'react'
 
 function Blog() {
+    
   return (
     <>
       <div class="main-content">

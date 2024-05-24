@@ -1,12 +1,16 @@
 import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
-import { get } from "../../../helpers/API.helper";
+import { get, post } from "../../../helpers/API.helper";
+import { CREATE_STORE, STORES_DTOS } from "../../../helpers/APILinks";
+import { alear_success } from "../../../helpers/Alert.helper";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 function CreateStore() {
   const [Accounts, setAccounts] = useState([]);
   const [form] = Form.useForm();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -26,12 +30,23 @@ function CreateStore() {
   }, []);
 
   const handleSubmit = async (values) => {
+    // console.log(values);
+    // sửa lại trường cho accountId sang INT
+    values.accountId = parseInt(values.accountId);
+
+    // sửa lại trường isDelete => từ true => 1 và ngược lại
+    values.isDelete = values.isDelete ? 0 : 1;
+
     console.log(values);
-    // const response = await CreateStore(values);
-    // console.log(response);
-    // if (response) {
-    //     form.resetFields();
-    // }
+    const dataUpdate = await post(CREATE_STORE, values);
+
+    if (dataUpdate) {
+      // thông báo ra hoàn thành tạo
+      alear_success("Create!", "create");
+
+      // chuyển hướng đến listore
+      navigate(`/admin/store/`)
+    }
   };
 
   return (
@@ -73,9 +88,24 @@ function CreateStore() {
           <Select allowClear placeholder="Select your account">
             {Accounts.length > 0 &&
               Accounts.map((account) => (
-                <Option value={`${account.accountId}`}>{`${account.userName}`}</Option>
+                <Option
+                  value={`${account.accountId}`}
+                >{`${account.userName}`}</Option>
               ))}
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="isDelete"
+          label="Switch"
+          valuePropName="checked"
+          initialValue={true}
+        >
+          <Switch
+            checkedChildren="active"
+            unCheckedChildren="In Active"
+            defaultChecked
+          />
         </Form.Item>
 
         <Form.Item>

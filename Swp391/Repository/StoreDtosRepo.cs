@@ -26,6 +26,7 @@ namespace Swp391.Repository
                                         Email = a.Email,
                                         Phone = a.Phone,
                                         Status = a.Status,
+                                        IsDelete = s.IsDelete,
                                         RoleId = a.RoleId
                                     }
                                         ).ToList();
