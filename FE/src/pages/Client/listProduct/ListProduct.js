@@ -1,83 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Product from "../../../components/Client/Product/Product"
+import { useParams } from "react-router-dom";
+import {setCookie} from "../../../helpers/Cookie.helper"
 import { get } from "../../../helpers/API.helper";
 
 function ListProduct() {
-
-  const [products, setProducts] = useState([]);
-  const [totalPages, setTotalPages] = useState([1]);
-  const [totalProduct, setTotalProduct] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles/getProductByPage?page=1");
-      //
-
-      console.log("data: ",data)
-      setProducts(data);
-    };
-
-
-
-    fetchApi();
-  }, []); 
-  
-  useEffect(() => {
-    const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
-      //
-
-      console.log("data: ",data)
-      setTotalPages(data);
-    };
-
-
-
-    fetchApi();
-  }, []); 
-
-  useEffect(() => {
-    const fetchApi = async () => {
-     
-      const data = await get("http://localhost:5264/api/ProductControlles/getCountProduct");
-      //
-
-      console.log("data: ",data)
-      setTotalProduct(data);
-    };
-
-
-
-    fetchApi();
-  }); 
-  
-
-
-
-  
-  // Hàm xử lý thay đổi size và gửi yêu cầu API
-  const handleDataByPage = async (item) => {
-    // const page = parseInt(e.target.value);
-    setCurrentPage(item);
-
-    try {
-      const response = await fetch(`http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`);
-      if (!response.ok) {
-        const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
-        throw new Error(`Network response was not ok: ${errorText}`);
-      }
-      const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
-      console.log(data);
-      setProducts(data);
-    } catch (error) {
-      console.error('Error updating size:', error);
-    }
-  };
-
-
-
-
   return (
     <>
       <div class="shop-area section-space-y-axis-100">

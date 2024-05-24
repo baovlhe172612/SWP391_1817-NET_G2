@@ -19,6 +19,8 @@ public partial class Product
 
     public double? Price { get; set; }
 
+    public int? IsDelete { get; set; }
+
     public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();

@@ -8,7 +8,7 @@ function DeleteStoreManager({ record, onReload }) {
     const handleDelete = async () => {
         try {
             // Replace with your delete API endpoint
-            const response = await fetch.delete(`/api/store-managers/${record.id}`);
+            const response = await fetch.put(`/api/store-managers/${record.id}`);
             if (response.status === 200) {
                 onReload();
                 alert("Delete successfully");
