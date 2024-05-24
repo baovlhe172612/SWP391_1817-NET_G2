@@ -95,7 +95,7 @@ function Product(props) {
         </>
       ) : (
         <>
-
+        Lỗi khi lấy data
         </>
       )}
     </>

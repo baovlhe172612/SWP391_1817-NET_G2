@@ -154,6 +154,17 @@ function MenuSider() {
         },
       ],
     },
+    {
+      key: "manager qrs",
+      label: "List Qrs",
+      icon: <ShoppingCartOutlined />,
+      children: [
+        {
+          key: "listQr/",
+          label: <Link to="listQr/">List QR</Link>,
+        },
+      ],
+    },
   ];
   return (
     <>
