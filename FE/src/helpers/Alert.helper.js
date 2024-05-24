@@ -7,3 +7,11 @@ export const alear_success = (title, text) => {
         icon: "success"
       });
 }
+
+export const alear_false = (title, text) => {
+  Swal.fire({
+      title: title,
+      text: `Your file has been ${text}.`,
+      icon: "error"
+    });
+}
