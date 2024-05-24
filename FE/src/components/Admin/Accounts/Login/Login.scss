@@ -1,0 +1,110 @@
+.signin-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: #fbfdff;
+  border-radius: 28px;
+}
+
+.signin-form {
+  width: 60%;
+  height: 30%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #fbfdff;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .form-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+  }
+
+  .register-form {
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+
+    .ant-input-affix-wrapper {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #d9d9d9;
+    }
+
+    .ant-input {
+      font-size: 16px;
+    }
+
+    .ant-checkbox-wrapper {
+      display: flex;
+      align-items: center;
+
+      .ant-checkbox {
+        margin-right: 8px;
+      }
+
+      span {
+        font-size: 14px;
+        color: #555;
+      }
+    }
+
+    .ant-btn-primary {
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      font-size: 16px;
+      background: #1890ff;
+      border-color: #1890ff;
+
+      &:hover {
+        background: #40a9ff;
+        border-color: #40a9ff;
+      }
+    }
+  }
+}
+
+.signin-image {
+  flex: 1;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 20px 0;
+    background: #f5f5f5;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    padding: 50px;
+
+    img {
+      width: 300px;
+      height: auto;
+    }
+  }
+
+  .signup-image-link {
+    margin-top: 20px;
+    color: #1890ff;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

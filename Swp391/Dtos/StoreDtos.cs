@@ -13,6 +13,7 @@ namespace Swp391.Dtos
         public String Email { get; set; }
         public String Phone { get; set; }
         public int Status { get; set; }
+        public int ?IsDelete { get; set; }
 
         public int RoleId { get; set; }
     }

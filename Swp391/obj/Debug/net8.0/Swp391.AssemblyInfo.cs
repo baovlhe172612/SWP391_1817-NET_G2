@@ -13,7 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Swp391")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50d2e818d05382da70c52abbf4443630c984388d")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a08fbdf4820ac7c0f6f7de6b8608346a55d7212c")]
+>>>>>>> trong
 [assembly: System.Reflection.AssemblyProductAttribute("Swp391")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Swp391")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

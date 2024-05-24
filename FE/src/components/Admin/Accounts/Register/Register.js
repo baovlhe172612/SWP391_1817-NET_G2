@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
-// import "../css2/style2.css";
+import "./Register.scss"
 import { Link } from "react-router-dom";
 
 function Register() {
