@@ -22,10 +22,10 @@ function ListStoreManager() {
 
     fetchApi();
   }, []);
-
+  
   const handleDelete = (accountId) => {
     setAccountManager((prev) => prev.filter((account) => account.accountId !== accountId));
-    message.success('Account deleted successfully');
+    // message.success('Account deleted successfully');
   };
 
   // Define columns for the table
