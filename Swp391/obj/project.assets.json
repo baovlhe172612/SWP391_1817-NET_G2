@@ -4834,19 +4834,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "D:\\Back_end\\Swp391\\Swp391.csproj",
       "projectName": "Swp391",
       "projectPath": "D:\\Back_end\\Swp391\\Swp391.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
       "outputPath": "D:\\Back_end\\Swp391\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
-      "projectName": "Swp391",
-      "projectPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
-      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\obj\\",
->>>>>>> 541614a28c489b76a9351ebaa0e08f7460a94df5
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4945,11 +4937,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-<<<<<<< HEAD
       "message": "Problem reading the cache file D:\\Back_end\\Swp391\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-=======
-      "message": "Problem reading the cache file C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
->>>>>>> 541614a28c489b76a9351ebaa0e08f7460a94df5
     }
   ]
 }

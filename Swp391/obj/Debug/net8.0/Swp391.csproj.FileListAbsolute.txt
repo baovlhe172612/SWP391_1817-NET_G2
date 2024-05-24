@@ -136,7 +136,6 @@
 /Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/Debug/net8.0/Swp391.pdb
 /Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/Debug/net8.0/Swp391.genruntimeconfig.cache
 /Users/hoanggiatrong/Documents/GitHub/SWP391_1817-NET_G2/Swp391/obj/Debug/net8.0/ref/Swp391.dll
-<<<<<<< HEAD
 D:\Back_end\Swp391\bin\Debug\net8.0\appsettings.Development.json
 D:\Back_end\Swp391\bin\Debug\net8.0\appsettings.json
 D:\Back_end\Swp391\bin\Debug\net8.0\Swp391.exe
@@ -274,7 +273,6 @@ D:\Back_end\Swp391\obj\Debug\net8.0\refint\Swp391.dll
 D:\Back_end\Swp391\obj\Debug\net8.0\Swp391.pdb
 D:\Back_end\Swp391\obj\Debug\net8.0\Swp391.genruntimeconfig.cache
 D:\Back_end\Swp391\obj\Debug\net8.0\ref\Swp391.dll
-=======
 =======
 >>>>>>> 541614a28c489b76a9351ebaa0e08f7460a94df5
 D:\PRN221_SeftStudy\Back-end\Swp391\Swp391\bin\Debug\net8.0\appsettings.Development.json
