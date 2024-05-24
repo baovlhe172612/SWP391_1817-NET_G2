@@ -9,5 +9,8 @@ export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
 
+// API EMPLOYEE
+export const LIST_Employee = `${LOCALHOST_API}/employee`;
+
 // LINK SHOP CLIENT
 export const LIST_PRODUCT = `http://localhost:3000/shop/`;
