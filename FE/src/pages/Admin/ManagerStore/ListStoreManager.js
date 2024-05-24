@@ -8,11 +8,16 @@ import {Link} from "react-router-dom"
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/Account");
+  const fetchApi = async () => {
+    try {
+      const data = await get("http://localhost:5264/api/Account");     
       setAccountManager(data);
-    };
+    } catch (error) {
+      message.error("Error fetching accounts");
+      console.log("Error in ListStoreManager", error);
+      setAccountManager([]);
+    }
+  };
 
   useEffect(() => {
     fetchApi();
@@ -26,8 +31,6 @@ function ListStoreManager() {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
-      // Custom text rendering
-      // Custom text rendering
     },
     {
       title: "Full Name",
@@ -98,45 +101,11 @@ function ListStoreManager() {
   ];
 
   return (
-    <>
-      <Table columns={columns} dataSource={AccountManager} rowKey="accountId" />
-    </>
+    <Table 
+      columns={columns} 
+      dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
+    />
   );
 }
-
-// Define the DeleteStoreManager component outside the ListStoreManager function
-const DeleteStoreManager = ({ record, onDelete }) => {
-  const showDeleteConfirm = () => {
-    confirm({
-      title: 'Are you sure delete this account?',
-      icon: <ExclamationCircleOutlined />,
-      content: 'This action cannot be undone',
-      onOk() {
-        return deleteAccount(record.accountId);
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
-  };
-
-  const deleteAccount = async (accountId) => {
-    try {
-      console.log(`Deleting account with ID: ${accountId}`);
-      const response = await deleteItem(`http://localhost:5264/api/Account?id=${accountId}`);
-      console.log(`Delete response:`, response);
-      onDelete(accountId);  // Call onDelete to update the state in the parent component
-    } catch (error) {
-      console.error("Failed to delete account: ", error);
-      message.error('Failed to delete account');
-    }
-  };
-
-  return (
-    <Button type="danger" onClick={showDeleteConfirm} style={{ color: 'red' }}>
-      Delete
-    </Button>
-  );
-};
 
 export default ListStoreManager;
