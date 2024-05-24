@@ -74,9 +74,9 @@ function Contact() {
             alert('Failed to submit the form.');
         }
     };
-    const onReload = () => {
-        window.location.reload();
-    };
+    // const onReload = () => {
+    //     window.location.reload();
+    // };
     console.log("data: ", data)
     return (
         <>
