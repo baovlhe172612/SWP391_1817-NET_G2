@@ -8,13 +8,13 @@ function ListProduct() {
   const [totalPages, setTotalPages] = useState([1]);
   const [totalProduct, setTotalProduct] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  const [conditionSort, setCondition] = useState(1);
 
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get("http://localhost:5264/api/ProductControlles/getProductByPage?page=1");
       //
 
-      console.log("data: ",data)
       setProducts(data);
     };
 
@@ -28,7 +28,7 @@ function ListProduct() {
       const data = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
       //
 
-      console.log("data: ",data)
+      
       setTotalPages(data);
     };
 
@@ -43,7 +43,6 @@ function ListProduct() {
       const data = await get("http://localhost:5264/api/ProductControlles/getCountProduct");
       //
 
-      console.log("data: ",data)
       setTotalProduct(data);
     };
 
@@ -68,6 +67,27 @@ function ListProduct() {
         throw new Error(`Network response was not ok: ${errorText}`);
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
+     
+      setProducts(data);
+    } catch (error) {
+      console.error('Error updating size:', error);
+    }
+  };
+
+  const handleSortCondition = async (event) => {
+    //page is CurrentPage
+    const selectedSortCondition = parseInt(event.target.value);
+
+
+    setCondition(selectedSortCondition);
+
+    try {
+      const response = await fetch(`http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?page=${currentPage}&condition=${selectedSortCondition}`);
+      if (!response.ok) {
+        const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
+       
+      }
+      const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
       console.log(data);
       setProducts(data);
     } catch (error) {
@@ -75,6 +95,7 @@ function ListProduct() {
     }
   };
 
+  //console.log(conditionSort);
 
 
 
@@ -108,14 +129,23 @@ function ListProduct() {
                     </ul>
                   </li>
                   <li class="short">
-                    <select class="nice-select">
-                      <option value="1">Sort by Default</option>
-                      <option value="2">Sort by Popularity</option>
-                      <option value="3">Sort by Rated</option>
-                      <option value="4">Sort by Latest</option>
-                      <option value="5">Sort by High Price</option>
-                      <option value="6">Sort by Low Price</option>
+                    <select className="nice-select" value={conditionSort} onChange={handleSortCondition}>
+                      <option value="1" selected={1}>Sort by Default</option>
+                      <option value="2" selected={2}>Sort by Name</option>
+                      <option value="3" selected={3}>Sort by High Price</option>
+                      <option value="4" selected={4}>Sort by Low Price</option>
                     </select>
+
+                    {/* <select
+                          className="nice-select wide rounded-0"
+                          value={productSize.sizeId}
+                          onChange={handleSizeChange}
+                        >
+                          <option value="1" selected={productSize.sizeId === 1}>X</option>
+                          <option value="2" selected={productSize.sizeId === 2}>L</option>
+                          <option value="3" selected={productSize.sizeId === 3}>M</option>
+                    </select> */}
+
                   </li>
                 </ul>
               </div>
