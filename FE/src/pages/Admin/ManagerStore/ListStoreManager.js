@@ -31,6 +31,7 @@ function ListStoreManager() {
       dataIndex: "accountId",
       key: "accountId",
       // Custom text rendering
+      // Custom text rendering
     },
     {
       title: "Full Name",
@@ -59,10 +60,13 @@ function ListStoreManager() {
       key: "status",
       render: (status) => {
         const statusMap = {
-          '1': { text: 'Active', color: 'green' },
-          '0': { text: 'Inactive', color: 'red' }
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" },
         };
-        const { text, color } = statusMap[status] || { text: 'Unknown', color: 'gray' };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray",
+        };
         return <Tag color={color}>{text}</Tag>;
       },
     },
@@ -72,15 +76,15 @@ function ListStoreManager() {
       key: "roleId",
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       render: (_, record) => {
         return (
           <Space size="middle">         
             <DeleteStoreManager record={record} onDelete={handleDelete} /> {/* Pass the record to the delete component */}
           </Space>
         );
-      }
+      },
     },
   ];
 

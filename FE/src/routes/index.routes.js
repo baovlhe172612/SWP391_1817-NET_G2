@@ -24,14 +24,15 @@ import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import CreateTopping from "../pages/Admin/Topping/CreateTopping";
 import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
-import QRScanner from "../pages/Client/QRScanner/QRScanner";
+// import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";
+import Login from "../components/Admin/Accounts/Login/Login";
+import Register from "../components/Admin/Accounts/Register/Register";
+import ListQr from "../pages/Admin/ListQrCode/ListQr";
+import UpdateStore from "../pages/Admin/Store/UpdateStore";
+import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 
 const routes = [
-  {
-    path: "/qrcode",
-    element: <QRScanner />, 
-  },
   {
     path: "/",
     element: <LayoutDefault />,
@@ -57,7 +58,11 @@ const routes = [
         element: <Cart />,
       },
       {
-        path: "listProduct",
+        path: "shop",
+        element: <ListProduct />,
+      },
+      {
+        path: "shop/:id",
         element: <ListProduct />,
       },
       {
@@ -67,14 +72,23 @@ const routes = [
     ],
   },
   {
-    path: "admin",
+    path: "/admin",
     element: <LayoutDefaultAdmin />,
     children: [
       {
+        path: "/admin/login",
+        element: <Login />,
+      },
+      {
+        path: "/admin/register",
+        element: <Register />,
+      },
+      {
+        
         element: <PrivateRouter />,
         children: [
           {
-            path: "",
+            path: "/admin/",
             element: <Dashboard />,
           },
           {
@@ -87,6 +101,10 @@ const routes = [
               {
                 path: "create",
                 element: <CreateStore />,
+              },
+              {
+                path: "edit/:id",
+                element: <UpdateStore />,
               },
             ],
           },
@@ -156,18 +174,28 @@ const routes = [
             ],
           },
           {
-            path: "topping",
+            path: "feedback",
             children: [
               {
                 path: "",
-                element: <ListTopping />,
+                element: <ListFeedBack />,
               },
-              {
-                path: "create",
-                element: <CreateTopping />,
-              },
+              
             ],
           },
+          // {
+          //   path: "topping",
+          //   children: [
+          //     {
+          //       path: "",
+          //       element: <ListTopping />,
+          //     },
+          //     {
+          //       path: "create",
+          //       element: <CreateTopping />,
+          //     },
+          //   ],
+          // },
           {
             path: "orders",
             children: [
@@ -178,6 +206,15 @@ const routes = [
               {
                 path: "orderdetails",
                 element: <OrderDetails />,
+              },
+            ],
+          },
+          {
+            path: "listQr",
+            children: [
+              {
+                path: "",
+                element: <ListQr />,
               },
             ],
           },

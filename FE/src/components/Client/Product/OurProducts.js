@@ -7,18 +7,20 @@ function OurProducts() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles/getFourProductMin");
-      //
-
-
-      setProducts(data);
+      try {
+        const data = await get(
+          "http://localhost:5264/api/ProductControlles/getFourProductMin"
+        );
+        //
+        setProducts(data);
+      } catch (error) {
+        console.log("Lỗi tại OurProducts", error);
+        setProducts([]);
+      }
     };
 
     fetchApi();
   }, []);
-
-  console.log("data: ",products)
-
 
   return (
     <>

@@ -15,9 +15,13 @@ public partial class Order
 
     public int StoreId { get; set; }
 
+    public int? PaymentId { get; set; }
+
     public double Total { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+    public virtual Payment? Payment { get; set; }
 
     public virtual Store Store { get; set; } = null!;
 

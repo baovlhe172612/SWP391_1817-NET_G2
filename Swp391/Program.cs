@@ -3,23 +3,25 @@ namespace Swp391
 {
     public class Program
     {
+     
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             // Configure CORS
 
             //add cors ?? tránh
+            
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000") // Ch? ??nh origin c? th?
+                    policy.AllowAnyOrigin()  
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
