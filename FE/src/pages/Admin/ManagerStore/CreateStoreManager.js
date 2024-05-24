@@ -1,16 +1,39 @@
 import React from 'react'
-import { Button, Form, Input, Select, Space, Switch } from "antd";
+import { Button, Form, Input, Select, Space, Switch,message } from "antd";
+import { post } from '../../../helpers/API.helper';
 function CreateStoreManager() {
-  const [form] = Form.useForm();
+    const [form] = Form.useForm();
 
-  const handleSubmit = async (values) => {
+    const handleSubmit = async (values) => {
       console.log(values);
-      // const response = await createEmployee(values);
-      // console.log(response);
-      // if (response) {
-      //     form.resetFields();
-      // }
-  };
+  
+      // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
+      values.isDelete = 0;
+      if(values.status ) {
+        values.status = 1;
+      } else{   
+        values.status = 0;
+      }
+      try {
+        const response = await post("http://localhost:5264/api/Account", values);
+        console.log(response);
+        
+        // Kiểm tra giá trị trả về từ API
+        if (response) {
+          form.resetFields();
+          message.success('Account created successfully!');
+          // Thực hiện các hành động khác nếu cần
+        } else {
+          // Xử lý khi có lỗi từ API (ví dụ: hiển thị thông báo lỗi cho người dùng)
+          message.success('Account created Fail!');
+          console.error("Failed to create account. Please try again later.");
+        }
+      } catch (error) {
+        // Xử lý khi có lỗi từ fetch hoặc xử lý response JSON
+        console.error("An error occurred:", error);
+      }
+    };
+  
 
   return (
       <>
@@ -35,7 +58,7 @@ function CreateStoreManager() {
 
               <Form.Item
                   label="Password"
-                  name="password"
+                  name="passWord"
                   rules={[
                       {
                           required: true,
@@ -49,7 +72,7 @@ function CreateStoreManager() {
               <Form.Item
                   label="Status"
                   name="status"
-                  valuePropName="checked"
+                  valuePropName="checked"                 
                   initialValue={true}
               >
                   <Switch checkedChildren="Active" unCheckedChildren="Inactive" defaultChecked />
@@ -107,24 +130,22 @@ function CreateStoreManager() {
 
               <Form.Item
                   label="Role"
-                  name="roleId"
-                  rules={[
-                      {
-                          required: true,
-                          message: 'Please select a role!',
-                      },
-                  ]}
+                  name="roleId"                  
               >
-                  <Select placeholder="Select a role">
-                     
-                      <Select.Option value="1">Manager</Select.Option>
-                      <Select.Option value="2">Enployee</Select.Option>
-                      {/* Add more roles as needed */}
-                  </Select>
+                <Select defaultValue={2} disabled>
+                   <Select.Option value={2}>Manager</Select.Option>
+                 </Select>
+              </Form.Item>
+              <Form.Item
+                  label="isdelete"
+                  name="isDelete"
+                  hidden  
+              >
+                  <Input value={0}/>
               </Form.Item>
 
               <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" >
                       Submit
                   </Button>
               </Form.Item>

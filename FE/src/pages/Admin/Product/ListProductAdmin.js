@@ -1,19 +1,39 @@
-import React from "react";
-import { Space, Table, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Row, Space, Table, Tag } from "antd";
+import { LIST_PRODUCT_DTOS } from "../../../helpers/APILinks";
+import { get } from "../../../helpers/API.helper";
 function ListProductAdmin() {
+  const [products, setProducts] = useState([]);
+
   // lấy qua API
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const data = await get(LIST_PRODUCT_DTOS);
+
+        if (data) {
+          console.log(data)
+          setProducts(data);
+        }
+      } catch (error) {
+        console.log("err in ListStore", error);
+        setProducts([]);
+      }
+    };
+
+    fetchApi();
+  }, []);
+
   const columns = [
     {
-      title: "name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>, // custom text
+      title: "STT",
+      dataIndex: "stt",
+      key: "stt",
     },
     {
-      title: "image",
-      dataIndex: "image",
-      key: "image",
-      render: (image) => <img src={image} />, // custom text
+      title: "productName",
+      dataIndex: "productName",
+      key: "productName",
     },
     {
       title: "price",
@@ -21,25 +41,28 @@ function ListProductAdmin() {
       key: "price",
     },
     {
-      title: "size",
-      dataIndex: "size",
-      key: "size",
+      title: "img",
+      dataIndex: "img",
+      key: "img",
+      render: (img) => {
+        <><img src={img}/></>
+      }
     },
     {
-      title: "discount",
-      dataIndex: "discount",
-      key: "discount",
+      title: "categoryName",
+      dataIndex: "categoryName",
+      key: "categoryName",
     },
     {
-      title: "tag",
-      dataIndex: "tag",
-      key: "tag",
-      render: (_, tag) => (
+      title: "Delete",
+      dataIndex: "isDelete",
+      key: "isDelete",
+      render: (isDelete) => (
         <>
-          {tag.tag.status ? (
-            <Tag color="green">{tag.tag.name}</Tag>
+          {isDelete == 0 ? (
+            <Tag color="green">UnDelete</Tag>
           ) : (
-            <Tag color="red">{tag.name}</Tag>
+            <Tag color="red">Deleted</Tag>
           )}
         </>
       ),
@@ -60,7 +83,7 @@ function ListProductAdmin() {
     },
   ];
 
-  const data = [
+  let data = [
     {
       name: "Product 1",
       image:
@@ -71,27 +94,20 @@ function ListProductAdmin() {
       tag: { status: true, name: "hello" },
       action: ["Detail", "Delete", "Update"],
     },
-    {
-      name: "Product 2",
-      image:
-        "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/anh-dep-thien-nhien-2-1.jpg",
-      price: "$30",
-      size: "L",
-      discount: "15%",
-      tag: { status: false, name: "hello2" },
-      action: ["Detail", "Delete", "Update"],
-    },
-    {
-      name: "Product 3",
-      image:
-        "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/anh-dep-thien-nhien-2-1.jpg",
-      price: "$25",
-      size: "S",
-      discount: "5%",
-      tag: { status: true, name: "hello234" },
-      action: ["Detail", "Delete", "Update"],
-    },
   ];
+  if(products.length > 0) {
+    data = products.map((product, index) => {
+      return {
+        "stt": index + 1,
+        "productName": product.productName,
+        "price" : product.price,
+        "img": product.img,
+        "categoryName": product.categoryName,
+        "isDelete": product.isDelete,
+        "action": ["Delete", "Update"]
+      }
+    })
+  }
 
   return (
     <>

@@ -2061,8 +2061,8 @@ blockquote p {
 }
 
 .sticky .main-nav > ul > li > a {
-  padding-top: 25px;
-  padding-bottom: 20px;
+  /* padding-top: 25px;
+  padding-bottom: 20px; */
 }
 
 /*----------------------------------------*/
@@ -6938,3 +6938,5 @@ blockquote p {
 .error-404-img {
   margin-bottom: 70px;
 }
+
+
