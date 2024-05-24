@@ -84,7 +84,7 @@ textarea:focus,
 .swiper-slide:focus,
 .swiper-button-next:focus,
 .swiper-button-prev:focus {
-  border: 0;
+  
   text-decoration: none;
   outline: 0;
   -webkit-box-shadow: none;
@@ -2061,8 +2061,8 @@ blockquote p {
 }
 
 .sticky .main-nav > ul > li > a {
-  padding-top: 25px;
-  padding-bottom: 20px;
+  /* padding-top: 25px;
+  padding-bottom: 20px; */
 }
 
 /*----------------------------------------*/
@@ -4024,7 +4024,7 @@ blockquote p {
           align-items: center;
 }
 
-@media (max-width: 479px) {
+/* @media (max-width: 479px) {
   .selector-wrap {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -4032,7 +4032,7 @@ blockquote p {
         -ms-flex-direction: column;
             flex-direction: column;
   }
-}
+} */
 
 .selector-wrap.size-option {
   padding-bottom: 30px;
@@ -4081,7 +4081,7 @@ blockquote p {
 
 @media (max-width: 479px) {
   .selector-title {
-    width: 100%;
+    /* width: 100%; */
     border-right: 1px solid #e8e8e8;
     border-bottom: 0;
     text-align: left;
@@ -6938,3 +6938,5 @@ blockquote p {
 .error-404-img {
   margin-bottom: 70px;
 }
+
+
