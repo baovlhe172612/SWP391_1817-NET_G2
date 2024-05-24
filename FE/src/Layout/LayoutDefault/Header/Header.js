@@ -19,7 +19,7 @@ function Header({ tableId }) {
             <div className="col-6">
               <div className="header-top-left">
                 <span className="pronia-offer" >
-                  HELLO HELLO table {tableId}
+                  HELLO table {tableId}
                 </span>
               </div>
             </div>
