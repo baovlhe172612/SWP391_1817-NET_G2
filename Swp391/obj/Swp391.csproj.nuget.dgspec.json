@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "D:\\Back_end\\Swp391\\Swp391.csproj": {}
   },
   "projects": {
@@ -12,13 +13,22 @@
         "projectPath": "D:\\Back_end\\Swp391\\Swp391.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
         "outputPath": "D:\\Back_end\\Swp391\\obj\\",
+=======
+    "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj": {}
+  },
+  "projects": {
+    "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
+        "projectName": "Swp391",
+        "projectPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\obj\\",
+>>>>>>> beedbfa173787f67f40c94bb0cd7796f055a068d
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -101,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
