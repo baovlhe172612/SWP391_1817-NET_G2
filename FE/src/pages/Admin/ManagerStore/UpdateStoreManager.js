@@ -20,6 +20,7 @@ const UpdateStoreManager = ({ visible, record, onCancel, onUpdate }) => {
   };
 
   return (
+   
     <Modal
       visible={visible}
       title="Update Store Manager"
@@ -77,7 +78,7 @@ const UpdateStoreManager = ({ visible, record, onCancel, onUpdate }) => {
         </Form.Item>
       </Form>
     </Modal>
-  );
+   );
 };
 
 export default UpdateStoreManager
