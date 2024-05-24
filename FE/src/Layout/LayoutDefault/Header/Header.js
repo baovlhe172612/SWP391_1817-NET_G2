@@ -75,6 +75,9 @@ function Header({ tableId }) {
         </div>
       </div>
 
+
+      {/* Header Middle */}
+      
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
         <div className="header-bottom d-block d-lg-none">

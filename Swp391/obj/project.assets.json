@@ -4828,24 +4828,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/hoanggiatrong/.nuget/packages/": {}
+    "C:\\Users\\admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
+      "projectUniqueName": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
       "projectName": "Swp391",
-      "projectPath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/Swp391.csproj",
-      "packagesPath": "/Users/hoanggiatrong/.nuget/packages/",
-      "outputPath": "/Users/hoanggiatrong/Documents/GitHub/Không có tiêu đề/Swp391/obj/",
+      "projectPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/hoanggiatrong/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4921,7 +4923,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

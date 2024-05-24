@@ -33,9 +33,9 @@ namespace Swp391.Service
             _accountRepo.createrAccount(newAccount);
         }
         // xoá tài khoản
-        public void deleteAccount(int accountId)
+        public void updateIsDeleteAccount(int accountId,int isdelete)
         {
-            _accountRepo.deleteAccount(accountId);
+            _accountRepo.UpdateisdeleteAccount(accountId,isdelete);
         }
     }
 }

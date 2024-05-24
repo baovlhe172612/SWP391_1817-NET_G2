@@ -29,3 +29,4 @@ function DeleteStoreManager({ record, onReload }) {
 }
 
 export default DeleteStoreManager;
+
