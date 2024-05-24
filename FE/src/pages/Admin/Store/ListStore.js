@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
-import {get} from '../../../helpers/API.helper'
-import { STORES_DTOS } from "../../../helpers/APILinks";
+import { get, patch } from "../../../helpers/API.helper";
+import { DELETE_STORE_ID, STORES_DTOS } from "../../../helpers/APILinks";
+import Swal from "sweetalert2";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
@@ -23,6 +25,8 @@ function ListStore() {
 
     fetchApi();
   }, []);
+
+  // COLUMS
   const columns = [
     {
       title: "StoreID",
@@ -47,43 +51,72 @@ function ListStore() {
     },
     {
       title: "Actions",
+      dataIndex: "actions",
       key: "actions",
-      render: (_, record) => (
+      render: (storeId) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleUpdate(record)}>Update</Button>
-          <Button type="default" onClick={() => handleDelete(record)}>Delete</Button>
+          <Link to={`/admin/store/edit/${storeId}`}>
+            <Button
+              type="primary"
+              onClick={() => handleUpdate(storeId)}
+            >Update</Button>
+          </Link>
+          <Button type="primary" danger onClick={() => handleDelete(storeId)}>
+            Delete
+          </Button>
         </Space>
       ),
-    }
-
+    },
   ];
 
+  // DATA
   let data = [];
 
   // Nếu có data từ api => tạo data cho Table
   if (stores.length > 0) {
     data = stores.map((store) => {
       return {
-        "StoreID": store.storeId,
-        "StoreName": store.storeName,
-        "Location": store.location,
-        "Email": store.email,
-        "Status": store.status,
-        key: store.storeId
-      }
+        StoreID: store.storeId,
+        StoreName: store.storeName,
+        Location: store.location,
+        Email: store.email,
+        Status: store.status,
+        actions: store.storeId,
+        key: store.storeId,
+      };
     });
   }
-    // Handler for updating a store
-    const handleUpdate = (record) => {
-      console.log("Update", record);
-      // Add your update logic here
-    };
-  
-    // Handler for deleting a store
-    const handleDelete = (record) => {
-      console.log("Delete", record);
-      // Add your delete logic here
-    };
+  // Handler for updating a store
+  const handleUpdate = async (storeId) => {};
+
+  // Handler for deleting a store
+  const handleDelete = async (storeId) => {
+    // bởi vì Swal là file đợi => phải có await mới được
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (confirm.isConfirmed) {
+      console.log(`${DELETE_STORE_ID}${storeId}`);
+      const data = await patch(`${DELETE_STORE_ID}${storeId}`, {
+        storeId: storeId,
+      });
+
+      if (data) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    }
+  };
 
   return (
     <>

@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "3YNe5NQRx9aLbLl8TUX8sIb4FqqPSZZO0DIYfo52hW9WRBJeusGuOTd0unRb09kdZUBb9aBTiXFq+KoyHmXw4w==",
   "success": true,
   "projectFilePath": "D:\\Back_end\\Swp391\\Swp391.csproj",
+=======
+  "dgSpecHash": "6+cgi5JMb2Eg6KzGHawl9O/9DOwXvnvV1w8DsZD8CSHKZtjxb8I5C1hsF8MDy6fuGLeg6ioR2GFIZq/uZYpYBg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
+>>>>>>> 541614a28c489b76a9351ebaa0e08f7460a94df5
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
@@ -98,7 +104,11 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
+<<<<<<< HEAD
       "message": "Problem reading the cache file D:\\Back_end\\Swp391\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+=======
+      "message": "Problem reading the cache file C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+>>>>>>> 541614a28c489b76a9351ebaa0e08f7460a94df5
     }
   ]
 }

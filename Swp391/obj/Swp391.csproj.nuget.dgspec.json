@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "D:\\Back_end\\Swp391\\Swp391.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "D:\\Back_end\\Swp391\\Swp391.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
         "outputPath": "D:\\Back_end\\Swp391\\obj\\",
+=======
+    "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
+        "projectName": "Swp391",
+        "projectPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\obj\\",
+>>>>>>> 541614a28c489b76a9351ebaa0e08f7460a94df5
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

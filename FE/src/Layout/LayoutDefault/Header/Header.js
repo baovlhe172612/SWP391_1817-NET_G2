@@ -19,7 +19,7 @@ function Header({ tableId }) {
             <div className="col-6">
               <div className="header-top-left">
                 <span className="pronia-offer" >
-                  HELLO HELLO table {tableId}
+                  HELLO table {tableId}
                 </span>
               </div>
             </div>
@@ -44,7 +44,6 @@ function Header({ tableId }) {
         </div>
       </div>
 
-
       {/* Header Middle */}
       <div className="header-middle py-30">
         <div className="container">
@@ -52,7 +51,7 @@ function Header({ tableId }) {
             <div className="col-lg-12">
               <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                 <Link to="/">
-                  <img src="https://media.licdn.com/dms/image/C560BAQFRxbxHAl5oew/company-logo_200_200/0/1630668147018/fpt_corporation_logo?e=2147483647&v=beta&t=ikWPtbrtNHhHzJIg6_xdqFvTKXagGAEGpG1jubbqCzU" alt="Header Logo" />
+                  <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
                 </Link>
 
                 <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
@@ -93,7 +92,7 @@ function Header({ tableId }) {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/shop">Shop</Link>
+                        <Link to="/listProduct">Shop</Link>
                       </li>
 
                       <li>
@@ -127,7 +126,7 @@ function Header({ tableId }) {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/shop">Shop</Link>
+                        <Link to="/listProduct">Shop</Link>
                       </li>
 
                       <li>
@@ -150,18 +149,16 @@ function Header({ tableId }) {
 
 
 
-
       {/* <!-- Begin Main Header Area --> */}
       <header className="main-header-area">
 
         {/* ============== NAV ============== */}
 
-
         {/* ================== NAV AFTER SCROLL =============== */}
         <div className="header-sticky py-2 py-lg-0">
           <div className="container">
             <div className="header-nav position-relative">
-              <div className="row align-items-center">
+              {/* <div className="row align-items-center">
                 <div className="col-6">
                   <div className="header-top-left">
                     <span className="pronia-offer">
@@ -177,7 +174,7 @@ function Header({ tableId }) {
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="row align-items-center">
                 <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                   <Link to="/">
@@ -275,3 +272,4 @@ function Header({ tableId }) {
 }
 
 export default Header;
+
