@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swp391.Models;
 using Swp391.Service;
 
 namespace Swp391.Controllers
@@ -55,6 +56,17 @@ namespace Swp391.Controllers
             }
 
             return Ok(listProuctMin);
+        }
+
+
+        //trả về dữ liệu product với nhiều tiêu chí
+        [HttpGet("getProductByPageWithCondition")]
+        public IActionResult getProductWithCondition(int condition)
+        {
+
+            List<Product> listProductWithCondition = _service.getProductByPageAndCondition(condition);
+
+            return Ok(listProductWithCondition);
         }
 
         [HttpGet("getCountPageProduct")]
