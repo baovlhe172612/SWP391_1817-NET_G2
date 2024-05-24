@@ -54,7 +54,7 @@ function ProductDetail() {
                       <h2 className="breadcrumb-heading">Single Product</h2>
                       <ul>
                         <li>
-                          <a href="index.html">Home</a>
+                          <a href="/">Home</a>
                         </li>
                         <li>Single Product variable</li>
                       </ul>
@@ -131,11 +131,7 @@ function ProductDetail() {
                             <i className="pe-7s-like"></i>
                           </a>
                         </li>
-                        <li className="compare-btn-wrap">
-                          <a className="custom-circle-btn" href="compare.html">
-                            <i className="pe-7s-refresh-2"></i>
-                          </a>
-                        </li>
+                        
                       </ul>
                     </div>
                   </div>
