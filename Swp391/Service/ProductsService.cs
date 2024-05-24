@@ -30,10 +30,16 @@ namespace Swp391.Service
             return listProuctMin;
         }
 
+        public List<Product> getFourProductMax()
+        {
+            var listProuctMin = _repo.getAllProduct().OrderBy(product => product.Price).Take(4).ToList();
+            return listProuctMin;
+        }
+
         /// <summary>
         /// hàm trả về 4 sản phẩm mới nhất
         /// </summary>
-        
+
         /// <returns>trả về 4 sản phẩm mới nhất</returns>
 
         public List<Product> getFourProductNew()
