@@ -17,6 +17,7 @@ namespace Swp391.Controllers
         {
             return Ok(_service.GetAllAccountDtos());
         }
+
         //lấy account bằng ID
         [HttpGet("{id}")]
         public IActionResult GetAccountById(int id)
@@ -64,9 +65,28 @@ namespace Swp391.Controllers
 
             return Ok(); // Trả về mã trạng thái 200 OK sau khi tạo account thành công
         }
-       
-        
 
+
+        //phương thức này dùng để lấy toàn bộ account
+        [HttpGet("/employee")]
+        public IActionResult getAllAccountEmployee()
+        {
+            return Ok(_service.GetAllAccountEmployeeDtos());
+        }
+
+        //lấy account bằng ID
+        [HttpGet("/employee/{id}")]
+        public IActionResult GetAccountEmployeeById(int id)
+        {
+            var accountDto = _service.getAccountEmployeeId(id);
+
+            if (accountDto == null)
+            {
+                return NotFound(); // Trả về mã trạng thái 404 Not Found nếu không tìm thấy account với ID tương ứng
+            }
+
+            return Ok(accountDto); // Trả về account thông qua đối tượng DTO
+        }
 
     }
 }
