@@ -14,7 +14,7 @@ namespace Swp391.Controllers
         /// <summary>
         /// Phuơng thức POST của api/stores
         /// </summary>
-        [HttpPost]
+        [HttpPost("POST")]
         public IActionResult createStore(Store store)
         {
             var result = storeService.createStoreService(store);
@@ -86,6 +86,30 @@ namespace Swp391.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// Phuơng thức GET của api/stores => Get Store theo id
+        /// </summary>
+        [HttpPatch("PATCH")]
+        public IActionResult UpdateStore(Store store) {
+            var storeNew = storeService.UpdateStoreAdmin(store);
+
+            //
+            if (storeNew != null)
+            {
+                return Ok(store);
+
+            }
+            else
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Data = store
+                });
+            }
+        }
+
     }
 
 }
