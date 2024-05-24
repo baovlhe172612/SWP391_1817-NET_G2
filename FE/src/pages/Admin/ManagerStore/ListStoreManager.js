@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Space, Table, Tag, Button, Modal, message } from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import UpdateStoreManager from './UpdateStoreManager';
-import { get, deleteItem } from "../../../helpers/API.helper";
-
-const { confirm } = Modal;
+import React, { useEffect, useState } from "react";
+import { Space, Table, Tag, message } from "antd";
+import UpdateIsDelete from "./UpdateIsDelete";
+import { get } from "../../../helpers/API.helper";
+import UpdateStoreManager from "./UpdateStoreManager";
+import {Link} from "react-router-dom"
 
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
@@ -86,8 +85,12 @@ function ListStoreManager() {
       key: "actions",
       render: (_, record) => {
         return (
-          <Space size="middle">         
-            <DeleteStoreManager record={record} onDelete={handleDelete} /> {/* Pass the record to the delete component */}
+          <Space size="middle">
+            {/* <UpdateStoreManager /> */}
+            <Link to={`edit/${record.accountId}`}>
+              Update123
+            </Link>
+            <UpdateIsDelete record={record} onReload={onReload}/>          
           </Space>
         );
       },
