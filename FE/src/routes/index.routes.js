@@ -26,6 +26,7 @@ import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";
+import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";
 import ListQr from "../pages/Admin/ListQrCode/ListQr";
@@ -168,18 +169,28 @@ const routes = [
             ],
           },
           {
-            path: "topping",
+            path: "feedback",
             children: [
               {
                 path: "",
-                element: <ListTopping />,
+                element: <ListFeedBack />,
               },
-              {
-                path: "create",
-                element: <CreateTopping />,
-              },
+              
             ],
           },
+          // {
+          //   path: "topping",
+          //   children: [
+          //     {
+          //       path: "",
+          //       element: <ListTopping />,
+          //     },
+          //     {
+          //       path: "create",
+          //       element: <CreateTopping />,
+          //     },
+          //   ],
+          // },
           {
             path: "orders",
             children: [

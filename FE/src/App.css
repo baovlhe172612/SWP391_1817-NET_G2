@@ -2061,8 +2061,8 @@ blockquote p {
 }
 
 .sticky .main-nav > ul > li > a {
-  padding-top: 25px;
-  padding-bottom: 20px;
+  /* padding-top: 25px;
+  padding-bottom: 20px; */
 }
 
 /*----------------------------------------*/

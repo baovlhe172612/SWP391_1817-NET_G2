@@ -8,6 +8,7 @@ import {
   ShoppingCartOutlined,
   ProductOutlined,
   HeatMapOutlined,
+  MenuOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
@@ -116,20 +117,32 @@ function MenuSider() {
       ],
     },
     {
-      key: "manager toping",
-      label: "Toping",
-      icon: <HeatMapOutlined />,
+      key: "feedback ",
+      label: "Feedback",
+      icon: <MenuOutlined />,
       children: [
         {
-          key: "toping/",
-          label: <Link to="topping/">List Toping</Link>,
+          key: "feedback/listFeedbacks",
+          label: <Link to="feedback/">List Feedback</Link>,
         },
-        {
-          key: "toping/create",
-          label: <Link to="topping/create">Create Toping</Link>,
-        },
+       
       ],
     },
+    // {
+    //   key: "manager toping",
+    //   label: "Toping",
+    //   icon: <HeatMapOutlined />,
+    //   children: [
+    //     {
+    //       key: "toping/",
+    //       label: <Link to="topping/">List Toping</Link>,
+    //     },
+    //     {
+    //       key: "toping/create",
+    //       label: <Link to="topping/create">Create Toping</Link>,
+    //     },
+    //   ],
+    // },
     {
       key: "manager orders",
       label: "Orders",
