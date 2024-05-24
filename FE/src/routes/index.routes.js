@@ -26,10 +26,12 @@ import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";
-import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";
 import ListQr from "../pages/Admin/ListQrCode/ListQr";
+import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
+import UpdateStore from "../pages/Admin/Store/UpdateStore";
+import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 
 const routes = [
   {
@@ -57,7 +59,7 @@ const routes = [
         element: <Cart />,
       },
       {
-        path: "shop",
+        path: "listproduct",
         element: <ListProduct />,
       },
       {
@@ -101,6 +103,10 @@ const routes = [
                 path: "create",
                 element: <CreateStore />,
               },
+              {
+                path: "edit/:id",
+                element: <UpdateStore />,
+              },
             ],
           },
           {
@@ -114,6 +120,10 @@ const routes = [
                 path: "create",
                 element: <CreateStoreManager />,
               },
+              {
+                path: "edit/:id",
+                element: <UpdateStoreManager />,
+              }
             ],
           },
           {
