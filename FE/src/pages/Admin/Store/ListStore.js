@@ -43,7 +43,7 @@ function ListStore() {
       dataIndex: "Status",
       key: "Status",
       render: (status) =>
-        status == 0 ? (
+        status == 1 ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
@@ -80,7 +80,7 @@ function ListStore() {
         StoreName: store.storeName,
         Location: store.location,
         Email: store.email,
-        Status: store.status,
+        Status: store.isDelete,
         actions: store.storeId,
         key: store.storeId,
       };
