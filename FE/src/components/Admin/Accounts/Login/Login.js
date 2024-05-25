@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Form, Input, Button, Checkbox, message } from "antd";
@@ -8,16 +8,20 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Login.scss";
 
 import { get } from "../../../../helpers/API.helper";
-import { GET_ACCOUNT_BY_AUTH, GET_ACCOUNT_BY_TOKEN } from "../../../../helpers/APILinks";
-import {alear_success_login } from "../../../../helpers/Alert.helper";
+import {
+  GET_ACCOUNT_BY_AUTH,
+  GET_ACCOUNT_BY_TOKEN,
+} from "../../../../helpers/APILinks";
+import { alear_success_login } from "../../../../helpers/Alert.helper";
 import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
+import { setSessionItem } from "../../../../helpers/Session.helper";
 
 function Login() {
   const navigate = useNavigate();
   // dispatch
   const dispatch = useDispatch();
-  
+
   // Check token
   const token = getCookie("token");
   // không được dùng async await trong useEffect
@@ -26,15 +30,21 @@ function Login() {
       try {
         const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
         if (accountByToken) {
-          // console.log(accountByToken);
           // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // move => admin
-          navigate("/admin");
+          // set Session Store cho Account
+          setSessionItem("account", accountByToken);
+
+          if (accountByToken.roleId == 3) {
+            navigate("/admin/listTable");
+          } else {
+            // move => admin
+            navigate("/admin/dashboard");
+          }
         }
       } catch (error) {
-        console.log("Không có token");
+        // console.log("Không có token");
         navigate("/admin/login");
       }
     };
@@ -47,20 +57,19 @@ function Login() {
       navigate("/admin/login");
     }
   }, []);
-  
 
   // Đăng nhập
   const onFinish = async (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     try {
       // call API
       const dataAuthen = await get(
         `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
-      console.log(dataAuthen)
-      if(dataAuthen) {
+      // console.log(dataAuthen);
+      if (dataAuthen) {
         // message login success
-        alear_success_login("Đăng nhập thành công", dataAuthen.fullName)
+        alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
 
         // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
@@ -69,7 +78,7 @@ function Login() {
         dispatch(loginActions(true));
 
         // tự động chuyển sang trang dashboard
-        navigate("/admin/")
+        navigate("/admin/");
       } else {
         // message login false
         message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
@@ -119,7 +128,11 @@ function Login() {
                 />
               </Form.Item>
 
-              <Form.Item name="remember" valuePropName="checked" initialValue={true}>
+              <Form.Item
+                name="remember"
+                valuePropName="checked"
+                initialValue={true}
+              >
                 <Checkbox>Remember Me</Checkbox>
               </Form.Item>
               <Form.Item>

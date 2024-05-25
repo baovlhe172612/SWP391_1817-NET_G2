@@ -1,10 +1,11 @@
-import {  Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { get } from "../../helpers/API.helper";
 import { GET_ACCOUNT_BY_TOKEN } from "../../helpers/APILinks";
 import { getCookie } from "../../helpers/Cookie.helper";
 import { loginActions } from "../../actions/Login";
+import { setSessionItem } from "../../helpers/Session.helper";
 
 function PrivateRouter() {
   // useSelector: nhận và trả hết tất cả các reducers có trong ALLREDUCER (STORE)
@@ -19,12 +20,18 @@ function PrivateRouter() {
       try {
         const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
         if (accountByToken) {
-          console.log(accountByToken);
           // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // move => admin
-          navigate("/admin");
+          // set Session Store cho Account
+          setSessionItem("account", accountByToken);
+
+          if (accountByToken.roleId == 3) {
+            navigate("/admin/");
+          } else {
+            // move => admin
+            navigate("/admin/dashboard");
+          }
         }
       } catch (error) {
         console.log("Không có token");

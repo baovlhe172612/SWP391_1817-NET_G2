@@ -16,7 +16,7 @@ import MenuSider from "../../components/Admin/Menu/index";
 import { Link, Outlet } from "react-router-dom";
 import { Footer } from "antd/es/layout/layout";
 import Notify from "../../components/Admin/Notify";
-import { logoutActions } from "../../actions/Login";
+import { getSessionItem } from "../../helpers/Session.helper";
 
 const { Sider, Content } = Layout;
 
@@ -29,6 +29,7 @@ function LayoutDefaultAdmin() {
     if (!login) {
       setCollapsed(!collapsed);
     }
+
   }, [login]);
 
   return (

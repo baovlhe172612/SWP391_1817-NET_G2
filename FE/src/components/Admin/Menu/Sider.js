@@ -1,7 +1,4 @@
-import { Menu } from "antd";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   DashboardOutlined,
@@ -14,10 +11,14 @@ import {
   ProductOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
+import { getSessionItem } from "../../../helpers/Session.helper";
+import { hasRole } from "../../../helpers/CheckRole";
 
-function MenuSider() {
+const itemsSider = () => {
+  const account = getSessionItem("account");
+
   const items = [
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "DashBoard",
       icon: <DashboardOutlined />,
       label: "DashBoard",
@@ -26,9 +27,9 @@ function MenuSider() {
           key: "DashBoard1",
           label: <Link to="/admin/dashboard">DashBoard All</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "Store",
       label: "Store",
       icon: <AppstoreAddOutlined />,
@@ -41,9 +42,9 @@ function MenuSider() {
           key: "store/create",
           label: <Link to="/admin/store/create">Create Store</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager store",
       label: "Store's Manager",
       icon: <UserAddOutlined />,
@@ -54,13 +55,11 @@ function MenuSider() {
         },
         {
           key: "manager/create",
-          label: (
-            <Link to="/admin/manager-store/create">Create Store's Manager</Link>
-          ),
+          label: <Link to="/admin/manager-store/create">Create Store's Manager</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner", "Employee"]) && {
       key: "manager table",
       label: "Table",
       icon: <TableOutlined />,
@@ -69,13 +68,13 @@ function MenuSider() {
           key: "table/listStore",
           label: <Link to="/admin/table/">List Table</Link>,
         },
-        {
+        hasRole(account.roleName, ["Manager", "Owner"]) && {
           key: "table/create",
           label: <Link to="/admin/table/create">Create Table</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager employee",
       label: "Employee",
       icon: <UserOutlined />,
@@ -88,9 +87,9 @@ function MenuSider() {
           key: "employee/create",
           label: <Link to="/admin/employee/create">Create Employee</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager category",
       label: "Category",
       icon: <RadarChartOutlined />,
@@ -103,9 +102,9 @@ function MenuSider() {
           key: "category/create",
           label: <Link to="/admin/category/create">Create Category</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager product",
       label: "Product",
       icon: <ProductOutlined />,
@@ -118,10 +117,10 @@ function MenuSider() {
           key: "product/create",
           label: <Link to="/admin/product/create">Create Product</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
-      key: "feedback",
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
+      key: "feedback ",
       label: "Feedback",
       icon: <MenuOutlined />,
       children: [
@@ -129,9 +128,9 @@ function MenuSider() {
           key: "feedback/listFeedbacks",
           label: <Link to="/admin/feedback/">List Feedback</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner", "Employee"]) && {
       key: "manager orders",
       label: "Orders",
       icon: <ShoppingCartOutlined />,
@@ -140,9 +139,9 @@ function MenuSider() {
           key: "orders/",
           label: <Link to="/admin/orders/">List orders</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    {
+    hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager qrs",
       label: "List Qrs",
       icon: <ShoppingCartOutlined />,
@@ -151,21 +150,11 @@ function MenuSider() {
           key: "listQr/",
           label: <Link to="/admin/listQr/">List QR</Link>,
         },
-      ],
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
   ];
 
-  return (
-    <>
-      <Menu
-        mode="inline"
-        items={Array.isArray(items) ? items : []}
-        defaultOpenKeys={
-          ["DashBoard1"] // account.roleId == 1 ? ["table/listStore"] :
-        }
-        defaultSelectedKeys={["/"]}
-      />
-    </>
-  );
-}
-export default MenuSider;
+  return items;
+};
+
+export default itemsSider;
