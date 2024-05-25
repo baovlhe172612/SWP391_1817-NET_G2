@@ -140,7 +140,6 @@ const routes = [
                 element: <Dashboard />,
               },
               {
-<<<<<<< HEAD
                 path: "table",
                 children: [
                   {
@@ -206,11 +205,6 @@ const routes = [
                   },
                 ],
               },
-=======
-                path: "create",
-                element: <CreateStoreManager />,
-              },         
->>>>>>> main
             ],
           },
           // ROLE OF EMPLOYEE
