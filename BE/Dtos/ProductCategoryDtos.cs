@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Swp391.Dtos
+namespace swp391.Dtos
 {
     public class ProductCategoryDtos
     {
