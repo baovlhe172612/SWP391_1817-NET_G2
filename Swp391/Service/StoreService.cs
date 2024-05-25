@@ -14,6 +14,8 @@ namespace Swp391.Service
         /// hàm trả về store mới được tạo
         /// </summary>
         private StoreRepo storeRepo = new StoreRepo();
+       AccountRepo _accountRepo= new AccountRepo();
+
         public Store createStoreService(Store store)
         {
             storeRepo.createStore(store);
@@ -32,7 +34,9 @@ namespace Swp391.Service
 
         // CS1002: ; => LỖI THIẾU DẤU ;
 
-        // Update Store theo service
+        /// <summary>
+        /// hàm update isDelete store
+        /// </summary>
         public Store UpdateStoreService(int id, int isDelete)
         {
             // Tìm xem có tồn tại Store theo id ko ?
@@ -48,6 +52,27 @@ namespace Swp391.Service
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// hàm update all store 
+        /// </summary>
+        public Store UpdateStoreAdmin(Store store) {
+            var accountExist =  _accountRepo.getAccountById(store.AccountId);
+
+            if(accountExist != null) {
+                try
+                {
+                    storeRepo.UpdateStoreAdminRepo(store);
+                    return store;
+                }
+                catch (System.Exception)
+                {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
     }
 }
