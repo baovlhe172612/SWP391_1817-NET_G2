@@ -1,30 +1,46 @@
 import React from "react";
+import {useDispatch} from 'react-redux'
+import { Link, useNavigate } from "react-router-dom";
+
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
 import "./Login.scss";
-import { Link, useNavigate } from "react-router-dom";
+
 import { get } from "../../../../helpers/API.helper";
 import { GET_ACCOUNT_BY_AUTH } from "../../../../helpers/APILinks";
 import {alear_success_login } from "../../../../helpers/Alert.helper";
+import { setCookie } from "../../../../helpers/Cookie.helper";
+import { loginActions } from "../../../../actions/Login";
 
 function Login() {
   const navigate = useNavigate();
+  // dispatch
+  const dispatch = useDispatch();
 
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
+      // call API
       const dataAuthen = await get(
         `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
-
       console.log(dataAuthen)
       if(dataAuthen) {
+        // message login success
         alear_success_login("Đăng nhập thành công", dataAuthen.fullName)
+
+        // set TOKEN for login again
+        setCookie("token", dataAuthen.token, 10);
+
+        // biến islogin
+        dispatch(loginActions(true));
       } else {
+        // message login false
         message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
       }
     } catch (error) {
-      message.error(`Đăng nhập thất bại:  Sai mk hoặc tk`);
+      message.error(`Đăng nhập thất bại:  Server False`);
       // alear_false("Đăng nhập thất bại", "False");
     }
   };
