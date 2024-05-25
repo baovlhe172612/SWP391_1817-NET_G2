@@ -81,21 +81,6 @@ function CreateStore() {
         </Form.Item>
 
         <Form.Item
-          name="accountId"
-          label="AccoutName"
-          rules={[{ required: true, message: "Please select the utilities!" }]}
-        >
-          <Select allowClear placeholder="Select your account">
-            {Accounts.length > 0 &&
-              Accounts.map((account) => (
-                <Option
-                  value={`${account.accountId}`}
-                >{`${account.userName}`}</Option>
-              ))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item
           name="isDelete"
           label="Switch"
           valuePropName="checked"
@@ -103,7 +88,7 @@ function CreateStore() {
         >
           <Switch
             checkedChildren="active"
-            unCheckedChildren="In Active"
+            unCheckedChildren="InActive"
             defaultChecked
           />
         </Form.Item>
