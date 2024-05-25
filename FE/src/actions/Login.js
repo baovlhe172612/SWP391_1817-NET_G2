@@ -6,3 +6,10 @@ export const loginActions = (payload) => {
         payload: payload,
     }
 }
+
+export const logoutActions = (payload) => {
+    return {
+        type: "LOGOUT",
+        payload: payload,
+    }
+}

@@ -31,6 +31,7 @@ import Register from "../components/Admin/Accounts/Register/Register";
 import ListQr from "../pages/Admin/ListQrCode/ListQr";
 import UpdateStore from "../pages/Admin/Store/UpdateStore";
 import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
+import Logout from "../components/Admin/Accounts/Logout/Logout";
 
 const routes = [
   {
@@ -87,6 +88,10 @@ const routes = [
         
         element: <PrivateRouter />,
         children: [
+          {
+            path: "/admin/logout",
+            element: <Logout />,
+          },
           {
             path: "/admin/",
             element: <Dashboard />,
