@@ -6,7 +6,7 @@ using Swp391.Models;
 using Swp391.Repository;
 
 namespace Swp391.Service
-{
+{   
     public class StoreService
     {
         private SwpfinalContext _context = new SwpfinalContext();
@@ -14,6 +14,13 @@ namespace Swp391.Service
         /// hàm trả về store mới được tạo
         /// </summary>
         private StoreRepo storeRepo = new StoreRepo();
+        
+       AccountRepo _accountRepo= new AccountRepo();
+
+        public List<Store> getAllStore()
+        {
+            return storeRepo.getAllStore();
+        }
         public Store createStoreService(Store store)
         {
             storeRepo.createStore(store);
@@ -32,7 +39,9 @@ namespace Swp391.Service
 
         // CS1002: ; => LỖI THIẾU DẤU ;
 
-        // Update Store theo service
+        /// <summary>
+        /// hàm update isDelete store
+        /// </summary>
         public Store UpdateStoreService(int id, int isDelete)
         {
             // Tìm xem có tồn tại Store theo id ko ?
@@ -49,5 +58,22 @@ namespace Swp391.Service
 
             return null;
         }
+
+        /// <summary>
+        /// hàm update all store 
+        /// </summary>
+        public void UpdateStore(Store store)
+        {
+            try
+            {
+                storeRepo.UpdateStore(store);
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception("Update fail: " + ex.Message);
+            }
+        }
+
+
     }
 }

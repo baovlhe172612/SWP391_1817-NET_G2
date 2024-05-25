@@ -14,7 +14,8 @@ namespace Swp391.Controllers
         /// <summary>
         /// Phuơng thức POST của api/stores
         /// </summary>
-        [HttpPost]
+        ///       
+        [HttpPost("POST")]
         public IActionResult createStore(Store store)
         {
             var result = storeService.createStoreService(store);
@@ -63,6 +64,25 @@ namespace Swp391.Controllers
             }
         }
 
+        [HttpPatch("Update/{id}")]
+        public IActionResult Updatestore([FromBody] Store store)
+        {
+            try
+            {
+                storeService.UpdateStore(store);
+                return Ok(store);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Error = ex.Message
+                });
+            }
+        }
+
+
         /// <summary>
         /// Phuơng thức GET của api/stores => Get Store theo id
         /// </summary>
@@ -86,6 +106,14 @@ namespace Swp391.Controllers
                 });
             }
         }
+        [HttpGet]
+        public IActionResult GetAllStore()
+        {                     
+            return Ok(storeService.getAllStore());
+        }
+
+
+
     }
 
 }

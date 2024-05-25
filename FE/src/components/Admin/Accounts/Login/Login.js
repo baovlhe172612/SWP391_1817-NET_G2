@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-// import "./login.css";
+import "./Login.scss";
 import { Link } from "react-router-dom";
 
 function Login() {
@@ -12,20 +12,6 @@ function Login() {
     <>
       <div className="container">
         <div className="signin-content">
-          {/* IMAGE */}
-          <div className="signin-image">
-            <figure>
-              <img
-                src="https://upload.wikimedia.org/wikipedia/vi/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg"
-                alt="sign in"
-              />
-            </figure>
-            {/* LINK */}
-            <Link className="signup-image-link" to="/admin/register">
-              Create an account
-            </Link>
-          </div>
-
           {/* FORM */}
           <div className="signin-form">
             <h2 className="form-title">Sign in</h2>
@@ -71,6 +57,20 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
+          </div>
+
+          {/* IMAGE */}
+          <div className="signin-image">
+            <figure>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/vi/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg"
+                alt="sign in"
+              />
+            </figure>
+            {/* LINK */}
+            <Link className="signup-image-link" to="/admin/register">
+              Create an account
+            </Link>
           </div>
         </div>
       </div>

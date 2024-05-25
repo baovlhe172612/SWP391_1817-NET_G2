@@ -64,6 +64,12 @@ public partial class SwpfinalContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Accounts)
+             .HasForeignKey(d => d.StoreId)
+             .OnDelete(DeleteBehavior.ClientSetNull)
+             .HasConstraintName("FK_Account_Store");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -211,12 +217,8 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Store");
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
-            entity.Property(e => e.AccountId).HasColumnName("AccountID");
-
-            entity.HasOne(d => d.Account).WithMany(p => p.Stores)
-                .HasForeignKey(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Store_Account");
+            entity.Property(e => e.StoreName).IsRequired(); 
+           
         });
 
         modelBuilder.Entity<Table>(entity =>

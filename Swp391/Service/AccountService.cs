@@ -12,9 +12,9 @@ namespace Swp391.Service
         /// </summary>
 
         /// <returns>trả về toàn bộ account + roleName</returns>
-        public List<AccountDtos> GetAllAccountDtos()
+        public List<AccountDtos> GetAllAccounts_manager()
         {
-            return _accountRepo.GetAllAccountsAsync();           
+            return _accountRepo.GetAllAccounts_manager();           
         }
 
         // Các phương thức khác của AccountService
