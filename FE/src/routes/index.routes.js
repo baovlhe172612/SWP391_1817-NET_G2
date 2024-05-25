@@ -30,6 +30,8 @@ import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";
 import ListQr from "../pages/Admin/ListQrCode/ListQr";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
+import UpdateStore from "../pages/Admin/Store/UpdateStore";
+import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 
 const routes = [
   {
@@ -57,7 +59,7 @@ const routes = [
         element: <Cart />,
       },
       {
-        path: "shop",
+        path: "listproduct",
         element: <ListProduct />,
       },
       {
@@ -100,6 +102,10 @@ const routes = [
               {
                 path: "create",
                 element: <CreateStore />,
+              },
+              {
+                path: "edit/:id",
+                element: <UpdateStore />,
               },
             ],
           },
@@ -173,18 +179,28 @@ const routes = [
             ],
           },
           {
-            path: "topping",
+            path: "feedback",
             children: [
               {
                 path: "",
-                element: <ListTopping />,
+                element: <ListFeedBack />,
               },
-              {
-                path: "create",
-                element: <CreateTopping />,
-              },
+              
             ],
           },
+          // {
+          //   path: "topping",
+          //   children: [
+          //     {
+          //       path: "",
+          //       element: <ListTopping />,
+          //     },
+          //     {
+          //       path: "create",
+          //       element: <CreateTopping />,
+          //     },
+          //   ],
+          // },
           {
             path: "orders",
             children: [

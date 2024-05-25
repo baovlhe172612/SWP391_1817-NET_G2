@@ -48,8 +48,8 @@ export const post = async (url, values) => {
 
 export const deleteItem = async (url) => {
   const deleteMethod = {
-    method: "DELETE",
-    mode: "cors",
+    method: "DELETE", // Method itself
+    mode: "cors", // Chế độ CORS
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
     },

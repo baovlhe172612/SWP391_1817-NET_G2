@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj": {}
+    "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj": {
+    "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
+        "projectUniqueName": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
         "projectName": "Swp391",
-        "projectPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\Swp391.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\SWP391_1817-NET_G2\\Swp391\\obj\\",
+        "projectPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\Swp391.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\PRN221_SeftStudy\\Back-end\\Swp391\\Swp391\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -101,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
