@@ -107,22 +107,10 @@ function ListStoreManager() {
   ];
 
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d6be381b0b99498919edac076e6bc40b4117e906
     <Table 
       columns={columns} 
       dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
     />
-<<<<<<< HEAD
-=======
-    <>
-      <Table columns={columns} dataSource={AccountManager} pagination={false}/>
-    </>
->>>>>>> origin/trong
-=======
->>>>>>> d6be381b0b99498919edac076e6bc40b4117e906
   );
 }
 
