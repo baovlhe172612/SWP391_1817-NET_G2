@@ -1,12 +1,32 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { get } from "../../../../helpers/API.helper";
+import { GET_ACCOUNT_BY_AUTH } from "../../../../helpers/APILinks";
+import {alear_success_login } from "../../../../helpers/Alert.helper";
 
 function Login() {
-  const onFinish = (values) => {
+  const navigate = useNavigate();
+
+  const onFinish = async (values) => {
     console.log("Success:", values);
+    try {
+      const dataAuthen = await get(
+        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
+      );
+
+      console.log(dataAuthen)
+      if(dataAuthen) {
+        alear_success_login("Đăng nhập thành công", dataAuthen.fullName)
+      } else {
+        message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
+      }
+    } catch (error) {
+      message.error(`Đăng nhập thất bại:  Sai mk hoặc tk`);
+      // alear_false("Đăng nhập thất bại", "False");
+    }
   };
   return (
     <>
@@ -48,7 +68,7 @@ function Login() {
                 />
               </Form.Item>
 
-              <Form.Item name="disabled" valuePropName="checked">
+              <Form.Item name="remember" valuePropName="checked" initialValue={true}>
                 <Checkbox>Remember Me</Checkbox>
               </Form.Item>
               <Form.Item>
