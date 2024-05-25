@@ -171,3 +171,4 @@ $RECYCLE.BIN/
 # SQL Server files
 *.mdf
 *.ldf
+obj
