@@ -118,7 +118,7 @@ const routes = [
               {
                 path: "create",
                 element: <CreateStoreManager />,
-              },
+              },         
             ],
           },
           {

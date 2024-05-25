@@ -7,15 +7,17 @@ import Swal from "sweetalert2";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
+  const [updated, setUpdated] = useState(false);
 
   // lấy qua API
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(STORES_DTOS);
+        const data = await get("http://localhost:5264/api/stores");
 
         if (data) {
           setStores(data);
+          console.log(data);
         }
       } catch (error) {
         console.log("err in ListStore", error);
@@ -24,7 +26,7 @@ function ListStore() {
     };
 
     fetchApi();
-  }, []);
+  }, [updated]);
 
   // COLUMS
   const columns = [
@@ -56,10 +58,7 @@ function ListStore() {
       render: (storeId) => (
         <Space size="middle">
           <Link to={`/admin/store/edit/${storeId}`}>
-            <Button
-              type="primary"
-              onClick={() => handleUpdate(storeId)}
-            >Update</Button>
+            <Button type="primary">Update</Button>
           </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
             Delete
@@ -80,15 +79,13 @@ function ListStore() {
         StoreName: store.storeName,
         Location: store.location,
         Email: store.email,
-        Status: store.status,
+        UserName: store.userName,
+        Status: store.isDelete,
         actions: store.storeId,
         key: store.storeId,
       };
     });
   }
-  // Handler for updating a store
-  const handleUpdate = async (storeId) => {};
-
   // Handler for deleting a store
   const handleDelete = async (storeId) => {
     // bởi vì Swal là file đợi => phải có await mới được
@@ -104,23 +101,26 @@ function ListStore() {
 
     if (confirm.isConfirmed) {
       console.log(`${DELETE_STORE_ID}${storeId}`);
-      const data = await patch(`${DELETE_STORE_ID}${storeId}`, {
+      const dataDelete = await patch(`${DELETE_STORE_ID}${storeId}`, {
         storeId: storeId,
       });
 
-      if (data) {
+      if (dataDelete) {
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
           icon: "success",
         });
+
+        // load lại data
+        setUpdated(!updated);
       }
     }
   };
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} pagination={false} />
     </>
   );
 }
