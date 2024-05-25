@@ -35,6 +35,9 @@ function Login() {
 
         // biến islogin
         dispatch(loginActions(true));
+
+        // tự động chuyển sang trang dashboard
+        navigate("/admin/")
       } else {
         // message login false
         message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);

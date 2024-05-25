@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Layout } from "antd";
 
 import "./LayoutDefault.css";
@@ -16,12 +17,12 @@ import Notify from "../../components/Admin/Notify";
 const { Sider, Content } = Layout;
 
 function LayoutDefaultAdmin() {
-  const [collapsed, setCollapsed] = useState(false);
-  const login = true;
+  const [collapsed, setCollapsed] = useState(true);
+  const login = useSelector((state) => state.LoginReducer);
 
   useEffect(() => {
     if (!login) {
-      setCollapsed(true);
+      setCollapsed(!collapsed);
     }
   }, [login]);
 
@@ -62,9 +63,14 @@ function LayoutDefaultAdmin() {
 
         {/* Layout */}
         <Layout>
-          <Sider className="slider" collapsed={collapsed} theme="light">
-          {login ? <MenuSider /> : <></>}
-          </Sider>
+          {/* login == true => mới có sider */}
+          {login ? (
+            <Sider className="slider" collapsed={collapsed} theme="light">
+              {<MenuSider />}
+            </Sider>
+          ) : (
+            <></>
+          )}
           <Content className="content">
             <Outlet />
           </Content>
