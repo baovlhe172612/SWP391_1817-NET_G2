@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, Tag, message } from "antd";
 import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
-import UpdateStoreManager from "./UpdateStoreManager";
-import {Link} from "react-router-dom"
-
+import UpdateStatus from "./UpdateStatus";
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
 
@@ -26,6 +24,7 @@ function ListStoreManager() {
   const onReload = () => {
     fetchApi();
 };
+
   const columns = [
     {
       title: "AccountID",
@@ -66,17 +65,22 @@ function ListStoreManager() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => {
+      render: (status, record) => {
         const statusMap = {
           1: { text: "Active", color: "green" },
-          0: { text: "Inactive", color: "red" },
+          0: { text: "Inactive", color: "red" }
         };
         const { text, color } = statusMap[status] || {
           text: "Unknown",
-          color: "gray",
+          color: "gray"
         };
-        return <Tag color={color}>{text}</Tag>;
-      },
+    
+        return (
+          <Button onClick={() => UpdateStatus(record,onReload)}>
+            <Tag color={color}>{text}</Tag>
+          </Button>
+        );
+      }
     },
     {
       title: "Role Name",
@@ -88,11 +92,7 @@ function ListStoreManager() {
       key: "actions",
       render: (_, record) => {
         return (
-          <Space size="middle">
-            {/* <UpdateStoreManager /> */}
-            <Link to={`edit/${record.accountId}`}>
-              Update123
-            </Link>
+          <Space size="middle">                     
             <UpdateIsDelete record={record} onReload={onReload}/>          
           </Space>
         );

@@ -29,7 +29,6 @@ import Blog from "../pages/Client/Blog/Blog";
 import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";
 import ListQr from "../pages/Admin/ListQrCode/ListQr";
-import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import UpdateStore from "../pages/Admin/Store/UpdateStore";
 import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 
@@ -119,11 +118,7 @@ const routes = [
               {
                 path: "create",
                 element: <CreateStoreManager />,
-              },
-              {
-                path: "edit/:id",
-                element: <UpdateStoreManager />,
-              }
+              },         
             ],
           },
           {

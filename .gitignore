@@ -19,4 +19,4 @@
 
 # Explicitly ignore bin and obj directories
 bin/
-obj/
+obj/c
