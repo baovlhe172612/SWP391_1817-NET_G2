@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Layout } from "antd";
+import { Layout, Button } from "antd";
 
 import "./LayoutDefault.css";
 import logo from "../../assets/images/logo/dark.png";
@@ -8,6 +8,9 @@ import {
   SearchOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import MenuSider from "../../components/Admin/Menu/index";
 import { Outlet } from "react-router-dom";
@@ -56,7 +59,43 @@ function LayoutDefaultAdmin() {
             </div>
 
             <div className="header__nav-right">
-              <Notify />
+              {login ? (
+                <Button
+                  type="primary"
+                  icon={<UserOutlined />}
+                  style={{
+                    margin: "0 8px",
+                    backgroundColor: "#abd373",
+                    borderColor: "#abd373",
+                  }}
+                >
+                  User
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  icon={<LoginOutlined />}
+                  style={{ margin: "0 8px" }}
+                >
+                  Login
+                </Button>
+              )}
+              <span>
+                <Button
+                  type="primary"
+                  icon={<LogoutOutlined />}
+                  style={{
+                    margin: "0 8px",
+                    backgroundColor: "#ff4d4f",
+                    borderColor: "#ff4d4f",
+                  }}
+                >
+                  Logout
+                </Button>
+              </span>
+              <span>
+                <Notify />
+              </span>
             </div>
           </div>
         </header>
