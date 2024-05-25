@@ -8,7 +8,7 @@ function ListStoreManager() {
 
   const fetchApi = async () => {
     try {
-      const data = await get("http://localhost:5264/api/Account");     
+      const data = await get("http://localhost:5264/api/Account/manager");     
       setAccountManager(data);
     } catch (error) {
       message.error("Error fetching accounts");
