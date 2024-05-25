@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Space, Table, Tag, message } from "antd";
-// import UpdateIsDelete from "./UpdateIsDelete";
+import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
-// import UpdateStoreManager from "./UpdateStoreManager";
+import UpdateStoreManager from "./UpdateStoreManager";
 import {Link} from "react-router-dom"
 
 function ListStoreManager() {
@@ -93,7 +93,7 @@ function ListStoreManager() {
             <Link to={`edit/${record.accountId}`}>
               Update123
             </Link>
-            {/* <UpdateIsDelete record={record} onReload={onReload}/>           */}
+            <UpdateIsDelete record={record} onReload={onReload}/>          
           </Space>
         );
       },

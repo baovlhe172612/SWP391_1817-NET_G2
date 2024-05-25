@@ -4,17 +4,17 @@ import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 
 function ListEmployee() {
-  const [AccountManager, setAccountManager] = useState([]);
+  const [AccountEmployee, setAccountEmployee] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const data = await get(LIST_Employee);
         //
-        setAccountManager(data);
+        setAccountEmployee(data);
       } catch (error) {
         console.log("Err tại ListStoreManager", error);
-        setAccountManager([]);
+        setAccountEmployee([]);
       }
     };
 
@@ -87,11 +87,11 @@ function ListEmployee() {
     },
   ];
 
-  console.log("AccountManager: ", AccountManager);
+  console.log("AccountEmployee: ", AccountEmployee);
 
   return (
     <>
-      <Table columns={columns} dataSource={AccountManager} />
+      <Table columns={columns} dataSource={AccountEmployee} />
     </>
   );
 }

@@ -31,7 +31,7 @@ function ProductDetail() {
       const response = await fetch(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${newSizeId}`);
       if (!response.ok) {
         const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
-        // throw new Error(Network response was not ok: ${errorText});
+       
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
       console.log(data);
