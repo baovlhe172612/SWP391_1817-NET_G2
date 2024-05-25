@@ -18,14 +18,15 @@ namespace Swp391.Repository
 
         /// <returns>get all account by linq join between account+rol </returns>
 
-        public List<AccountDtos> GetAllAccountsAsync()
+        public List<AccountDtos> GetAllAccounts_manager()
         {
 
             SwpfinalContext _context = new SwpfinalContext();
 
             var accountsWithRoles =  (from a in _context.Accounts
                                            join r in _context.Roles on a.RoleId equals r.RoleId
-                                      where r.RoleName == "Manager" && a.IsDelete !=0
+                                           join s in _context.Stores on a.StoreId equals s.StoreId
+                                      where r.RoleName == "Manager" && a.IsDelete ==0                                   
                                       select new AccountDtos
                                            {
                                                AccountId = a.AccountId,
@@ -39,10 +40,10 @@ namespace Swp391.Repository
                                                RoleId = a.RoleId,
                                                Token = a.Token,
                                                RoleName = r.RoleName,
+                                               StoreName = s.StoreName,
                                                IsDelete = (int)a.IsDelete,                                               
                                            }                                          
                                            ).ToList();
-
             return accountsWithRoles;
         }
         /// <summary>
@@ -55,6 +56,7 @@ namespace Swp391.Repository
             SwpfinalContext _context = new SwpfinalContext();
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
                                      where a.AccountId == id
                                      select new AccountDtos
                                      {
@@ -69,6 +71,7 @@ namespace Swp391.Repository
                                          RoleId = a.RoleId,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
+                                         StoreName = s.StoreName,
                                          IsDelete = (int)a.IsDelete,
                                      }).FirstOrDefault();
 
@@ -93,24 +96,35 @@ namespace Swp391.Repository
         public void createrAccount(Account newAccount)
         {
             SwpfinalContext _context = new SwpfinalContext();
+            // Kiểm tra xem có tài khoản nào có cùng UserName không
+            bool isExisting = _context.Accounts.Any
+                (a => (a.UserName == newAccount.UserName)||(a.Email==newAccount.Email)||(a.Phone==newAccount.Phone));
 
-            // Tạo một đối tượng Account từ dữ liệu được truyền vào thông qua newAccount
-            Account account = new Account
+            // Nếu đã tồn tại tài khoản có cùng UserName, ném một ngoại lệ hoặc xử lý theo ý bạn
+            if (isExisting)
             {
-                UserName = newAccount.UserName,
-                PassWord = newAccount.PassWord,
-                Status = newAccount.Status,
-                Email = newAccount.Email,
-                FullName = newAccount.FullName,
-                Location = newAccount.Location,
-                Phone = newAccount.Phone,
-                RoleId = newAccount.RoleId,
-                Token = String.Empty,
-                IsDelete = newAccount.IsDelete,
-            };
-
-            _context.Accounts.Add(account);
-            _context.SaveChanges();
+                throw new Exception("An account with the same username already exists.");
+            }
+            else
+            {
+                // Tạo một đối tượng Account từ dữ liệu được truyền vào thông qua newAccount
+                Account account = new Account
+                {
+                    UserName = newAccount.UserName,
+                    PassWord = newAccount.PassWord,
+                    Status = newAccount.Status,
+                    Email = newAccount.Email,
+                    FullName = newAccount.FullName,
+                    Location = newAccount.Location,
+                    Phone = newAccount.Phone,
+                    RoleId = newAccount.RoleId,                    
+                    Token = String.Empty,
+                    IsDelete = newAccount.IsDelete,
+                    StoreId = newAccount.StoreId,
+                };
+                _context.Accounts.Add(account);
+                _context.SaveChanges();
+            }
         }
         // edit isdelete
         public void UpdateisdeleteAccount(int id, int isdelete)

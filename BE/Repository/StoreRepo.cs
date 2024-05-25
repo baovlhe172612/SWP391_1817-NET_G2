@@ -13,6 +13,12 @@ namespace Swp391.Repository
         /// </summary>
         private SwpfinalContext _context = new SwpfinalContext();
 
+        public List<Store> getAllStore()
+        {
+            SwpfinalContext context = new SwpfinalContext();
+            return context.Stores.ToList();
+        }
+
         public void createStore(Store store)
         {
             _context.Stores.Add(store);
@@ -25,22 +31,22 @@ namespace Swp391.Repository
         /// </summary>
         public void UpdateStore(Store store)
         {
-            // Cập nhật cửa hàng trong context
-            _context.Stores.Update(store);
-
-            // Lưu thay đổi vào cơ sở dữ liệu
-            _context.SaveChanges();
+            try
+            {
+                var existingStore = _context.Stores.Local.FirstOrDefault(s => s.StoreId == store.StoreId)
+                ?? _context.Stores.Attach(store).Entity;
+                existingStore.StoreName = store.StoreName;
+                existingStore.Location = store.Location;
+                existingStore.IsDelete = store.IsDelete;
+                _context.Update(existingStore);
+                _context.SaveChanges();
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception("Update fail: " + ex.Message);
+            }
         }
 
-        /// <summary>
-        /// Update all store
-        /// </summary>
-        public void UpdateStoreAdminRepo(Store store) {
-            // Cập nhật Store trong context
-            _context.Stores.Update(store);
 
-            // Lưu thay đổi vào DB
-            _context.SaveChanges();
-        }
-     }
+    }
 }

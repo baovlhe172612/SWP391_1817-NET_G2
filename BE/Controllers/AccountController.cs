@@ -12,10 +12,10 @@ namespace Swp391.Controllers
         private AccountService _service = new AccountService();
 
         //phương thức này dùng để lấy toàn bộ account
-        [HttpGet]
-        public IActionResult getAllAccount()
+        [HttpGet("manager")]
+        public IActionResult GetAllAccounts_manager()
         {
-            return Ok(_service.GetAllAccountDtos());
+            return Ok(_service.GetAllAccounts_manager());
         }
         //lấy account bằng ID
         [HttpGet("{id}")]

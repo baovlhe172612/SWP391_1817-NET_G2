@@ -6,7 +6,7 @@ using Swp391.Models;
 using Swp391.Repository;
 
 namespace Swp391.Service
-{
+{   
     public class StoreService
     {
         private SwpfinalContext _context = new SwpfinalContext();
@@ -14,8 +14,13 @@ namespace Swp391.Service
         /// hàm trả về store mới được tạo
         /// </summary>
         private StoreRepo storeRepo = new StoreRepo();
+        
        AccountRepo _accountRepo= new AccountRepo();
 
+        public List<Store> getAllStore()
+        {
+            return storeRepo.getAllStore();
+        }
         public Store createStoreService(Store store)
         {
             storeRepo.createStore(store);
@@ -57,22 +62,18 @@ namespace Swp391.Service
         /// <summary>
         /// hàm update all store 
         /// </summary>
-        public Store UpdateStoreAdmin(Store store) {
-            var accountExist =  _accountRepo.getAccountById(store.AccountId);
-
-            if(accountExist != null) {
-                try
-                {
-                    storeRepo.UpdateStoreAdminRepo(store);
-                    return store;
-                }
-                catch (System.Exception)
-                {
-                    return null;
-                }
-            } else {
-                return null;
+        public void UpdateStore(Store store)
+        {
+            try
+            {
+                storeRepo.UpdateStore(store);
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception("Update fail: " + ex.Message);
             }
         }
+
+
     }
 }

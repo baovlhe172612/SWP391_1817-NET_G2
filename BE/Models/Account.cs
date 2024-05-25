@@ -28,8 +28,10 @@ public partial class Account
 
     public int? IsDelete { get; set; }
 
+    public int StoreId { get; set; }
+    [JsonIgnore]
+    public virtual Store Store { get; set; } = null!;
     [JsonIgnore]
     public virtual Role Role { get; set; } = null!;
-    [JsonIgnore]
-    public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
+    
 }

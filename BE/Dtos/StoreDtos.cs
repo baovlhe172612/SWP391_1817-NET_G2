@@ -5,16 +5,10 @@ namespace Swp391.Dtos
     public class StoreDtos()
     {
         public int StoreId { get; set; }
-        public String StoreName { get; set; }
-        public String Location { get; set; }
-
-        public int AccountId { get; set; }
-        public String UserName { get; set; }
-        public String Email { get; set; }
-        public String Phone { get; set; }
-        public int Status { get; set; }
+        public string StoreName { get; set; } = null!;
+        public string Location { get; set; } = null!;                 
+        public string Phone { get; set; } = null!;      
         public int ?IsDelete { get; set; }
-
         public int RoleId { get; set; }
     }
 }
