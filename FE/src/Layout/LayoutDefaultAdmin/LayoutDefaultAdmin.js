@@ -32,6 +32,8 @@ function LayoutDefaultAdmin() {
 
   }, [login]);
 
+  console.log(login)
+
   return (
     <>
       <Layout className="layout-default">
