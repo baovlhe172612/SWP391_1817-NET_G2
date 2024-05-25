@@ -62,6 +62,16 @@ function ListStoreManager() {
       key: "location",
     },
     {
+      title: "Role Name",
+      dataIndex: "roleName",
+      key: "roleName",
+    },
+    {
+      title: "Store Name",
+      dataIndex: "storeName",
+      key: "storeName",
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",
@@ -82,11 +92,7 @@ function ListStoreManager() {
         );
       }
     },
-    {
-      title: "Role Name",
-      dataIndex: "roleName",
-      key: "roleName",
-    },
+   
     {
       title: "Actions",
       key: "actions",
