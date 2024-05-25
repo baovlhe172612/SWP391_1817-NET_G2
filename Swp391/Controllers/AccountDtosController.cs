@@ -21,8 +21,27 @@ namespace Swp391.Controllers
             {
                 return Ok(accountDtosByAuthen);
 
-            } else {
+            }
+            else
+            {
                 return BadRequest(accountDtosByAuthen);
+            }
+        }
+
+        // Get Account by Token controller
+        [HttpGet("GET/{token}")]
+        public IActionResult GetAccountByToken(string token)
+        {
+            var accountDtosByToken = _accountDtosService.GetAccDtosByTokenSer(token);
+
+            if (accountDtosByToken != null)
+            {
+                return Ok(accountDtosByToken);
+
+            }
+            else
+            {
+                return BadRequest(accountDtosByToken);
             }
         }
     }

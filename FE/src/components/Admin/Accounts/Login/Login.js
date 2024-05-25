@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {useDispatch} from 'react-redux'
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,16 +8,48 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Login.scss";
 
 import { get } from "../../../../helpers/API.helper";
-import { GET_ACCOUNT_BY_AUTH } from "../../../../helpers/APILinks";
+import { GET_ACCOUNT_BY_AUTH, GET_ACCOUNT_BY_TOKEN } from "../../../../helpers/APILinks";
 import {alear_success_login } from "../../../../helpers/Alert.helper";
-import { setCookie } from "../../../../helpers/Cookie.helper";
+import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
 
 function Login() {
   const navigate = useNavigate();
   // dispatch
   const dispatch = useDispatch();
+  
+  // Check token
+  const token = getCookie("token");
+  // không được dùng async await trong useEffect
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
+        if (accountByToken) {
+          // console.log(accountByToken);
+          // nếu có token => tự động đăng nhập
+          dispatch(loginActions(true));
 
+          // move => admin
+          navigate("/admin");
+        }
+      } catch (error) {
+        console.log("Không có token");
+        navigate("/admin/login");
+      }
+    };
+
+    // có token mới có fetch api
+    if (token) {
+      fetchApi();
+    } else {
+      // không có token => sang trang login
+      navigate("/admin/login");
+    }
+  }, []);
+  
+
+  // Đăng nhập
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {

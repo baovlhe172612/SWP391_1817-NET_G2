@@ -9,6 +9,7 @@ export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/PATCH`;
 
 // API ACCOUNTDTOS
 export const GET_ACCOUNT_BY_AUTH = `${LOCALHOST_API}/api/AccountDtos/GET`
+export const GET_ACCOUNT_BY_TOKEN = `${LOCALHOST_API}/api/AccountDtos/GET`
 
 // API TABLE
 export const TABLE = `${LOCALHOST_API}/api/Table`;
