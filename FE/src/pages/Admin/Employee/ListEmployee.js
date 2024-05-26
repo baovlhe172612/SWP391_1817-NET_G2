@@ -81,7 +81,7 @@ function ListEmployee() {
         //     <UpdateStoreManager record={record} />
         //     <DeleteStoreManager record={record} />{" "}
         //     Pass the record to the delete component
-        //   </Space>
+        //   </Space>a
         // );
       },
     },
