@@ -38,7 +38,8 @@ function MenuSider() {
         mode="inline"
         // chắc chắn thằng item2 phải là hàm
         items={Array.isArray(item2) ? item2 : []}
-        defaultOpenKeys={"DashBoard1"}
+        // set giá trị mặc định phải là 1 MẢNG
+        defaultOpenKeys={["DashBoard1"]}
         // khi thanh sider 3 bị thay đổi chạy hàm này để defaultOpenkeys thay đôi
         onOpenChange={keys => setOpenKeys(keys)}
         defaultSelectedKeys={["/"]}
