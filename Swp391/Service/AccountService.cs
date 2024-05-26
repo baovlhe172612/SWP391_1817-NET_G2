@@ -8,7 +8,7 @@ namespace Swp391.Service
 
        AccountRepo _accountRepo= new AccountRepo();
         /// <summary>
-        /// lấy toàn bộ sản phẩm bằng service
+        /// GetAllAccountDtos(): Gọi GetAllAccountsAsync() từ repository để lấy tất cả các tài khoản.
         /// </summary>
 
         /// <returns>trả về toàn bộ account + roleName</returns>
@@ -33,9 +33,21 @@ namespace Swp391.Service
             _accountRepo.createrAccount(newAccount);
         }
         // xoá tài khoản
-        public void deleteAccount(int accountId)
+        public void updateIsDeleteAccount(int accountId,int isdelete)
         {
-            _accountRepo.deleteAccount(accountId);
+            _accountRepo.UpdateisdeleteAccount(accountId,isdelete);
+        }
+        // ---------------------------------------------------------------------------------------//
+        public List<AccountDtos> GetAllAccountEmployeeDtos()
+        {
+            return _accountRepo.GetAllAccountEmployee();
+        }
+
+        public AccountDtos getAccountEmployeeId(int id)
+        {
+            return _accountRepo.getAccountById(id);
         }
     }
+
+
 }

@@ -3,6 +3,8 @@ import { Col, DatePicker, Input, Row } from 'antd'
 import { post } from '../../../helpers/API.helper';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { alear_false, alear_success } from '../../../helpers/Alert.helper';
+import { LIST_FEEDBACK } from '../../../helpers/APILinks';
 const { RangePicker } = DatePicker;
 
 
@@ -48,36 +50,47 @@ function Contact() {
         try {
             console.log("data in handlesubmit: ", data)
             // Send data to the backend
-            const response = await post("http://localhost:5264/api/MessengerBox", data);
+            const response = await post(LIST_FEEDBACK, data);
             if (response) {
 
                 setShowModal(false);
-                await Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Seen FeedBack sucessfully",
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+                 await alear_success("Seen FeedBack sucessfully","ok")
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "Seen FeedBack sucessfully",
+                //     showConfirmButton: false,
+                //     timer: 3000
+                // });
                 // setTimeout(() => {
                 //     onReload();
                 //     setData({});
                 // }, 3000);
                 setData({});
             }
-            console.log('Form submitted successfully:', response);
-            // alert('Form submitted successfully!');
-            // Optionally reset the form
+            console.log('Form submitted successfully:', response);      
 
         } catch (error) {
-            // console.error('Error submitting the form:', error);
-            alert('Failed to submit the form.');
+           alear_false("Seen FeedBack fail","ok")
         }
     };
     const onReload = () => {
         window.location.reload();
     };
     console.log("data: ", data)
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        // US English uses month-day-year order
+        // console.log(date.toLocaleDateString('en-US'));
+        // → "12/19/2012"
+
+        // British English uses day-month-year order
+        // console.log(date.toLocaleDateString('en-GB'));
+        // → "20/12/2012"
+        return date.toLocaleDateString('en-GB');
+    };
+    console.log("date: ", formatDate( Date.now()))
     return (
         <>
             <main className="main-content">

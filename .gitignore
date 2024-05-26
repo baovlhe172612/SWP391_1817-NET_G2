@@ -4,6 +4,7 @@
 *.suo
 *.userosscache
 *.sln.docstates
+
 # Build results
 [Bb]in/
 [Oo]bj/
@@ -15,7 +16,7 @@
 *.userosscache
 *.sln.docstates
 *.ide
-bin
-obj
-Swp391.sln
-SWP391_1817-NET_G2.sln
+
+# Explicitly ignore bin and obj directories
+bin/
+obj/

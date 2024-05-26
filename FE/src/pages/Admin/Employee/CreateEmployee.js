@@ -11,6 +11,7 @@ function CreateEmployee() {
         // if (response) {
         //     form.resetFields();
         // }
+        console.log(values.status);
     };
 
     return (

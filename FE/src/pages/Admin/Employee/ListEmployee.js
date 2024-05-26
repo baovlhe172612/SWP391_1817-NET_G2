@@ -91,7 +91,15 @@ function ListEmployee() {
 
   return (
     <>
-      <Table columns={columns} dataSource={AccountEmployee} />
+      <Table columns={columns} dataSource={AccountEmployee } />
+      
+      {/* <div>
+        {AccountEmployee.map(account => (
+          <div>
+            {account.fullName}
+          </div>
+        ))}
+      </div> */}
     </>
   );
 }
