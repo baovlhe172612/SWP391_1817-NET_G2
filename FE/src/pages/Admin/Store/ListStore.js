@@ -13,7 +13,7 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(STORES_DTOS);
+        const data = await get("http://localhost:5264/api/stores");
 
         if (data) {
           setStores(data);
@@ -39,11 +39,6 @@ function ListStore() {
       title: "StoreName",
       dataIndex: "StoreName",
       key: "StoreName",
-    },
-    {
-      title: "UserName",
-      dataIndex: "UserName",
-      key: "UserName",
     },
     {
       title: "Status",

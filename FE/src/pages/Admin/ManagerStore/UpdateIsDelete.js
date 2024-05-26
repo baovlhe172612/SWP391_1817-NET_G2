@@ -6,7 +6,7 @@ import { put } from "../../../helpers/API.helper";
 function UpdateIsDelete({ record, onReload}) {
   const handleUpdate = async () => {
     try {
-      const response = await put(`http://localhost:5264/api/Account/${record.accountId}/IsDelete?isdelete=0`);
+      const response = await put(`http://localhost:5264/api/Account/${record.accountId}/IsDelete?isdelete=1`);
       if (response.ok) {
         message.success("Account IsDelete updated successfully");       
         onReload();

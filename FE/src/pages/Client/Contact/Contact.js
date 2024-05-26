@@ -54,6 +54,7 @@ function Contact() {
             if (response) {
 
                 setShowModal(false);
+<<<<<<< HEAD
                  await alear_success("Seen FeedBack sucessfully","ok")
                 // Swal.fire({
                 //     position: "center",
@@ -64,6 +65,17 @@ function Contact() {
                 // });
                 // setTimeout(() => {
                 //     onReload();
+=======
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Seen FeedBack sucessfully",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+                // setTimeout(() => {
+                //     // onReload();
+>>>>>>> trong
                 //     setData({});
                 // }, 3000);
                 setData({});
@@ -74,9 +86,9 @@ function Contact() {
            alear_false("Seen FeedBack fail","ok")
         }
     };
-    const onReload = () => {
-        window.location.reload();
-    };
+    // const onReload = () => {
+    //     window.location.reload();
+    // };
     console.log("data: ", data)
 
     const formatDate = (dateString) => {
