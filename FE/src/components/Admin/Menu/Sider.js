@@ -28,7 +28,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
+    hasRole(account.roleName, ["Owner"]) && {
       key: "Store",
       label: "Store",
       icon: <AppstoreAddOutlined />,
@@ -43,7 +43,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
+    hasRole(account.roleName, ["Owner"]) && {
       key: "manager store",
       label: "Store's Manager",
       icon: <UserAddOutlined />,
