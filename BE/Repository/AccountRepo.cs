@@ -40,7 +40,7 @@ namespace Swp391.Repository
                                                Phone = a.Phone,
                                                RoleId = a.RoleId,
                                                Token = a.Token,
-                                               StoreId = a.StoreId,
+                                               StoreId = s.StoreId,
                                                RoleName = r.RoleName,
                                                StoreName = s.StoreName,
                                                IsDelete = (int)a.IsDelete,                                               
@@ -176,7 +176,9 @@ namespace Swp391.Repository
 
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
-                                     where r.RoleName == "Employee" && a.IsDelete != 0
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
+                                     where r.RoleName == "Employee" && a.IsDelete == 0
+                                     
                                      select new AccountDtos
                                      {
                                          AccountId = a.AccountId,
@@ -188,6 +190,7 @@ namespace Swp391.Repository
                                          Location = a.Location,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
+                                         StoreName=s.StoreName,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
                                          IsDelete = (int)a.IsDelete,
@@ -202,6 +205,7 @@ namespace Swp391.Repository
             SwpfinalContext _context = new SwpfinalContext();
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
                                      where a.AccountId == id
                                      select new AccountDtos
                                      {
@@ -214,6 +218,7 @@ namespace Swp391.Repository
                                          Location = a.Location,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
+                                         StoreName=s.StoreName,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
                                          IsDelete = (int)a.IsDelete,
