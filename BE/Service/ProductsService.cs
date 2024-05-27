@@ -131,5 +131,19 @@ namespace Swp391.Service
             
             return listProductWithCondition;
         }
+        /// <summary>
+        /// Tìm kiếm sản phẩm theo tên
+        /// </summary>
+        /// <param name="keyword">Tên sản phẩm hoặc một phần tên sản phẩm</param>
+        /// <returns>Danh sách sản phẩm khớp với từ khóa</returns>
+        public List<Product> searchProductsByName(string keyword)
+        {
+            return _repo.searchProductsByName(keyword);
+        }
+
+        public List<Product> SearchProductsByPriceRange(double minPrice, double maxPrice)
+        {
+            return _repo.SearchProductsByPriceRange(minPrice, maxPrice);
+        }
     }
 }

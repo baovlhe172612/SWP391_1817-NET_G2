@@ -8,13 +8,13 @@ namespace Swp391.Service
 
        AccountRepo _accountRepo= new AccountRepo();
         /// <summary>
-        /// lấy toàn bộ sản phẩm bằng service
+        /// GetAllAccountDtos(): Gọi GetAllAccountsAsync() từ repository để lấy tất cả các tài khoản.
         /// </summary>
 
         /// <returns>trả về toàn bộ account + roleName</returns>
-        public List<AccountDtos> GetAllAccounts_manager()
+        public List<AccountDtos> GetAllAccountDtos()
         {
-            return _accountRepo.GetAllAccounts_manager();           
+            return _accountRepo.GetAllAccountsAsync();           
         }
 
         // Các phương thức khác của AccountService
@@ -37,8 +37,7 @@ namespace Swp391.Service
         {
             _accountRepo.UpdateisdeleteAccount(accountId,isdelete);
         }
-
-        /////////////////////////////////////////////'
+        // ---------------------------------------------------------------------------------------//
         public List<AccountDtos> GetAllAccountEmployeeDtos()
         {
             return _accountRepo.GetAllAccountEmployee();
@@ -46,8 +45,9 @@ namespace Swp391.Service
 
         public AccountDtos getAccountEmployeeId(int id)
         {
-            return _accountRepo.getAccountEmployeeId(id);
+            return _accountRepo.getAccountById(id);
         }
-
     }
+
+
 }

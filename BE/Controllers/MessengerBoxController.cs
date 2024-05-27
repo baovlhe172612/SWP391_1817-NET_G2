@@ -41,5 +41,16 @@ namespace Swp391.Controllers
                 data = messenger
             });
         }
+
+<<<<<<< HEAD
+
+=======
+        //phương thức này dùng để lấy ra toàn bộ feedback và hiển thị trên giao diện qua api
+>>>>>>> 3306dada4e2599a3a6eddb7d0fbfa984f580e4df
+        [HttpGet]
+        public IActionResult GetMessengerBox()
+        {
+            return Ok(_messengerService.getAllMess());
+        }
     }
 }
