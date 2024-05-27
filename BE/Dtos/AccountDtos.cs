@@ -19,7 +19,6 @@
         public string Token { get; set; } = null!;
         public string RoleName { get; set; } = null!;
         public string StoreName { get; set; } = null!;
-
         public int IsDelete { get; set; }
     }
 }
