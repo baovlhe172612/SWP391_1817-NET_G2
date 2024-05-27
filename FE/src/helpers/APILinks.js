@@ -21,4 +21,4 @@ export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 
 
 // LINK SHOP CLIENT
-export const LIST_PRODUCT = `http://localhost:3000/shop/`;
+export const LIST_PRODUCT = `http://localhost:3000/listProduct/`;

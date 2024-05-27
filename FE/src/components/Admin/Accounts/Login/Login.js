@@ -79,6 +79,9 @@ function Login() {
         // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));
 
+        // không dùng session nữa => gửi lên store 1 thằng account mới luôn
+        dispatch(accountActions(dataAuthen));
+
         // Account Employee => sang trang table
         if (dataAuthen.roleId == 3) {
           navigate("/admin/table");
