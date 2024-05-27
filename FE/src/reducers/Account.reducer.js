@@ -3,8 +3,7 @@ const initialState = {};
 const AccountReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case "NEW_ACCOUNT":
-      return { ...payload };
-
+      return { ...payload };     
     default:
       return state;
   }

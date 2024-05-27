@@ -7,21 +7,6 @@ import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
 function ListEmployee() {
   const [AccountEmployee, setAccountEmployee] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchApi = async () => {
-  //     try {
-  //       const data = await get(LIST_Employee);
-  //       //
-  //       setAccountEmployee(data);
-  //     } catch (error) {
-  //       console.log("Err tại ListStoreManager", error);
-  //       setAccountEmployee([]);
-  //     }
-  //   };
-
-  //   fetchApi();
-  // }, []);
-
   const fetchApi = async () => {
     try {
       const data = await get(LIST_Employee);     

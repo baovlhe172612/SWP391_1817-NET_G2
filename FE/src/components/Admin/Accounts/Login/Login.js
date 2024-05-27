@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
 import "./Login.scss";
-
 import { get } from "../../../../helpers/API.helper";
 import {
   GET_ACCOUNT_BY_AUTH,
@@ -33,10 +30,10 @@ function Login() {
         if (accountByToken) {
           // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
-
+          
           // không dùng session nữa => gửi lên store 1 thằng account mới luôn 
           dispatch(accountActions(accountByToken));
-
+       
           if (accountByToken.roleId == 3) {
             navigate("/admin/table");
           } else {
@@ -67,6 +64,7 @@ function Login() {
       const dataAuthen = await get(
         `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
+      console.log(dataAuthen);
       // console.log(dataAuthen);
       if (dataAuthen) {
         // message login success
