@@ -1,0 +1,29 @@
+.slider-item {
+    display: flex;
+    background-color: #e8eaeb;
+    padding-top: 20px;
+    text-align: center;
+    justify-content: space-between;
+    font-size: 50px;
+} 
+/* .slider-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}  */
+/* .slider-item {
+    display: flex;
+    margin-top: 10px;
+    background-color: #aec096;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+
+.full-width-carousel .slick-slide {
+    text-align: center;
+}
+
+.full-width-carousel .slick-list {
+    width: 50%;
+}
