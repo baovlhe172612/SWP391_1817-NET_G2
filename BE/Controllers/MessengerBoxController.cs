@@ -41,5 +41,11 @@ namespace Swp391.Controllers
                 data = messenger
             });
         }
+
+        [HttpGet]
+        public IActionResult getAllMessegerBox()
+        {
+            return (Ok(_messengerService.getAllMess()));
+        }
     }
 }

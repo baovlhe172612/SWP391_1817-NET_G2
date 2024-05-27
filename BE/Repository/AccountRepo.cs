@@ -39,6 +39,7 @@ namespace Swp391.Repository
                                                Phone = a.Phone,
                                                RoleId = a.RoleId,
                                                Token = a.Token,
+                                               StoreId = a.StoreId,
                                                RoleName = r.RoleName,
                                                StoreName = s.StoreName,
                                                IsDelete = (int)a.IsDelete,                                               
@@ -141,6 +142,43 @@ namespace Swp391.Repository
                 throw new Exception("Update Fail! Account doesn't not exist");
             }
         }
+
+        /// <summary>
+        /// hàm trả về toàn bộ account của employee
+        /// </summary>
+
+        /// <returns>get all account by linq join between account+rol </returns>
+        public List<AccountDtos> GetAllAccountEmployee()
+        {
+
+            SwpfinalContext _context = new SwpfinalContext();
+
+            var accountsWithRoles = (from a in _context.Accounts
+                                     join r in _context.Roles on a.RoleId equals r.RoleId
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
+                                     where r.RoleName == "Employee" && a.IsDelete == 0
+                                     select new AccountDtos
+                                     {
+                                         AccountId = a.AccountId,
+                                         UserName = a.UserName,
+                                         PassWord = a.PassWord,
+                                         Status = a.Status,
+                                         Email = a.Email,
+                                         FullName = a.FullName,
+                                         Location = a.Location,
+                                         Phone = a.Phone,
+                                         RoleId = a.RoleId,
+                                         StoreName= s.StoreName,
+                                         Token = a.Token,
+                                         RoleName = r.RoleName,
+                                         IsDelete = (int)a.IsDelete,
+                                     }
+                                           ).ToList();
+
+            return accountsWithRoles;
+        }
+
+
 
     }
 }

@@ -64,8 +64,14 @@ namespace Swp391.Controllers
 
             return Ok(); // Trả về mã trạng thái 200 OK sau khi tạo account thành công
         }
-       
-        
+
+
+        [HttpGet("/employee")]
+        public IActionResult getAllAccountEmployee()
+        {
+            var result = _service.GetAllAccountEmployeeDtos();
+            return Ok(result);
+        }
 
 
     }
