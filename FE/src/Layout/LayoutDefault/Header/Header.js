@@ -92,7 +92,7 @@ function Header({ tableId }) {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/listProduct">Shop</Link>
+                        <Link to="/listProduct">Menu</Link>
                       </li>
 
                       <li>
@@ -126,7 +126,7 @@ function Header({ tableId }) {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/listProduct">Shop</Link>
+                        <Link to="/listProduct">Menu</Link>
                       </li>
 
                       <li>
@@ -211,7 +211,7 @@ function Header({ tableId }) {
                           <Link to="/">Home</Link>
                         </li>
                         <li className="megamenu-holder">
-                          <Link to="/listProduct">Shop</Link>
+                          <Link to="/listProduct">Menu</Link>
                         </li>
                         <li className="drop-holder">
                           <Link to="/about">About Us</Link>
