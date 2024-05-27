@@ -34,9 +34,10 @@ function Login() {
           // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // không dùng session nữa => gửi lên store 1 thằng account mới luôn 
+          // không dùng session nữa => gửi lên store 1 thằng account mới luôn
           dispatch(accountActions(accountByToken));
 
+          // nếu Account có role là employee => tự động chuyển đến trang listTable
           if (accountByToken.roleId == 3) {
             navigate("/admin/table");
           } else {
@@ -54,12 +55,12 @@ function Login() {
     if (token) {
       fetchApi();
     } else {
-      // không có token => sang trang login
+      // không có token(Chưa đăng nhập lần nào) => sang trang login
       navigate("/admin/login");
     }
   }, []);
 
-  // Đăng nhập
+  // SUBMIT - Đăng nhập
   const onFinish = async (values) => {
     // console.log("Success:", values);
     try {
@@ -75,11 +76,17 @@ function Login() {
         // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
 
-        // biến islogin
+        // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));
 
-        // tự động chuyển sang trang dashboard
-        navigate("/admin/");
+        // Account Employee => sang trang table
+        if (dataAuthen.roleId == 3) {
+          navigate("/admin/table");
+          return;
+        }
+
+        // sang trang admin
+        navigate("/admin");
       } else {
         // message login false
         message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
