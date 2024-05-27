@@ -25,15 +25,19 @@ function ListProduct() {
     }
 
     if (search) {
-      url = `http://localhost:5264/api/ProductControlles/search?keyword=${search}&page=${page}&condition=${condition}`;
+      url = `http://localhost:5264/api/ProductControlles/search?keyword=${search}`;
     }
-
-   
-   
-
     const data = await get(url);
+    console.log("data=====>: ",data)
     setProducts(data);
+    if (data === "No products found with the given keyword.") {
+      setProducts([]); // Set products to an empty array
+    } else {
+      setProducts(data);
+    }
+  
 
+    console.log("url: ",url)
     // Update total pages and total products for search queries
     if (search) {
       const totalPagesData = await get(`http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search}`);
