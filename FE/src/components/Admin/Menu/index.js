@@ -1,3 +1,8 @@
+import { Menu } from "antd";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+import { Link } from "react-router-dom";
 import {
   DashboardOutlined,
   AppstoreAddOutlined,
@@ -7,11 +12,8 @@ import {
   RadarChartOutlined,
   ShoppingCartOutlined,
   ProductOutlined,
-  HeatMapOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
-import { Link } from "react-router-dom";
 
 function MenuSider() {
   const items = [
@@ -22,7 +24,7 @@ function MenuSider() {
       children: [
         {
           key: "DashBoard1",
-          label: <Link to="/admin/">DashBoard All</Link>,
+          label: <Link to="/admin/dashboard">DashBoard All</Link>,
         },
       ],
     },
@@ -33,11 +35,11 @@ function MenuSider() {
       children: [
         {
           key: "store/listStore",
-          label: <Link to="store/">List Store</Link>,
+          label: <Link to="/admin/store/">List Store</Link>,
         },
         {
           key: "store/create",
-          label: <Link to="store/create">Create Store</Link>,
+          label: <Link to="/admin/store/create">Create Store</Link>,
         },
       ],
     },
@@ -48,11 +50,13 @@ function MenuSider() {
       children: [
         {
           key: "manager/listStore",
-          label: <Link to="manager-store/">List Store's Manager</Link>,
+          label: <Link to="/admin/manager-store/">List Store's Manager</Link>,
         },
         {
           key: "manager/create",
-          label: <Link to="manager-store/create">Create Store's Manager</Link>,
+          label: (
+            <Link to="/admin/manager-store/create">Create Store's Manager</Link>
+          ),
         },
       ],
     },
@@ -63,11 +67,11 @@ function MenuSider() {
       children: [
         {
           key: "table/listStore",
-          label: <Link to="table/">List Table</Link>,
+          label: <Link to="/admin/table/">List Table</Link>,
         },
         {
           key: "table/create",
-          label: <Link to="table/create">Create Table</Link>,
+          label: <Link to="/admin/table/create">Create Table</Link>,
         },
       ],
     },
@@ -78,11 +82,11 @@ function MenuSider() {
       children: [
         {
           key: "employee/employees",
-          label: <Link to="employee/">List Employee</Link>,
+          label: <Link to="/admin/employee/">List Employee</Link>,
         },
         {
           key: "employee/create",
-          label: <Link to="employee/create">Create Employee</Link>,
+          label: <Link to="/admin/employee/create">Create Employee</Link>,
         },
       ],
     },
@@ -93,11 +97,11 @@ function MenuSider() {
       children: [
         {
           key: "category/categories",
-          label: <Link to="category/">List Category</Link>,
+          label: <Link to="/admin/category/">List Category</Link>,
         },
         {
           key: "category/create",
-          label: <Link to="category/create">Create Category</Link>,
+          label: <Link to="/admin/category/create">Create Category</Link>,
         },
       ],
     },
@@ -108,41 +112,25 @@ function MenuSider() {
       children: [
         {
           key: "product/products",
-          label: <Link to="product/">List Product</Link>,
+          label: <Link to="/admin/product/">List Product</Link>,
         },
         {
           key: "product/create",
-          label: <Link to="product/create">Create Product</Link>,
+          label: <Link to="/admin/product/create">Create Product</Link>,
         },
       ],
     },
     {
-      key: "feedback ",
+      key: "feedback",
       label: "Feedback",
       icon: <MenuOutlined />,
       children: [
         {
           key: "feedback/listFeedbacks",
-          label: <Link to="feedback/">List Feedback</Link>,
+          label: <Link to="/admin/feedback/">List Feedback</Link>,
         },
-       
       ],
     },
-    // {
-    //   key: "manager toping",
-    //   label: "Toping",
-    //   icon: <HeatMapOutlined />,
-    //   children: [
-    //     {
-    //       key: "toping/",
-    //       label: <Link to="topping/">List Toping</Link>,
-    //     },
-    //     {
-    //       key: "toping/create",
-    //       label: <Link to="topping/create">Create Toping</Link>,
-    //     },
-    //   ],
-    // },
     {
       key: "manager orders",
       label: "Orders",
@@ -150,7 +138,7 @@ function MenuSider() {
       children: [
         {
           key: "orders/",
-          label: <Link to="orders/">List orders</Link>,
+          label: <Link to="/admin/orders/">List orders</Link>,
         },
       ],
     },
@@ -161,17 +149,20 @@ function MenuSider() {
       children: [
         {
           key: "listQr/",
-          label: <Link to="listQr/">List QR</Link>,
+          label: <Link to="/admin/listQr/">List QR</Link>,
         },
       ],
     },
   ];
+
   return (
     <>
       <Menu
         mode="inline"
-        items={items}
-        defaultOpenKeys={["DashBoard1"]}
+        items={Array.isArray(items) ? items : []}
+        defaultOpenKeys={
+          ["DashBoard1"] // account.roleId == 1 ? ["table/listStore"] :
+        }
         defaultSelectedKeys={["/"]}
       />
     </>
