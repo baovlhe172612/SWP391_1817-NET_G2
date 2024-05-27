@@ -6,6 +6,7 @@ import { GET_ACCOUNT_BY_TOKEN } from "../../helpers/APILinks";
 import { getCookie } from "../../helpers/Cookie.helper";
 import { loginActions } from "../../actions/Login";
 import { setSessionItem } from "../../helpers/Session.helper";
+import { accountActions } from "../../actions/AccountActions";
 
 function PrivateRouter() {
   // useSelector: nhận và trả hết tất cả các reducers có trong ALLREDUCER (STORE)
@@ -23,11 +24,11 @@ function PrivateRouter() {
           // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // set Session Store cho Account
-          setSessionItem("account", accountByToken);
+          // không dùng session nữa => gửi lên store 1 thằng account mới luôn 
+          dispatch(accountActions(accountByToken));
 
           if (accountByToken.roleId == 3) {
-            navigate("/admin/");
+            navigate("/admin/table");
           } else {
             // move => admin
             navigate("/admin/dashboard");
