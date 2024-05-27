@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Layout } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { Layout, Button } from "antd";
 
 import "./LayoutDefault.css";
 import logo from "../../assets/images/logo/dark.png";
@@ -7,22 +8,30 @@ import {
   SearchOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import MenuSider from "../../components/Admin/Menu/index";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Footer } from "antd/es/layout/layout";
 import Notify from "../../components/Admin/Notify";
+import { getSessionItem } from "../../helpers/Session.helper";
 
 const { Sider, Content } = Layout;
 
 function LayoutDefaultAdmin() {
-  const [collapsed, setCollapsed] = useState(false);
-  const login = true;
+  const [collapsed, setCollapsed] = useState(true);
+  // lấy login + account từ redux
+  const login = useSelector((state) => state.LoginReducer);
+  // 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!login) {
-      setCollapsed(true);
+      setCollapsed(false);
     }
+
   }, [login]);
 
   return (
@@ -55,16 +64,62 @@ function LayoutDefaultAdmin() {
             </div>
 
             <div className="header__nav-right">
-              <Notify />
+              {/* BTN LOGIN/LOGOUT/USER */}
+              {login ? (
+                <>
+                  <Button
+                    type="primary"
+                    icon={<UserOutlined />}
+                    style={{
+                      margin: "0 8px",
+                      backgroundColor: "#abd373",
+                      borderColor: "#abd373",
+                    }}
+                  >
+                    User
+                  </Button>
+                  {/* LOGOUT */}
+                  <Link to="/admin/logout">
+                    <Button
+                      type="primary"
+                      icon={<LogoutOutlined />}
+                      style={{
+                        margin: "0 8px",
+                        backgroundColor: "#ff4d4f",
+                        borderColor: "#ff4d4f",
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <Button
+                  type="primary"
+                  icon={<LoginOutlined />}
+                  style={{ margin: "0 8px" }}
+                >
+                  Login
+                </Button>
+              )}
+              {/* NOTIFY */}
+              <span>
+                <Notify />
+              </span>
             </div>
           </div>
         </header>
 
         {/* Layout */}
         <Layout>
-          <Sider className="slider" collapsed={collapsed} theme="light">
-          {login ? <MenuSider /> : <></>}
-          </Sider>
+          {/* login == true => mới có sider */}
+          {login ? (
+            <Sider className="slider" collapsed={collapsed} theme="light">
+              {<MenuSider />}
+            </Sider>
+          ) : (
+            <></>
+          )}
           <Content className="content">
             <Outlet />
           </Content>

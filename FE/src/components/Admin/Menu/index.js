@@ -1,3 +1,8 @@
+import { Menu } from "antd";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+import { Link } from "react-router-dom";
 import {
   DashboardOutlined,
   AppstoreAddOutlined,
@@ -7,171 +12,36 @@ import {
   RadarChartOutlined,
   ShoppingCartOutlined,
   ProductOutlined,
-  HeatMapOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
-import { Link } from "react-router-dom";
+import itemsSider from "./Sider";
 
 function MenuSider() {
-  const items = [
-    {
-      key: "DashBoard",
-      icon: <DashboardOutlined />,
-      label: "DashBoard",
-      children: [
-        {
-          key: "DashBoard1",
-          label: <Link to="/admin/">DashBoard All</Link>,
-        },
-      ],
-    },
-    {
-      key: "Store",
-      label: "Store",
-      icon: <AppstoreAddOutlined />,
-      children: [
-        {
-          key: "store/listStore",
-          label: <Link to="store/">List Store</Link>,
-        },
-        {
-          key: "store/create",
-          label: <Link to="store/create">Create Store</Link>,
-        },
-      ],
-    },
-    {
-      key: "manager store",
-      label: "Store's Manager",
-      icon: <UserAddOutlined />,
-      children: [
-        {
-          key: "manager/listStore",
-          label: <Link to="manager-store/">List Store's Manager</Link>,
-        },
-        {
-          key: "manager/create",
-          label: <Link to="manager-store/create">Create Store's Manager</Link>,
-        },
-      ],
-    },
-    {
-      key: "manager table",
-      label: "Table",
-      icon: <TableOutlined />,
-      children: [
-        {
-          key: "table/listStore",
-          label: <Link to="table/">List Table</Link>,
-        },
-        {
-          key: "table/create",
-          label: <Link to="table/create">Create Table</Link>,
-        },
-      ],
-    },
-    {
-      key: "manager employee",
-      label: "Employee",
-      icon: <UserOutlined />,
-      children: [
-        {
-          key: "employee/employees",
-          label: <Link to="employee/">List Employee</Link>,
-        },
-        {
-          key: "employee/create",
-          label: <Link to="employee/create">Create Employee</Link>,
-        },
-      ],
-    },
-    {
-      key: "manager category",
-      label: "Category",
-      icon: <RadarChartOutlined />,
-      children: [
-        {
-          key: "category/categories",
-          label: <Link to="category/">List Category</Link>,
-        },
-        {
-          key: "category/create",
-          label: <Link to="category/create">Create Category</Link>,
-        },
-      ],
-    },
-    {
-      key: "manager product",
-      label: "Product",
-      icon: <ProductOutlined />,
-      children: [
-        {
-          key: "product/products",
-          label: <Link to="product/">List Product</Link>,
-        },
-        {
-          key: "product/create",
-          label: <Link to="product/create">Create Product</Link>,
-        },
-      ],
-    },
-    {
-      key: "feedback ",
-      label: "Feedback",
-      icon: <MenuOutlined />,
-      children: [
-        {
-          key: "feedback/listFeedbacks",
-          label: <Link to="feedback/">List Feedback</Link>,
-        },
-       
-      ],
-    },
-    // {
-    //   key: "manager toping",
-    //   label: "Toping",
-    //   icon: <HeatMapOutlined />,
-    //   children: [
-    //     {
-    //       key: "toping/",
-    //       label: <Link to="topping/">List Toping</Link>,
-    //     },
-    //     {
-    //       key: "toping/create",
-    //       label: <Link to="topping/create">Create Toping</Link>,
-    //     },
-    //   ],
-    // },
-    {
-      key: "manager orders",
-      label: "Orders",
-      icon: <ShoppingCartOutlined />,
-      children: [
-        {
-          key: "orders/",
-          label: <Link to="orders/">List orders</Link>,
-        },
-      ],
-    },
-    {
-      key: "manager qrs",
-      label: "List Qrs",
-      icon: <ShoppingCartOutlined />,
-      children: [
-        {
-          key: "listQr/",
-          label: <Link to="listQr/">List QR</Link>,
-        },
-      ],
-    },
-  ];
+  const account = useSelector((state) => state.AccountReducer);
+  const [openKeys, setOpenKeys] = useState([]);
+
+  // Lấy các giá trị của thanh sider từ hàm trả về
+  const item2 = itemsSider(account);
+
+  // set lại giá trị mặc định của sider 3 khi đăng nhap
+  useEffect(() => {
+    if (account.roleId === 3) {
+      setOpenKeys(["table/listStore"]);
+    } else {
+      setOpenKeys(["DashBoard1"]);
+    }
+  }, [account.roleId]);
+
   return (
     <>
       <Menu
         mode="inline"
-        items={items}
+        // chắc chắn thằng item2 phải là hàm
+        items={Array.isArray(item2) ? item2 : []}
+        // set giá trị mặc định phải là 1 MẢNG
         defaultOpenKeys={["DashBoard1"]}
+        // khi thanh sider 3 bị thay đổi chạy hàm này để defaultOpenkeys thay đôi
+        onOpenChange={keys => setOpenKeys(keys)}
         defaultSelectedKeys={["/"]}
       />
     </>

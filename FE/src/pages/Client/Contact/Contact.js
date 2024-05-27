@@ -52,17 +52,17 @@ function Contact() {
             if (response) {
 
                 setShowModal(false);
-                Swal.fire({
+                await Swal.fire({
                     position: "center",
                     icon: "success",
                     title: "Seen FeedBack sucessfully",
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 1000
                 });
-                setTimeout(() => {
-                    onReload();
-                    setData({});
-                }, 3000);
+                // setTimeout(() => {
+                //     // onReload();
+                //     setData({});
+                // }, 3000);
                 setData({});
             }
             console.log('Form submitted successfully:', response);
@@ -74,9 +74,9 @@ function Contact() {
             alert('Failed to submit the form.');
         }
     };
-    const onReload = () => {
-        window.location.reload();
-    };
+    // const onReload = () => {
+    //     window.location.reload();
+    // };
     console.log("data: ", data)
     return (
         <>
