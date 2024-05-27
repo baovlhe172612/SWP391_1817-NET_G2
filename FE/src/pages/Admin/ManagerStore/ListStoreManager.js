@@ -107,10 +107,12 @@ function ListStoreManager() {
   ];
 
   return (
+
     <Table 
       columns={columns} 
       dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
     />
+
   );
 }
 
