@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag } from "antd";
+import { Space, Table, Tag, message } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
+import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
 
 function ListEmployee() {
   const [AccountEmployee, setAccountEmployee] = useState([]);
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const data = await get(LIST_Employee);
-        //
-        setAccountEmployee(data);
-      } catch (error) {
-        console.log("Err tại ListStoreManager", error);
-        setAccountEmployee([]);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchApi = async () => {
+  //     try {
+  //       const data = await get(LIST_Employee);
+  //       //
+  //       setAccountEmployee(data);
+  //     } catch (error) {
+  //       console.log("Err tại ListStoreManager", error);
+  //       setAccountEmployee([]);
+  //     }
+  //   };
 
+  //   fetchApi();
+  // }, []);
+
+  const fetchApi = async () => {
+    try {
+      const data = await get(LIST_Employee);     
+      setAccountEmployee(data);
+    } catch (error) {
+      message.error("Error fetching accounts");
+      console.log("Error in ListStoreManager", error);
+      setAccountEmployee([]);
+    }
+  };
+
+  useEffect(() => {
     fetchApi();
   }, []);
+
+
+ 
+  const onReload = () => {
+    fetchApi();
+};
   
   const columns = [
     {
@@ -71,18 +93,21 @@ function ListEmployee() {
       dataIndex: "roleName",
       key: "roleId",
     },
+    {
+      title: "Store Name",
+      dataIndex: "storeName",
+      key: "storeName",
+    },
 
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => {
-        // return (
-        //   <Space size="middle">
-        //     <UpdateStoreManager record={record} />
-        //     <DeleteStoreManager record={record} />{" "}
-        //     Pass the record to the delete component
-        //   </Space>a
-        // );
+        return (
+          <Space size="middle">                     
+            <UpdateIsDelete record={record} onReload={onReload}/>          
+          </Space>
+        );
       },
     },
   ];

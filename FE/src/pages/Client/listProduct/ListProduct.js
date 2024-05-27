@@ -114,18 +114,18 @@ function ListProduct() {
   const handleDataByPage = async (item) => {
     setCurrentPage(item);
 
-    // try {
-    //   const response = await fetch(`http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`);
-    //   if (!response.ok) {
-    //     const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
-    //     throw new Error(`Network response was not ok: ${errorText}`);
-    //   }
-    //   const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
+    try {
+      const response = await fetch(`http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`);
+      if (!response.ok) {
+        const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
+        throw new Error(`Network response was not ok: ${errorText}`);
+      }
+      const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
 
-    //   setProducts(data);
-    // } catch (error) {
-    //   console.error('Error updating size:', error);
-    // }
+      setProducts(data);
+    } catch (error) {
+      console.error('Error updating size:', error);
+    }
   };
   console.log("currentPage", currentPage)
 
