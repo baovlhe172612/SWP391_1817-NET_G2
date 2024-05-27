@@ -43,7 +43,11 @@ namespace Swp391.Service
         {
             return _accountRepo.GetAllAccountEmployee();
         }
-      
+
+        public AccountDtos getAccountEmployeeId(int id)
+        {
+            return _accountRepo.getAccountEmployeeId(id);
+        }
 
     }
 }
