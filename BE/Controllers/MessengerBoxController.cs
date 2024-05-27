@@ -42,6 +42,7 @@ namespace Swp391.Controllers
             });
         }
 
+<<<<<<< HEAD
         [HttpGet]
         public IActionResult getAllMessegerBox()
         {
