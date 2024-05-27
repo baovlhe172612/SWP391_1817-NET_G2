@@ -46,6 +46,13 @@ namespace Swp391.Controllers
         public IActionResult getAllMessegerBox()
         {
             return (Ok(_messengerService.getAllMess()));
+=======
+        //phương thức này dùng để lấy ra toàn bộ feedback và hiển thị trên giao diện qua api
+        [HttpGet]
+        public IActionResult GetMessengerBox()
+        {
+            return Ok(_messengerService.getAllMess());
+>>>>>>> 3306dada4e2599a3a6eddb7d0fbfa984f580e4df
         }
     }
 }
