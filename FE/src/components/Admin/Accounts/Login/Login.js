@@ -16,6 +16,7 @@ import { alear_success_login } from "../../../../helpers/Alert.helper";
 import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
 import { setSessionItem } from "../../../../helpers/Session.helper";
+import { accountActions } from "../../../../actions/AccountActions";
 
 function Login() {
   const navigate = useNavigate();
@@ -33,11 +34,11 @@ function Login() {
           // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // set Session Store cho Account
-          setSessionItem("account", accountByToken);
+          // không dùng session nữa => gửi lên store 1 thằng account mới luôn 
+          dispatch(accountActions(accountByToken));
 
           if (accountByToken.roleId == 3) {
-            navigate("/admin/listTable");
+            navigate("/admin/table");
           } else {
             // move => admin
             navigate("/admin/dashboard");

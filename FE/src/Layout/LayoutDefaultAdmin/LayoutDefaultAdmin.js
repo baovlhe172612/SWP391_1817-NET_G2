@@ -22,17 +22,17 @@ const { Sider, Content } = Layout;
 
 function LayoutDefaultAdmin() {
   const [collapsed, setCollapsed] = useState(true);
+  // lấy login + account từ redux
   const login = useSelector((state) => state.LoginReducer);
+  // 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!login) {
-      setCollapsed(!collapsed);
+      setCollapsed(false);
     }
 
   }, [login]);
-
-  console.log(login)
 
   return (
     <>
