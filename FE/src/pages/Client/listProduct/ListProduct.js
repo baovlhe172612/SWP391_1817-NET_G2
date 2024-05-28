@@ -28,25 +28,32 @@ function ListProduct() {
     const data = await get(url);
     console.log("data in url: ", data)
 
-    if (data === "No products found with the given keyword.") {
+    console.log("data.message: ", data.message)
+    if (data.message === "No products found with the given keyword.") {
       setProducts([]); // Set products to an empty array
     } else {
       setProducts(data);
     }
 
     console.log("seacrh: ====",search)
+    console.log("product sau khi set data: ",products)
     // Update total pages and total products for search queries
     if (search) {
       const totalPagesData = await get(`http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search}`);
+      console.log("totalPagesData",totalPagesData)
       setTotalPages(totalPagesData);
 
       const totalProductData = await get(`http://localhost:5264/api/ProductControlles/getCountProduct?keyword=${search}`);
+      console.log("totalProductData",totalProductData)
       setTotalProduct(totalProductData);
-    } else {
+    } 
+    else {
       const totalPagesData = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
+      console.log("totalPagesData",totalPagesData)
       setTotalPages(totalPagesData);
 
       const totalProductData = await get("http://localhost:5264/api/ProductControlles/getCountProduct");
+      console.log("totalProductData",totalProductData)
       setTotalProduct(totalProductData);
     }
   };
@@ -66,6 +73,8 @@ function ListProduct() {
     setCondition(selectedSortCondition);
   };
 
+  console.log("Product",products)
+  console.log("Product",products.length)
   return (
     <div className="shop-area section-space-y-axis-100">
       <div className="container">
