@@ -67,7 +67,7 @@ function Login() {
       const dataAuthen = await get(
         `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
-      // console.log(dataAuthen);
+      console.log(dataAuthen);
       if (dataAuthen) {
         // message login success
         alear_success_login("Đăng nhập thành công", dataAuthen.fullName);

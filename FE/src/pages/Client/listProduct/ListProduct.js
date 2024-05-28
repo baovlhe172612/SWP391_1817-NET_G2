@@ -123,7 +123,7 @@ function ListProduct() {
                   {products.length > 0 ? (
                     products.map(product => <Product key={product.productId} product={product} />)
                   ) : (
-                    <p>No products found</p>
+                    <p style={{textAlign: "center", color:"red"}}>No products found</p>
                   )}
                 </div>
               </div>
