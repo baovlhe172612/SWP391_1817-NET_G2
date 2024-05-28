@@ -65,7 +65,7 @@ const routes = [
         element: <ListProduct />,
       },
       {
-        path: "shop/:id",
+        path: "listproduct/:id",
         element: <ListProduct />,
       },
       {
@@ -88,13 +88,14 @@ const routes = [
       },
       {
         path: "/admin",
+        // PrivateRouter: kiểm tra đăng nhập
         element: <PrivateRouter />,
         children: [
           {
             path: "/admin/logout",
             element: <Logout />,
           },
-          // ROLE OF OWNER
+          // ROLE OF OWNERv => kiểm tra role của Owner
           {
             element: <ProtectedRole roles={["Owner"]} />,
             children: [
@@ -131,7 +132,7 @@ const routes = [
             ],
           },
 
-          // ROLE OF MANAGE
+          // ROLE OF MANAGE => kiểm tra role của Owner + Manager
           {
             element: <ProtectedRole roles={["Manager", "Owner"]} />,
             children: [
@@ -207,7 +208,7 @@ const routes = [
               },
             ],
           },
-          // ROLE OF EMPLOYEE
+          // ROLE OF EMPLOYEE => kiểm tra role của Owner + Manager + Employee
           {
             element: <ProtectedRole roles={["Manager", "Employee", "Owner"]} />,
             children: [

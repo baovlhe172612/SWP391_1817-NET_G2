@@ -26,4 +26,4 @@ export const LIST_FEEDBACK = `${LOCALHOST_API}/api/MessengerBox`
 export const LIST_Employee = `${LOCALHOST_API}/employee`;
 
 // LINK SHOP CLIENT
-export const LIST_PRODUCT = `http://localhost:3000/shop/`;
+export const LIST_PRODUCT = `http://localhost:3000/listProduct/`;
