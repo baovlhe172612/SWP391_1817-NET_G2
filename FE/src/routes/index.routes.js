@@ -34,6 +34,7 @@ import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
+import ForgotPassword from "../components/Admin/Accounts/ForgotPassword/ForgotPassword";
 
 const routes = [
   {
@@ -78,6 +79,14 @@ const routes = [
     // path: "/admin",
     element: <LayoutDefaultAdmin />,
     children: [
+      {
+        path: "/admin/login",
+        element: <Login />,
+      },
+      {
+        path: "/admin/forgotPassword",
+        element: <ForgotPassword />,
+      },
       {
         path: "/admin/login",
         element: <Login />,
@@ -249,6 +258,11 @@ const routes = [
       },
     ],
   },
+  // Tất cả những router ko được định dạng => chuyển hết về trang notfound
+  {
+    path: "*",
+    element: <NotFound />
+  }
 ];
 
 export default routes;

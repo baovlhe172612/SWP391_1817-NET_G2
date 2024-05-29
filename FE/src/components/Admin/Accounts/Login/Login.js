@@ -146,6 +146,7 @@ function Login() {
               >
                 <Checkbox>Remember Me</Checkbox>
               </Form.Item>
+
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Login
@@ -165,6 +166,10 @@ function Login() {
             {/* LINK */}
             <Link className="signup-image-link" to="/admin/register">
               Create an account
+            </Link>
+
+            <Link className="signup-image-link" to="/admin/forgotPassword">
+              Forgot Password
             </Link>
           </div>
         </div>
