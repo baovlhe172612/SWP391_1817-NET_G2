@@ -32,7 +32,7 @@ namespace Swp391.Repository
             {
                 // Nếu từ khóa không rỗng, thực hiện tìm kiếm sản phẩm theo từ khóa
                 return context.Products
-                               .Where(p => p.ProductName.Contains(keyword))
+                               .Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()))
                                .ToList();
             }
         }

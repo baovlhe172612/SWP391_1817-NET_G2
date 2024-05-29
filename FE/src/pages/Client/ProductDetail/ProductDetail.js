@@ -118,15 +118,15 @@ function ProductDetail() {
                         Please place an order at the nearest Mixue store. This website only introduces products and does not allow for orders.
                       </p>
                       <ul className="quantity-with-btn">
-                        <li className="quantity">
+                        {/* <li className="quantity">
                           <div className="cart-plus-minus">
                             <input className="cart-plus-minus-box" value="1" type="text" />
                           </div>
-                        </li>
+                        </li> */}
                         <li className="add-to-cart">
                           <a className="btn btn-custom-size lg-size btn-pronia-primary" href="cart.html">Add to cart</a>
                         </li>
-                        <li className="wishlist-btn-wrap">
+                        {/* <li className="wishlist-btn-wrap">
                           <a className="custom-circle-btn" href="wishlist.html">
                             <i className="pe-7s-like"></i>
                           </a>
@@ -135,7 +135,7 @@ function ProductDetail() {
                           <a className="custom-circle-btn" href="compare.html">
                             <i className="pe-7s-refresh-2"></i>
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>

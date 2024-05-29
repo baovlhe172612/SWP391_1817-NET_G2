@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Swp391.Models;
 using Swp391.Repository;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Swp391.Service
 {
@@ -136,10 +137,7 @@ namespace Swp391.Service
         /// </summary>
         /// <param name="keyword">Tên sản phẩm hoặc một phần tên sản phẩm</param>
         /// <returns>Danh sách sản phẩm khớp với từ khóa</returns>
-        public List<Product> searchProductsByName(string keyword)
-        {
-            return _repo.searchProductsByName(keyword);
-        }
+        
 
         public List<Product> SearchProductsByPriceRange(double minPrice, double maxPrice)
         {
@@ -193,6 +191,11 @@ namespace Swp391.Service
             }
 
             return listProductByCategoryIDAndCondition;
+        }
+
+        public List<Product> getProductBySearch(string search)
+        {
+            return _repo.searchProductsByName(search);
         }
     }
 }

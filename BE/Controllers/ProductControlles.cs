@@ -85,16 +85,7 @@ namespace Swp391.Controllers
             return Ok(countPageProduct);
         }
 
-        [HttpGet("search")]
-        public ActionResult<List<Product>> SearchProductsByName(string keyword)
-        {
-            var products = _service.searchProductsByName(keyword);
-            if (products == null || products.Count == 0)
-            {
-                return NotFound("No products found with the given keyword.");
-            }
-            return Ok(products);
-        }
+        
 
         [HttpGet("searchByPriceRange")]
         public IActionResult SearchProductsByPriceRange(double minPrice, double maxPrice)
@@ -139,6 +130,24 @@ namespace Swp391.Controllers
             {
                 mess = "not exits data"
             });
+        }
+
+        [HttpGet("search")]
+        public IActionResult GetListProductBySearch(String search)
+        {
+            List<Product> listProductBySearch = _service.getProductBySearch(search);
+
+            if (listProductBySearch != null
+                    && listProductBySearch.Count != 0)
+            {
+                return Ok(listProductBySearch);
+            }
+
+            return BadRequest(new
+            {
+                mess = "not exits data"
+            });
+
         }
     }
 }

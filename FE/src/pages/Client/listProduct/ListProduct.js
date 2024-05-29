@@ -18,7 +18,7 @@ function ListProduct() {
   const searchQuery = searchParams.get('search');
   const searchByCategoryID = searchParams.get('categoryId');
   
-  //console.log("searchQuery",searchQuery)
+  
   useEffect(() => {
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       const fetchApi = async () => {
@@ -34,8 +34,7 @@ function ListProduct() {
     }
   }, [searchByCategoryID ]); 
 
-
-
+  
   //dùng để search
   // const fetchProducts = async (page = 1, condition = 1, search = '') => {
   //   let url = `http://localhost:5264/api/ProductControlles/getProductByPage?page=${page}&condition=${condition}`;
@@ -90,7 +89,7 @@ function ListProduct() {
 
 
 
-  //dùng để đếm số lượng trang
+  //dùng de loa du lieu luc an vao menu
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
@@ -102,11 +101,29 @@ function ListProduct() {
       setCategory(dataCate);
       //
       console.log("da ghi de tai day 104");
+      console.log(data);
       setProducts(data);
     };
 
     fetchApi();
   }, []);
+  
+  useEffect(() => {
+    if (searchQuery !== null && parseInt(searchQuery) !== 0) {
+      const fetchApi = async () => {
+        const data = await get(
+          `http://localhost:5264/api/ProductControlles/search?search=${searchQuery}`
+        );
+  
+        console.log("da ghi de tai day 117");
+        console.log(data);
+        setProducts(data);
+      };
+  
+      fetchApi();
+    }
+  }, []); 
+
 
   useEffect(() => {
     const fetchApi = async () => {
