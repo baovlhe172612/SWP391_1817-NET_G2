@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Product(props) {
-  const { product } = props;
+  const { product } = props
+  // console.log(props)
+  console.log("product in product.js", product)
   return (
     <>
       {product ? (
@@ -10,18 +12,24 @@ function Product(props) {
           <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
             <div class="product-item">
               <div class="product-img">
-                <Link to="/productDetail">
+
+                <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
                   <img
                     class="primary-img"
                     src={product.img}
                     alt="Product Images"
                   />
+                  {/* <img
+                class="secondary-img"
+                src="assets/images/product/medium-size/1-1-270x300.jpg"
+                alt="Product Images"
+              /> */}
                 </Link>
                 <div class="product-add-action">
                   <ul>
                     <li>
                       <a
-                        href="wishlist.html"
+
                         data-tippy="Add to wishlist"
                         data-tippy-inertia="true"
                         data-tippy-animation="shift-away"
@@ -32,22 +40,11 @@ function Product(props) {
                         <i class="pe-7s-like"></i>
                       </a>
                     </li>
-                    <li
-                      class="quuickview-btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#quickModal"
-                    >
-                      <a
-                        href="#"
-                        data-tippy="Quickview"
-                        data-tippy-inertia="true"
-                        data-tippy-animation="shift-away"
-                        data-tippy-delay="50"
-                        data-tippy-arrow="true"
-                        data-tippy-theme="sharpborder"
-                      >
+
+                    <li>
+                      <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
                         <i class="pe-7s-look"></i>
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a
@@ -65,20 +62,34 @@ function Product(props) {
                   </ul>
                 </div>
               </div>
-              <div class="product-content">
-                <a
-                  class="product-name"
-                  href="shop.html"
-                  style={{ fontFamily: "Arial", fontWeight: "bold" }}
-                >
+              <div class="product-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <a class="product-name" href="shop.html" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
                   {product.productName}
                 </a>
                 <div class="price-box pb-1">
-                  <span class="new-price" style={{ fontSize: "16px" }}>
-                    {product.price}đ
-                  </span>
+                  <span class="new-price" style={{ fontSize: '16px' }}>{product.price}đ</span>
                 </div>
+                {/* <div class="rating-box">
+    <ul>
+        <li>
+            <i class="fa fa-star"></i>
+        </li>
+        <li>
+            <i class="fa fa-star"></i>
+        </li>
+        <li>
+            <i class="fa fa-star"></i>
+        </li>
+        <li>
+            <i class="fa fa-star"></i>
+        </li>
+        <li>
+            <i class="fa fa-star"></i>
+        </li>
+    </ul>
+    </div> */}
               </div>
+
             </div>
           </div>
         </>

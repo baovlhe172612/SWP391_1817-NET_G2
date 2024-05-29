@@ -3,11 +3,9 @@ import { Button, Space, Table, Tag, message } from "antd";
 import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
 import UpdateStatus from "./UpdateStatus";
-import { useSelector } from 'react-redux';
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
-  const account = useSelector(state => state.AccountReducer);
-  console.log(account);
+
   const fetchApi = async () => {
     try {
       const data = await get("http://localhost:5264/api/Account/manager");     

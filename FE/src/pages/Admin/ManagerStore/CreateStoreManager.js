@@ -1,17 +1,51 @@
-import React from 'react'
-import { Button, Form, Input, Select, Space, Switch } from "antd";
+import React,{ useEffect, useState } from 'react'
+import { Button, Form, Input, Select, Space, Switch,message } from "antd";
+import { post } from '../../../helpers/API.helper';
+import { get } from "../../../helpers/API.helper";
+import { useNavigate } from "react-router-dom";
 function CreateStoreManager() {
-  const [form] = Form.useForm();
+    const [form] = Form.useForm();
+    const navigate = useNavigate();
+    const handleSubmit = async (values) => {
+      console.log(values); 
+      // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
+      values.isDelete = 0;
+      values.roleId = 2;
+      if(values.status ) {
+        values.status = 1;
+      } else{   
+        values.status = 0;
+      }
+      try {
+        const response = await post(`http://localhost:5264/api/Account`, values);      
+        // Kiểm tra giá trị trả về từ API
+        if (response) {
+          form.resetFields();
+          message.success('Account created successfully!');
+          navigate(`/admin/manager-store/`);  
+          // Thực hiện các hành động khác nếu cần
+        }
+      } catch (error) {
+        message.error('Account created Fail!');         
+          console.error("Failed to create account. Please try again later", error);
+      }
+    };
 
-  const handleSubmit = async (values) => {
-      console.log(values);
-      // const response = await createEmployee(values);
-      // console.log(response);
-      // if (response) {
-      //     form.resetFields();
-      // }
-  };
-
+    const [Stores, setStores] = useState([]);
+    const fetchApi = async () => {
+      try {
+        const data = await get("http://localhost:5264/api/stores");     
+        setStores(data);
+      } catch (error) {
+        message.error("Error fetching accounts");
+        console.log("Error in ListStoreManager", error);
+        setStores([]);
+      }
+    };
+    useEffect(() => {
+      fetchApi();
+    }, []);
+  
   return (
       <>
           <h2>Create Store's Manager</h2>
@@ -35,7 +69,7 @@ function CreateStoreManager() {
 
               <Form.Item
                   label="Password"
-                  name="password"
+                  name="passWord"
                   rules={[
                       {
                           required: true,
@@ -49,7 +83,7 @@ function CreateStoreManager() {
               <Form.Item
                   label="Status"
                   name="status"
-                  valuePropName="checked"
+                  valuePropName="checked"                 
                   initialValue={true}
               >
                   <Switch checkedChildren="Active" unCheckedChildren="Inactive" defaultChecked />
@@ -107,24 +141,37 @@ function CreateStoreManager() {
 
               <Form.Item
                   label="Role"
-                  name="roleId"
-                  rules={[
-                      {
-                          required: true,
-                          message: 'Please select a role!',
-                      },
-                  ]}
+                  name="roleId"    
+                  key="roleId"              
               >
-                  <Select placeholder="Select a role">
-                     
-                      <Select.Option value="1">Manager</Select.Option>
-                      <Select.Option value="2">Enployee</Select.Option>
-                      {/* Add more roles as needed */}
-                  </Select>
+                <Select defaultValue={2} disabled>
+                   <Select.Option value={2}>Manager</Select.Option>
+                 </Select>
+              </Form.Item>
+
+              <Form.Item
+                    label="Store"
+                    name="StoreId"
+                    key="StoreId"
+                >
+                    <Select>
+                        {Stores.map(store => (
+                            <Select.Option value={store.storeId}>
+                                      {store.storeName}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+              <Form.Item
+                  label="isdelete"
+                  name="isDelete"
+                  hidden  
+              >
+                  <Input value={0}/>
               </Form.Item>
 
               <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" >
                       Submit
                   </Button>
               </Form.Item>
