@@ -8,6 +8,7 @@ import {
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
+import PaginationDesign from "../../../components/Mixin/Pagination/Pagination";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
@@ -70,7 +71,10 @@ function ListStore() {
       render: (storeId) => (
         <Space size="middle">
           <Link to={`/admin/store/edit/${storeId}`}>
-            <Button type="primary">Update</Button>
+            <Button type="primary">Edit</Button>
+          </Link>
+          <Link to={`/admin/store/edit/${storeId}`}>
+            <Button type="primary" ghost>Detail</Button>
           </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
             Delete
@@ -148,8 +152,9 @@ function ListStore() {
         columns={columns}
         dataSource={data}
         pagination={false}
-        style={{ marginTop: "20px" }}
+        style={{ margin: "20px 0" }}
       />
+      <PaginationDesign />
     </>
   );
 }

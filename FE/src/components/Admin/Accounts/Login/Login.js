@@ -62,7 +62,7 @@ function Login() {
 
   // SUBMIT - Đăng nhập
   const onFinish = async (values) => {
-    // console.log("Success:", values);
+    console.log("Success:", values);
     try {
       // call API
       const dataAuthen = await get(
