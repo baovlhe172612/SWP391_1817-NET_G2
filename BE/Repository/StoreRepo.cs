@@ -16,7 +16,9 @@ namespace Swp391.Repository
         public List<Store> getAllStore()
         {
             SwpfinalContext context = new SwpfinalContext();
-            return context.Stores.ToList();
+            return context.Stores
+                            .Where(store => store.IsDelete == 0)
+                            .ToList();
         }
 
         public void createStore(Store store)

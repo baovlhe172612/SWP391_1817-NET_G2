@@ -73,8 +73,10 @@ function Login() {
         // message login success
         alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
 
-        // set TOKEN for login again
-        setCookie("token", dataAuthen.token, 10);
+        if (values.remember) {
+          // set TOKEN for login again
+          setCookie("token", dataAuthen.token, 10);
+        }
 
         // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));
@@ -95,7 +97,7 @@ function Login() {
         message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
       }
     } catch (error) {
-      message.error(`Đăng nhập thất bại:  Server False`);
+      message.error(`Đăng nhập thất bại:  Sai mk hoặc tk`);
       // alear_false("Đăng nhập thất bại", "False");
     }
   };
