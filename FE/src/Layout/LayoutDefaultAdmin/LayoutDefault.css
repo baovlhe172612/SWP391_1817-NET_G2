@@ -32,6 +32,13 @@
     width: 100%;
     /* height: clamp(200px, 500px, 700px); */
 }
+
+.content_header {
+    padding: 20px;
+    background: white;
+    height: 100%;
+    border-radius: 10px;
+}
 .header__collapse{
     margin-right: 20px;
     cursor: pointer;

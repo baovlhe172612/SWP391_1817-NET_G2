@@ -122,7 +122,9 @@ function LayoutDefaultAdmin() {
             <></>
           )}
           <Content className="content">
-            <Outlet />
+            <div className="content_header">
+              <Outlet />
+            </div>
           </Content>
         </Layout>
       </Layout>

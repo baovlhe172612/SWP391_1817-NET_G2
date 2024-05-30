@@ -10,7 +10,7 @@ const { Option } = Select;
 function CreateStore() {
   const [Accounts, setAccounts] = useState([]);
   const [form] = Form.useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -48,15 +48,22 @@ function CreateStore() {
 
       // chuyển hướng đến listore
       // navigate(`/admin/store/`)
-      navigate(`/admin/store/create`)
+      navigate(`/admin/store/create`);
     }
   };
 
   return (
     <>
-      <h2>Create Store</h2>
+      <h2 style={{ fontWeight: "500", margin: "10px 0 20px 3%" }}>Create Store</h2>
 
-      <Form name="create-room" onFinish={handleSubmit} form={form}>
+      <Form
+        layout="horizontal"
+        name="create-room"
+        onFinish={handleSubmit}
+        form={form}
+        labelCol={{ span: 3 }}
+        wrapperCol={{ span: 14 }}
+      >
         <Form.Item
           label="Strore name"
           name="storeName"
@@ -66,6 +73,7 @@ function CreateStore() {
               message: "Please input your name store!",
             },
           ]}
+          // style={{ minWidth: "40px" }}
         >
           <Input />
         </Form.Item>
@@ -97,7 +105,11 @@ function CreateStore() {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ margin: "10px 0 0 5%" }}
+          >
             Submit
           </Button>
         </Form.Item>
