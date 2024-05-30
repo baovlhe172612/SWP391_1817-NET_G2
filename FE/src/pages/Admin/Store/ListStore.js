@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
-import {get} from '../../../helpers/API.helper'
+import { get } from "../../../helpers/API.helper";
 import { STORES_DTOS } from "../../../helpers/APILinks";
+import Swal from "sweetalert2";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
@@ -50,12 +51,15 @@ function ListStore() {
       key: "actions",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleUpdate(record)}>Update</Button>
-          <Button type="default" onClick={() => handleDelete(record)}>Delete</Button>
+          <Button type="primary" onClick={() => handleUpdate(record)}>
+            Update
+          </Button>
+          <Button type="default" onClick={() => handleDelete(record)}>
+            Delete
+          </Button>
         </Space>
       ),
-    }
-
+    },
   ];
 
   let data = [];
@@ -64,26 +68,25 @@ function ListStore() {
   if (stores.length > 0) {
     data = stores.map((store) => {
       return {
-        "StoreID": store.storeId,
-        "StoreName": store.storeName,
-        "Location": store.location,
-        "Email": store.email,
-        "Status": store.status,
-        key: store.storeId
-      }
+        StoreID: store.storeId,
+        StoreName: store.storeName,
+        Location: store.location,
+        Email: store.email,
+        Status: store.status,
+        key: store.storeId,
+      };
     });
   }
-    // Handler for updating a store
-    const handleUpdate = (record) => {
-      console.log("Update", record);
-      // Add your update logic here
-    };
-  
-    // Handler for deleting a store
-    const handleDelete = (record) => {
-      console.log("Delete", record);
-      // Add your delete logic here
-    };
+  // Handler for updating a store
+  const handleUpdate = (record) => {
+    console.log("Update", record);
+    // Add your update logic here
+  };
+
+  // Handler for deleting a store
+  const handleDelete = async (storeId) => {
+    
+  };
 
   return (
     <>
