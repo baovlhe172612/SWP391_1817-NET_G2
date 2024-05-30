@@ -35,7 +35,6 @@ import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
-import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 
 const routes = [
   {
@@ -146,56 +145,61 @@ const routes = [
                 element: <Dashboard />,
               },
               {
-                path: "create",
-                element: <CreateTable />,
-              },
-            ],
-          },
-          {
-            path: "employee",
-            children: [
-              {
-                path: "",
-                element: <ListEmployee />,
+                path: "table",
+                children: [
+                  {
+                    path: "create",
+                    element: <CreateTable />,
+                  },
+                ],
               },
               {
-                path: "create",
-                element: <CreateEmployee />,
-              },
-            ],
-          },
-          {
-            path: "category",            
-            children: [
-              {
-                path: "",
-                element: <ListCategory />,
-              },
-              {
-                path: "create",
-                element: <CreateCategory />,
-              },
-            ],
-          },
-          {
-            path: "product",
-            children: [
-              {
-                path: "",
-                element: <ListProductAdmin />,
+                path: "employee",
+                children: [
+                  {
+                    path: "",
+                    element: <ListEmployee />,
+                  },
+                  {
+                    path: "create",
+                    element: <CreateEmployee />,
+                  },
+                ],
               },
               {
-                path: "create",
-                element: <CreateProduct />,
+                path: "category",
+                children: [
+                  {
+                    path: "",
+                    element: <ListCategory />,
+                  },
+                  {
+                    path: "create",
+                    element: <CreateCategory />,
+                  },
+                ],
               },
-            ],
-          },
-          {
-            path: "topping",
-            children: [
               {
-                path: "",
-                element: <ListTopping />,
+                path: "product",
+                children: [
+                  {
+                    path: "",
+                    element: <ListProductAdmin />,
+                  },
+                  {
+                    path: "create",
+                    element: <CreateProduct />,
+                  },
+                ],
+              },
+              {
+                path: "feedback",
+                children: [
+                  {
+                    path: "",
+                    element: <ListFeedBack />,
+                  },
+                ],
               },
               {
                 path: "listQr",
