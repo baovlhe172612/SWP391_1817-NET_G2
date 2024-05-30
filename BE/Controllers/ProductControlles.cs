@@ -85,16 +85,29 @@ namespace Swp391.Controllers
             return Ok(countPageProduct);
         }
 
+        //[HttpGet("search")]
+     //   public ActionResult<List<Product>> SearchProductsByName(string keyword)
+       // {
+         //   var products = _service.searchProductsByName(keyword);
+           // if (products == null || products.Count == 0)
+            //{
+              //  return NotFound("No products found with the given keyword.");
+            //}
+           // return Ok(products);
+        //}
+
+
         [HttpGet("search")]
-        public ActionResult<List<Product>> SearchProductsByName(string keyword)
+        public ActionResult SearchProductsByName(string keyword)
         {
             var products = _service.searchProductsByName(keyword);
             if (products == null || products.Count == 0)
             {
-                return NotFound("No products found with the given keyword.");
+                return Ok(new { message = "No products found with the given keyword." });
             }
             return Ok(products);
         }
+
 
         [HttpGet("searchByPriceRange")]
         public IActionResult SearchProductsByPriceRange(double minPrice, double maxPrice)
