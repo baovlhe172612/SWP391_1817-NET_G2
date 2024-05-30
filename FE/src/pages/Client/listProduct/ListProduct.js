@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Product from "../../../components/Client/Product/Product"
+import Product from "../../../components/Client/Product/Product";
 import { get } from "../../../helpers/API.helper";
 import { Col, Row } from "antd";
 import MenuCategory from "../../../components/Client/Category/MenuCategory";
 import { useLocation } from "react-router-dom";
 
 function ListProduct() {
-
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState([1]);
+  const [categories, setCategory] = useState([]);
   const [totalProduct, setTotalProduct] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [conditionSort, setCondition] = useState(1);
@@ -37,14 +37,14 @@ function ListProduct() {
   
   //dùng để search
   // const fetchProducts = async (page = 1, condition = 1, search = '') => {
-  //   let url = `http://localhost:5264/api/ProductControlles/getProductByPage?page=${page}&condition=${condition}`;
+  //   let url = http://localhost:5264/api/ProductControlles/getProductByPage?page=${page}&condition=${condition};
 
   //   if (condition === 1 || condition === 2 || condition === 3 || condition === 4) {
-  //     url = `http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${condition}`;
+  //     url = http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${condition};
   //   }
 
   //   if (search) {
-  //     url = `http://localhost:5264/api/ProductControlles/search?keyword=${search}`;
+  //     url = http://localhost:5264/api/ProductControlles/search?keyword=${search};
   //   }
   //   const data = await get(url);
   //   console.log("da ghi de tai day 51");
@@ -60,11 +60,11 @@ function ListProduct() {
     
   //   // Update total pages and total products for search queries
   //   if (search) {
-  //     const totalPagesData = await get(`http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search}`);
+  //     const totalPagesData = await get(http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search});
      
   //     setTotalPages(totalPagesData);
 
-  //     const totalProductData = await get(`http://localhost:5264/api/ProductControlles/getCountProduct?keyword=${search}`);
+  //     const totalProductData = await get(http://localhost:5264/api/ProductControlles/getCountProduct?keyword=${search});
   //     console.log("totalProductData",totalProductData);
   //     setTotalProduct(totalProductData);
   //   } else {
@@ -127,13 +127,13 @@ function ListProduct() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
+      const data = await get(
+        "http://localhost:5264/api/ProductControlles/getCountPageProduct"
+      );
       //
 
       setTotalPages(data);
     };
-
-
 
     fetchApi();
   }, []);
@@ -158,16 +158,18 @@ function ListProduct() {
     setCurrentPage(item);
 
     try {
-      const response = await fetch(`http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`);
+      const response = await fetch(
+        `http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`
+      );
       if (!response.ok) {
         const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
-        throw new Error(`Network response was not ok: ${errorText}`);
+        throw new Error(`Network response was not ok: " ${errorText}`);
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
       console.log("da ghi de tai day 152");
       setProducts(data);
     } catch (error) {
-      console.error('Error updating size:', error);
+      console.error("Error updating size:", error);
     }
   };
  
@@ -202,7 +204,7 @@ function ListProduct() {
       console.log("Inside else condition");
       try {
         const response = await fetch(
-          `http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${selectedSortCondition}`
+         `http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${selectedSortCondition}`
         );
         if (!response.ok) {
           const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
@@ -234,26 +236,29 @@ function ListProduct() {
                   </li>
                   <li class="product-view-wrap">
                     <ul class="nav" role="tablist">
-                      <li class="grid-view" role="presentation">
-                        <a
-                          class="active"
-                          id="grid-view-tab"
-                          data-bs-toggle="tab"
-                          href="#grid-view"
-                          role="tab"
-                          aria-selected="true"
-                        >
-                          <i class="fa fa-th"></i>
-                        </a>
-                      </li>
+                      {/* MENU CATEGORY */}
+                      <MenuCategory categories={categories}/>
+                      {/* MENU CATEGORY */}
                     </ul>
                   </li>
                   <li class="short">
-                    <select className="nice-select" value={conditionSort} onChange={handleSortCondition}>
-                      <option value="1" selected={1}>Sort by Default</option>
-                      <option value="2" selected={2}>Sort by Name</option>
-                      <option value="3" selected={3}>Sort by High Price</option>
-                      <option value="4" selected={4}>Sort by Low Price</option>
+                    <select
+                      className="nice-select"
+                      value={conditionSort}
+                      onChange={handleSortCondition}
+                    >
+                      <option value="1" selected={1}>
+                        Sort by Default
+                      </option>
+                      <option value="2" selected={2}>
+                        Sort by Name
+                      </option>
+                      <option value="3" selected={3}>
+                        Sort by High Price
+                      </option>
+                      <option value="4" selected={4}>
+                        Sort by Low Price
+                      </option>
                     </select>
 
                     {/* <select
@@ -265,7 +270,6 @@ function ListProduct() {
                           <option value="2" selected={productSize.sizeId === 2}>L</option>
                           <option value="3" selected={productSize.sizeId === 3}>M</option>
                     </select> */}
-
                   </li>
                  
                 </ul>
@@ -280,7 +284,8 @@ function ListProduct() {
                   role="tabpanel"
                   aria-labelledby="grid-view-tab"
                 >
-                  <div class="product-grid-view row g-y-20">
+                  <Row class="product-grid-view row g-y-20">
+                    {/* CATEGORY */}
                     {/* <!-- PRODUCT --> */}
                     {products.length > 0 &&
                       products.map((product) => {
@@ -316,7 +321,6 @@ function ListProduct() {
                 </nav>
               </div>
               {/* ================ PAGINATION =================== */}
-
             </div>
           </div>
         </div>
