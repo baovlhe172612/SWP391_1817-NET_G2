@@ -18,8 +18,5 @@ namespace Swp391.Controllers
             return Ok(_CategoryService.getAllCategory());
         }
 
-
-
-
     }
 }

@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
-import { DELETE_STORE_ID, STORES_DTOS } from "../../../helpers/APILinks";
+import {
+  DELETE_STORE_ID,
+  LIST_STORES,
+} from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
+import Status from "../../../components/Mixin/Status/Status";
+import PaginationDesign from "../../../components/Mixin/Pagination/Pagination";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
+  const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
 
   // lấy qua API
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/stores");
+        let data = [];
+        if (searchStatus.get("status")) {
+          data = await get(`${LIST_STORES}?status=${searchStatus.get("status")}`);
+        } else {
+          data = await get(`${LIST_STORES}`);
+        }
+
+        console.log('hello')
 
         if (data) {
           setStores(data);
@@ -26,7 +39,7 @@ function ListStore() {
     };
 
     fetchApi();
-  }, [updated]);
+  }, [updated, searchStatus]);
 
   // COLUMS
   const columns = [
@@ -58,7 +71,10 @@ function ListStore() {
       render: (storeId) => (
         <Space size="middle">
           <Link to={`/admin/store/edit/${storeId}`}>
-            <Button type="primary">Update</Button>
+            <Button type="primary">Edit</Button>
+          </Link>
+          <Link to={`/admin/store/edit/${storeId}`}>
+            <Button type="primary" ghost>Detail</Button>
           </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
             Delete
@@ -118,9 +134,27 @@ function ListStore() {
     }
   };
 
+  // Handler for change status in  store
+  const handleStatus = async (status) => {
+    try {
+      // truy vấn store
+      const dataStore = await get(`${LIST_STORES}?status=${status}`);
+      if (dataStore) {
+        setStores(dataStore);
+      }
+    } catch (error) {}
+  };
+
   return (
     <>
-      <Table columns={columns} dataSource={data} pagination={false} />
+      <Status handleStatus={handleStatus} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        style={{ margin: "20px 0" }}
+      />
+      <PaginationDesign />
     </>
   );
 }

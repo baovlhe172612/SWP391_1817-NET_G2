@@ -40,7 +40,7 @@ namespace Swp391.Repository
                                                Phone = a.Phone,
                                                RoleId = a.RoleId,
                                                Token = a.Token,
-                                               StoreId = a.StoreId,
+                                               StoreId = s.StoreId,
                                                RoleName = r.RoleName,
                                                StoreName = s.StoreName,
                                                IsDelete = (int)a.IsDelete,                                               
@@ -92,8 +92,7 @@ namespace Swp391.Repository
         public void UpdateAccountStatus(int accountId, int newStatus)
         {
             SwpfinalContext _context = new SwpfinalContext();
-            var account = _context.Accounts.Find(accountId);
-
+            var account = _context.Accounts.Find(accountId);         
             if (account != null)
             {
                 account.Status = newStatus;
@@ -104,6 +103,52 @@ namespace Swp391.Repository
                 throw new Exception("Account not found"); // Ném một exception để thông báo lỗi
             }
         }
+
+        //update full account
+        public void UpdateAccount(Account newAccount)
+        {
+            using (var _context = new SwpfinalContext())
+            {
+                // Check if the account exists
+                var existingAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == newAccount.AccountId);
+                if (existingAccount != null)
+                {
+                    // Check if the store exists
+                    var storeExists = _context.Stores.Any(s => s.StoreId == newAccount.StoreId);
+                    if (!storeExists)
+                    {
+                        throw new Exception("Store not found.");
+                    }
+
+                    // Update fields
+                    existingAccount.FullName = newAccount.FullName;
+                    existingAccount.Status = newAccount.Status;
+                    existingAccount.Email = newAccount.Email;
+                    existingAccount.Location = newAccount.Location;
+                    existingAccount.Phone = newAccount.Phone;
+                    existingAccount.RoleId = newAccount.RoleId;
+                    existingAccount.IsDelete = newAccount.IsDelete;
+                    existingAccount.StoreId = newAccount.StoreId;
+
+                    try
+                    {
+                        _context.SaveChanges();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        // Log the exception (optional)
+                        Console.WriteLine($"An error occurred while updating the account: {ex.Message}");
+                        throw new Exception("An error occurred while updating the account.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Account not found.");
+                }
+            }
+        }
+
+
 
 
         /// <summary>
@@ -183,6 +228,7 @@ namespace Swp391.Repository
                                      join r in _context.Roles on a.RoleId equals r.RoleId
                                      join s in _context.Stores on a.StoreId equals s.StoreId
                                      where r.RoleName == "Employee" && a.IsDelete == 0
+                                     
                                      select new AccountDtos
                                      {
                                          AccountId = a.AccountId,
@@ -194,6 +240,7 @@ namespace Swp391.Repository
                                          Location = a.Location,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
+                                         StoreName=s.StoreName,
                                          Token = a.Token,
                                          StoreId = a.StoreId,
                                          RoleName = r.RoleName,
@@ -209,6 +256,7 @@ namespace Swp391.Repository
             SwpfinalContext _context = new SwpfinalContext();
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
                                      where a.AccountId == id
                                      select new AccountDtos
                                      {
@@ -221,6 +269,7 @@ namespace Swp391.Repository
                                          Location = a.Location,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
+                                         StoreName=s.StoreName,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
                                          IsDelete = (int)a.IsDelete,

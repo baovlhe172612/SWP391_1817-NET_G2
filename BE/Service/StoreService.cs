@@ -49,6 +49,7 @@ namespace Swp391.Service
 
             if (storeExist != null)
             {
+                // Thay đổi isDelete = true (1);
                 storeExist.IsDelete = isDelete;
                 // Gọi Repo vì Repo mới có thể can thiệp vào dữ liệu
                 storeRepo.UpdateStore(storeExist);

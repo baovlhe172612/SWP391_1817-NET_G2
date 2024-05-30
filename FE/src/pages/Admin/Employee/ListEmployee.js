@@ -1,23 +1,54 @@
-import React from "react";
-import { Space, Table, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Space, Table, Tag, message } from "antd";
+import { LIST_Employee } from "../../../helpers/APILinks";
+import { get } from "../../../helpers/API.helper";
+import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
 
 function ListEmployee() {
-  // Define the columns for the employee table
+  const [AccountEmployee, setAccountEmployee] = useState([]);
+
+  const fetchApi = async () => {
+    try {
+      const data = await get(LIST_Employee);     
+      setAccountEmployee(data);
+    } catch (error) {
+      message.error("Error fetching accounts");
+      console.log("Error in ListStoreManager", error);
+      setAccountEmployee([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
+
+ 
+  const onReload = () => {
+    fetchApi();
+};
+  
   const columns = [
+    {
+      title: "AccountID",
+      dataIndex: "accountId",
+      key: "accountId",
+      // Custom text rendering
+    },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      render: (text) => <a>{text}</a>, // Custom text rendering
+      // Custom text rendering
     },
     {
-      title: "User",
-      dataIndex: "user",
+      title: "User Name",
+      dataIndex: "userName",
       key: "user",
     },
     {
       title: "Password",
-      dataIndex: "password",
+      dataIndex: "passWord",
       key: "password",
     },
     {
@@ -29,73 +60,56 @@ function ListEmployee() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag color={status === 'active' ? 'green' : 'red'}>
-          {status === 'active' ? 'Active' : 'Inactive'}
-        </Tag>
-      ), // Render status with color-coded tags
+      render: (status) => {
+        const statusMap = {
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" },
+        };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray",
+        };
+        return <Tag color={color}>{text}</Tag>;
+      },
     },
+
     {
-      title: "Account ID",
-      dataIndex: "accountId",
-      key: "accountId",
-    },
-    {
-      title: "Role ID",
-      dataIndex: "roleId",
+      title: "Role Name",
+      dataIndex: "roleName",
       key: "roleId",
     },
     {
-      title: "Action",
-      key: "action",
-      dataIndex: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          {record.action.map((item, index) => (
-            <a key={index}>{item}</a>
-          ))}
-        </Space>
-      ),
+      title: "Store Name",
+      dataIndex: "storeName",
+      key: "storeName",
+    },
+
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => {
+        return (
+          <Space size="middle">                     
+            <UpdateIsDelete record={record} onReload={onReload}/>          
+          </Space>
+        );
+      },
     },
   ];
 
-  // Define the data for the employee table
-  const data = [
-    {
-      fullName: "John Doe",
-      user: "johndoe",
-      password: "password123",
-      phone: "123-456-7890",
-      status: "active",
-      accountId: "A123",
-      roleId: "R1",
-      action: ["Detail", "Delete", "Update"],
-    },
-    {
-      fullName: "Jane Smith",
-      user: "janesmith",
-      password: "password456",
-      phone: "987-654-3210",
-      status: "inactive",
-      accountId: "A124",
-      roleId: "R2",
-      action: ["Detail", "Delete", "Update"],
-    },
-    {
-      fullName: "Sam Johnson",
-      user: "samjohnson",
-      password: "password789",
-      phone: "555-666-7777",
-      status: "active",
-      accountId: "A125",
-      roleId: "R3",
-      action: ["Detail", "Delete", "Update"],
-    },
-  ];
+  console.log("AccountEmployee: ", AccountEmployee);
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={AccountEmployee } />
+      
+      {/* <div>
+        {AccountEmployee.map(account => (
+          <div>
+            {account.fullName}
+          </div>
+        ))}
+      </div> */}
     </>
   );
 }

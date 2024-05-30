@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { get } from '../../../helpers/API.helper';
 import { Table } from 'antd';
+import { LIST_FEEDBACK } from '../../../helpers/APILinks';
 
 function ListFeedBack() {
     const [feedbacks, setFeedbacks] = useState([]);
@@ -10,7 +11,7 @@ function ListFeedBack() {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const response = await get('http://localhost:5264/api/MessengerBox');
+                const response = await get(LIST_FEEDBACK);
                 console.log("response", response);
                 setFeedbacks(response);
             } catch (err) {
@@ -66,7 +67,13 @@ function ListFeedBack() {
     return (
         <>
             <h1>List of Feedbacks</h1>
-            <Table columns={columns} dataSource={feedbacks} rowKey="MessengerBoxID" />
+            <Table
+                columns={columns}
+                dataSource={feedbacks}
+                rowKey="messengerBoxId"
+                loading={loading}
+                pagination={{ pageSize: 10 }}
+            />
         </>
     );
 }
