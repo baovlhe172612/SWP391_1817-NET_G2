@@ -1,18 +1,18 @@
 import React from "react";
-import { Col, Input, QRCode, Space } from "antd";
+import { Button, Col, Input, QRCode, Space } from "antd";
 import { LIST_PRODUCT } from "../../../helpers/APILinks";
 
-function Qr(props) {
-  const { qr } = props;
-//   console.log(qr)
-  const [text, setText] = React.useState(`${LIST_PRODUCT}${qr.tableId}`);
+function Qr({ qr }) {
+  //   console.log(qr)
+  const [text, setText] = React.useState(`172.20.10.2:3000/listProduct/${qr.tableId}`);
 
   return (
     <>
-      <Col span={6}>
+      <Col span={6} style={{marginBottom: "10px"}}>
         <Space direction="vertical" align="center">
-          <QRCode value={text || '-'}/>
-          <Input placeholder="-" maxLength={60} value={text}/>
+          <Button type="primary">Table: {qr.tableId}</Button>
+          <QRCode value={text || "-"} />
+          <Input placeholder="-" maxLength={60} value={text} />
         </Space>
       </Col>
     </>

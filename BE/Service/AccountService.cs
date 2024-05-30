@@ -27,6 +27,11 @@ namespace Swp391.Service
         public void UpdateAccountStatus(int accountId, int newStatus){
             _accountRepo.UpdateAccountStatus(accountId,newStatus);
         }
+        //update full account
+        public void UpdateAccount(Account newAccount)
+        {
+            _accountRepo.UpdateAccount(newAccount);
+        }
         //tạo tài khoản mới
         public void createrAccount(Account newAccount)
         {

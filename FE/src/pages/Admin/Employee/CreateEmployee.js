@@ -1,5 +1,5 @@
-import React,{ useEffect, useState } from 'react'
-import { Button, Form, Input, Select, Space, Switch,message } from "antd";
+import React, { useEffect, useState } from 'react'
+import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function CreateEmployee() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
+
     const handleSubmit = async (values) => {
         console.log(values);
         // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
@@ -20,6 +21,7 @@ function CreateEmployee() {
         try {
             const response = await post(`http://localhost:5264/api/Account`, values);
             // Kiểm tra giá trị trả về từ API
+            console.log(response)
             if (response) {
                 form.resetFields();
                 message.success('Account created successfully!');
@@ -135,10 +137,15 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your phone number!',
                         },
+                        {
+                            pattern: /^0\d{0,9}$/,
+                            message: 'Please input your number start =0 and ensure the length is <= 10 digits!',
+                        },
                     ]}
                 >
                     <Input />
                 </Form.Item>
+
 
                 <Form.Item
                     label="Role"

@@ -26,7 +26,7 @@ function ListTable() {
     setTables((prevTables) =>
       prevTables.map((tables) =>
         tables.tableId === id
-          ? { ...tables, status: tables.status === '1' ? 'full' : 'available' }
+          ? { ...tables, status: tables.status === '1' ? '0 ' : '1' }
           : tables
       )
     );
