@@ -26,7 +26,7 @@ function UpdateIsDelete({ record, onReload}) {
       okText="Yes"
       cancelText="No"
     >
-      <Button danger size='small' icon={<DeleteOutlined />}>Reactivate</Button>
+      <Button danger size='small' icon={<DeleteOutlined />}>Delete</Button>
     </Popconfirm>
   );
 }

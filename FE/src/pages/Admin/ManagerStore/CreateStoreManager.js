@@ -57,12 +57,12 @@ function CreateStoreManager() {
               <Form.Item
                   label="Username"
                   name="userName"
-                  rules={[
-                      {
-                          required: true,
-                          message: 'Please input your username!',
-                      },
-                  ]}
+                //   rules={[
+                //       {
+                //           required: true,
+                //           message: 'Please input your username!',
+                //       },
+                //   ]}
               >
                   <Input />
               </Form.Item>
@@ -70,12 +70,12 @@ function CreateStoreManager() {
               <Form.Item
                   label="Password"
                   name="passWord"
-                  rules={[
-                      {
-                          required: true,
-                          message: 'Please input your password!',
-                      },
-                  ]}
+                //   rules={[
+                //       {
+                //           required: true,
+                //           message: 'Please input your password!',
+                //       },
+                //   ]}
               >
                   <Input.Password />
               </Form.Item>
@@ -130,10 +130,20 @@ function CreateStoreManager() {
                   label="Phone"
                   name="phone"
                   rules={[
-                      {
-                          required: true,
-                          message: 'Please input your phone number!',
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value) {
+                          return Promise.reject('Please input your phone number!');
+                        }                           
+                        if (!/^\d{10}$/.test(value)) {
+                          return Promise.reject('Phone number must be 10 digits!');
+                        }
+                        if (!/^0\d{9}$/.test(value)) {
+                          return Promise.reject('Phone number must begin with 0!');
+                        }                
+                        return Promise.resolve();
                       },
+                    }),
                   ]}
               >
                   <Input />

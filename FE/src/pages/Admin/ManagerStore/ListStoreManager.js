@@ -3,6 +3,7 @@ import { Button, Space, Table, Tag, message } from "antd";
 import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
 import UpdateStatus from "./UpdateStatus";
+import { Link } from "react-router-dom";
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
 
@@ -99,7 +100,10 @@ function ListStoreManager() {
       render: (_, record) => {
         return (
           <Space size="middle">                     
-            <UpdateIsDelete record={record} onReload={onReload}/>          
+            <UpdateIsDelete record={record} onReload={onReload}/> 
+            <Link to={`/admin/manager-store/edit/${record.accountId}`}>
+            <Button type="primary">Update</Button>
+          </Link>         
           </Space>
         );
       },
