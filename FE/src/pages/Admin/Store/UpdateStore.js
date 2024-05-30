@@ -49,7 +49,7 @@ function UpdateStore() {
 
   return (
     <>
-      <h2>Edit Store</h2>
+      <h2>Store Detail</h2>
 
       <Form
         name="create-room"
@@ -89,7 +89,7 @@ function UpdateStore() {
         </Form.Item>
       
         <Form.Item name="isDelete" label="Switch" valuePropName="checked">
-          <Switch />
+          <Switch checkedChildren="inactive" unCheckedChildren="active"/>
         </Form.Item>
 
         <Form.Item>

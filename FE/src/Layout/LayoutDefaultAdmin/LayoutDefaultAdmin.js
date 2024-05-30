@@ -24,14 +24,13 @@ function LayoutDefaultAdmin() {
   const [collapsed, setCollapsed] = useState(true);
   // lấy login + account từ redux
   const login = useSelector((state) => state.LoginReducer);
-  // 
+  //
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!login) {
       setCollapsed(false);
     }
-
   }, [login]);
 
   return (
@@ -94,13 +93,15 @@ function LayoutDefaultAdmin() {
                   </Link>
                 </>
               ) : (
-                <Button
-                  type="primary"
-                  icon={<LoginOutlined />}
-                  style={{ margin: "0 8px" }}
-                >
-                  Login
-                </Button>
+                <Link to="/admin/login">
+                  <Button
+                    type="primary"
+                    icon={<LoginOutlined />}
+                    style={{ margin: "0 8px" }}
+                  >
+                    Login
+                  </Button>
+                </Link>
               )}
               {/* NOTIFY */}
               <span>

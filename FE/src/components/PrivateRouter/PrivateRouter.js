@@ -11,6 +11,7 @@ import { accountActions } from "../../actions/AccountActions";
 function PrivateRouter() {
   // useSelector: nhận và trả hết tất cả các reducers có trong ALLREDUCER (STORE)
   const checkLogin = useSelector((state) => state.LoginReducer);
+  // get Token
   const token = getCookie("token");
   const dispatch = useDispatch();
   const navigate = useNavigate();

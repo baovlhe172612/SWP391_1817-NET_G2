@@ -4,7 +4,7 @@ import { Pagination } from "antd";
 const PaginationDesign = () => {
   return (
     <>
-      <Pagination defaultCurrent={1} total={50} style={{marginTop: "20px"}}/>
+      <Pagination defaultCurrent={1} total={50} style={{margin: "0 0 0 60%"}}/>
     </>
   );
 };
