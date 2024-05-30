@@ -92,8 +92,7 @@ namespace Swp391.Repository
         public void UpdateAccountStatus(int accountId, int newStatus)
         {
             SwpfinalContext _context = new SwpfinalContext();
-            var account = _context.Accounts.Find(accountId);
-
+            var account = _context.Accounts.Find(accountId);         
             if (account != null)
             {
                 account.Status = newStatus;
@@ -105,16 +104,65 @@ namespace Swp391.Repository
             }
         }
 
+        //update full account
+        public void UpdateAccount(Account newAccount)
+        {
+            using (var _context = new SwpfinalContext())
+            {
+                // Check if the account exists
+                var existingAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == newAccount.AccountId);
+                if (existingAccount != null)
+                {
+                    // Check if the store exists
+                    var storeExists = _context.Stores.Any(s => s.StoreId == newAccount.StoreId);
+                    if (!storeExists)
+                    {
+                        throw new Exception("Store not found.");
+                    }
+
+                    // Update fields
+                    existingAccount.FullName = newAccount.FullName;
+                    existingAccount.Status = newAccount.Status;
+                    existingAccount.Email = newAccount.Email;
+                    existingAccount.Location = newAccount.Location;
+                    existingAccount.Phone = newAccount.Phone;
+                    existingAccount.RoleId = newAccount.RoleId;
+                    existingAccount.IsDelete = newAccount.IsDelete;
+                    existingAccount.StoreId = newAccount.StoreId;
+
+                    try
+                    {
+                        _context.SaveChanges();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        // Log the exception (optional)
+                        Console.WriteLine($"An error occurred while updating the account: {ex.Message}");
+                        throw new Exception("An error occurred while updating the account.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Account not found.");
+                }
+            }
+        }
+
+
+
 
         /// <summary>
         /// createrAccount(Account newAccount): Thêm một tài khoản mới vào cơ sở dữ liệu.
         /// </summary>
+     
+
+
         public void createrAccount(Account newAccount)
         {
             SwpfinalContext _context = new SwpfinalContext();
             // Kiểm tra xem có tài khoản nào có cùng UserName không
             bool isExisting = _context.Accounts.Any
-                (a => (a.UserName == newAccount.UserName)||(a.Email==newAccount.Email)||(a.Phone==newAccount.Phone));
+                (a => (a.UserName == newAccount.UserName) || (a.Email == newAccount.Email) || (a.Phone == newAccount.Phone));
 
             // Nếu đã tồn tại tài khoản có cùng UserName, ném một ngoại lệ hoặc xử lý theo ý bạn
             if (isExisting)
@@ -133,7 +181,7 @@ namespace Swp391.Repository
                     FullName = newAccount.FullName,
                     Location = newAccount.Location,
                     Phone = newAccount.Phone,
-                    RoleId = newAccount.RoleId,                    
+                    RoleId = newAccount.RoleId,
                     Token = String.Empty,
                     IsDelete = newAccount.IsDelete,
                     StoreId = newAccount.StoreId,
@@ -143,6 +191,8 @@ namespace Swp391.Repository
             }
         }
 
+
+  
 
         /// <summary>
         /// UpdateisdeleteAccount(int id, int isdelete): Cập nhật trường IsDelete của một tài khoản.
@@ -192,11 +242,12 @@ namespace Swp391.Repository
                                          RoleId = a.RoleId,
                                          StoreName=s.StoreName,
                                          Token = a.Token,
+                                         StoreId = a.StoreId,
                                          RoleName = r.RoleName,
+                                         StoreName = s.StoreName,
                                          IsDelete = (int)a.IsDelete,
                                      }
                                            ).ToList();
-
             return accountsWithRoles;
         }
 

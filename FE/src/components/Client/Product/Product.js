@@ -1,35 +1,35 @@
+import { Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Product(props) {
-  const { product } = props
+  const { product } = props;
   // console.log(props)
-  console.log("product in product.js", product)
+ 
   return (
     <>
       {product ? (
         <>
-          <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
+          {/* <Col sm={8} > //</>class="col-xl-3 col-md-4 col-sm-3" > */}
+          <Col span={12} >
             <div class="product-item">
               <div class="product-img">
-
-                <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
+                <Link
+                  to={`/productDetail?productId=${
+                    product.productId
+                  }&sizeId=${1}`}
+                >
                   <img
                     class="primary-img"
                     src={product.img}
                     alt="Product Images"
+                    // style={{height: "50%", width: "50%"}}
                   />
-                  {/* <img
-                class="secondary-img"
-                src="assets/images/product/medium-size/1-1-270x300.jpg"
-                alt="Product Images"
-              /> */}
                 </Link>
                 <div class="product-add-action">
                   <ul>
                     <li>
                       <a
-
                         data-tippy="Add to wishlist"
                         data-tippy-inertia="true"
                         data-tippy-animation="shift-away"
@@ -42,7 +42,11 @@ function Product(props) {
                     </li>
 
                     <li>
-                      <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}`}>
+                      <Link
+                        to={`/productDhttp://localhost:3000/listProduct/shop.htmletail?productId=${
+                          product.productId
+                        }&sizeId=${1}`}
+                      >
                         <i class="pe-7s-look"></i>
                       </Link>
                     </li>
@@ -62,41 +66,33 @@ function Product(props) {
                   </ul>
                 </div>
               </div>
-              <div class="product-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <a class="product-name" href="shop.html" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
+              <div
+                class="product-content"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
+                <a
+                  class="product-name"
+                  href="shop.html"
+                  style={{ fontFamily: "Arial", fontWeight: "bold" }}
+                >
                   {product.productName}
                 </a>
                 <div class="price-box pb-1">
-                  <span class="new-price" style={{ fontSize: '16px' }}>{product.price}đ</span>
+                  <span class="new-price" style={{ fontSize: "16px" }}>
+                    {product.price}đ
+                  </span>
                 </div>
-                {/* <div class="rating-box">
-    <ul>
-        <li>
-            <i class="fa fa-star"></i>
-        </li>
-        <li>
-            <i class="fa fa-star"></i>
-        </li>
-        <li>
-            <i class="fa fa-star"></i>
-        </li>
-        <li>
-            <i class="fa fa-star"></i>
-        </li>
-        <li>
-            <i class="fa fa-star"></i>
-        </li>
-    </ul>
-    </div> */}
               </div>
-
             </div>
-          </div>
+          </Col>
         </>
       ) : (
-        <>
-        Lỗi khi lấy data
-        </>
+        <>Lỗi khi lấy data</>
       )}
     </>
   );

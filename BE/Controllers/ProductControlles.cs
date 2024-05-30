@@ -47,11 +47,11 @@ namespace Swp391.Controllers
         {
             var listProuctMin = _service.getProductByPage(page);
 
-            if(listProuctMin == null)
+            if (listProuctMin == null)
             {
                 return BadRequest(new
                 {
-                    messgerErr = "page not found" 
+                    messgerErr = "page not found"
                 });
             }
 
@@ -85,16 +85,7 @@ namespace Swp391.Controllers
             return Ok(countPageProduct);
         }
 
-        [HttpGet("search")]
-        public ActionResult<List<Product>> SearchProductsByName(string keyword)
-        {
-            var products = _service.searchProductsByName(keyword);
-            if (products == null || products.Count == 0)
-            {
-                return NotFound("No products found with the given keyword.");
-            }
-            return Ok(products);
-        }
+        
 
         [HttpGet("searchByPriceRange")]
         public IActionResult SearchProductsByPriceRange(double minPrice, double maxPrice)
@@ -107,5 +98,56 @@ namespace Swp391.Controllers
             return Ok(products);
         }
 
+        [HttpGet("getProductByCategoryId")]
+        public IActionResult GetListProductByCategoryID(int categoriesID)
+        {
+            List<Product> listProductByCategories = _service.getProductByCategories(categoriesID);
+
+            if(listProductByCategories != null && listProductByCategories.Count != 0)
+            {
+                return Ok(listProductByCategories);
+            }
+
+            return BadRequest(new
+            {
+                mess="not exits data"
+            });
+        }
+
+        [HttpGet("getProductByCategoryIDAndCondition")]
+        public IActionResult GetListProductByCategoryIDAndCondition(int categoriID, int condition)
+        {
+            List<Product> listProductByCategoriesAndCondition
+                = _service.getProductByCategoryIDAndCondition(categoriID, condition);
+
+            if (listProductByCategoriesAndCondition != null 
+                    && listProductByCategoriesAndCondition.Count != 0)
+            {
+                return Ok(listProductByCategoriesAndCondition);
+            }
+
+            return BadRequest(new
+            {
+                mess = "not exits data"
+            });
+        }
+
+        [HttpGet("search")]
+        public IActionResult GetListProductBySearch(String search)
+        {
+            List<Product> listProductBySearch = _service.getProductBySearch(search);
+
+            if (listProductBySearch != null
+                    && listProductBySearch.Count != 0)
+            {
+                return Ok(listProductBySearch);
+            }
+
+            return BadRequest(new
+            {
+                mess = "not exits data"
+            });
+
+        }
     }
 }

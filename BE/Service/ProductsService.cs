@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Swp391.Models;
 using Swp391.Repository;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Swp391.Service
 {
@@ -136,14 +137,65 @@ namespace Swp391.Service
         /// </summary>
         /// <param name="keyword">Tên sản phẩm hoặc một phần tên sản phẩm</param>
         /// <returns>Danh sách sản phẩm khớp với từ khóa</returns>
-        public List<Product> searchProductsByName(string keyword)
-        {
-            return _repo.searchProductsByName(keyword);
-        }
+        
 
         public List<Product> SearchProductsByPriceRange(double minPrice, double maxPrice)
         {
             return _repo.SearchProductsByPriceRange(minPrice, maxPrice);
+        }
+
+        public List<Product> getProductByCategories(int categoriesID)
+        {
+            List<Product> listProductByCategory = _repo.getAllProduct().Where(p => p.CategoryId == categoriesID).ToList();
+            return listProductByCategory;
+        }
+
+        public List<Product> getProductByCategoryIDAndCondition(int categoriID, int condition)
+        {
+            List<Product> listProductByCategoryIDAndCondition = new List<Product>();
+
+            switch (condition)
+            {
+                case 1:
+                    {
+                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
+                                    .OrderBy(p => p.ProductId) // Sắp xếp theo ProductID
+
+                                    .ToList();
+                        break;
+                    }
+                case 2:
+                    {
+                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
+                                    .OrderBy(p => p.ProductName) // Sắp xếp theo ProductID
+
+                                    .ToList();
+                        break;
+                    }
+                case 3:
+                    {
+                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
+                                    .OrderByDescending(p => p.Price) // Sắp xếp theo ProductID
+
+                                    .ToList();
+                        break;
+                    }
+                case 4:
+                    {
+                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
+                                    .OrderBy(p => p.Price) // Sắp xếp theo ProductID
+
+                                    .ToList();
+                        break;
+                    }
+            }
+
+            return listProductByCategoryIDAndCondition;
+        }
+
+        public List<Product> getProductBySearch(string search)
+        {
+            return _repo.searchProductsByName(search);
         }
     }
 }

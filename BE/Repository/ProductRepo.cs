@@ -30,12 +30,14 @@ namespace Swp391.Repository
             }
             else
             {
-                // Nếu từ khóa không rỗng, thực hiện tìm kiếm sản phẩm theo từ khóa
+                // Nếu từ khóa không rỗng, thực hiện tìm kiếm sản phẩm theo từ khóa, không phân biệt chữ hoa chữ thường
+                string loweredKeyword = keyword.ToLower();
                 return context.Products
-                               .Where(p => p.ProductName.Contains(keyword))
+                               .Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()))
                                .ToList();
             }
         }
+
         // Tìm kiếm sản phẩm theo khoảng giá
         public List<Product> SearchProductsByPriceRange(Double minPrice, Double maxPrice)
         {
