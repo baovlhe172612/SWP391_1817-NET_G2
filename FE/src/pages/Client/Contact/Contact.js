@@ -52,17 +52,17 @@ function Contact() {
             if (response) {
 
                 setShowModal(false);
-                Swal.fire({
+                await Swal.fire({
                     position: "center",
                     icon: "success",
                     title: "Seen FeedBack sucessfully",
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 1000
                 });
-                setTimeout(() => {
-                    onReload();
-                    setData({});
-                }, 3000);
+                // setTimeout(() => {
+                //     // onReload();
+                //     setData({});
+                // }, 3000);
                 setData({});
             }
             console.log('Form submitted successfully:', response);
@@ -74,9 +74,9 @@ function Contact() {
             alert('Failed to submit the form.');
         }
     };
-    const onReload = () => {
-        window.location.reload();
-    };
+    // const onReload = () => {
+    //     window.location.reload();
+    // };
     console.log("data: ", data)
     return (
         <>
@@ -153,14 +153,20 @@ function Contact() {
                         </div>
                     </div>
                 </div>
-                <div className="contact-with-map">
-                    <div className="contact-map">
-                        <iframe className="contact-map-size"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1613802584124!5m2!1sen!2sbd"
-                            allowfullscreen="" loading="lazy">
-                        </iframe>
-                    </div>
-                </div>
+
+                <div className="contact-map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.5063419425255!2d105.52271427508036!3d21.012416680632775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1716553158973!5m2!1svi!2s"
+                        width="100%"
+                        height="450"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                     </div>
+
             </main>
         </>
     )

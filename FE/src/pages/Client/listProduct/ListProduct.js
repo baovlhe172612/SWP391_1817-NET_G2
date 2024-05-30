@@ -1,60 +1,280 @@
-import React from "react";
-import Product from "../../../components/Client/Product/Product"
-import { useParams } from "react-router-dom";
-import {setCookie} from "../../../helpers/Cookie.helper"
+import React, { useEffect, useState } from "react";
+import Product from "../../../components/Client/Product/Product";
+import { get } from "../../../helpers/API.helper";
+import { Col, Row } from "antd";
+import MenuCategory from "../../../components/Client/Category/MenuCategory";
+import { useLocation } from "react-router-dom";
 
 function ListProduct() {
-  // Lấy id bàn trong trên url
-  const {id} = useParams();
-  console.log(id)
-  // nếu có id bàn => lưu vào cookie
-  if(id) {
-    setCookie("tableId", id, 30);
-  }
+  const [products, setProducts] = useState([]);
+  const [totalPages, setTotalPages] = useState([1]);
+  const [categories, setCategory] = useState([]);
+  const [totalProduct, setTotalProduct] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [conditionSort, setCondition] = useState(1);
 
-  //
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('search');
+  const searchByCategoryID = searchParams.get('categoryId');
+  
+  
+  useEffect(() => {
+    if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
+      const fetchApi = async () => {
+        const data = await get(
+          `http://localhost:5264/api/ProductControlles/getProductByCategoryId?categoriesID=${searchByCategoryID}`
+        );
+  
+        console.log("da ghi de tai day 29");
+        setProducts(data);
+      };
+  
+      fetchApi();
+    }
+  }, [searchByCategoryID ]); 
+
+  
+  //dùng để search
+  // const fetchProducts = async (page = 1, condition = 1, search = '') => {
+  //   let url = http://localhost:5264/api/ProductControlles/getProductByPage?page=${page}&condition=${condition};
+
+  //   if (condition === 1 || condition === 2 || condition === 3 || condition === 4) {
+  //     url = http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${condition};
+  //   }
+
+  //   if (search) {
+  //     url = http://localhost:5264/api/ProductControlles/search?keyword=${search};
+  //   }
+  //   const data = await get(url);
+  //   console.log("da ghi de tai day 51");
+  //   setProducts(data);
+  //   if (data === "No products found with the given keyword.") {
+  //     setProducts([]); // Set products to an empty array
+  //   } else {
+  //     console.log("da ghi de tai day 56");
+  //     setProducts(data);
+  //   }
+  
+
+    
+  //   // Update total pages and total products for search queries
+  //   if (search) {
+  //     const totalPagesData = await get(http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search});
+     
+  //     setTotalPages(totalPagesData);
+
+  //     const totalProductData = await get(http://localhost:5264/api/ProductControlles/getCountProduct?keyword=${search});
+  //     console.log("totalProductData",totalProductData);
+  //     setTotalProduct(totalProductData);
+  //   } else {
+  //     const totalPagesData = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
+     
+  //     setTotalPages(totalPagesData);
+
+  //     const totalProductData = await get("http://localhost:5264/api/ProductControlles/getCountProduct");
+      
+  //     setTotalProduct(totalProductData);
+  //   }
+  // };
+
+
+
+
+  // useEffect(() => {
+  //   fetchProducts(currentPage, conditionSort, searchQuery);
+  // }, [currentPage, conditionSort, searchQuery]);
+
+
+
+
+
+  //dùng de loa du lieu luc an vao menu
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get(
+        "http://localhost:5264/api/ProductControlles/getProductByPage?page=1"
+      );
+      const dataCate = await get("http://localhost:5264/api/Category");
+      
+
+      setCategory(dataCate);
+      //
+      console.log("da ghi de tai day 104");
+      console.log(data);
+      setProducts(data);
+    };
+
+    fetchApi();
+  }, []);
+  
+  useEffect(() => {
+    if (searchQuery !== null && parseInt(searchQuery) !== 0) {
+      const fetchApi = async () => {
+        const data = await get(
+          `http://localhost:5264/api/ProductControlles/search?search=${searchQuery}`
+        );
+  
+        console.log("da ghi de tai day 117");
+        console.log(data);
+        setProducts(data);
+      };
+  
+      fetchApi();
+    }
+  }, []); 
+
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get(
+        "http://localhost:5264/api/ProductControlles/getCountPageProduct"
+      );
+      //
+
+      setTotalPages(data);
+    };
+
+    fetchApi();
+  }, []);
+  
+
+  //dùng để đếm số lượng sản phẩm
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await get(
+        "http://localhost:5264/api/ProductControlles/getCountProduct"
+      );
+      //
+
+      setTotalProduct(data);
+    };
+
+    fetchApi();
+  });
+
+  // Hàm xử lý thay đổi page và gửi yêu cầu API
+  const handleDataByPage = async (item) => {
+    setCurrentPage(item);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`
+      );
+      if (!response.ok) {
+        const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
+        throw new Error(`Network response was not ok: " ${errorText}`);
+      }
+      const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
+      console.log("da ghi de tai day 152");
+      setProducts(data);
+    } catch (error) {
+      console.error("Error updating size:", error);
+    }
+  };
+ 
+
+  const handleSortCondition = async (event) => {
+    const selectedSortCondition = parseInt(event.target.value);
+  
+    setCondition(selectedSortCondition);
+  
+    console.log("searchByCategoryID:", searchByCategoryID);
+    console.log("parseInt(searchByCategoryID):", parseInt(searchByCategoryID));
+    console.log("Condition check:", searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0);
+  
+    if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
+      console.log("Inside if condition");
+      try {
+        const response = await fetch(
+          `http://localhost:5264/api/ProductControlles/getProductByCategoryIDAndCondition?categoriID=${searchByCategoryID}&condition=${selectedSortCondition}`
+        );
+        if (!response.ok) {
+          const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
+          console.error("Network response was not ok:", errorText);
+        }
+        const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
+        console.log(data);
+        console.log("da ghi de tai day 181");
+        setProducts(data);
+      } catch (error) {
+        console.error("Error updating size:", error);
+      }
+    } else {
+      console.log("Inside else condition");
+      try {
+        const response = await fetch(
+         `http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${selectedSortCondition}`
+        );
+        if (!response.ok) {
+          const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
+          console.error("Network response was not ok:", errorText);
+        }
+        const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
+        console.log(data);
+        console.log("da ghi de tai day 198");
+        setProducts(data);
+      } catch (error) {
+        console.error("Error updating size:", error);
+      }
+    }
+  };
+
+  //console.log(conditionSort);
+
   return (
     <>
       <div class="shop-area section-space-y-axis-100">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-
-                {/* ========== UL =============== */}
+              {/* ========== UL =============== */}
               <div class="product-topbar">
                 <ul>
                   <li class="page-count">
-                    <span>12</span> Product Found of <span>30</span>
+                    <span>4</span> Product Found of <span>{totalProduct}</span>
                   </li>
                   <li class="product-view-wrap">
                     <ul class="nav" role="tablist">
-                      <li class="grid-view" role="presentation">
-                        <a
-                          class="active"
-                          id="grid-view-tab"
-                          data-bs-toggle="tab"
-                          href="#grid-view"
-                          role="tab"
-                          aria-selected="true"
-                        >
-                          <i class="fa fa-th"></i>
-                        </a>
-                      </li>
+                      {/* MENU CATEGORY */}
+                      <MenuCategory categories={categories}/>
+                      {/* MENU CATEGORY */}
                     </ul>
                   </li>
                   <li class="short">
-                    <select class="nice-select">
-                      <option value="1">Sort by Default</option>
-                      <option value="2">Sort by Popularity</option>
-                      <option value="3">Sort by Rated</option>
-                      <option value="4">Sort by Latest</option>
-                      <option value="5">Sort by High Price</option>
-                      <option value="6">Sort by Low Price</option>
+                    <select
+                      className="nice-select"
+                      value={conditionSort}
+                      onChange={handleSortCondition}
+                    >
+                      <option value="1" selected={1}>
+                        Sort by Default
+                      </option>
+                      <option value="2" selected={2}>
+                        Sort by Name
+                      </option>
+                      <option value="3" selected={3}>
+                        Sort by High Price
+                      </option>
+                      <option value="4" selected={4}>
+                        Sort by Low Price
+                      </option>
                     </select>
+
+                    {/* <select
+                          className="nice-select wide rounded-0"
+                          value={productSize.sizeId}
+                          onChange={handleSizeChange}
+                        >
+                          <option value="1" selected={productSize.sizeId === 1}>X</option>
+                          <option value="2" selected={productSize.sizeId === 2}>L</option>
+                          <option value="3" selected={productSize.sizeId === 3}>M</option>
+                    </select> */}
                   </li>
+                 
                 </ul>
               </div>
-                {/* ========== UL =============== */}
+              {/* ========== UL =============== */}
 
               {/* ================ TAB - CONTENT =================== */}
               <div class="tab-content">
@@ -64,44 +284,43 @@ function ListProduct() {
                   role="tabpanel"
                   aria-labelledby="grid-view-tab"
                 >
-                  <div class="product-grid-view row g-y-20">
-                    {/* PRODUCT CONTENT */}
-                    <Product />
-                    {/* PRODUCT CONTENT */}
-                  </div>
+                  <Row class="product-grid-view row g-y-20">
+                    {/* CATEGORY */}
+                    {/* <!-- PRODUCT --> */}
+                    {products.length > 0 &&
+                      products.map((product) => {
+                        return <Product product={product} />;
+                      })}
+                    {/* <!-- PRODUCT --> */}
+                  </Row>
                 </div>
               </div>
               {/* ================ TAB - CONTENT =================== */}
-                                  
+
               {/* ================ PAGINATION =================== */}
               <div class="pagination-area">
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
-                    <li class="page-item active">
-                      <a class="page-link" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        &raquo;
-                      </a>
-                    </li>
+                    {totalPages.map((item, index) => (
+                      //<li key={index}>{item.tenTruong}</li> // Thay "tenTruong" bằng trường dữ liệu thực tế từ API
+                      <li class="page-item active">
+                        <li
+                          class={`page-item ${
+                            item === currentPage ? "active" : ""
+                          }`}
+                          onClick={() => {
+                            handleDataByPage(item);
+                          }}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {item}
+                        </li>
+                      </li>
+                    ))}
                   </ul>
                 </nav>
               </div>
               {/* ================ PAGINATION =================== */}
-
             </div>
           </div>
         </div>

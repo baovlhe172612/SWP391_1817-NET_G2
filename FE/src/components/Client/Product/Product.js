@@ -1,27 +1,35 @@
+import { Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Product(props) {
   const { product } = props;
+  // console.log(props)
+ 
   return (
     <>
       {product ? (
         <>
-          <div class="col-xl-3 col-md-4 col-sm-6 pt-4">
+          {/* <Col sm={8} > //</>class="col-xl-3 col-md-4 col-sm-3" > */}
+          <Col span={12} >
             <div class="product-item">
               <div class="product-img">
-                <Link to="/productDetail">
+                <Link
+                  to={`/productDetail?productId=${
+                    product.productId
+                  }&sizeId=${1}`}
+                >
                   <img
                     class="primary-img"
                     src={product.img}
                     alt="Product Images"
+                    // style={{height: "50%", width: "50%"}}
                   />
                 </Link>
                 <div class="product-add-action">
                   <ul>
                     <li>
                       <a
-                        href="wishlist.html"
                         data-tippy="Add to wishlist"
                         data-tippy-inertia="true"
                         data-tippy-animation="shift-away"
@@ -32,22 +40,15 @@ function Product(props) {
                         <i class="pe-7s-like"></i>
                       </a>
                     </li>
-                    <li
-                      class="quuickview-btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#quickModal"
-                    >
-                      <a
-                        href="#"
-                        data-tippy="Quickview"
-                        data-tippy-inertia="true"
-                        data-tippy-animation="shift-away"
-                        data-tippy-delay="50"
-                        data-tippy-arrow="true"
-                        data-tippy-theme="sharpborder"
+
+                    <li>
+                      <Link
+                        to={`/productDhttp://localhost:3000/listProduct/shop.htmletail?productId=${
+                          product.productId
+                        }&sizeId=${1}`}
                       >
                         <i class="pe-7s-look"></i>
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a
@@ -65,7 +66,15 @@ function Product(props) {
                   </ul>
                 </div>
               </div>
-              <div class="product-content">
+              <div
+                class="product-content"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
                 <a
                   class="product-name"
                   href="shop.html"
@@ -80,12 +89,10 @@ function Product(props) {
                 </div>
               </div>
             </div>
-          </div>
+          </Col>
         </>
       ) : (
-        <>
-        Lỗi khi lấy data
-        </>
+        <>Lỗi khi lấy data</>
       )}
     </>
   );

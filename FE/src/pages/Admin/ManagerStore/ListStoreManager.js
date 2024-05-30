@@ -1,56 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag } from "antd";
-import DeleteStoreManager from "./DeleteStoreManager";
-import UpdateStoreManager from "./UpdateStoreManager";
+import { Button, Space, Table, Tag, message } from "antd";
+import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
-import { LIST_ACCOUNT } from "../../../helpers/APILinks";
+import UpdateStatus from "./UpdateStatus";
+import { Link } from "react-router-dom";
 function ListStoreManager() {
-  // Get account
   const [AccountManager, setAccountManager] = useState([]);
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const data = await get(LIST_ACCOUNT);
-        //
-        setAccountManager(data);
-      } catch (error) {
-        console.log("Err tại ListStoreManager", error);
-        setAccountManager([]);
-      }
-    };
-
-    fetchApi();
-  }, []);
-  
-  const handleDelete = (accountId) => {
-    setAccountManager((prev) => prev.filter((account) => account.accountId !== accountId));
-    // message.success('Account deleted successfully');
+  const fetchApi = async () => {
+    try {
+      const data = await get("http://localhost:5264/api/Account/manager");     
+      setAccountManager(data);
+    } catch (error) {
+      message.error("Error fetching accounts");
+      console.log("Error in ListStoreManager", error);
+      setAccountManager([]);
+    }
   };
 
-  // Define columns for the table
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
+  const onReload = () => {
+    fetchApi();
+};
+
   const columns = [
     {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
-      // Custom text rendering
     },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      // Custom text rendering
     },
     {
       title: "User Name",
       dataIndex: "userName",
-      key: "user",
+      key: "userName",
     },
     {
       title: "Password",
       dataIndex: "passWord",
-      key: "password",
+      key: "passWord",
     },
     {
       title: "Phone",
@@ -58,47 +53,70 @@ function ListStoreManager() {
       key: "phone",
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => {
-        const statusMap = {
-          1: { text: "Active", color: "green" },
-          0: { text: "Inactive", color: "red" },
-        };
-        const { text, color } = statusMap[status] || {
-          text: "Unknown",
-          color: "gray",
-        };
-        return <Tag color={color}>{text}</Tag>;
-      },
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
     },
     {
       title: "Role Name",
       dataIndex: "roleName",
-      key: "roleId",
+      key: "roleName",
     },
+    {
+      title: "Store Name",
+      dataIndex: "storeName",
+      key: "storeName",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status, record) => {
+        const statusMap = {
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" }
+        };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray"
+        };
+    
+        return (
+          <Button onClick={() => UpdateStatus(record,onReload)}>
+            <Tag color={color}>{text}</Tag>
+          </Button>
+        );
+      }
+    },
+   
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => {
         return (
-          <Space size="middle">
-            <UpdateStoreManager record={record} />
-            <DeleteStoreManager record={record} />{" "}
-            {/* Pass the record to the delete component */}
+          <Space size="middle">                     
+            <UpdateIsDelete record={record} onReload={onReload}/> 
+            <Link to={`/admin/manager-store/edit/${record.accountId}`}>
+            <Button type="primary">Update</Button>
+          </Link>         
           </Space>
         );
       },
     },
   ];
 
-  console.log("AccountManager: ", AccountManager);
-
   return (
-    <>
-      <Table columns={columns} dataSource={AccountManager} rowKey="accountId" />
-    </>
+
+    <Table 
+      columns={columns} 
+      dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
+    />
+
   );
 }
 

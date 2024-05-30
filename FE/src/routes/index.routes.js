@@ -8,12 +8,12 @@ import ProductDetail from "../pages/Client/ProductDetail/ProductDetail";
 import LayoutDefaultAdmin from "../Layout/LayoutDefaultAdmin/LayoutDefaultAdmin";
 import Dashboard from "../pages/Admin/Dashboard/Dashboard";
 import PrivateRouter from "../components/PrivateRouter/PrivateRouter";
-import ListStore from '../pages/Admin/Store/ListStore';
-import CreateStore from '../pages/Admin/Store/CreateStore';
-import ListStoreManager from '../pages/Admin/ManagerStore/ListStoreManager';
-import CreateStoreManager from '../pages/Admin/ManagerStore/CreateStoreManager';
-import ListTable from '../pages/Admin/Table/ListTable';
-import CreateTable from '../pages/Admin/Table/CreateTable';
+import ListStore from "../pages/Admin/Store/ListStore";
+import CreateStore from "../pages/Admin/Store/CreateStore";
+import ListStoreManager from "../pages/Admin/ManagerStore/ListStoreManager";
+import CreateStoreManager from "../pages/Admin/ManagerStore/CreateStoreManager";
+import ListTable from "../pages/Admin/Table/ListTable";
+import CreateTable from "../pages/Admin/Table/CreateTable";
 import CreateCategory from "../pages/Admin/Category/CreateCategory";
 import ListCategory from "../pages/Admin/Category/ListCategory";
 import ListProductAdmin from "../pages/Admin/Product/ListProductAdmin";
@@ -29,6 +29,12 @@ import Blog from "../pages/Client/Blog/Blog";
 import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";
 import ListQr from "../pages/Admin/ListQrCode/ListQr";
+import UpdateStore from "../pages/Admin/Store/UpdateStore";
+import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
+import Logout from "../components/Admin/Accounts/Logout/Logout";
+import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
+import NotFound from "../pages/Admin/404NotFound/NotFound";
+import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 
 const routes = [
@@ -57,11 +63,11 @@ const routes = [
         element: <Cart />,
       },
       {
-        path: "shop",
+        path: "listproduct",
         element: <ListProduct />,
       },
       {
-        path: "shop/:id",
+        path: "listproduct/:id",
         element: <ListProduct />,
       },
       {
@@ -71,7 +77,7 @@ const routes = [
     ],
   },
   {
-    path: "/admin",
+    // path: "/admin",
     element: <LayoutDefaultAdmin />,
     children: [
       {
@@ -83,45 +89,61 @@ const routes = [
         element: <Register />,
       },
       {
-        
+        path: "/admin",
         element: <PrivateRouter />,
         children: [
           {
-            path: "/admin/",
-            element: <Dashboard />,
+            path: "/admin/logout",
+            element: <Logout />,
           },
+          // ROLE OF OWNER
           {
-            path: "store",
+            element: <ProtectedRole roles={["Owner"]} />,
             children: [
               {
-                path: "",
-                element: <ListStore />,
+                path: "store",
+                children: [
+                  {
+                    path: "",
+                    element: <ListStore />,
+                  },
+                  {
+                    path: "create",
+                    element: <CreateStore />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateStore />,
+                  },
+                ],
               },
               {
-                path: "create",
-                element: <CreateStore />,
+                path: "manager-store",
+                children: [
+                  {
+                    path: "",
+                    element: <ListStoreManager />,
+                  },
+                  {
+                    path: "create",
+                    element: <CreateStoreManager />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateStoreManager />,
+                  },
+                ],
               },
             ],
           },
+
+          // ROLE OF MANAGE
           {
-            path: "manager-store",
+            element: <ProtectedRole roles={["Manager", "Owner"]} />,
             children: [
               {
-                path: "",
-                element: <ListStoreManager />,
-              },
-              {
-                path: "create",
-                element: <CreateStoreManager />,
-              },
-            ],
-          },
-          {
-            path: "table",
-            children: [
-              {
-                path: "",
-                element: <ListTable />,
+                path: "/admin/dashboard",
+                element: <Dashboard />,
               },
               {
                 path: "create",
@@ -153,10 +175,6 @@ const routes = [
                 path: "create",
                 element: <CreateCategory />,
               },
-              {
-                path: "edit/:id",
-                element: <UpdateCategory />,
-              },
             ],
           },
           {
@@ -180,32 +198,52 @@ const routes = [
                 element: <ListTopping />,
               },
               {
-                path: "create",
-                element: <CreateTopping />,
+                path: "listQr",
+                children: [
+                  {
+                    path: "",
+                    element: <ListQr />,
+                  },
+                ],
               },
             ],
           },
+          // ROLE OF EMPLOYEE
           {
-            path: "orders",
+            element: <ProtectedRole roles={["Manager", "Employee", "Owner"]} />,
             children: [
               {
-                path: "",
-                element: <ListOrders />,
+                path: "/admin/dashboard",
+                element: <Dashboard />,
               },
               {
-                path: "orderdetails",
-                element: <OrderDetails />,
+                path: "table",
+                children: [
+                  {
+                    path: "",
+                    element: <ListTable />,
+                  },
+                ],
+              },
+              {
+                path: "orders",
+                children: [
+                  {
+                    path: "",
+                    element: <ListOrders />,
+                  },
+                  {
+                    path: "orderdetails",
+                    element: <OrderDetails />,
+                  },
+                ],
               },
             ],
           },
+          // END ROLE
           {
-            path: "listQr",
-            children: [
-              {
-                path: "",
-                element: <ListQr />,
-              },
-            ],
+            path: "404err",
+            element: <NotFound />,
           },
         ],
       },
