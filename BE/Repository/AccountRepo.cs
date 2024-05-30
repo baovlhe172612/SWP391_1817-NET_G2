@@ -154,12 +154,15 @@ namespace Swp391.Repository
         /// <summary>
         /// createrAccount(Account newAccount): Thêm một tài khoản mới vào cơ sở dữ liệu.
         /// </summary>
+     
+
+
         public void createrAccount(Account newAccount)
         {
             SwpfinalContext _context = new SwpfinalContext();
             // Kiểm tra xem có tài khoản nào có cùng UserName không
             bool isExisting = _context.Accounts.Any
-                (a => (a.UserName == newAccount.UserName)||(a.Email==newAccount.Email)||(a.Phone==newAccount.Phone));
+                (a => (a.UserName == newAccount.UserName) || (a.Email == newAccount.Email) || (a.Phone == newAccount.Phone));
 
             // Nếu đã tồn tại tài khoản có cùng UserName, ném một ngoại lệ hoặc xử lý theo ý bạn
             if (isExisting)
@@ -178,7 +181,7 @@ namespace Swp391.Repository
                     FullName = newAccount.FullName,
                     Location = newAccount.Location,
                     Phone = newAccount.Phone,
-                    RoleId = newAccount.RoleId,                    
+                    RoleId = newAccount.RoleId,
                     Token = String.Empty,
                     IsDelete = newAccount.IsDelete,
                     StoreId = newAccount.StoreId,
@@ -188,6 +191,8 @@ namespace Swp391.Repository
             }
         }
 
+
+  
 
         /// <summary>
         /// UpdateisdeleteAccount(int id, int isdelete): Cập nhật trường IsDelete của một tài khoản.
@@ -237,11 +242,12 @@ namespace Swp391.Repository
                                          RoleId = a.RoleId,
                                          StoreName=s.StoreName,
                                          Token = a.Token,
+                                         StoreId = a.StoreId,
                                          RoleName = r.RoleName,
+                                         StoreName = s.StoreName,
                                          IsDelete = (int)a.IsDelete,
                                      }
                                            ).ToList();
-
             return accountsWithRoles;
         }
 

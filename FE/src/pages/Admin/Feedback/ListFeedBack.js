@@ -66,7 +66,7 @@ function ListFeedBack() {
 
     return (
         <>
-            <h1>List of Feedbacks</h1>
+            <h1 style={{textAlign: 'center'}}>View Feedbacks</h1>
             <Table
                 columns={columns}
                 dataSource={feedbacks}
