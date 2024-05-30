@@ -1,19 +1,52 @@
 ﻿using Swp391.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Swp391.Repository
 {
-
     public class CategoryRepo
     {
-        /// <summary>
-        /// hàm trả về toàn bộ bàn của repository Tables
-        /// </summary>
+        private readonly SwpfinalContext _context;
 
-        /// <returns>toàn bộ bàn </returns>
+        public CategoryRepo()
+        {
+            _context = new SwpfinalContext();
+        }
+
         public List<Category> getAllCategory()
         {
-            SwpfinalContext _context = new SwpfinalContext();
             return _context.Categories.ToList();
         }
+
+        public void AddCategory(Category category)
+        {
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+        }
+
+        public void UpdateCategory(Category category)
+        {
+            _context.Categories.Update(category);
+            _context.SaveChanges();
+        }
+
+        public void UpdateDeleteCategory(Category category)
+        {
+            _context.Categories.Update(category);
+            _context.SaveChanges();
+        }
+    
+        public Category GetCategoryById(int categoryId)
+        {
+            var categoryById = _context.Categories.FirstOrDefault(category => category.CategoryId == categoryId);
+
+            if(categoryById != null)
+            {
+                return categoryById;
+            }
+
+            return null;
+        }
+
     }
 }

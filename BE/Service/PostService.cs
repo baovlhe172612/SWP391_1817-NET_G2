@@ -16,5 +16,11 @@ namespace Swp391.Service
         {
             return _Postrepo.getAllPost();
         }
+
+        public List<Post> getFivePostEarly()
+        {
+            return _Postrepo.getEarliestPosts();
+        }
+
     }
 }

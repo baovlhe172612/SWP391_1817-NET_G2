@@ -40,7 +40,7 @@ namespace Swp391.Controllers
             return Ok(); // Trả về mã trạng thái 200 OK sau khi cập nhật thành công
         }
         // update isdelete
-        
+
         [HttpPut("{id}/IsDelete")]
         public IActionResult DeleteAccount(int id, [FromQuery] int isdelete)
         {
@@ -67,26 +67,27 @@ namespace Swp391.Controllers
         }
 
 
-        //phương thức này dùng để lấy toàn bộ account
-        [HttpGet("/employee")]
-        public IActionResult getAllAccountEmployee()
-        {
-            return Ok(_service.GetAllAccountEmployeeDtos());
-        }
+        /*        //phương thức này dùng để lấy toàn bộ account
+                [HttpGet("/employee")]
+                public IActionResult getAllAccountEmployee()
+                {
+                    return Ok(_service.GetAllAccountEmployeeDtos());
+                }*/
 
         //lấy account bằng ID
-        [HttpGet("/employee/{id}")]
-        public IActionResult GetAccountEmployeeById(int id)
-        {
-            var accountDto = _service.getAccountEmployeeId(id);
+        /*[HttpGet("/employee/{id}")]
+                public IActionResult GetAccountEmployeeById(int id)
+                {
+                    var accountDto = _service.getAccountEmployeeId(id);
 
-            if (accountDto == null)
-            {
-                return NotFound(); // Trả về mã trạng thái 404 Not Found nếu không tìm thấy account với ID tương ứng
-            }
+                    if (accountDto == null)
+                    {
+                        return NotFound(); // Trả về mã trạng thái 404 Not Found nếu không tìm thấy account với ID tương ứng
+                    }
 
-            return Ok(accountDto); // Trả về account thông qua đối tượng DTO
-        }
+                    return Ok(accountDto); // Trả về account thông qua đối tượng DTO
+                }*/
+
 
     }
 }
