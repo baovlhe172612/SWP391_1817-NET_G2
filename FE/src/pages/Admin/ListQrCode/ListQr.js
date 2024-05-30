@@ -7,7 +7,7 @@ import Pagination from "../../../components/Mixin/Pagination/Pagination";
 
 function ListQr() {
   const [qrs, setQrs] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   // pagination table
   const paginationTable = {
@@ -15,7 +15,7 @@ function ListQr() {
     item: 24,
     skip: (currentPage - 1) * 24,
     countPage: 0,
-  }
+  };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -38,7 +38,7 @@ function ListQr() {
   // page = 1 => 24
   // page = 2 => 24 => 48
   // pagination: count / 24 + 1
-  // skip: (n - 1) * 24 
+  // skip: (n - 1) * 24
 
   return (
     <>
@@ -50,10 +50,15 @@ function ListQr() {
           lg: 32,
         }}
       >
-        {qrs.length > 0 && qrs.map((qr) => <Qr key={qr.tableId} qr={qr} />)}
+        {qrs.length > 0 &&
+          qrs.map((qr) => (
+            <>
+              <Qr key={qr.tableId} qr={qr} />
+            </>
+          ))}
 
-        <Col xl={16} md={16} ></Col>
-        <Col xl={8} md={8} >
+        <Col xl={16} md={16}></Col>
+        <Col xl={8} md={8}>
           <Pagination />
         </Col>
       </Row>

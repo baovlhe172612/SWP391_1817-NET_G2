@@ -1,18 +1,64 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Input, Space } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List} from 'antd';
+import "./Header.css"
 const { Search } = Input;
 
 function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [query, setQuery] = useState("");
+  
+  const [results, setResults] = useState([]);
+  const Navigate = useNavigate();
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const contentStyle = {
+    margin: 0,
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+  };
+
+  
+
+  const handleSearch = (value) => {
+    Navigate(`listProduct?search=${value}`);
+  };
+
+  const fetchSearchResults = async (searchQuery) => {
+    if (!searchQuery) {
+      setResults([]);
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:5264/api/ProductControlles/search?search=${searchQuery}`);
+      const data = await response.json();
+      setResults(data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if(query != null){
+        fetchSearchResults(query); // query ở đây chính là searchQuery
+      }
+      
+    }, 2000);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query]);
+  
   return (
     <>
-      
+
       <div className={`header-top bg-pronia-primary ${!isMenuOpen ? 'd-none d-lg-block' : ''}`}>
         <div className="container">
           <div className="row align-items-center">
@@ -55,7 +101,40 @@ function Header({ tableId }) {
                 </Link>
 
                 <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
-                  <Search placeholder="input search text" enterButton />
+
+
+                    
+                   <Search
+                    placeholder="Search for products"
+                    
+                    enterButton
+                    onChange={e => {
+                      const value = e.target.value;
+                      if (value.length >= 2) {
+                          setQuery(value);
+                      } else {
+                          setQuery(null); // Hoặc giá trị phù hợp khi không đủ ký tự
+                      }
+                  }}
+                    onSearch={handleSearch}
+                   />
+                   
+                   {results.length > 0 && (
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={results}
+                        renderItem={item => (
+                          <List.Item>
+                            <List.Item.Meta
+                              title={item.productName}
+                              price={item.price}
+                            />
+                          </List.Item>
+                        )}
+                      />
+                    )}
+                  
+
                   <ul className="d-flex align-items-center m-0">
                     <li className="minicart-wrap me-3 me-lg-0">
                       <Link to="/cart" className="minicart-btn toolbar-btn">
@@ -63,7 +142,7 @@ function Header({ tableId }) {
                         <span className="quantity">3</span>
                       </Link>
                     </li>
-                   
+
                     <li className="mobile-menu_wrap d-block d-lg-none">
                       <i className="pe-7s-menu" onClick={toggleMenu}></i>
                     </li>
@@ -75,9 +154,47 @@ function Header({ tableId }) {
         </div>
       </div>
 
+      <Carousel autoplay effect="fade" easing="ease" speed={800}>
+        <div className="slider-item">
+
+          <Image
+            width={400}
+            height={400}
+            src={`https://png.pngtree.com/png-vector/20240207/ourlarge/pngtree-juice-drink-sticker-retro-png-image_11712623.png`}
+          />
+        </div>
+        <div className="slider-item">
+
+          <Image
+            width={400}
+            height={400}
+            src={`https://www.highlandscoffee.com.vn/vnt_upload/product/06_2023/thumbs/270_crop_HLC_New_logo_5.1_Products__PHINDI_KEM_SUA.jpg`}
+          />
+
+        </div>
+        <div className="slider-item">
+
+          <Image
+            width={400}
+            height={400}
+            src="https://www.highlandscoffee.com.vn/vnt_upload/product/HLCPOSTOFFICE_DRAFT/PNG_FINAL/3_MENU_NGUYEN_BAN/thumbs/270_crop_Chanh_Da_Xay.jpg"
+          />
+
+        </div>
+        <div className="slider-item">
+          <Image
+            width={400}
+            height={400}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM_nfnQkXXCNcOhXS-766JKhhtqwGoAIhH0Q&s"
+          />
+
+
+        </div>
+      </Carousel>
+
 
       {/* Header Middle */}
-      
+
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
         <div className="header-bottom d-block d-lg-none">
@@ -189,7 +306,8 @@ function Header({ tableId }) {
                     style={{ paddingTop: '30px' }}
                     className="header-right d-flex align-items-center"
                   >
-                    <Search placeholder="input search text" enterButton />
+                  
+                  
                     <ul className="d-flex align-items-center m-0">
                       <li className="minicart-wrap me-3 me-lg-0">
                         <Link to="/cart" className="minicart-btn toolbar-btn">
@@ -265,7 +383,7 @@ function Header({ tableId }) {
           </div>
         </div>
 
-        
+
       </header>
     </>
   );

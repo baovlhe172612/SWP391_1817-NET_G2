@@ -27,6 +27,11 @@ namespace Swp391.Service
         public void UpdateAccountStatus(int accountId, int newStatus){
             _accountRepo.UpdateAccountStatus(accountId,newStatus);
         }
+        //update full account
+        public void UpdateAccount(Account newAccount)
+        {
+            _accountRepo.UpdateAccount(newAccount);
+        }
         //tạo tài khoản mới
         public void createrAccount(Account newAccount)
         {
@@ -37,5 +42,17 @@ namespace Swp391.Service
         {
             _accountRepo.UpdateisdeleteAccount(accountId,isdelete);
         }
+
+        /////////////////////////////////////////////'
+        public List<AccountDtos> GetAllAccountEmployeeDtos()
+        {
+            return _accountRepo.GetAllAccountEmployee();
+        }
+
+        public AccountDtos getAccountEmployeeId(int id)
+        {
+            return _accountRepo.getAccountEmployeeId(id);
+        }
+
     }
 }

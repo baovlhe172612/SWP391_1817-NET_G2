@@ -42,7 +42,7 @@ namespace Swp391.Controllers
             });
         }
 
-        //phương thức này dùng để lấy ra toàn bộ feedback và hiển thị trên giao diện qua api
+
         [HttpGet]
         public IActionResult GetMessengerBox()
         {

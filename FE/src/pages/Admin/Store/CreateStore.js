@@ -44,8 +44,11 @@ function CreateStore() {
       // thông báo ra hoàn thành tạo
       alear_success("Create!", "create");
 
+      form.resetFields();
+
       // chuyển hướng đến listore
-      navigate(`/admin/store/`)
+      // navigate(`/admin/store/`)
+      navigate(`/admin/store/create`)
     }
   };
 
