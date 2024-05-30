@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function CreateEmployee() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    
     const handleSubmit = async (values) => {
         console.log(values);
         // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
@@ -20,6 +21,7 @@ function CreateEmployee() {
         try {
             const response = await post(`http://localhost:5264/api/Account`, values);
             // Kiểm tra giá trị trả về từ API
+            console.log(response)
             if (response) {
                 form.resetFields();
                 message.success('Account created successfully!');

@@ -33,6 +33,7 @@ function LayoutDefaultAdmin() {
     }
   }, [login]);
 
+  const account = useSelector(state => state.AccountReducer);
   return (
     <>
       <Layout className="layout-default">
@@ -75,7 +76,7 @@ function LayoutDefaultAdmin() {
                       borderColor: "#abd373",
                     }}
                   >
-                    User
+                  {account.fullName}
                   </Button>
                   {/* LOGOUT */}
                   <Link to="/admin/logout">
