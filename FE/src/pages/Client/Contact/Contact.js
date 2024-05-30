@@ -59,10 +59,10 @@ function Contact() {
                     showConfirmButton: false,
                     timer: 1000
                 });
-                // setTimeout(() => {
-                //     // onReload();
-                //     setData({});
-                // }, 3000);
+                setTimeout(() => {
+                    onReload();
+                    setData({});
+                }, 1000);
                 setData({});
             }
             console.log('Form submitted successfully:', response);
@@ -74,9 +74,9 @@ function Contact() {
             alert('Failed to submit the form.');
         }
     };
-    // const onReload = () => {
-    //     window.location.reload();
-    // };
+    const onReload = () => {
+        window.location.reload();
+    };
     console.log("data: ", data)
     return (
         <>
@@ -86,12 +86,12 @@ function Contact() {
                         <div className="row h-100">
                             <div className="col-lg-12">
                                 <div className="breadcrumb-item">
-                                    <h2 className="breadcrumb-heading">Contact</h2>
+                                    <h2 className="breadcrumb-heading">FeedBack</h2>
                                     <ul>
                                         <li>
                                             <a href="/">Home</a>
                                         </li>
-                                        <li>Contact Us</li>
+                                        <li>Give us feedback</li>
                                     </ul>
                                 </div>
                             </div>
@@ -133,15 +133,17 @@ function Contact() {
                                             </Col>
                                             <Col span={24}>
                                                 <p>Messenger</p>
-                                                <Input required name="MessengerDescription" placeholder="Enter the [MessengerDescription]" onChange={handleChangeInput} />
+                                                <Input required name="MessengerDescription" placeholder="Enter the MessengerDescription" onChange={handleChangeInput} />
                                             </Col>
                                             <Col span={12}>
-                                                <p>Chọn ngày</p>
+                                                <p>Select date</p>
                                                 <DatePicker required onChange={handleChangeDate} />
                                             </Col>
                                             <Col span={24}>
                                                 <div className="contact-button-wrap">
-                                                    <button type="submit" value="submit" className="btn btn-custom-size xl-size btn-pronia-primary" name="submit">Post Comment</button>
+                                                    <button type="submit" value="submit" className="btn btn-custom-size xl-size btn-pronia-primary" name="submit" style={{border: "1px solid"}}>
+                                                        Post FeedBack
+                                                    </button>
 
                                                 </div>
                                             </Col>
@@ -165,7 +167,7 @@ function Contact() {
                         referrerPolicy="no-referrer-when-downgrade">
                     </iframe>
 
-                     </div>
+                </div>
 
             </main>
         </>

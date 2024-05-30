@@ -6324,6 +6324,7 @@ blockquote p {
 }
 
 .cart-page-total > h2 {
+  text-align: center;
   font-size: 25px;
   font-weight: 700;
   margin-bottom: 20px;
@@ -6349,9 +6350,12 @@ blockquote p {
 .cart-page-total > ul li span {
   float: right;
 }
-
+.center-button {
+  text-align: center;
+}
 .cart-page-total a {
-  background-color: #505050;
+ text-align: center;
+  background-color: #0ae06ab1;
   border: 0;
   color: #ffffff;
   display: inline-block;
@@ -6364,7 +6368,7 @@ blockquote p {
 }
 
 .cart-page-total a:hover {
-  background-color: #abd373;
+  background-color: #c0108e;
   color: #ffffff;
 }
 
@@ -6414,12 +6418,12 @@ blockquote p {
   font-size: 13px;
 }
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .table-content table td {
     width: 100%;
     display: block;
   }
-}
+} */
 
 @media (max-width: 767px) {
   .table-content table td:nth-child(3) {
