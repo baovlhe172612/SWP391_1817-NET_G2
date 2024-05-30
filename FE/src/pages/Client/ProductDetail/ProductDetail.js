@@ -124,7 +124,7 @@ function ProductDetail() {
                           </div>
                         </li> */}
                         <li className="add-to-cart">
-                          <a className="btn btn-custom-size lg-size btn-pronia-primary" href="cart.html">Add to cart</a>
+                          <a className="btn btn-custom-size lg-size btn-pronia-primary" href="http://localhost:3000/cart" style={{ border: '4px solid black' }}>Add to cart</a>
                         </li>
                         {/* <li className="wishlist-btn-wrap">
                           <a className="custom-circle-btn" href="wishlist.html">
