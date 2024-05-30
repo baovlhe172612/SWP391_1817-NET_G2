@@ -1,3 +1,29 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ide
+
+# Explicitly ignore bin and obj directories
+bin/
+obj/
+
+
+# ---------------------------------------------------------------------------------------------
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -135,10 +161,10 @@ obj/c
 *.dat
 *.orig
 *.tlog
-*.vshost.*
+.vshost.
 *.opensdf
 *.sdf
-*.vcxproj.*
+.vcxproj.
 _Dependencies
 debug/
 Debug/
@@ -171,4 +197,3 @@ $RECYCLE.BIN/
 # SQL Server files
 *.mdf
 *.ldf
-
