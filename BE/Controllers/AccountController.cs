@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Swp391.Models;
+
 using Swp391.Service;
 
 namespace Swp391.Controllers

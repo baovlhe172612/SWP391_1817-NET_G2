@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swp391.Service;
-using Swp391.Models;
+
 using System.Collections.Generic;
+using BE.Models;
 
 namespace Swp391.Controllers
 {
