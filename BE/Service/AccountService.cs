@@ -1,6 +1,7 @@
-﻿using Swp391.Models;
+﻿
 using Swp391.Repository;
-using Swp391.Dtos;   
+using Swp391.Dtos;
+using BE.Models;
 namespace Swp391.Service
 {
     public class AccountService

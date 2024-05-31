@@ -43,7 +43,7 @@ function Product(props) {
 
                     <li>
                       <Link
-                        to={`/productDhttp://localhost:3000/listProduct/shop.htmletail?productId=${
+                        to={`http://localhost:3000/listProduct/shop.htmletail?productId=${
                           product.productId
                         }&sizeId=${1}`}
                       >

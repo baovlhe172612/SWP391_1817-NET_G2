@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Swp391.Models;
+using BE.Models;
+
 using Swp391.Repository;
 
 namespace Swp391.Service

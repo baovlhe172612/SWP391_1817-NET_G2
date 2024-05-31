@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Swp391.Models;
+namespace BE.Models;
 
 public partial class Post
 {

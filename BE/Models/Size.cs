@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Swp391.Models;
+namespace BE.Models;
 
 public partial class Size
 {
@@ -12,6 +12,8 @@ public partial class Size
     public double? Price { get; set; }
 
     public int? IsDelete { get; set; }
+
+    public int? Status { get; set; }
 
     public virtual ICollection<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();
 }

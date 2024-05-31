@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BE.Models;
 using Swp391.Dtos;
-using Swp391.Models;
+
 
 namespace Swp391.Repository
 {
@@ -31,7 +32,7 @@ namespace Swp391.Repository
                                    Status = a.Status,
                                    Email = a.Email,
                                    FullName = a.FullName,
-                                   Location = a.Location,
+                                   Location = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
@@ -58,7 +59,7 @@ namespace Swp391.Repository
                                    Status = a.Status,
                                    Email = a.Email,
                                    FullName = a.FullName,
-                                   Location = a.Location,
+                                   Location = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
