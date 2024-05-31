@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Swp391.Dtos;
-using Swp391.Models;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -36,7 +37,7 @@ namespace Swp391.Repository
                                                Status = a.Status,
                                                Email = a.Email,
                                                FullName = a.FullName,
-                                               Location = a.Location,
+                                               Location = a.Address,
                                                Phone = a.Phone,
                                                RoleId = a.RoleId,
                                                Token = a.Token,
@@ -71,7 +72,7 @@ namespace Swp391.Repository
                                          Status = a.Status,
                                          Email = a.Email,
                                          FullName = a.FullName,
-                                         Location = a.Location,
+                                         Location = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
                                          Token = a.Token,
@@ -124,7 +125,7 @@ namespace Swp391.Repository
                     existingAccount.FullName = newAccount.FullName;
                     existingAccount.Status = newAccount.Status;
                     existingAccount.Email = newAccount.Email;
-                    existingAccount.Location = newAccount.Location;
+                    existingAccount.Address = newAccount.Address;
                     existingAccount.Phone = newAccount.Phone;
                     existingAccount.RoleId = newAccount.RoleId;
                     existingAccount.IsDelete = newAccount.IsDelete;
@@ -179,7 +180,7 @@ namespace Swp391.Repository
                     Status = newAccount.Status,
                     Email = newAccount.Email,
                     FullName = newAccount.FullName,
-                    Location = newAccount.Location,
+                    Address = newAccount.Address,
                     Phone = newAccount.Phone,
                     RoleId = newAccount.RoleId,
                     Token = String.Empty,
@@ -237,14 +238,13 @@ namespace Swp391.Repository
                                          Status = a.Status,
                                          Email = a.Email,
                                          FullName = a.FullName,
-                                         Location = a.Location,
+                                         Location = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
                                          StoreName=s.StoreName,
                                          Token = a.Token,
-                                         StoreId = a.StoreId,
+                                         StoreId = (int)a.StoreId,
                                          RoleName = r.RoleName,
-                                         StoreName = s.StoreName,
                                          IsDelete = (int)a.IsDelete,
                                      }
                                            ).ToList();
@@ -266,7 +266,7 @@ namespace Swp391.Repository
                                          Status = a.Status,
                                          Email = a.Email,
                                          FullName = a.FullName,
-                                         Location = a.Location,
+                                         Location = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
                                          StoreName=s.StoreName,

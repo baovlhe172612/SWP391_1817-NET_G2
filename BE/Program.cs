@@ -15,7 +15,7 @@ namespace Swp391
 
             // Configure CORS
 
-            //add cors ?? tr·nh
+            //add cors ?? tr√°nh
             
             builder.Services.AddCors(options =>
             {
@@ -38,7 +38,7 @@ namespace Swp391
 
             app.UseHttpsRedirection();
 
-            app.UseCors(); // ¡p d?ng chÌnh s·ch CORS
+            app.UseCors(); // √Åp d?ng ch√≠nh s√°ch CORS
 
             app.UseAuthorization();
 
@@ -46,7 +46,7 @@ namespace Swp391
 
             app.Run();
 
-
+            app.Run("http://0.0.0.0:5264");
         }
     }
 }

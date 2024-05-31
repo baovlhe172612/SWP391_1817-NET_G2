@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
-namespace Swp391.Models;
+namespace BE.Models;
 
 public partial class Account
 {
@@ -18,7 +17,7 @@ public partial class Account
 
     public string? FullName { get; set; }
 
-    public string? Location { get; set; }
+    public string? Address { get; set; }
 
     public string? Phone { get; set; }
 
@@ -28,10 +27,15 @@ public partial class Account
 
     public int? IsDelete { get; set; }
 
-    public int StoreId { get; set; }
-    [JsonIgnore]
-    public virtual Store Store { get; set; } = null!;
-    [JsonIgnore]
+    public int? StoreId { get; set; }
+
+    public string? Cccd { get; set; }
+
+    public DateOnly? StatusDate { get; set; }
+
+    public DateOnly? DateStartWork { get; set; }
+
     public virtual Role Role { get; set; } = null!;
-    
+
+    public virtual Store? Store { get; set; }
 }

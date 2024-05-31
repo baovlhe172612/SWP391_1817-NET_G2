@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Swp391.Models;
+namespace BE.Models;
 
 public partial class Product
 {
@@ -21,7 +21,15 @@ public partial class Product
 
     public int? IsDelete { get; set; }
 
+    public int? StoreId { get; set; }
+
+    public int? Status { get; set; }
+
+    public DateOnly? StatusDate { get; set; }
+
     public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();
+
+    public virtual Store? Store { get; set; }
 }
