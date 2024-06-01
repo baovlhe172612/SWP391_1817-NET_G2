@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Swp391.Dtos;
-using Swp391.Models;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -12,8 +13,9 @@ namespace Swp391.Repository
 {
     public class AccountRepo
     {
+        //Trang manager store
         /// <summary>
-        /// hàm trả về toàn bộ sản phẩm của repository accounts
+        /// GetAllAccountsAsync(): Lấy tất cả các tài khoản có [RoleName] là "Manager" và chưa bị xóa (IsDelete != 0).
         /// </summary>
 
         /// <returns>get all account by linq join between account+rol </returns>
@@ -35,10 +37,11 @@ namespace Swp391.Repository
                                                Status = a.Status,
                                                Email = a.Email,
                                                FullName = a.FullName,
-                                               Location = a.Location,
+                                               Location = a.Address,
                                                Phone = a.Phone,
                                                RoleId = a.RoleId,
                                                Token = a.Token,
+                                               StoreId = s.StoreId,
                                                RoleName = r.RoleName,
                                                StoreName = s.StoreName,
                                                IsDelete = (int)a.IsDelete,                                               
@@ -46,8 +49,11 @@ namespace Swp391.Repository
                                            ).ToList();
             return accountsWithRoles;
         }
+
+       
+
         /// <summary>
-        /// hàm trả về toàn bộ sản phẩm của repository accounts
+        /// getAccountById(int id): Lấy một tài khoản dựa trên ID của nó.
         /// </summary>
 
         /// <returns>get all account by linq join between account+rol </returns>
@@ -66,7 +72,7 @@ namespace Swp391.Repository
                                          Status = a.Status,
                                          Email = a.Email,
                                          FullName = a.FullName,
-                                         Location = a.Location,
+                                         Location = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
                                          Token = a.Token,
@@ -77,11 +83,17 @@ namespace Swp391.Repository
 
             return accountsWithRoles;
         }
+
+     
+
+        /// <summary>
+        /// UpdateAccountStatus(int accountId, int newStatus): Cập nhật trạng thái của một tài khoản dựa trên ID.
+        /// </summary>
+
         public void UpdateAccountStatus(int accountId, int newStatus)
         {
             SwpfinalContext _context = new SwpfinalContext();
-            var account = _context.Accounts.Find(accountId);
-
+            var account = _context.Accounts.Find(accountId);         
             if (account != null)
             {
                 account.Status = newStatus;
@@ -92,13 +104,66 @@ namespace Swp391.Repository
                 throw new Exception("Account not found"); // Ném một exception để thông báo lỗi
             }
         }
-        // thêm account mới
+
+        //update full account
+        public void UpdateAccount(Account newAccount)
+        {
+            using (var _context = new SwpfinalContext())
+            {
+                // Check if the account exists
+                var existingAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == newAccount.AccountId);
+                if (existingAccount != null)
+                {
+                    // Check if the store exists
+                    var storeExists = _context.Stores.Any(s => s.StoreId == newAccount.StoreId);
+                    if (!storeExists)
+                    {
+                        throw new Exception("Store not found.");
+                    }
+
+                    // Update fields
+                    existingAccount.FullName = newAccount.FullName;
+                    existingAccount.Status = newAccount.Status;
+                    existingAccount.Email = newAccount.Email;
+                    existingAccount.Address = newAccount.Address;
+                    existingAccount.Phone = newAccount.Phone;
+                    existingAccount.RoleId = newAccount.RoleId;
+                    existingAccount.IsDelete = newAccount.IsDelete;
+                    existingAccount.StoreId = newAccount.StoreId;
+
+                    try
+                    {
+                        _context.SaveChanges();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        // Log the exception (optional)
+                        Console.WriteLine($"An error occurred while updating the account: {ex.Message}");
+                        throw new Exception("An error occurred while updating the account.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Account not found.");
+                }
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// createrAccount(Account newAccount): Thêm một tài khoản mới vào cơ sở dữ liệu.
+        /// </summary>
+     
+
+
         public void createrAccount(Account newAccount)
         {
             SwpfinalContext _context = new SwpfinalContext();
             // Kiểm tra xem có tài khoản nào có cùng UserName không
             bool isExisting = _context.Accounts.Any
-                (a => (a.UserName == newAccount.UserName)||(a.Email==newAccount.Email)||(a.Phone==newAccount.Phone));
+                (a => (a.UserName == newAccount.UserName) || (a.Email == newAccount.Email) || (a.Phone == newAccount.Phone));
 
             // Nếu đã tồn tại tài khoản có cùng UserName, ném một ngoại lệ hoặc xử lý theo ý bạn
             if (isExisting)
@@ -115,9 +180,9 @@ namespace Swp391.Repository
                     Status = newAccount.Status,
                     Email = newAccount.Email,
                     FullName = newAccount.FullName,
-                    Location = newAccount.Location,
+                    Address = newAccount.Address,
                     Phone = newAccount.Phone,
-                    RoleId = newAccount.RoleId,                    
+                    RoleId = newAccount.RoleId,
                     Token = String.Empty,
                     IsDelete = newAccount.IsDelete,
                     StoreId = newAccount.StoreId,
@@ -126,7 +191,13 @@ namespace Swp391.Repository
                 _context.SaveChanges();
             }
         }
-        // edit isdelete
+
+
+  
+
+        /// <summary>
+        /// UpdateisdeleteAccount(int id, int isdelete): Cập nhật trường IsDelete của một tài khoản.
+        /// </summary>
         public void UpdateisdeleteAccount(int id, int isdelete)
         {
             SwpfinalContext _context = new SwpfinalContext();
@@ -142,5 +213,73 @@ namespace Swp391.Repository
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------------------------------//
+
+        //Trang manager employee
+        /// <summary>
+        /// GetAllAccountsAsync(): Lấy tất cả các tài khoản có [RoleName] là "Employee" và chưa bị xóa (IsDelete != 0).
+        /// </summary>
+
+        public List<AccountDtos> GetAllAccountEmployee()
+        {
+
+            SwpfinalContext _context = new SwpfinalContext();
+
+            var accountsWithRoles = (from a in _context.Accounts
+                                     join r in _context.Roles on a.RoleId equals r.RoleId
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
+                                     where r.RoleName == "Employee" && a.IsDelete == 0
+                                     
+                                     select new AccountDtos
+                                     {
+                                         AccountId = a.AccountId,
+                                         UserName = a.UserName,
+                                         PassWord = a.PassWord,
+                                         Status = a.Status,
+                                         Email = a.Email,
+                                         FullName = a.FullName,
+                                         Location = a.Address,
+                                         Phone = a.Phone,
+                                         RoleId = a.RoleId,
+                                         StoreName=s.StoreName,
+                                         Token = a.Token,
+                                         StoreId = (int)a.StoreId,
+                                         RoleName = r.RoleName,
+                                         IsDelete = (int)a.IsDelete,
+                                     }
+                                           ).ToList();
+            return accountsWithRoles;
+        }
+
+        public AccountDtos getAccountEmployeeId(int id)
+        {
+            SwpfinalContext _context = new SwpfinalContext();
+            var accountsWithRoles = (from a in _context.Accounts
+                                     join r in _context.Roles on a.RoleId equals r.RoleId
+                                     join s in _context.Stores on a.StoreId equals s.StoreId
+                                     where a.AccountId == id
+                                     select new AccountDtos
+                                     {
+                                         AccountId = a.AccountId,
+                                         UserName = a.UserName,
+                                         PassWord = a.PassWord,
+                                         Status = a.Status,
+                                         Email = a.Email,
+                                         FullName = a.FullName,
+                                         Location = a.Address,
+                                         Phone = a.Phone,
+                                         RoleId = a.RoleId,
+                                         StoreName=s.StoreName,
+                                         Token = a.Token,
+                                         RoleName = r.RoleName,
+                                         IsDelete = (int)a.IsDelete,
+                                     }).FirstOrDefault();
+
+            return accountsWithRoles;
+        }
+
     }
+
+
+
 }

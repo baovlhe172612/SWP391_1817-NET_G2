@@ -4,7 +4,7 @@ import { LIST_PRODUCT } from "../../../helpers/APILinks";
 
 function Qr({ qr }) {
   //   console.log(qr)
-  const [text, setText] = React.useState(`${LIST_PRODUCT}${qr.tableId}`);
+  const [text, setText] = React.useState(`http://192.168.244.176:3000/listProduct/${qr.tableId}`);
 
   return (
     <>
@@ -12,7 +12,7 @@ function Qr({ qr }) {
         <Space direction="vertical" align="center">
           <Button type="primary">Table: {qr.tableId}</Button>
           <QRCode value={text || "-"} />
-          <Input placeholder="-" maxLength={60} value={text} readOnly/>
+          <Input placeholder="-" maxLength={60} value={text} />
         </Space>
       </Col>
     </>

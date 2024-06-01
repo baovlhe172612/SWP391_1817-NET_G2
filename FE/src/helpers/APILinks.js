@@ -20,6 +20,11 @@ export const LIST_TABLE = `${LOCALHOST_API}/api/Table`;
 // API PRODUCT
 export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 
+// API FeedBack
+export const LIST_FEEDBACK = `${LOCALHOST_API}/api/MessengerBox`
+
+// API EMPLOYEE
+export const LIST_Employee = `${LOCALHOST_API}/employee`;
 
 // LINK SHOP CLIENT
 export const LIST_PRODUCT = `http://localhost:3000/listProduct/`;

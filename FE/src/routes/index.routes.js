@@ -34,7 +34,7 @@ import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
-import ForgotPassword from "../components/Admin/Accounts/ForgotPassword/ForgotPassword";
+import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 
 const routes = [
   {
@@ -84,27 +84,18 @@ const routes = [
         element: <Login />,
       },
       {
-        path: "/admin/forgotPassword",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "/admin/login",
-        element: <Login />,
-      },
-      {
         path: "/admin/register",
         element: <Register />,
       },
       {
         path: "/admin",
-        // PrivateRouter: kiểm tra đăng nhập
         element: <PrivateRouter />,
         children: [
           {
             path: "/admin/logout",
             element: <Logout />,
           },
-          // ROLE OF OWNERv => kiểm tra role của Owner
+          // ROLE OF OWNER
           {
             element: <ProtectedRole roles={["Owner"]} />,
             children: [
@@ -136,12 +127,16 @@ const routes = [
                     path: "create",
                     element: <CreateStoreManager />,
                   },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateStoreManager />,
+                  },
                 ],
               },
             ],
           },
 
-          // ROLE OF MANAGE => kiểm tra role của Owner + Manager
+          // ROLE OF MANAGE
           {
             element: <ProtectedRole roles={["Manager", "Owner"]} />,
             children: [
@@ -217,7 +212,7 @@ const routes = [
               },
             ],
           },
-          // ROLE OF EMPLOYEE => kiểm tra role của Owner + Manager + Employee
+          // ROLE OF EMPLOYEE
           {
             element: <ProtectedRole roles={["Manager", "Employee", "Owner"]} />,
             children: [
@@ -258,11 +253,6 @@ const routes = [
       },
     ],
   },
-  // Tất cả những router ko được định dạng => chuyển hết về trang notfound
-  {
-    path: "*",
-    element: <NotFound />
-  }
 ];
 
 export default routes;

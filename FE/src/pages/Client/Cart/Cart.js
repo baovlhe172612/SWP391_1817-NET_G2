@@ -188,7 +188,7 @@ function Cart() {
                     <div class="row">
                       <div class="col-12">
                         <div class="coupon-all">
-                          <div class="coupon">
+                          {/* <div class="coupon">
                             <input
                               id="coupon_code"
                               class="input-text"
@@ -203,7 +203,7 @@ function Cart() {
                               value="Apply coupon"
                               type="submit"
                             />
-                          </div>
+                          </div> */}
                           <div class="coupon2">
                             <input
                               class="button"

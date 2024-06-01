@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Swp391.Models;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Mvc;
+
 using Swp391.Service;
 
 namespace Swp391.Controllers
@@ -40,6 +41,13 @@ namespace Swp391.Controllers
                 mess = "add successfully",
                 data = messenger
             });
+        }
+
+
+        [HttpGet]
+        public IActionResult GetMessengerBox()
+        {
+            return Ok(_messengerService.getAllMess());
         }
     }
 }

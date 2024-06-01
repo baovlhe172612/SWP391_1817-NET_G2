@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Product(props) {
   const { product } = props;
   // console.log(props)
-  console.log("product", product);
+ 
   return (
     <>
       {product ? (
@@ -43,7 +43,7 @@ function Product(props) {
 
                     <li>
                       <Link
-                        to={`/productDhttp://localhost:3000/listProduct/shop.htmletail?productId=${
+                        to={`http://localhost:3000/listProduct/shop.htmletail?productId=${
                           product.productId
                         }&sizeId=${1}`}
                       >
@@ -84,7 +84,7 @@ function Product(props) {
                 </a>
                 <div class="price-box pb-1">
                   <span class="new-price" style={{ fontSize: "16px" }}>
-                    {product.price}đ
+                    {product.price + 10000}đ
                   </span>
                 </div>
               </div>

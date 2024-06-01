@@ -1,18 +1,36 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Input, Space } from 'antd';
-const { Search } = Input;
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List, App} from 'antd';
+import "./Header.css"
+import  Search  from '../Search/Search.js';
+
+
 
 function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const contentStyle = {
+    margin: 0,
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+  };
+
+  
+
+
+  
   return (
     <>
-      
+
       <div className={`header-top bg-pronia-primary ${!isMenuOpen ? 'd-none d-lg-block' : ''}`}>
         <div className="container">
           <div className="row align-items-center">
@@ -55,7 +73,14 @@ function Header({ tableId }) {
                 </Link>
 
                 <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
-                  <Search placeholder="input search text" enterButton />
+
+
+                    
+                   <Search />
+                   
+                  
+                  
+
                   <ul className="d-flex align-items-center m-0">
                     <li className="minicart-wrap me-3 me-lg-0">
                       <Link to="/cart" className="minicart-btn toolbar-btn">
@@ -63,7 +88,7 @@ function Header({ tableId }) {
                         <span className="quantity">3</span>
                       </Link>
                     </li>
-                   
+
                     <li className="mobile-menu_wrap d-block d-lg-none">
                       <i className="pe-7s-menu" onClick={toggleMenu}></i>
                     </li>
@@ -75,9 +100,47 @@ function Header({ tableId }) {
         </div>
       </div>
 
+      <Carousel autoplay effect="fade" easing="ease" speed={800}>
+        <div className="slider-item">
+
+          <Image
+            width={400}
+            height={400}
+            src={`https://png.pngtree.com/png-vector/20240207/ourlarge/pngtree-juice-drink-sticker-retro-png-image_11712623.png`}
+          />
+        </div>
+        <div className="slider-item">
+
+          <Image
+            width={400}
+            height={400}
+            src={`https://www.highlandscoffee.com.vn/vnt_upload/product/06_2023/thumbs/270_crop_HLC_New_logo_5.1_Products__PHINDI_KEM_SUA.jpg`}
+          />
+
+        </div>
+        <div className="slider-item">
+
+          <Image
+            width={400}
+            height={400}
+            src="https://www.highlandscoffee.com.vn/vnt_upload/product/HLCPOSTOFFICE_DRAFT/PNG_FINAL/3_MENU_NGUYEN_BAN/thumbs/270_crop_Chanh_Da_Xay.jpg"
+          />
+
+        </div>
+        <div className="slider-item">
+          <Image
+            width={400}
+            height={400}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM_nfnQkXXCNcOhXS-766JKhhtqwGoAIhH0Q&s"
+          />
+
+
+        </div>
+      </Carousel>
+
 
       {/* Header Middle */}
-      
+
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
         <div className="header-bottom d-block d-lg-none">
@@ -92,7 +155,7 @@ function Header({ tableId }) {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/listProduct">Shop</Link>
+                        <Link to="/listProduct">Menu</Link>
                       </li>
 
                       <li>
@@ -126,7 +189,7 @@ function Header({ tableId }) {
                         <Link to="/">Home</Link>
                       </li>
                       <li className="megamenu-holder">
-                        <Link to="/listProduct">Shop</Link>
+                        <Link to="/listProduct">Menu</Link>
                       </li>
 
                       <li>
@@ -189,7 +252,8 @@ function Header({ tableId }) {
                     style={{ paddingTop: '30px' }}
                     className="header-right d-flex align-items-center"
                   >
-                    <Search placeholder="input search text" enterButton />
+                  
+                  
                     <ul className="d-flex align-items-center m-0">
                       <li className="minicart-wrap me-3 me-lg-0">
                         <Link to="/cart" className="minicart-btn toolbar-btn">
@@ -211,7 +275,7 @@ function Header({ tableId }) {
                           <Link to="/">Home</Link>
                         </li>
                         <li className="megamenu-holder">
-                          <Link to="/listProduct">Shop</Link>
+                          <Link to="/listProduct">Menu</Link>
                         </li>
                         <li className="drop-holder">
                           <Link to="/about">About Us</Link>
@@ -265,7 +329,7 @@ function Header({ tableId }) {
           </div>
         </div>
 
-        
+
       </header>
     </>
   );

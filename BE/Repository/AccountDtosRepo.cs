@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BE.Models;
 using Swp391.Dtos;
-using Swp391.Models;
+
 
 namespace Swp391.Repository
 {
@@ -20,6 +21,7 @@ namespace Swp391.Repository
         {
             var accountDtos = (from a in _context.Accounts
                                join r in _context.Roles on a.RoleId equals r.RoleId
+                               join s in _context.Stores on a.StoreId equals s.StoreId
                                // Equals: phương thức để so sánh và phân  biệt chữ hoa chữ thường
                                where a.UserName.Equals(UserName) && a.PassWord.Equals(PassWord)
                                select new AccountDtos
@@ -30,11 +32,12 @@ namespace Swp391.Repository
                                    Status = a.Status,
                                    Email = a.Email,
                                    FullName = a.FullName,
-                                   Location = a.Location,
+                                   Location = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
                                    RoleName = r.RoleName,
+                                   StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
                                }).FirstOrDefault();
 
@@ -46,6 +49,7 @@ namespace Swp391.Repository
         {
             var accountDtos = (from a in _context.Accounts
                                join r in _context.Roles on a.RoleId equals r.RoleId
+                               join s in _context.Stores on a.StoreId equals s.StoreId
                                where Token == a.Token
                                select new AccountDtos
                                {
@@ -55,11 +59,12 @@ namespace Swp391.Repository
                                    Status = a.Status,
                                    Email = a.Email,
                                    FullName = a.FullName,
-                                   Location = a.Location,
+                                   Location = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
                                    RoleName = r.RoleName,
+                                   StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
                                }).FirstOrDefault();
 

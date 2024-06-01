@@ -9,7 +9,7 @@ function MenuCategory({categories}) {
   const items = categories.map((data, index) => {
     return {
       // thêm logic gì đó ở đây
-      label: <Link to={`http://localhost:5264/api/Category?category=${data.categoryName}`}>{data.categoryName}</Link>,
+      label: <Link to={`http://localhost:3000/listProduct?categoryId=${data.categoryId}`}>{data.categoryName}</Link>,
       key: index,
     };
   });
@@ -23,7 +23,7 @@ function MenuCategory({categories}) {
         trigger={["click"]}
       >
         <Button size="large">
-          Phân Loại
+            BROWSE
           <DownOutlined />
         </Button>
       </Dropdown>

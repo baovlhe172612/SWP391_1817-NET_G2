@@ -1,5 +1,6 @@
-﻿using Swp391.Dtos;
-using Swp391.Models;
+﻿using BE.Models;
+using Swp391.Dtos;
+
 
 namespace Swp391.Repository
 {
