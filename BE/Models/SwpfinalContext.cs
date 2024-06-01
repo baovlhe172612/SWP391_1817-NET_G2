@@ -43,14 +43,13 @@ public partial class SwpfinalContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=lamlam276762;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
             entity.ToTable("Account");
-
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.Cccd)
                 .HasMaxLength(12)
@@ -59,8 +58,7 @@ public partial class SwpfinalContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.StoreId).HasColumnName("StoreID");
-
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");          
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

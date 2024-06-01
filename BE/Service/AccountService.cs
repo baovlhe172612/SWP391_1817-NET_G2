@@ -2,6 +2,7 @@
 using Swp391.Repository;
 using Swp391.Dtos;
 using BE.Models;
+using Microsoft.AspNetCore.Mvc;
 namespace Swp391.Service
 {
     public class AccountService
@@ -13,9 +14,16 @@ namespace Swp391.Service
         /// </summary>
 
         /// <returns>trả về toàn bộ account + roleName</returns>
-        public List<AccountDtos> GetAllAccounts_manager()
+        public List<AccountDtos> GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted)
         {
-            return _accountRepo.GetAllAccounts_manager();           
+            return _accountRepo.GetAllAccounts_manager( status,isDeleted);           
+        }
+
+        // getALlAccount
+
+        public List<Account> getAllAccount()
+        {
+            return _accountRepo.getAllAccount();
         }
 
         // Các phương thức khác của AccountService

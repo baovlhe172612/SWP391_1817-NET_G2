@@ -14,11 +14,15 @@ namespace Swp391.Controllers
 
         //phương thức này dùng để lấy toàn bộ account
         [HttpGet("manager")]
-        public IActionResult GetAllAccounts_manager()
+        public IActionResult GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted)
         {
-            return Ok(_service.GetAllAccounts_manager());
+            return Ok(_service.GetAllAccounts_manager( status, isDeleted));
         }
-
+        [HttpGet("all")]
+        public IActionResult GetAllAccounts()
+        {
+            return Ok(_service.getAllAccount());
+        }
         //lấy account bằng ID
         [HttpGet("{id}")]
         public IActionResult GetAccountById(int id)
