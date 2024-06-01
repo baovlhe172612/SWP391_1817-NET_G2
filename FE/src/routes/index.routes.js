@@ -34,6 +34,7 @@ import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
+import Qr from "../components/Admin/QR/Qr";
 
 const routes = [
   {
@@ -43,6 +44,7 @@ const routes = [
       {
         path: "/",
         element: <Home />,
+        
       },
       {
         path: "about",

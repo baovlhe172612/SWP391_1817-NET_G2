@@ -5,7 +5,7 @@ import { LIST_PRODUCT } from "../../../helpers/APILinks";
 function Qr(props) {
   const { qr } = props;
 //   console.log(qr)
-  const [text, setText] = React.useState(`${LIST_PRODUCT}${qr.tableId}`);
+  const [text, setText] = React.useState(`http://localhost:3000/home?tableId=1`);
 
   return (
     <>
