@@ -73,11 +73,11 @@ function ListCategory() {
     if (confirm.isConfirmed) {
       try {
         const dataDelete = await patch(
-          `http://localhost:5264/api/Category/delete/${record.categoryId}`,
+          `http://localhost:5264/api/Category/delete/${record.categoryId},
           {
             isDelete: 1,
           }
-        );
+        `);
         console.log("dataDelete: ", dataDelete);
 
         if (dataDelete) {

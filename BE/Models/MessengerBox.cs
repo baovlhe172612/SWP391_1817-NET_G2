@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Swp391.Models;
+namespace BE.Models;
 
 public partial class MessengerBox
 {
@@ -12,4 +12,6 @@ public partial class MessengerBox
     public string? Author { get; set; }
 
     public DateTime? CreateDate { get; set; }
+
+    public int? IsDelete { get; set; }
 }
