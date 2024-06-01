@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Swp391.Models;
+
 using Swp391.Service;
 
 namespace Swp391.Controllers
@@ -40,7 +41,7 @@ namespace Swp391.Controllers
             return Ok(); // Trả về mã trạng thái 200 OK sau khi cập nhật thành công
         }
         // update isdelete
-        
+
         [HttpPut("{id}/IsDelete")]
         public IActionResult DeleteAccount(int id, [FromQuery] int isdelete)
         {
@@ -49,6 +50,21 @@ namespace Swp391.Controllers
             return Ok(); // Trả về mã trạng thái 200 OK sau khi tạo account thành công
         }
 
+        // update full account
+        [HttpPut("{id}")]
+        public IActionResult UpdateAccount([FromBody] Account account)
+        {
+            if (account == null)
+            {
+                return BadRequest(new
+                {
+                    err = "account object is null"
+                });
+            }
+            _service.UpdateAccount(account);
+
+            return Ok(); // Trả về mã trạng thái 200 OK sau khi tạo account thành công
+        }
         //Tạo mới account
         [HttpPost]
         public IActionResult CreateAccount([FromBody] Account newAccount)
@@ -87,6 +103,7 @@ namespace Swp391.Controllers
 
             return Ok(accountDto); // Trả về account thông qua đối tượng DTO
         }
+
 
     }
 }

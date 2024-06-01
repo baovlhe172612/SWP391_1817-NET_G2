@@ -1,62 +1,93 @@
+import { Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Product(props) {
   const { product } = props;
-  console.log("product in product.js", product);
-
+  // console.log(props)
+ 
   return (
     <>
       {product ? (
-        <div className="col-xl-3 col-md-4 col-sm-6 pt-4">
-          <div className="product-item">
-            <div className="product-img">
-              <Link to={`/productDetail?productId=${product.productId}&sizeId=1`}>
-                <img
-                  className="primary-img"
-                  src={product.img}
-                  alt="Product Images"
-                />
-              </Link>
-              {/* Uncomment and add src for secondary image if available
-              <Link to={`/productDetail?productId=${product.productId}&sizeId=1`}>
-                <img
-                  className="secondary-img"
-                  src={product.secondaryImg}
-                  alt="Product Images"
-                />
-              </Link>
-              */}
-              <div className="product-add-action">
-                <ul>
-                  <li>
-                    <a
-                      data-tippy="Add to wishlist"
-                      data-tippy-inertia="true"
-                      data-tippy-animation="shift-away"
-                      data-tippy-delay="50"
-                      data-tippy-arrow="true"
-                      data-tippy-theme="sharpborder"
-                    >
-                      <i className="pe-7s-like"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <Link to={`/productDetail?productId=${product.productId}&sizeId=1`}>
-                      <i className="pe-7s-look"></i>
-                    </Link>
-                  </li>
-                </ul>
+        <>
+          {/* <Col sm={8} > //</>class="col-xl-3 col-md-4 col-sm-3" > */}
+          <Col span={12} >
+            <div class="product-item">
+              <div class="product-img">
+                <Link
+                  to={`/productDetail?productId=${
+                    product.productId
+                  }&sizeId=${1}`}
+                >
+                  <img
+                    class="primary-img"
+                    src={product.img}
+                    alt="Product Images"
+                    // style={{height: "50%", width: "50%"}}
+                  />
+                </Link>
+                <div class="product-add-action">
+                  <ul>
+                    <li>
+                      <a
+                        data-tippy="Add to wishlist"
+                        data-tippy-inertia="true"
+                        data-tippy-animation="shift-away"
+                        data-tippy-delay="50"
+                        data-tippy-arrow="true"
+                        data-tippy-theme="sharpborder"
+                      >
+                        <i class="pe-7s-like"></i>
+                      </a>
+                    </li>
+
+                    <li>
+                      <Link
+                        to={`http://localhost:3000/listProduct/shop.htmletail?productId=${
+                          product.productId
+                        }&sizeId=${1}`}
+                      >
+                        <i class="pe-7s-look"></i>
+                      </Link>
+                    </li>
+                    <li>
+                      <a
+                        href="cart.html"
+                        data-tippy="Add to cart"
+                        data-tippy-inertia="true"
+                        data-tippy-animation="shift-away"
+                        data-tippy-delay="50"
+                        data-tippy-arrow="true"
+                        data-tippy-theme="sharpborder"
+                      >
+                        <i class="pe-7s-cart"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="product-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-              <a className="product-name" href="shop.html" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
-                {product.productName}
-              </a>
-              <div className="price-box pb-1">
-                <span className="new-price" style={{ fontSize: '16px' }}>{product.price}đ</span>
-              </div>
-              <div className="price-box pb-1">
+              <div
+                class="product-content"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
+                <a
+                  class="product-name"
+                  href="shop.html"
+                  style={{ fontFamily: "Arial", fontWeight: "bold" }}
+                >
+                  {product.productName}
+                </a>
+                <div class="price-box pb-1">
+                  <span class="new-price" style={{ fontSize: "16px" }}>
+                    {product.price}đ
+                  </span>
+                </div>
+                <div className="price-box pb-1">
                 <button className="add-to-cart-btn" style={{
                   backgroundColor: '#ff9900',
                   color: 'white',
@@ -67,14 +98,14 @@ function Product(props) {
                 }}>
                   Thêm vào giỏ hàng
                 </button>
+                </div>
               </div>
+              
             </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          Lỗi khi lấy data
+          </Col>
         </>
+      ) : (
+        <>Lỗi khi lấy data</>
       )}
     </>
   );

@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Swp391.Models;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Mvc;
+
 using Swp391.Service;
 
 namespace Swp391.Controllers
@@ -42,7 +43,7 @@ namespace Swp391.Controllers
             });
         }
 
-        //phương thức này dùng để lấy ra toàn bộ feedback và hiển thị trên giao diện qua api
+
         [HttpGet]
         public IActionResult GetMessengerBox()
         {

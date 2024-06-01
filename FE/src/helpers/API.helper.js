@@ -67,5 +67,23 @@ export const deleteItem = async (url) => {
   return response;
 };
 
+export const put = async (url, values) => {
+  const options = {
+    method: "PUT",
+    mode: "cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  };
+
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+
+  // Trả về đối tượng phản hồi
+  return response;
+};
 
 

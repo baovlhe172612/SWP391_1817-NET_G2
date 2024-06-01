@@ -51,8 +51,11 @@ function CreateEmployee() {
 
     return (
         <>
-            <h2>Create Store's Employee</h2>
+            <h2 style={{textAlign: 'center'}}>Create Store's Employee</h2>
             <Form
+            layout="horizontal"
+            labelCol={{ span: 3 }}
+                    wrapperCol={{ span: 14 }}
                 name="create-employee"
                 onFinish={handleSubmit}
                 form={form}

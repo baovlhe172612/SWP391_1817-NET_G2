@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Swp391.Models;
+using BE.Models;
+
 
 namespace Swp391.Repository
 {
@@ -16,7 +17,9 @@ namespace Swp391.Repository
         public List<Store> getAllStore()
         {
             SwpfinalContext context = new SwpfinalContext();
-            return context.Stores.ToList();
+            return context.Stores
+                            .Where(store => store.IsDelete == 0)
+                            .ToList();
         }
 
         public void createStore(Store store)

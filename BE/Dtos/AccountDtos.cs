@@ -20,6 +20,7 @@
         public string RoleName { get; set; } = null!;
         public string StoreName { get; set; } = null!;
 
+        public int StoreId { get; set; }
         public int IsDelete { get; set; }
     }
 }

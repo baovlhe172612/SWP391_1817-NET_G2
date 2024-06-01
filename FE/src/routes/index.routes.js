@@ -34,7 +34,8 @@ import ListFeedBack from "../pages/Admin/Feedback/ListFeedBack";
 import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
-import Qr from "../components/Admin/QR/Qr";
+import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
+import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 
 const routes = [
   {
@@ -67,7 +68,7 @@ const routes = [
         element: <ListProduct />,
       },
       {
-        path: "shop/:id",
+        path: "listproduct/:id",
         element: <ListProduct />,
       },
       {
@@ -128,6 +129,10 @@ const routes = [
                     path: "create",
                     element: <CreateStoreManager />,
                   },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateStoreManager />,
+                  },
                 ],
               },
             ],
@@ -173,6 +178,10 @@ const routes = [
                   {
                     path: "create",
                     element: <CreateCategory />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateCategory />,
                   },
                 ],
               },
