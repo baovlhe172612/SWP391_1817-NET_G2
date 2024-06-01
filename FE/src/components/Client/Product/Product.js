@@ -84,7 +84,7 @@ function Product(props) {
                 </a>
                 <div class="price-box pb-1">
                   <span class="new-price" style={{ fontSize: "16px" }}>
-                    {product.price}đ
+                    {product.price + 10000}đ
                   </span>
                 </div>
                 <div className="price-box pb-1">
