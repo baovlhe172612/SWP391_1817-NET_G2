@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Swp391.Models;
+﻿using BE.Models;
+using Microsoft.EntityFrameworkCore;
+
 using Swp391.Repository;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Swp391.Models;
+namespace BE.Models;
 
 public partial class SwpfinalContext : DbContext
 {
@@ -41,17 +41,9 @@ public partial class SwpfinalContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
-    private string? GetConnectionString()
-    {
-        IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true).Build();
-        return configuration["ConnectionStrings:DBDefault"];
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        => optionsBuilder.UseSqlServer(GetConnectionString());
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=lamlam276762;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,21 +52,23 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Account");
 
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
+            entity.Property(e => e.Cccd)
+                .HasMaxLength(12)
+                .HasColumnName("CCCD");
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
-            entity.HasOne(d => d.Store).WithMany(p => p.Accounts)
-             .HasForeignKey(d => d.StoreId)
-             .OnDelete(DeleteBehavior.ClientSetNull)
-             .HasConstraintName("FK_Account_Store");
-
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Account_Role");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Accounts)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_Account_Store");
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -82,6 +76,8 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Category");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
@@ -169,11 +165,18 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.Img).HasColumnName("img");
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
             entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_Category");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Products)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_Product_Store");
         });
 
         modelBuilder.Entity<ProductSize>(entity =>
@@ -185,6 +188,7 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.ProductSizeId).HasColumnName("Product_SizeID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.SizeId).HasColumnName("SizeID");
+            entity.Property(e => e.Status).HasColumnName("status");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductSizes)
                 .HasForeignKey(d => d.ProductId)
@@ -210,6 +214,7 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.SizeId).HasColumnName("SizeID");
             entity.Property(e => e.SizeName).HasMaxLength(50);
+            entity.Property(e => e.Status).HasColumnName("status");
         });
 
         modelBuilder.Entity<Store>(entity =>
@@ -217,8 +222,8 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Store");
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
-            entity.Property(e => e.StoreName).IsRequired(); 
-           
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
         });
 
         modelBuilder.Entity<Table>(entity =>
@@ -226,9 +231,6 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Table");
 
             entity.Property(e => e.TableId).HasColumnName("TableID");
-            entity.Property(e => e.IsDelete)
-                .HasMaxLength(10)
-                .IsFixedLength();
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Store).WithMany(p => p.Tables)

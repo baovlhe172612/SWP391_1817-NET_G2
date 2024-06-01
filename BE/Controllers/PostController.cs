@@ -12,11 +12,14 @@ namespace Swp391.Controllers
         private PostService _PostService = new PostService();
 
         // phương thức lấy toàn bộ table
+      
+
         [HttpGet]
-        public IActionResult getAllPost()
+        public IActionResult getFiveEarlyPost()
         {
-            return Ok(_PostService.getAllPost());
+            return Ok(_PostService.getFivePostEarly());
         }
+
 
 
 

@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Swp391.Models;
+﻿using BE.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Swp391.Repository
 {
