@@ -10,7 +10,7 @@ function Search() {
     <div className='Search'>
       <div className='search-bar-container'>
             <SearchBar setResults={setResults} />
-             <SearchResultsList results={results} />
+            <SearchResultsList results={results} />
       </div>
     </div>
   );

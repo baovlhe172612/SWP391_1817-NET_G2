@@ -15,7 +15,7 @@ export const SearchBar = ({ setResults }) => {
             value &&
             product &&
             product.productName &&
-            product.productName.toLowerCase().includes(value)
+            product.productName.toLowerCase().includes(value.toLowerCase())
           );
         });
         // console.log(results);
