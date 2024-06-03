@@ -896,6 +896,28 @@ img {
   line-height: 50px;
   font-size: 16px;
 }
+/* styles.css */
+.add-to-cart a {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  /* text-transform: uppercase; */
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  /* background-color: #4CAF50; */
+  color: white;
+  border: 4px solid black;
+}
+
+.add-to-cart a:hover {
+  color: #73a075;
+  background-color:wheat;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
 
 .btn-custom-size.xl-size {
   width: 210px;

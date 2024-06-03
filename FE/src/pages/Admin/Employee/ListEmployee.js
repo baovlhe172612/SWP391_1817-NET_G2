@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, Tag, message } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
+import { Link } from "react-router-dom";
 
 function ListEmployee() {
   const [AccountEmployee, setAccountEmployee] = useState([]);
 
   const fetchApi = async () => {
     try {
-      const data = await get(LIST_Employee);     
+      const data = await get(LIST_Employee);
       setAccountEmployee(data);
     } catch (error) {
       message.error("Error fetching accounts");
@@ -23,11 +24,11 @@ function ListEmployee() {
   }, []);
 
 
- 
+
   const onReload = () => {
     fetchApi();
-};
-  
+  };
+
   const columns = [
     {
       title: "AccountID",
@@ -85,12 +86,26 @@ function ListEmployee() {
     },
 
     {
+      title: "CCCD",
+      dataIndex: "cccd",
+      key: "cccd",
+    },
+
+    {
       title: "Actions",
       key: "actions",
       render: (_, record) => {
         return (
-          <Space size="middle">                     
-            <UpdateIsDelete record={record} onReload={onReload}/>          
+          <Space size="middle">
+            <UpdateIsDelete record={record} onReload={onReload} />
+
+            <Link to={`/admin/employee/edit/${record.accountId}`}>
+              <Button type="primary">Edit</Button>
+            </Link>
+
+            <Link to={`/admin/employee/detail/${record.accountId}`}>
+              <Button type="primary">Detail</Button>
+            </Link>
           </Space>
         );
       },
@@ -101,8 +116,8 @@ function ListEmployee() {
 
   return (
     <>
-      <Table columns={columns} dataSource={AccountEmployee } />
-      
+      <Table columns={columns} dataSource={AccountEmployee} />
+
       {/* <div>
         {AccountEmployee.map(account => (
           <div>

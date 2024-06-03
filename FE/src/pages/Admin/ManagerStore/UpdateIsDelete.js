@@ -42,14 +42,9 @@ function UpdateIsDelete({ record, onReload}) {
     }
   };
   return (
-    <Popconfirm
-      title="Are you sure to reactivate this account?"
-      onConfirm={handleUpdate}
-      okText="Yes"
-      cancelText="No"
-    >
-      <Button danger size='small' icon={<DeleteOutlined />}></Button>
-    </Popconfirm>
+   
+      <Button danger size='small' onClick={handleUpdate} icon={<DeleteOutlined />}></Button>
+   
   );
 }
 

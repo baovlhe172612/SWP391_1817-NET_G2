@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Product(props) {
   const { product } = props;
-  // console.log(props)
+  console.log(props)
  
   return (
     <>
@@ -17,7 +17,7 @@ function Product(props) {
                 <Link
                   to={`/productDetail?productId=${
                     product.productId
-                  }&sizeId=${1}`}
+                  }&sizeId=${1}&categoryId=${product.categoryId}`}
                 >
                   <img
                     class="primary-img"
@@ -43,14 +43,14 @@ function Product(props) {
 
                     <li>
                       <Link
-                        to={`http://localhost:3000/listProduct/shop.htmletail?productId=${
+                        to={`/productDetail?productId=${
                           product.productId
-                        }&sizeId=${1}`}
+                        }&sizeId=${1}&categoryId=${product.categoryId}`}
                       >
                         <i class="pe-7s-look"></i>
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <a
                         href="cart.html"
                         data-tippy="Add to cart"
@@ -62,7 +62,7 @@ function Product(props) {
                       >
                         <i class="pe-7s-cart"></i>
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>

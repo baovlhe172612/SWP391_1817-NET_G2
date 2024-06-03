@@ -30,7 +30,7 @@ export const SearchBar = ({ setResults }) => {
       // Chỉ fetch dữ liệu khi độ dài của value >= 2
       const newTimer = setTimeout(() => {
         fetchData(value);
-      }, 1000); // Chờ 1 giây trước khi fetch dữ liệu
+      }, 500); // Chờ 1 giây trước khi fetch dữ liệu
       setTimer(newTimer); // Lưu timeout mới
     } else {
       // Nếu độ dài của value < 2, không cần fetch dữ liệu
