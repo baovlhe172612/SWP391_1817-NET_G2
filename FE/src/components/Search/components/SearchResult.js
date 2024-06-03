@@ -13,7 +13,7 @@ export const SearchResult = ({ result }) => {
   return (
     <Link to={`/productDetail?productId=${
       result.productId
-    }&sizeId=${1}`} className='search-result' onClick={handleClick}>
+    }&sizeId=${1}&categoryId=${result.categoryId}`} className='search-result' onClick={handleClick}>
       <div className="product-info">
         <img src={result.img} alt={result.productName} className="product-image" />
         <div className="product-details">

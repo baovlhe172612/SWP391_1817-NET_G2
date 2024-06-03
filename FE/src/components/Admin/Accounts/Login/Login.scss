@@ -1,6 +1,6 @@
 .signin-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
@@ -69,42 +69,16 @@
     }
   }
 }
-
-.signin-image {
-  flex: 1;
-  width: 40%;
+.signup-image-link {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-
-  figure {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 20px 0;
-    background: #f5f5f5;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    padding: 50px;
-
-    img {
-      width: 300px;
-      height: auto;
-    }
-  }
-
-  .signup-image-link {
-    margin-top: 20px;
-    color: #1890ff;
-    font-weight: bold;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  margin-top: 20px;
 }
+
+.signup-image-link > .ant-btn-primary {
+  margin: 0; /* Xóa khoảng cách giữa các phần tử con */
+}
+
+
+

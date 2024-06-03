@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List, App} from 'antd';
 import "./Header.css"
-import  Search  from '../Search/Search.js';
+import  Search  from '../../../components/Search/Search';
 
 
 

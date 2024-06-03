@@ -21,7 +21,7 @@ function CreateEmployee() {
         try {
             const response = await post(`http://localhost:5264/api/Account`, values);
             // Kiểm tra giá trị trả về từ API
-            console.log(response)
+            console.log("response",response)
             if (response) {
                 form.resetFields();
                 message.success('Account created successfully!');
@@ -29,7 +29,7 @@ function CreateEmployee() {
                 // Thực hiện các hành động khác nếu cần
             }
         } catch (error) {
-            message.error('Account created Fail!');
+            message.error('Account created Fail!UserName or Email or Phone or Cccd is exist');
             console.error("Failed to create account. Please try again later", error);
         }
     };
@@ -38,6 +38,7 @@ function CreateEmployee() {
     const fetchApi = async () => {
         try {
             const data = await get("http://localhost:5264/api/stores");
+            console.log("stores: ",data)
             setStores(data);
         } catch (error) {
             message.error("Error fetching accounts");
@@ -51,8 +52,11 @@ function CreateEmployee() {
 
     return (
         <>
-            <h2>Create Store's Employee</h2>
+            <h2 style={{textAlign: 'center'}}>Create Store's Employee</h2>
             <Form
+            layout="horizontal"
+            labelCol={{ span: 3 }}
+                    wrapperCol={{ span: 14 }}
                 name="create-employee"
                 onFinish={handleSubmit}
                 form={form}
@@ -123,8 +127,26 @@ function CreateEmployee() {
                 </Form.Item>
 
                 <Form.Item
-                    label="Location"
-                    name="location"
+                    label="Address"
+                    name="Address"
+                >
+                    <Input />
+                </Form.Item>
+                
+
+              <Form.Item
+                    label="CCCD"
+                    name="cccd"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your cccd!',
+                        },
+                        {
+                            pattern: /^0\d{0,9}$/,
+                            message: 'Please input your number start =0 and ensure the length is <= 10 digits!',
+                        },
+                    ]}
                 >
                     <Input />
                 </Form.Item>
