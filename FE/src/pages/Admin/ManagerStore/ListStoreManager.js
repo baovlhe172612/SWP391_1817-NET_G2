@@ -15,11 +15,11 @@ function ListStoreManager() {
   const [showColumn, setShowColumn] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 3, // Set the default page size to 5
+    pageSize: 3, // Set the default page size to 3
   });
     // search
     const handleSearch = (e) => {
-      console.log("OK:",e)
+      console.log("search:",e)
       setSearch(e);
     };
     const handleSearchonchange = (e) => {
