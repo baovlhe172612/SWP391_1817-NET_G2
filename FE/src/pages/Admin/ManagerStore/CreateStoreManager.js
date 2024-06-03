@@ -22,7 +22,7 @@ function CreateStoreManager() {
         if (response) {
           form.resetFields();
           message.success('Account created successfully!');
-          // navigate(`/admin/manager-store/`);  
+          navigate(`/admin/manager-store/`);  
           // Thực hiện các hành động khác nếu cần
         }
       } catch (error) {
