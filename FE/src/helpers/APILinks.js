@@ -1,6 +1,7 @@
 const LOCALHOST_API = "http://localhost:5264"
 
 // API STORE
+export const GET_STORES_STATUS = `${LOCALHOST_API}/api/status`;
 export const STORES_DTOS = `${LOCALHOST_API}/api/storesDtos`;
 export const LIST_STORES = `${LOCALHOST_API}/api/stores`;
 export const CREATE_STORE = `${LOCALHOST_API}/api/stores/POST`;

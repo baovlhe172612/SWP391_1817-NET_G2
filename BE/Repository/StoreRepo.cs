@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BE.Models;
-
+using Swp391.Dtos;
 
 namespace Swp391.Repository
 {
@@ -16,10 +16,30 @@ namespace Swp391.Repository
 
         public List<Store> getAllStore()
         {
-            SwpfinalContext context = new SwpfinalContext();
-            return context.Stores
+            return _context.Stores
                             .Where(store => store.IsDelete == 0)
                             .ToList();
+        }
+
+        public List<StoreDtos> getAllStoreByStatus(int status)
+        {
+            var storeDtosByStatus = (from s in _context.Stores
+                                     join a in _context.Accounts on s.StoreId equals a.StoreId
+                                     where s.Status == status && a.RoleId == 2
+                                     select new StoreDtos
+                                     {
+                                         StoreId = s.StoreId,
+                                         StoreName = s.StoreName,
+                                         Location = s.Location,
+                                         IsDelete = s.IsDelete,
+                                         Status = s.Status,
+                                         AccountName = a.UserName,
+                                         RoleId = a.RoleId,
+                                         AccountId = a.AccountId,
+                                     }
+                                    ).ToList(); // Sử dụng ToList() để lấy danh sách các kết quả
+
+            return storeDtosByStatus;
         }
 
         public void createStore(Store store)

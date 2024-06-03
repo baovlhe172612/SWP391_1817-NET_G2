@@ -4,33 +4,27 @@ import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
   DELETE_STORE_ID,
+  GET_STORES_STATUS,
   LIST_STORES,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
-import PaginationDesign from "../../../components/Mixin/Pagination/Pagination";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
   const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
+  let status = searchStatus.get(`status`);
+  status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
   // lấy qua API
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        let data = [];
-        if (searchStatus.get("status")) {
-          data = await get(`${LIST_STORES}?status=${searchStatus.get("status")}`);
-        } else {
-          data = await get(`${LIST_STORES}`);
-        }
-
-        console.log('hello')
+        const data = await get(`${GET_STORES_STATUS}/${status}`);
 
         if (data) {
           setStores(data);
-          console.log(data);
         }
       } catch (error) {
         console.log("err in ListStore", error);
@@ -39,7 +33,7 @@ function ListStore() {
     };
 
     fetchApi();
-  }, [updated, searchStatus]);
+  }, [updated, searchStatus, status]);
 
   // COLUMS
   const columns = [
@@ -58,7 +52,7 @@ function ListStore() {
       dataIndex: "Status",
       key: "Status",
       render: (status) =>
-        status == 0 ? (
+        status == 1 ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
@@ -74,7 +68,9 @@ function ListStore() {
             <Button type="primary">Edit</Button>
           </Link>
           <Link to={`/admin/store/edit/${storeId}`}>
-            <Button type="primary" ghost>Detail</Button>
+            <Button type="primary" ghost>
+              Detail
+            </Button>
           </Link>
           <Button type="primary" danger onClick={() => handleDelete(storeId)}>
             Delete
@@ -96,7 +92,7 @@ function ListStore() {
         Location: store.location,
         Email: store.email,
         UserName: store.userName,
-        Status: store.isDelete,
+        Status: store.status,
         actions: store.storeId,
         key: store.storeId,
       };
@@ -134,27 +130,20 @@ function ListStore() {
     }
   };
 
-  // Handler for change status in  store
-  const handleStatus = async (status) => {
-    try {
-      // truy vấn store
-      const dataStore = await get(`${LIST_STORES}?status=${status}`);
-      if (dataStore) {
-        setStores(dataStore);
-      }
-    } catch (error) {}
+  const handleStatus = (changeStores) => {
+    setStores(changeStores);
   };
 
   return (
     <>
-      <Status handleStatus={handleStatus} />
+      <Status handleStatus={handleStatus}/>
+
       <Table
         columns={columns}
         dataSource={data}
-        pagination={false}
         style={{ margin: "20px 0" }}
+        pagination={{ pageSize: 6 }}
       />
-      <PaginationDesign />
     </>
   );
 }

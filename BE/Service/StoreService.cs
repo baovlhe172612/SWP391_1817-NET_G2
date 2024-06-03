@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BE.Models;
+using Swp391.Dtos;
 
 using Swp391.Repository;
 
@@ -76,6 +77,12 @@ namespace Swp391.Service
             }
         }
 
+        /// <summary>
+        /// find by status
+        /// </summary>
+        public List<StoreDtos> GetStoreByStatus(int status) {
+            return storeRepo.getAllStoreByStatus(status);
+        }
 
     }
 }

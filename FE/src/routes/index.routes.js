@@ -21,8 +21,6 @@ import CreateProduct from "../pages/Admin/Product/CreateProduct";
 import ListOrders from "../pages/Admin/Orders/ListOrders";
 import CreateEmployee from "../pages/Admin/Employee/CreateEmployee";
 import ListEmployee from "../pages/Admin/Employee/ListEmployee";
-import CreateTopping from "../pages/Admin/Topping/CreateTopping";
-import ListTopping from "../pages/Admin/Topping/ListTopping";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";

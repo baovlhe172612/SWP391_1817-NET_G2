@@ -12,33 +12,21 @@ function CreateStore() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const data = await get("http://localhost:5264/api/Account");
-
-        if (data) {
-          setAccounts(data);
-        }
-      } catch (error) {
-        console.log("err in CreateStore", error);
-        setAccounts([]);
-      }
-    };
-
-    fetchApi();
-  }, []);
-
   const handleSubmit = async (values) => {
     // console.log(values);
     // sửa lại trường cho accountId sang INT
     values.accountId = parseInt(values.accountId);
 
     // sửa lại trường isDelete => từ true => 1 và ngược lại
-    values.isDelete = values.isDelete ? 0 : 1;
+    values.status = values.status ? 1 : 0;
+
+    values.isDelete = 0;
+
 
     console.log(values);
     const dataUpdate = await post(CREATE_STORE, values);
+
+    console.log(dataUpdate)
 
     if (dataUpdate) {
       // thông báo ra hoàn thành tạo
@@ -92,7 +80,7 @@ function CreateStore() {
         </Form.Item>
 
         <Form.Item
-          name="isDelete"
+          name="status"
           label="Switch"
           valuePropName="checked"
           initialValue={true}
