@@ -22,18 +22,20 @@ namespace Swp391.Repository
 
         /// <returns>get all account by linq join between account+rol </returns>
 
-        public List<AccountDtos> GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted)
+        public List<AccountDtos> GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted, [FromQuery] string search)
         {
 
             SwpfinalContext _context = new SwpfinalContext();
+            // lấy status và isdelete để đẩy lên dùng filters
             int? statusFilter = !string.IsNullOrEmpty(status) ? int.Parse(status) : (int?)null;
             int? isDeletedFilter = !string.IsNullOrEmpty(isDeleted) ? int.Parse(isDeleted) : (int?)null;
 
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
                                      join s in _context.Stores on a.StoreId equals s.StoreId
+                                     where r.RoleName == "Manager" && (statusFilter == null || a.Status == statusFilter) &&
+                                     (search==null || a.FullName.Contains(search) || a.Phone.Contains(search) || a.Cccd.Contains(search))
 
-                                     where r.RoleName == "Manager" && (statusFilter == null || a.Status == statusFilter)
                                      select new AccountDtos
                                      {
                                          AccountId = a.AccountId,
@@ -60,7 +62,7 @@ namespace Swp391.Repository
                 accountsWithRoles = accountsWithRoles.Where(a => a.IsDelete == isDeletedFilter);
             }
             else
-            {
+            {   
                 accountsWithRoles = accountsWithRoles.Where(a => a.IsDelete == 0); // Chỉ lấy ra những tài khoản có isDelete = 0 nếu isDeleted không được chỉ định.
             }
             return accountsWithRoles.ToList();

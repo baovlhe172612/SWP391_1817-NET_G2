@@ -14,9 +14,9 @@ namespace Swp391.Controllers
 
         //phương thức này dùng để lấy toàn bộ account
         [HttpGet("manager")]
-        public IActionResult GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted)
+        public IActionResult GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted, [FromQuery] string search)
         {
-            return Ok(_service.GetAllAccounts_manager( status, isDeleted));
+            return Ok(_service.GetAllAccounts_manager( status, isDeleted, search));
         }
         [HttpGet("all")]
         public IActionResult GetAllAccounts()

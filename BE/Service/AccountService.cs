@@ -14,9 +14,9 @@ namespace Swp391.Service
         /// </summary>
 
         /// <returns>trả về toàn bộ account + roleName</returns>
-        public List<AccountDtos> GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted)
+        public List<AccountDtos> GetAllAccounts_manager([FromQuery] string status, [FromQuery] string isDeleted, [FromQuery] string search)
         {
-            return _accountRepo.GetAllAccounts_manager( status,isDeleted);           
+            return _accountRepo.GetAllAccounts_manager( status,isDeleted, search);           
         }
 
         // getALlAccount
