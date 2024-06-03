@@ -5,12 +5,17 @@ import { get } from "../../../helpers/API.helper";
 import UpdateStatus from "./UpdateStatus";
 import { Link } from "react-router-dom";
 import Filter from "./filter";
-import { EditOutlined ,FilterOutlined} from "@ant-design/icons";
+import { EditOutlined, FilterOutlined } from "@ant-design/icons";
+
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
   const [filters, setFilters] = useState({ status: "", isDeleted: "" });
   const [modalVisible, setModalVisible] = useState(false);
   const [showColumn, setShowColumn] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5, // Set the default page size to 5
+  });
 
   const fetchApi = async (filters) => {
     try {
@@ -29,7 +34,6 @@ function ListStoreManager() {
   }, [filters]);
 
   useEffect(() => {
-    // Xác định xem cột "Date Inactivity" có được hiển thị hay không
     setShowColumn(filters.status === "0" || filters.isDeleted === "1");
   }, [filters]);
 
@@ -39,6 +43,10 @@ function ListStoreManager() {
 
   const handleApplyFilters = (filters) => {
     setFilters(filters);
+  };
+
+  const handleTableChange = (pagination) => {
+    setPagination(pagination);
   };
 
   const columns = [
@@ -129,11 +137,11 @@ function ListStoreManager() {
       render: (_, record) => {
         return (
           <Space size="middle">
-          <UpdateIsDelete record={record} onReload={onReload} />
-          <Link to={`/admin/manager-store/edit/${record.accountId}`}>
-          <Button  type="primary" icon={<EditOutlined />} />  
-          </Link>
-        </Space>
+            <UpdateIsDelete record={record} onReload={onReload} />
+            <Link to={`/admin/manager-store/edit/${record.accountId}`}>
+              <Button type="primary" icon={<EditOutlined />} />
+            </Link>
+          </Space>
         );
       },
     },
@@ -141,15 +149,22 @@ function ListStoreManager() {
 
   return (
     <>
-      <Button type="primary" icon={<FilterOutlined />} onClick={() => setModalVisible(true)}>Filter</Button>
+      <Button type="primary" icon={<FilterOutlined />} onClick={() => setModalVisible(true)}>
+        Filter
+      </Button>
       <Filter
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         applyFilters={handleApplyFilters}
       />
       <Table
-        columns={columns.filter(column => !!column)} // Loại bỏ các cột bị null
-        dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
+        columns={columns.filter((column) => !!column)} // Lọc bỏ các cột null
+        dataSource={AccountManager && AccountManager.slice((pagination.current - 1) * pagination.pageSize, pagination.current * pagination.pageSize).map((account) => ({ ...account, key: account.accountId }))}
+        pagination={{
+          ...pagination,
+          total: AccountManager.length,
+        }}
+        onChange={handleTableChange}
       />
     </>
   );
