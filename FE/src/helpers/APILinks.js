@@ -8,6 +8,11 @@ export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
 export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/PATCH`;
 
+// API Category
+
+export const CREATE_CATEGORY = `${LOCALHOST_API}/api/Category/add_new`;
+
+
 // API ACCOUNTDTOS
 export const GET_ACCOUNT_BY_AUTH = `${LOCALHOST_API}/api/AccountDtos/GET`
 export const GET_ACCOUNT_BY_TOKEN = `${LOCALHOST_API}/api/AccountDtos/GET`
