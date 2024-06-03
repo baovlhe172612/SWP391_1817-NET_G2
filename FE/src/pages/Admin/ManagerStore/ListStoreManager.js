@@ -4,12 +4,18 @@ import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
 import UpdateStatus from "./UpdateStatus";
 import { Link } from "react-router-dom";
+import Filter from "./filter";
+import { EditOutlined ,FilterOutlined} from "@ant-design/icons";
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
+  const [filters, setFilters] = useState({ status: "", isDeleted: "" });
+  const [modalVisible, setModalVisible] = useState(false);
+  const [showColumn, setShowColumn] = useState(false);
 
-  const fetchApi = async () => {
+  const fetchApi = async (filters) => {
     try {
-      const data = await get("http://localhost:5264/api/Account/manager");     
+      const queryString = new URLSearchParams(filters).toString();
+      const data = await get(`http://localhost:5264/api/Account/manager?${queryString}`);
       setAccountManager(data);
     } catch (error) {
       message.error("Error fetching accounts");
@@ -19,19 +25,23 @@ function ListStoreManager() {
   };
 
   useEffect(() => {
-    fetchApi();
-  }, []);
+    fetchApi(filters);
+  }, [filters]);
+
+  useEffect(() => {
+    // Xác định xem cột "Date Inactivity" có được hiển thị hay không
+    setShowColumn(filters.status === "0" || filters.isDeleted === "1");
+  }, [filters]);
 
   const onReload = () => {
-    fetchApi();
-};
+    fetchApi(filters);
+  };
+
+  const handleApplyFilters = (filters) => {
+    setFilters(filters);
+  };
 
   const columns = [
-    {
-      title: "AccountID",
-      dataIndex: "accountId",
-      key: "accountId",
-    },
     {
       title: "Full Name",
       dataIndex: "fullName",
@@ -43,9 +53,9 @@ function ListStoreManager() {
       key: "userName",
     },
     {
-      title: "Password",
-      dataIndex: "passWord",
-      key: "passWord",
+      title: "CCCD",
+      dataIndex: "cccd",
+      key: "cccd",
     },
     {
       title: "Phone",
@@ -53,14 +63,14 @@ function ListStoreManager() {
       key: "phone",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Date Worked",
+      dataIndex: "dateStartWork",
+      key: "dateStartWork",
     },
     {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
     },
     {
       title: "Role Name",
@@ -71,6 +81,27 @@ function ListStoreManager() {
       title: "Store Name",
       dataIndex: "storeName",
       key: "storeName",
+    },
+    showColumn && {
+      title: "Date Inactivity",
+      dataIndex: "statusDate",
+      key: "statusDate",
+    },
+    showColumn && {
+      title: "Is Delete",
+      dataIndex: "isDelete",
+      key: "isDelete",
+      render: (isDelete, record) => {
+        const statusMap = {
+          1: { text: "Deleted", color: "red" },
+          0: { text: "UnDeleted", color: "green" }
+        };
+        const { text, color } = statusMap[isDelete] || {
+          text: "Unknown",
+          color: "gray"
+        };
+        return <Tag color={color}>{text}</Tag>;
+      }
     },
     {
       title: "Status",
@@ -84,39 +115,43 @@ function ListStoreManager() {
         const { text, color } = statusMap[status] || {
           text: "Unknown",
           color: "gray"
-        };
-    
+        };    
         return (
-          <Button onClick={() => UpdateStatus(record,onReload)}>
+          <Button onClick={() => UpdateStatus(record, onReload)}>
             <Tag color={color}>{text}</Tag>
           </Button>
         );
       }
     },
-   
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => {
         return (
-          <Space size="middle">                     
-            <UpdateIsDelete record={record} onReload={onReload}/> 
-            <Link to={`/admin/manager-store/edit/${record.accountId}`}>
-            <Button type="primary">Update</Button>
-          </Link>         
-          </Space>
+          <Space size="middle">
+          <UpdateIsDelete record={record} onReload={onReload} />
+          <Link to={`/admin/manager-store/edit/${record.accountId}`}>
+          <Button  type="primary" icon={<EditOutlined />} />  
+          </Link>
+        </Space>
         );
       },
     },
   ];
 
   return (
-
-    <Table 
-      columns={columns} 
-      dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
-    />
-
+    <>
+      <Button type="primary" icon={<FilterOutlined />} onClick={() => setModalVisible(true)}>Filter</Button>
+      <Filter
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        applyFilters={handleApplyFilters}
+      />
+      <Table
+        columns={columns.filter(column => !!column)} // Loại bỏ các cột bị null
+        dataSource={AccountManager.map(account => ({ ...account, key: account.accountId }))}
+      />
+    </>
   );
 }
 
