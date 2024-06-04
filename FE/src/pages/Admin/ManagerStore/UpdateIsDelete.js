@@ -5,6 +5,7 @@ import { put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
 
 function UpdateIsDelete({ record, onReload }) {
+  console.log("record",record)
   const handleUpdate = async () => {
     try {
       const confirm = await Swal.fire({
@@ -21,7 +22,9 @@ function UpdateIsDelete({ record, onReload }) {
         // Thực hiện cập nhật trạng thái IsDelete trong cơ sở dữ liệu
         const response = await put(`http://localhost:5264/api/Account/${record.accountId}/IsDelete?isdelete=1`, {
           accountId: record.accountId,
+          
         });
+       
 
         if (response.ok) {
           // Thông báo khi cập nhật thành công
@@ -41,7 +44,7 @@ function UpdateIsDelete({ record, onReload }) {
       console.error("Error in UpdateIsDelete", error);
     }
   };
-
+  console.log("gdfgdyfgfhdbhdfbfhbdfhbfdhbdfhbjh")
   return (
     <Button danger size='small' onClick={handleUpdate} icon={<DeleteOutlined />}></Button>
   );

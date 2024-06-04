@@ -1,14 +1,13 @@
-
-
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag, message } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
-import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
 import { Link } from "react-router-dom";
+import UpdateIsDelete from "./UpdateIsDelete";
 
 function ListEmployee() {
-  const [AccountEmployee, setAccountEmployee] = useState([]);
+  const [accountEmployee, setAccountEmployee] = useState([]);
+  const [filterStatus, setFilterStatus] = useState([]); // State to store selected filters
 
   const fetchApi = async () => {
     try {
@@ -29,18 +28,36 @@ function ListEmployee() {
     fetchApi();
   };
 
+  const handleFilterChange = (status) => {
+    // Toggle filter status
+    setFilterStatus((prevStatus) => 
+      prevStatus.includes(status) ? [] : [status]
+    );
+  };
+
+  const getFilteredData = () => {
+    if (filterStatus.length === 0) return accountEmployee; // No filters selected, return all data
+
+    const statusMap = {
+      active: 1,
+      inactive: 0,
+    };
+
+    return accountEmployee.filter(
+      (employee) => employee.status === statusMap[filterStatus[0]]
+    );
+  };
+
   const columns = [
-        {
+    {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
-
     },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      // Custom text rendering
     },
     {
       title: "Role Name",
@@ -71,12 +88,10 @@ function ListEmployee() {
       render: (_, record) => (
         <Space size="middle">
           <UpdateIsDelete record={record} onReload={onReload} />
-
           <Link to={`/admin/employee/edit/${record.accountId}`}>
             <Button type="primary">Edit</Button>
           </Link>
-
-          <Link  to={`/admin/employee/detail/${record.accountId}`}>
+          <Link to={`/admin/employee/detail/${record.accountId}`}>
             <Button type="primary">Detail</Button>
           </Link>
         </Space>
@@ -84,11 +99,25 @@ function ListEmployee() {
     },
   ];
 
-  console.log("AccountEmployee: ", AccountEmployee);
-
   return (
     <>
-      <Table columns={columns} dataSource={AccountEmployee} />
+      {/** Filter buttons for Active and Inactive */}
+      <Button.Group>
+        <Button
+          type={filterStatus.includes("active") ? "primary" : ""}
+          onClick={() => handleFilterChange("active")}
+        >
+          Active
+        </Button>
+        <Button
+          type={filterStatus.includes("inactive") ? "primary" : ""}
+          onClick={() => handleFilterChange("inactive")}
+        >
+          Inactive
+        </Button>
+      </Button.Group>
+
+      <Table columns={columns} dataSource={getFilteredData()} />
     </>
   );
 }

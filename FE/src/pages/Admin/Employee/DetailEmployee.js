@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Table, Tag, message } from "antd";
 import { LIST_ACCOUNT } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
-import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
 function DetailEmployee() {
@@ -13,11 +12,11 @@ function DetailEmployee() {
   const fetchApi = async () => {
     try {
       const data = await get(`${LIST_ACCOUNT}/${id}`);
-      console.log("data", data);    
+      console.log("Data fetched:", data);
       setAccountEmployee(data);
     } catch (error) {
       message.error("Error fetching account details");
-      console.log("Error in DetailEmployee", error);
+      console.log("Error in DetailEmployee:", error);
       setAccountEmployee(null);
     }
   };
@@ -44,23 +43,22 @@ function DetailEmployee() {
     {
       title: "User Name",
       dataIndex: "userName",
-      key: "user",
+      key: "userName",
     },
     {
       title: "Password",
       dataIndex: "passWord",
-      key: "password",
+      key: "passWord",
     },
     {
       title: "Phone",
       dataIndex: "phone",
       key: "phone",
     },
-   
     {
       title: "Role Name",
       dataIndex: "roleName",
-      key: "roleId",
+      key: "roleName",
     },
     {
       title: "Store Name",
@@ -81,6 +79,13 @@ function DetailEmployee() {
       title: "Date End Work",
       dataIndex: "statusDate",
       key: "statusDate",
+      render: (statusDate) => {
+        // Handle cases where statusDate is null or undefined
+        if (!statusDate) {
+          return <span>-</span>; // Display a placeholder if no deletion date exists
+        }
+        return statusDate;
+      },
     },
     {
       title: "Status",
@@ -95,23 +100,9 @@ function DetailEmployee() {
         return <Tag color={color}>{text}</Tag>;
       },
     },
-    // {
-    //   title: "Actions",
-    //   key: "actions",
-    //   render: (_, record) => {
-    //     return (
-    //       <Space size="middle">
-    //         <UpdateIsDelete record={record} onReload={onReload} />
-    //         <Link to={`/admin/employee/edit/${record.accountId}`}>
-    //           <Button type="primary">Edit</Button>
-    //         </Link>    
-    //       </Space>
-    //     );
-    //   },
-    // },
   ];
 
-  console.log("AccountEmployee: ", accountEmployee);
+  console.log("AccountEmployee state:", accountEmployee);
 
   return (
     <>
