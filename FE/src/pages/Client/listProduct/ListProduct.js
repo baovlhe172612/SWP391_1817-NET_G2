@@ -35,56 +35,6 @@ function ListProduct() {
   }, [searchByCategoryID ]); 
 
   
-  //dùng để search
-  // const fetchProducts = async (page = 1, condition = 1, search = '') => {
-  //   let url = http://localhost:5264/api/ProductControlles/getProductByPage?page=${page}&condition=${condition};
-
-  //   if (condition === 1 || condition === 2 || condition === 3 || condition === 4) {
-  //     url = http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${condition};
-  //   }
-
-  //   if (search) {
-  //     url = http://localhost:5264/api/ProductControlles/search?keyword=${search};
-  //   }
-  //   const data = await get(url);
-  //   console.log("da ghi de tai day 51");
-  //   setProducts(data);
-  //   if (data === "No products found with the given keyword.") {
-  //     setProducts([]); // Set products to an empty array
-  //   } else {
-  //     console.log("da ghi de tai day 56");
-  //     setProducts(data);
-  //   }
-  
-
-    
-  //   // Update total pages and total products for search queries
-  //   if (search) {
-  //     const totalPagesData = await get(http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search});
-     
-  //     setTotalPages(totalPagesData);
-
-  //     const totalProductData = await get(http://localhost:5264/api/ProductControlles/getCountProduct?keyword=${search});
-  //     console.log("totalProductData",totalProductData);
-  //     setTotalProduct(totalProductData);
-  //   } else {
-  //     const totalPagesData = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
-     
-  //     setTotalPages(totalPagesData);
-
-  //     const totalProductData = await get("http://localhost:5264/api/ProductControlles/getCountProduct");
-      
-  //     setTotalProduct(totalProductData);
-  //   }
-  // };
-
-
-
-
-  // useEffect(() => {
-  //   fetchProducts(currentPage, conditionSort, searchQuery);
-  // }, [currentPage, conditionSort, searchQuery]);
-
 
 
 
