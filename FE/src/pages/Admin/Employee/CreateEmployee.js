@@ -199,16 +199,6 @@ function CreateEmployee() {
                             </Select.Option>
                       
                     </Select>
-
-                    {/* <Select defaultValue={account.storeId}>
-                        <Option value={account.storeId}>{account.storeName}</Option>
-                        {(Stores.filter(store => store.storeId !== account.storeId)).map(store => (
-                            <Option key={store.storeId} value={store.storeId}>
-                                {store.storeName}
-                            </Option>
-                        ))}
-                    </Select> */}
-
                 </Form.Item>
                 <Form.Item
                     label="isdelete"

@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag, message } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
@@ -23,18 +25,16 @@ function ListEmployee() {
     fetchApi();
   }, []);
 
-
-
   const onReload = () => {
     fetchApi();
   };
 
   const columns = [
-    {
+        {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
-      // Custom text rendering
+
     },
     {
       title: "Full Name",
@@ -42,38 +42,6 @@ function ListEmployee() {
       key: "fullName",
       // Custom text rendering
     },
-    {
-      title: "User Name",
-      dataIndex: "userName",
-      key: "user",
-    },
-    {
-      title: "Password",
-      dataIndex: "passWord",
-      key: "password",
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => {
-        const statusMap = {
-          1: { text: "Active", color: "green" },
-          0: { text: "Inactive", color: "red" },
-        };
-        const { text, color } = statusMap[status] || {
-          text: "Unknown",
-          color: "gray",
-        };
-        return <Tag color={color}>{text}</Tag>;
-      },
-    },
-
     {
       title: "Role Name",
       dataIndex: "roleName",
@@ -84,31 +52,35 @@ function ListEmployee() {
       dataIndex: "storeName",
       key: "storeName",
     },
-
     {
-      title: "CCCD",
-      dataIndex: "cccd",
-      key: "cccd",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => {
+        const statusMap = {
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" },
+        };
+        const { text, color } = statusMap[status] || { text: "Unknown", color: "gray" };
+        return <Tag color={color}>{text}</Tag>;
+      },
     },
-
     {
       title: "Actions",
       key: "actions",
-      render: (_, record) => {
-        return (
-          <Space size="middle">
-            <UpdateIsDelete record={record} onReload={onReload} />
+      render: (_, record) => (
+        <Space size="middle">
+          <UpdateIsDelete record={record} onReload={onReload} />
 
-            <Link to={`/admin/employee/edit/${record.accountId}`}>
-              <Button type="primary">Edit</Button>
-            </Link>
+          <Link to={`/admin/employee/edit/${record.accountId}`}>
+            <Button type="primary">Edit</Button>
+          </Link>
 
-            <Link to={`/admin/employee/detail/${record.accountId}`}>
-              <Button type="primary">Detail</Button>
-            </Link>
-          </Space>
-        );
-      },
+          <Link  to={`/admin/employee/detail/${record.accountId}`}>
+            <Button type="primary">Detail</Button>
+          </Link>
+        </Space>
+      ),
     },
   ];
 
@@ -117,14 +89,6 @@ function ListEmployee() {
   return (
     <>
       <Table columns={columns} dataSource={AccountEmployee} />
-
-      {/* <div>
-        {AccountEmployee.map(account => (
-          <div>
-            {account.fullName}
-          </div>
-        ))}
-      </div> */}
     </>
   );
 }
