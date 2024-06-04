@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, Tag, message,Input } from "antd";
 import UpdateIsDelete from "./UpdateIsDelete";
 import { get } from "../../../helpers/API.helper";
 import UpdateStatus from "./UpdateStatus";
@@ -10,16 +10,25 @@ import { EditOutlined, FilterOutlined } from "@ant-design/icons";
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
   const [filters, setFilters] = useState({ status: "", isDeleted: "" });
+  const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [showColumn, setShowColumn] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5, // Set the default page size to 5
+    pageSize: 3, // Set the default page size to 3
   });
-
-  const fetchApi = async (filters) => {
+    // search
+    const handleSearch = (e) => {
+      console.log("search:",e)
+      setSearch(e);
+    };
+    const handleSearchonchange = (e) => {
+      setSearch(e.target.value);
+    };
+  const fetchApi = async (filters,search) => {
     try {
-      const queryString = new URLSearchParams(filters).toString();
+      const queryString = new URLSearchParams({ ...filters,search:search }).toString();
+      console.log("quy:",queryString);
       const data = await get(`http://localhost:5264/api/Account/manager?${queryString}`);
       setAccountManager(data);
     } catch (error) {
@@ -30,21 +39,21 @@ function ListStoreManager() {
   };
 
   useEffect(() => {
-    fetchApi(filters);
-  }, [filters]);
-
+    fetchApi(filters,search);
+  }, [filters,search]);
+  //show columns
   useEffect(() => {
     setShowColumn(filters.status === "0" || filters.isDeleted === "1");
-  }, [filters]);
-
+  }, [filters,search]);
+  // reload
   const onReload = () => {
-    fetchApi(filters);
+    fetchApi(filters,search);
   };
-
+  // filter
   const handleApplyFilters = (filters) => {
     setFilters(filters);
   };
-
+  // divide page
   const handleTableChange = (pagination) => {
     setPagination(pagination);
   };
@@ -149,9 +158,18 @@ function ListStoreManager() {
 
   return (
     <>
-      <Button type="primary" icon={<FilterOutlined />} onClick={() => setModalVisible(true)}>
-        Filter
-      </Button>
+    <Space style={{ marginBottom: 16 }}>
+        <Button type="primary" icon={<FilterOutlined />} onClick={() => setModalVisible(true)}>
+          Filter
+        </Button>
+        <Input.Search
+        placeholder="Search by name"
+        onSearch={handleSearch}
+        onChange={handleSearchonchange}
+        style={{ width: 200 }}
+        allowClear
+        />
+      </Space>
       <Filter
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
