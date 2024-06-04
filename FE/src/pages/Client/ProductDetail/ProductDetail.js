@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { get } from '../../../helpers/API.helper';
-import { Col, Divider } from 'antd';
+import { Carousel, Col, Divider, Image } from 'antd';
 
 function ProductDetail() {
   // Sử dụng useLocation hook để lấy thông tin về URL hiện tại
@@ -165,61 +165,52 @@ function ProductDetail() {
 
         <Divider />
         {similarProducts.length > 0 && (
-          <Col span={24} >
-            <div className="similar-products">
-              <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
-
-              <div className="row">
-                {similarProducts.map((product) => (
-                  <Col span={12} key={product.productId}>
+          <Col span={24}>
+          <div className="similar-products">
+            <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
+            <Carousel autoplay effect="fade" easing="ease" speed={500} autoplaySpeed={2000}>
+              {similarProducts.map((product) => (
+                <div className="slider-item" key={product.productId}>
+                  <Col span={24} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div className="product-item">
                       <div className="product-img">
-                        <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
-                          <img className="primary-img" src={product.img} alt="Product Images" />
-                        </Link>
-                        <div className="product-add-action">
-                          <ul>
-                            <li>
-                              <a
-                                data-tippy="Add to wishlist"
-                                data-tippy-inertia="true"
-                                data-tippy-animation="shift-away"
-                                data-tippy-delay="50"
-                                data-tippy-arrow="true"
-                                data-tippy-theme="sharpborder"
-                              >
-                                <i className="pe-7s-like"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <Link
-                                to={`/productDetail?productId=${product.productId
-                                  }&sizeId=${1}&categoryId=${product.categoryId}`}
-                              >
-                                <i class="pe-7s-look"></i>
-                              </Link>
-                            </li>
-
-                          </ul>
-                        </div>
+                        <a href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
+                        <Image className="" src={product.img} alt="Product Images" style={{ width: "50%", height: "auto",marginLeft: "27%"}} />
+                        </a>
                       </div>
                       <div className="product-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                        <a className="product-name" href="shop.html" style={{ fontFamily: "Arial", fontWeight: "bold" }}>
+                        <a
+                          href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}
+                          style={{ fontFamily: "Arial", fontWeight: "bold", marginTop: "10px" }}
+                        >
                           {product.productName}
                         </a>
-                        <div className="price-box pb-1">
+                        <div className="price-box pb-1" >
                           <span className="new-price" style={{ fontSize: "16px" }}>
                             {product.price + 10000}đ
                           </span>
                         </div>
-
+                        <div className="price-box pb-1">
+                  <button className="add-to-cart-btn" style={{
+                    backgroundColor: '#ff9900',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    borderRadius: '5px',
+                    marginBottom: '20px'
+                  }}>
+                    Thêm vào giỏ hàng
+                  </button>
+                </div>
                       </div>
                     </div>
                   </Col>
-                ))}
-              </div>
-            </div>
-          </Col>
+                </div>
+              ))}
+            </Carousel>
+          </div>
+        </Col>
           // <div className="similar-products">
           //   <h3>Sản phẩm tương tự</h3>
           //   <div className="row">

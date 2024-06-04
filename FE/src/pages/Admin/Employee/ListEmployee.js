@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, Tag, message, Input } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import UpdateIsDelete from "./UpdateIsDelete";
 
+const { Search } = Input;
+
 function ListEmployee() {
   const [accountEmployee, setAccountEmployee] = useState([]);
   const [filterStatus, setFilterStatus] = useState([]); // State to store selected filters
+  const [searchTerm, setSearchTerm] = useState(""); // State to store search term
 
   const fetchApi = async () => {
     try {
@@ -15,7 +18,6 @@ function ListEmployee() {
       setAccountEmployee(data);
     } catch (error) {
       message.error("Error fetching accounts");
-      console.log("Error in ListStoreManager", error);
       setAccountEmployee([]);
     }
   };
@@ -29,23 +31,51 @@ function ListEmployee() {
   };
 
   const handleFilterChange = (status) => {
-    // Toggle filter status
+    console.log("status: ",status)
+    
+//  prevStatus.includes(status) kiểm tra xem trạng thái hiện tại có bao gồm status hay không.
+// Nếu có, hàm sẽ trả về một mảng trống [] để loại bỏ bộ lọc.
+// Nếu không, hàm sẽ trả về một mảng chứa trạng thái được chọn [status].
     setFilterStatus((prevStatus) => 
       prevStatus.includes(status) ? [] : [status]
+    
     );
+    console.log("filterStatus after",filterStatus)
   };
 
   const getFilteredData = () => {
-    if (filterStatus.length === 0) return accountEmployee; // No filters selected, return all data
 
-    const statusMap = {
-      active: 1,
-      inactive: 0,
-    };
+    // Khởi tạo biến filteredData và gán nó với toàn bộ danh sách nhân viên 
+    let filteredData = accountEmployee;
 
-    return accountEmployee.filter(
-      (employee) => employee.status === statusMap[filterStatus[0]]
-    );
+    console.log("filterStatus.length",filterStatus.length)
+    // Apply status filter
+    if (filterStatus.length > 0) {
+     
+      const statusMap = {
+        active: 1,
+        inactive: 0,
+      };
+
+      filteredData = filteredData.filter(
+       
+        (employee) => employee.status === statusMap[filterStatus[0]]
+      );
+      // console.log("filterStatus[0]",filterStatus[0]),
+      console.log("filteredData",filteredData)
+      console.log("----------------------------------------------------------",)
+    }
+
+    // Apply search filter
+    if (searchTerm) {
+      filteredData = filteredData.filter((employee) =>
+        Object.keys(employee).some((key) =>
+          String(employee[key]).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+
+    return filteredData;
   };
 
   const columns = [
@@ -101,21 +131,30 @@ function ListEmployee() {
 
   return (
     <>
-      {/** Filter buttons for Active and Inactive */}
-      <Button.Group>
-        <Button
-          type={filterStatus.includes("active") ? "primary" : ""}
-          onClick={() => handleFilterChange("active")}
-        >
-          Active
-        </Button>
-        <Button
-          type={filterStatus.includes("inactive") ? "primary" : ""}
-          onClick={() => handleFilterChange("inactive")}
-        >
-          Inactive
-        </Button>
-      </Button.Group>
+      <Space style={{ marginBottom: 16 }}>
+        {/** Filter buttons for Active and Inactive */}
+        <Button.Group>
+          <Button
+            type={filterStatus.includes("active") ? "primary" : ""}
+            onClick={() => handleFilterChange("active")}
+          >
+            Active
+          </Button>
+          <Button
+            type={filterStatus.includes("inactive") ? "primary" : ""}
+            onClick={() => handleFilterChange("inactive")}
+          >
+            Inactive
+          </Button>
+        </Button.Group>
+
+        {/** Search input */}
+        <Search
+          placeholder="Search"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: 200 }}
+        />
+      </Space>
 
       <Table columns={columns} dataSource={getFilteredData()} />
     </>

@@ -5,11 +5,11 @@ import { put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
 
 function UpdateIsDelete({ record, onReload }) {
-  console.log("Record in UpdateIsDelete:", record);
+  // console.log("Record in UpdateIsDelete:", record);
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString('vi-VN'); // Định dạng ngày theo tiếng Việt
-  console.log(`Current date: ${formattedDate}`); // Output: Ngày hiện tại: 05/06/2024
+  console.log(`Current date: ${formattedDate}`); 
 
   const handleUpdate = async () => {
     console.log("record.statusDate before update:", record.statusDate);
@@ -31,6 +31,7 @@ function UpdateIsDelete({ record, onReload }) {
           statusDate: formattedDate,
         });
 
+        console.log("record.statusDate",record.statusDate)
         console.log("Response from update API:", response);
 
         if (response.ok) {
@@ -40,7 +41,7 @@ function UpdateIsDelete({ record, onReload }) {
             text: "Your account has been deleted.",
             icon: "success",
           });
-          console.log("Response from update API:", response);
+          console.log("Response from update API khi ok:", response);
           // Call onReload to refresh data
           onReload();
         } else {
