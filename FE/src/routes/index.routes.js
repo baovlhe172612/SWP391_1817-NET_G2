@@ -35,6 +35,9 @@ import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
+import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
+import UpdateEmployee from "../pages/Admin/Employee/UpdateEmployee";
+import DetailEmployee from "../pages/Admin/Employee/DetailEmployee";
 
 const routes = [
   {
@@ -44,6 +47,7 @@ const routes = [
       {
         path: "/",
         element: <Home />,
+        
       },
       {
         path: "about",
@@ -161,8 +165,16 @@ const routes = [
                     element: <ListEmployee />,
                   },
                   {
+                    path: "detail/:id",
+                    element: <DetailEmployee />,
+                  },
+                  {
                     path: "create",
                     element: <CreateEmployee />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateEmployee />,
                   },
                 ],
               },
@@ -176,6 +188,10 @@ const routes = [
                   {
                     path: "create",
                     element: <CreateCategory />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateCategory />,
                   },
                 ],
               },

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Product(props) {
   const { product } = props;
-  // console.log(props)
+  console.log(props)
  
   return (
     <>
@@ -17,7 +17,7 @@ function Product(props) {
                 <Link
                   to={`/productDetail?productId=${
                     product.productId
-                  }&sizeId=${1}`}
+                  }&sizeId=${1}&categoryId=${product.categoryId}`}
                 >
                   <img
                     class="primary-img"
@@ -43,14 +43,14 @@ function Product(props) {
 
                     <li>
                       <Link
-                        to={`http://localhost:3000/listProduct/shop.htmletail?productId=${
+                        to={`/productDetail?productId=${
                           product.productId
-                        }&sizeId=${1}`}
+                        }&sizeId=${1}&categoryId=${product.categoryId}`}
                       >
                         <i class="pe-7s-look"></i>
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <a
                         href="cart.html"
                         data-tippy="Add to cart"
@@ -62,7 +62,7 @@ function Product(props) {
                       >
                         <i class="pe-7s-cart"></i>
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -87,7 +87,20 @@ function Product(props) {
                     {product.price + 10000}đ
                   </span>
                 </div>
+                <div className="price-box pb-1">
+                <button className="add-to-cart-btn" style={{
+                  backgroundColor: '#ff9900',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  cursor: 'pointer',
+                  borderRadius: '5px'
+                }}>
+                  Thêm vào giỏ hàng
+                </button>
+                </div>
               </div>
+              
             </div>
           </Col>
         </>

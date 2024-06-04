@@ -4,9 +4,9 @@ import { SearchResult } from './SearchResult';
 
 export const SearchResultsList = ({results}) => {
   return (
-    <div className='result-list'>
-      {results.map((results, id) => {
-        return <SearchResult result={results} key={id}/>;
+  <div className={`result-list ${results.length > 0 ? 'show' : ''}`}>
+      {results.map((result, id) => {
+        return <SearchResult result={result} key={id} />;
       })}
     </div>
   );

@@ -57,7 +57,14 @@ export const deleteItem = async (url) => {
 
   const response = await fetch(url, deleteMethod);
   const data = await response.json();
-  return data;
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+
+  // Trả về đối tượng phản hồi
+  return response;
 };
 
 export const put = async (url, values) => {
@@ -78,6 +85,5 @@ export const put = async (url, values) => {
   // Trả về đối tượng phản hồi
   return response;
 };
-
 
 

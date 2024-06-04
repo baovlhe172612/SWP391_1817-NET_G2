@@ -245,6 +245,7 @@ namespace Swp391.Repository
                                          Token = a.Token,
                                          StoreId = (int)a.StoreId,
                                          RoleName = r.RoleName,
+                                         
                                          IsDelete = (int)a.IsDelete,
                                      }
                                            ).ToList();
