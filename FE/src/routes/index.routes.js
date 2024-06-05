@@ -33,6 +33,7 @@ import Logout from "../components/Admin/Accounts/Logout/Logout";
 import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
+import Profile from "../pages/Admin/User/Profile";
 
 const routes = [
   {
@@ -92,6 +93,10 @@ const routes = [
           {
             path: "/admin/logout",
             element: <Logout />,
+          },
+          {
+            path: "/admin/profile",
+            element: <Profile />,
           },
           // ROLE OF OWNER
           {
