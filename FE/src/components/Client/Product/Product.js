@@ -17,7 +17,7 @@ function Product(props) {
                 <Link
                   to={`/productDetail?productId=${
                     product.productId
-                  }&sizeId=${1}&categoryId=${product.categoryId}`}
+                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
                 >
                   <img
                     class="primary-img"
@@ -45,7 +45,7 @@ function Product(props) {
                       <Link
                         to={`/productDetail?productId=${
                           product.productId
-                        }&sizeId=${1}&categoryId=${product.categoryId}`}
+                        }&sizeId=${product.sizeId}&categoryId=${product.category}`}
                       >
                         <i class="pe-7s-look"></i>
                       </Link>
@@ -80,11 +80,11 @@ function Product(props) {
                   href="shop.html"
                   style={{ fontFamily: "Arial", fontWeight: "bold" }}
                 >
-                  {product.productName}
+                  {product.productName} Size {product.sizeName}
                 </a>
                 <div class="price-box pb-1">
                   <span class="new-price" style={{ fontSize: "16px" }}>
-                    {product.price + 10000}đ
+                    {product.price}đ
                   </span>
                 </div>
                 <div className="price-box pb-1">
