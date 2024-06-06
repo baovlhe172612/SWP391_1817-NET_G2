@@ -22,18 +22,18 @@ function ProductDetail() {
       const data = await get(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${sizeId}`);
      
       setProducts(data);
-      // Lấy danh sách các sản phẩm tương tự
-      // const similarProductsData = await get(`http://localhost:5264/api/ProductControlles/getProductByCategoryId?categoriesID=${categoryId}`);
-      // // Lọc ra các sản phẩm khác với sản phẩm hiện tại
-      // // Ensure the response is an array before filtering
-      // if (Array.isArray(similarProductsData)) {
-      //   // Filter out the current product from the list of similar products
-      //   const filteredSimilarProducts = similarProductsData.filter(product => product.id !== productId);
-      //   console.log("filteredSimilarProducts", filteredSimilarProducts)
-      //   setSimilarProducts(filteredSimilarProducts);
-      // } else {
-      //   console.error('Similar products data is not an array:', similarProductsData);
-      // }
+      //Lấy danh sách các sản phẩm tương tự
+      const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
+      // Lọc ra các sản phẩm khác với sản phẩm hiện tại
+      // Ensure the response is an array before filtering
+      if (Array.isArray(similarProductsData)) {
+        // Filter out the current product from the list of similar products
+        const filteredSimilarProducts = similarProductsData.slice(0,3);
+        console.log("filteredSimilarProducts", filteredSimilarProducts)
+        setSimilarProducts(filteredSimilarProducts);
+      } else {
+        console.error('Similar products data is not an array:', similarProductsData);
+      }
     };
 
     fetchApi();
@@ -50,7 +50,17 @@ function ProductDetail() {
 
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
-      console.log(data);
+      const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
+      // Lọc ra các sản phẩm khác với sản phẩm hiện tại
+      // Ensure the response is an array before filtering
+      if (Array.isArray(similarProductsData)) {
+        // Filter out the current product from the list of similar products
+        const filteredSimilarProducts = similarProductsData.slice(0,3);
+        console.log("filteredSimilarProducts", filteredSimilarProducts)
+        setSimilarProducts(filteredSimilarProducts);
+      } else {
+        console.error('Similar products data is not an array:', similarProductsData);
+      }
       setProducts(data);
     } catch (error) {
       console.error('Error updating size:', error);
@@ -163,17 +173,17 @@ function ProductDetail() {
         }
 
         <Divider />
-        {/* {similarProducts.length > 0 && (
+        {similarProducts.length > 0 && (
           <Col span={24} >
             <div className="similar-products">
               <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
 
               <div className="row">
                 {similarProducts.map((product) => (
-                  <Col span={12} key={product.productId}>
+                  <Col span={12} key={product.productSizeID}>
                     <div className="product-item">
                       <div className="product-img">
-                        <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
+                        <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
                           <img className="primary-img" src={product.img} alt="Product Images" />
                         </Link>
                         <div className="product-add-action">
@@ -193,7 +203,7 @@ function ProductDetail() {
                             <li>
                               <Link
                                 to={`/productDetail?productId=${product.productId
-                                  }&sizeId=${1}&categoryId=${product.categoryId}`}
+                                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
                               >
                                 <i class="pe-7s-look"></i>
                               </Link>
@@ -204,11 +214,11 @@ function ProductDetail() {
                       </div>
                       <div className="product-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
                         <a className="product-name" href="shop.html" style={{ fontFamily: "Arial", fontWeight: "bold" }}>
-                          {product.productName}
+                          {product.productName} Size {product.sizeName}
                         </a>
                         <div className="price-box pb-1">
                           <span className="new-price" style={{ fontSize: "16px" }}>
-                            {product.price + 10000}đ
+                            {product.price}đ
                           </span>
                         </div>
 
@@ -220,7 +230,7 @@ function ProductDetail() {
             </div>
           </Col>
           
-        )} */}
+        )}
       </div>
 
     </>

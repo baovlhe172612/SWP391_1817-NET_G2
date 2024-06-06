@@ -160,9 +160,9 @@ namespace Swp391.Controllers
 
         // sản phẩm tương tự trong khoảng min và max
         [HttpGet("getProductSizeSimilarMinToMax")]
-        public IActionResult getProductByPage(int page)
+        public IActionResult getProductSizeSimilarMinToMax(int min, int max, int categoriID)
         {
-            var listProuctSize = _service.getProductSizeByPage(page);
+            var listProuctSize = _service.getProductSimilarPrice(min, max, categoriID);
 
             if (listProuctSize == null)
             {
