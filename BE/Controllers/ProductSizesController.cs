@@ -157,5 +157,22 @@ namespace Swp391.Controllers
                 mess = "not exits data"
             });
         }
+
+        // sản phẩm tương tự trong khoảng min và max
+        [HttpGet("getProductSizeSimilarMinToMax")]
+        public IActionResult getProductByPage(int page)
+        {
+            var listProuctSize = _service.getProductSizeByPage(page);
+
+            if (listProuctSize == null)
+            {
+                return BadRequest(new
+                {
+                    messgerErr = "page not found"
+                });
+            }
+
+            return Ok(listProuctSize);
+        }
     }
 }

@@ -11,8 +11,7 @@ function ProductDetail() {
   // Lấy giá trị của các tham số từ query string
   const productId = searchParams.get('productId');
   const categoryId = searchParams.get('categoryId');
-  console.log("productId", productId)
-  console.log("categoryId", categoryId)
+
   const sizeId = searchParams.get('sizeId');
 
   const [productSize, setProducts] = useState(null);
@@ -21,20 +20,20 @@ function ProductDetail() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${sizeId}`);
-      console.log(data);
+     
       setProducts(data);
       // Lấy danh sách các sản phẩm tương tự
-      const similarProductsData = await get(`http://localhost:5264/api/ProductControlles/getProductByCategoryId?categoriesID=${categoryId}`);
-      // Lọc ra các sản phẩm khác với sản phẩm hiện tại
-      // Ensure the response is an array before filtering
-      if (Array.isArray(similarProductsData)) {
-        // Filter out the current product from the list of similar products
-        const filteredSimilarProducts = similarProductsData.filter(product => product.id !== productId);
-        console.log("filteredSimilarProducts", filteredSimilarProducts)
-        setSimilarProducts(filteredSimilarProducts);
-      } else {
-        console.error('Similar products data is not an array:', similarProductsData);
-      }
+      // const similarProductsData = await get(`http://localhost:5264/api/ProductControlles/getProductByCategoryId?categoriesID=${categoryId}`);
+      // // Lọc ra các sản phẩm khác với sản phẩm hiện tại
+      // // Ensure the response is an array before filtering
+      // if (Array.isArray(similarProductsData)) {
+      //   // Filter out the current product from the list of similar products
+      //   const filteredSimilarProducts = similarProductsData.filter(product => product.id !== productId);
+      //   console.log("filteredSimilarProducts", filteredSimilarProducts)
+      //   setSimilarProducts(filteredSimilarProducts);
+      // } else {
+      //   console.error('Similar products data is not an array:', similarProductsData);
+      // }
     };
 
     fetchApi();
@@ -164,7 +163,7 @@ function ProductDetail() {
         }
 
         <Divider />
-        {similarProducts.length > 0 && (
+        {/* {similarProducts.length > 0 && (
           <Col span={24} >
             <div className="similar-products">
               <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
@@ -220,22 +219,8 @@ function ProductDetail() {
               </div>
             </div>
           </Col>
-          // <div className="similar-products">
-          //   <h3>Sản phẩm tương tự</h3>
-          //   <div className="row">
-          //     {similarProducts.map((product) => (
-          //       <div className="col-lg-3" key={product.id}>
-          //         <div className="similar-product">
-          //           <img src={product.img} alt={product.productName} />
-          //           <h4>{product.productName}</h4>
-          //           <span>{product.price}đ</span>
-          //           <a href={`/productDetail?productId=${product.id}&sizeId=${product.sizeId}`}>Xem chi tiết</a>
-          //         </div>
-          //       </div>
-          //     ))}
-          //   </div>
-          // </div>
-        )}
+          
+        )} */}
       </div>
 
     </>

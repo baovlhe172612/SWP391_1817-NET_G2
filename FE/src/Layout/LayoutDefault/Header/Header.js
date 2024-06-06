@@ -3,13 +3,17 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List, App} from 'antd';
 import "./Header.css"
 import  Search  from '../../../components/Search/Search';
-
+// import { useCart } from "react-use-cart";
 
 
 function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // const {
+  //   isEmpty,
+  //   totalItems,
+  // } = useCart();
 
 
   const toggleMenu = () => {
@@ -85,7 +89,8 @@ function Header({ tableId }) {
                     <li className="minicart-wrap me-3 me-lg-0">
                       <Link to="/cart" className="minicart-btn toolbar-btn">
                         <i className="pe-7s-shopbag"></i>
-                        <span className="quantity">3</span>
+                        {/* {!isEmpty && <span className="quantity">{totalItems}</span>} */}
+                        
                       </Link>
                     </li>
 
@@ -258,7 +263,7 @@ function Header({ tableId }) {
                       <li className="minicart-wrap me-3 me-lg-0">
                         <Link to="/cart" className="minicart-btn toolbar-btn">
                           <i className="pe-7s-shopbag"></i>
-                          <span className="quantity">3</span>
+                          {/* {!isEmpty && <span className="quantity">{totalItems}</span>} */}
                         </Link>
                       </li>
                       <li className="mobile-menu_wrap d-block d-lg-none">

@@ -26,6 +26,16 @@ namespace Swp391.Service
             return productSizeDto;
         }
 
+        public List<ProductSizeDtos> getProductSimilarPrice(int min, int max, int productSizeID)
+        {
+            List<ProductSizeDtos> productSizeDtos = new List<ProductSizeDtos>();
+            productSizeDtos = _repo.GetAllProductSize().Where
+                              (p => p.ProductSizeID != productSizeID 
+                              && p.Price > min && p.Price < max).
+                             ToList();
+            return productSizeDtos;
+        }
+
         public List<ProductSizeDtos> getFourProductSizeDtosMinPrice()
         {
             List<ProductSizeDtos> productSizeDtos = new();
