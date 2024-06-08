@@ -177,14 +177,19 @@ function ProductDetail() {
                         <a href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
                         <Image className="" src={product.img} alt="Product Images" style={{ width: "50%", height: "auto",marginLeft: "27%"}} />
                         </a>
+
+                        {/* <Link href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
+                        <Image className="" src={product.img} alt="Product Images" style={{ width: "50%", height: "auto",marginLeft: "27%"}} />
+                        </Link> */}
                       </div>
                       <div className="product-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
                         <a
                           href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}
                           style={{ fontFamily: "Arial", fontWeight: "bold", marginTop: "10px" }}
                         >
-                          {product.productName}
+                            <i class="pe-7s-look"></i>{product.productName}
                         </a>
+                        
                         <div className="price-box pb-1" >
                           <span className="new-price" style={{ fontSize: "16px" }}>
                             {product.price + 10000}đ

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Product(props) {
   const { product } = props;
   console.log(props)
- 
+
   return (
     <>
       {product ? (
@@ -15,15 +15,14 @@ function Product(props) {
             <div class="product-item">
               <div class="product-img">
                 <Link
-                  to={`/productDetail?productId=${
-                    product.productId
-                  }&sizeId=${1}&categoryId=${product.categoryId}`}
+                  to={`/productDetail?productId=${product.productId
+                    }&sizeId=${1}&categoryId=${product.categoryId}`}
                 >
                   <img
                     class="primary-img"
                     src={product.img}
                     alt="Product Images"
-                    // style={{height: "50%", width: "50%"}}
+                  // style={{height: "50%", width: "50%"}}
                   />
                 </Link>
                 <div class="product-add-action">
@@ -43,9 +42,8 @@ function Product(props) {
 
                     <li>
                       <Link
-                        to={`/productDetail?productId=${
-                          product.productId
-                        }&sizeId=${1}&categoryId=${product.categoryId}`}
+                        to={`/productDetail?productId=${product.productId
+                          }&sizeId=${1}&categoryId=${product.categoryId}`}
                       >
                         <i class="pe-7s-look"></i>
                       </Link>
@@ -75,32 +73,41 @@ function Product(props) {
                   textAlign: "center",
                 }}
               >
-                <a
+                {/* <a
                   class="product-name"
-                  href="shop.html"
+                  href={`/productDetail?productId=${product.productId
+                  }&sizeId=${1}&categoryId=${product.categoryId}`}
                   style={{ fontFamily: "Arial", fontWeight: "bold" }}
                 >
                   {product.productName}
-                </a>
+                </a> */}
+                <Link
+                 class="product-name"
+                        to={`/productDetail?productId=${product.productId
+                          }&sizeId=${1}&categoryId=${product.categoryId}`}
+                      >
+                        <i class="pe-7s-look"></i>
+                        {product.productName}
+                      </Link>
                 <div class="price-box pb-1">
                   <span class="new-price" style={{ fontSize: "16px" }}>
                     {product.price + 10000}đ
                   </span>
                 </div>
                 <div className="price-box pb-1">
-                <button className="add-to-cart-btn" style={{
-                  backgroundColor: '#ff9900',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  cursor: 'pointer',
-                  borderRadius: '5px'
-                }}>
-                  Thêm vào giỏ hàng
-                </button>
+                  <button className="add-to-cart-btn" style={{
+                    backgroundColor: '#ff9900',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    borderRadius: '5px'
+                  }}>
+                    Thêm vào giỏ hàng
+                  </button>
                 </div>
               </div>
-              
+
             </div>
           </Col>
         </>

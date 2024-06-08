@@ -234,13 +234,14 @@ function ListProduct() {
                   <li class="page-count">
                     <span>4</span> Product Found of <span>{totalProduct}</span>
                   </li>
-                  <li class="product-view-wrap">
+                  <li class="short">
                     <ul class="nav" role="tablist">
                       {/* MENU CATEGORY */}
                       <MenuCategory categories={categories}/>
                       {/* MENU CATEGORY */}
                     </ul>
                   </li>
+
                   <li class="short">
                     <select
                       className="nice-select"

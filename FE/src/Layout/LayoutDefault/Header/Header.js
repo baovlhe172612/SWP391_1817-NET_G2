@@ -100,7 +100,7 @@ function Header({ tableId }) {
         </div>
       </div>
 
-      <Carousel autoplay effect="fade" easing="ease" speed={800}>
+      {/* <Carousel autoplay effect="fade" easing="ease" speed={800}>
         <div className="slider-item">
 
           <Image
@@ -136,7 +136,7 @@ function Header({ tableId }) {
 
 
         </div>
-      </Carousel>
+      </Carousel> */}
 
 
       {/* Header Middle */}
