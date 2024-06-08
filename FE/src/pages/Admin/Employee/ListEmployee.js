@@ -90,6 +90,7 @@ function ListEmployee() {
       dataIndex: "cccd",
       key: "cccd",
     },
+    
 
     {
       title: "Actions",
@@ -116,7 +117,7 @@ function ListEmployee() {
 
   return (
     <>
-      <Table columns={columns} dataSource={AccountEmployee} />
+      <Table columns={columns} dataSource={AccountEmployee} pagination={{pageSize: 3}}/>
 
       {/* <div>
         {AccountEmployee.map(account => (

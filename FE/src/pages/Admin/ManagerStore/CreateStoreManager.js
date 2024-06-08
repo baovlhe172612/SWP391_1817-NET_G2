@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function CreateStoreManager() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    const handleSubmit = async (values) => {
+    const handleSubmit = async (values) => {      
       console.log(values); 
       // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
       values.isDelete = 0;
@@ -54,7 +54,7 @@ function CreateStoreManager() {
   
   return (
       <>
-          <h2>Create Store's Manager</h2>
+          
           <Form
           layout="horizontal"
           labelCol={{ span: 3 }}
@@ -67,19 +67,26 @@ function CreateStoreManager() {
                   label="Username"
                   name="userName"
                   rules={[
-                      {
-                          required: true,
-                          message: 'Please input your username!',
-                      },
-                      ({getFieldValue})=>({
-                        validator(_, value){
-                          if(Accounts.some((account)=>account.userName === value)){
-                            return Promise.reject('User Name already exists');
-                          }                
-                          return Promise.resolve();
-                        }
-                      }),
-                  ]}
+                    {
+                        required: true,
+                        message: 'Please input your username!',
+                    },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/; 
+                            if (!value) {
+                                return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                            }
+                            if (!usernameRegex.test(value)) {
+                                return Promise.reject('Username must be 3-15 characters long and can only include letters, numbers, and underscores.');
+                            }
+                            if (Accounts.some((account) => account.userName === value)) {
+                                return Promise.reject('User Name already exists');
+                            }
+                            return Promise.resolve();
+                        },
+                    }),
+                ]}
               >
                   <Input />
               </Form.Item>
@@ -88,12 +95,25 @@ function CreateStoreManager() {
                   label="Password"
                   name="passWord"
                   rules={[
-                      {
-                          required: true,
-                          message: 'Please input your password!',
-                      },
-                      
-                  ]}
+                    {
+                        required: true,
+                        message: 'Please input your password!',
+                    },
+                    {
+                        validator(_, value) {
+                            // Example regex: minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+                            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                            if (!value) {
+                                return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                            }
+                            if (!passwordRegex.test(value)) {
+                                return Promise.reject('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ]}
+                
               >
                   <Input.Password />
               </Form.Item>
@@ -129,11 +149,24 @@ function CreateStoreManager() {
                   label="Full Name"
                   name="fullName"
                   rules={[
-                      {
-                          required: true,
-                          message: 'Please input your full name!',
-                      },
-                  ]}
+                    {
+                        required: true,
+                        message: 'Please input your full name!',
+                    },
+                    {
+                        validator(_, value) {
+                            // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                            const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
+                            if (!value) {
+                                return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                            }
+                            if (!fullNameRegex.test(value)) {
+                                return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ]}                
               >
                   <Input />
               </Form.Item>

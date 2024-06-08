@@ -3,13 +3,22 @@ import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 function CreateEmployee() {
+    const account = useSelector(state => state.AccountReducer);
+    console.log(account)
+
+
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
     const handleSubmit = async (values) => {
-        console.log(values);
+        if(values.fullName.trim().length == '') {
+            message.error(`Please enter a full name`);
+            return;
+        }
+        // console.log(values);
         // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
         values.isDelete = 0;
         values.roleId = 3;
@@ -21,7 +30,7 @@ function CreateEmployee() {
         try {
             const response = await post(`http://localhost:5264/api/Account`, values);
             // Kiểm tra giá trị trả về từ API
-            console.log("response",response)
+            console.log("response", response)
             if (response) {
                 form.resetFields();
                 message.success('Account created successfully!');
@@ -38,7 +47,7 @@ function CreateEmployee() {
     const fetchApi = async () => {
         try {
             const data = await get("http://localhost:5264/api/stores");
-            console.log("stores: ",data)
+            console.log("stores: ", data)
             setStores(data);
         } catch (error) {
             message.error("Error fetching accounts");
@@ -52,11 +61,11 @@ function CreateEmployee() {
 
     return (
         <>
-            <h2 style={{textAlign: 'center'}}>Create Store's Employee</h2>
+            <h2 style={{ textAlign: 'center' }}>Create Store's Employee</h2>
             <Form
-            layout="horizontal"
-            labelCol={{ span: 3 }}
-                    wrapperCol={{ span: 14 }}
+                layout="horizontal"
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 14 }}
                 name="create-employee"
                 onFinish={handleSubmit}
                 form={form}
@@ -132,9 +141,9 @@ function CreateEmployee() {
                 >
                     <Input />
                 </Form.Item>
-                
 
-              <Form.Item
+
+                <Form.Item
                     label="CCCD"
                     name="cccd"
                     rules={[
@@ -143,13 +152,15 @@ function CreateEmployee() {
                             message: 'Please input your cccd!',
                         },
                         {
-                            pattern: /^0\d{0,9}$/,
-                            message: 'Please input your number start =0 and ensure the length is <= 10 digits!',
+                            pattern: /^0\d{0,11}$/,
+                            message: 'Please input your number starting with 0 and ensure the length is less than or equal to 12 digits!',
                         },
                     ]}
+
                 >
                     <Input />
                 </Form.Item>
+
 
                 <Form.Item
                     label="Phone"
@@ -183,14 +194,25 @@ function CreateEmployee() {
                     label="Store"
                     name="StoreId"
                     key="StoreId"
+                    initialValue={account.storeId}
                 >
                     <Select>
-                        {Stores.map(store => (
-                            <Select.Option value={store.storeId}>
-                                {store.storeName}
+                       
+                            <Select.Option value={account.storeId}>
+                                {account.storeName} 
                             </Select.Option>
-                        ))}
+                      
                     </Select>
+
+                    {/* <Select defaultValue={account.storeId}>
+                        <Option value={account.storeId}>{account.storeName}</Option>
+                        {(Stores.filter(store => store.storeId !== account.storeId)).map(store => (
+                            <Option key={store.storeId} value={store.storeId}>
+                                {store.storeName}
+                            </Option>
+                        ))}
+                    </Select> */}
+
                 </Form.Item>
                 <Form.Item
                     label="isdelete"
