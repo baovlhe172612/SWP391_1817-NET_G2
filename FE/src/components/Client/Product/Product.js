@@ -1,12 +1,20 @@
 import { Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Card} from 'react-bootstrap';
-
+import { Button } from 'react-bootstrap';
+import { useDispatch } from "react-redux"
+import { addToCart } from "../../../redux/slice/cartSlice.js"
 
 function Product(props) {
   const { product } = props;
-  
+  const dispatch = useDispatch()
+    const handleAddToCart = () => {
+        dispatch(addToCart({
+            ...product,
+            quantity: 1
+        }))
+        
+    }
 
   return (
     <>
@@ -76,7 +84,7 @@ function Product(props) {
                       cursor: 'pointer',
                       borderRadius: '5px'
                     }}
-                    
+                    onClick={handleAddToCart} variant="success"
                   >
                     Thêm vào giỏ hàng
                   </Button>

@@ -3,13 +3,14 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List, App} from 'antd';
 import "./Header.css"
 import  Search  from '../../../components/Search/Search';
-// import { useCart } from "react-use-cart";
+import { useSelector } from "react-redux";
+
 
 
 function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const { list } = useSelector(state => state.cart)
   // const {
   //   isEmpty,
   //   totalItems,
@@ -90,7 +91,7 @@ function Header({ tableId }) {
                       <Link to="/cart" className="minicart-btn toolbar-btn">
                         <i className="pe-7s-shopbag"></i>
                         {/* {!isEmpty && <span className="quantity">{totalItems}</span>} */}
-                        
+                        <span className="quantity">{list?.length}</span>
                       </Link>
                     </li>
 
@@ -264,6 +265,7 @@ function Header({ tableId }) {
                         <Link to="/cart" className="minicart-btn toolbar-btn">
                           <i className="pe-7s-shopbag"></i>
                           {/* {!isEmpty && <span className="quantity">{totalItems}</span>} */}
+                          <span className="quantity">{list?.length}</span>
                         </Link>
                       </li>
                       <li className="mobile-menu_wrap d-block d-lg-none">
