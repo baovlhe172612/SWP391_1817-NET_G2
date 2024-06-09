@@ -23,12 +23,14 @@ namespace Swp391.Repository
                                join s in _context.Sizes on ps.SizeId equals s.SizeId
                                select new ProductSizeDtos
                                {
+                                  ProductSizeID = ps.ProductSizeId,
                                   ProductId = p.ProductId,
                                   ProductName = p.ProductName,
                                   Img = p.Img,
                                   SizeId = ps.SizeId,
                                   SizeName = s.SizeName,
-                                  Price = (int)(p.Price + s.Price)
+                                  Price = (int)(p.Price + s.Price),
+                                  Category = p.CategoryId,
                                }).ToList();
 
             return ProductSize;

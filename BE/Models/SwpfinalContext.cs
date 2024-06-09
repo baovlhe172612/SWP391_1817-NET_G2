@@ -50,7 +50,6 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Account>(entity =>
         {
             entity.ToTable("Account");
-
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.Cccd)
                 .HasMaxLength(12)
@@ -59,8 +58,7 @@ public partial class SwpfinalContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.StoreId).HasColumnName("StoreID");
-
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");          
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

@@ -7,7 +7,7 @@ export const SearchBar = ({ setResults }) => {
   const [timer, setTimer] = useState(null);
 
   const fetchData = (value) => {
-    fetch("http://localhost:5264/api/ProductControlles")
+    fetch("http://localhost:5264/api/ProductSizes")
       .then((response) => response.json())
       .then(json => {
         const results = json.filter((product) => {
@@ -15,7 +15,7 @@ export const SearchBar = ({ setResults }) => {
             value &&
             product &&
             product.productName &&
-            product.productName.toLowerCase().includes(value)
+            product.productName.toLowerCase().includes(value.toLowerCase())
           );
         });
         // console.log(results);
@@ -42,7 +42,7 @@ export const SearchBar = ({ setResults }) => {
     <div className='input-wrapper'>
       <FaSearch id='search-icon' />
       <input
-        placeholder='Type to search....'
+        placeholder='Search product....'
         value={input}
         onChange={(e) => handleChange(e.target.value)}
       />
