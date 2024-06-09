@@ -1,27 +1,55 @@
-import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
+import { Button, Form, Input, Select, Switch, Modal, InputNumber } from "antd";
+import React, { useState } from "react";
 
 const { Option } = Select;
 
-function CreateProduct() {
+function CreateProduct({ isVisible, handleOk, handleCancel }) {
   const [form] = Form.useForm();
+  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [sizeQuantities, setSizeQuantities] = useState({});
 
   const handleSubmit = async (values) => {
-    console.log(values);
-    // const response = await createRoom(values);
-    // console.log(response);
+    console.log({
+      ...values,
+      sizes: selectedSizes.map(size => ({
+        size,
+        quantity: sizeQuantities[size] || 0,
+      })),
+    });
+    // const response = await createProduct({
+    //   ...values,
+    //   sizes: selectedSizes.map(size => ({
+    //     size,
+    //     quantity: sizeQuantities[size] || 0,
+    //   })),
+    // });
     // if (response) {
-    //     form.resetFields();
+    //   form.resetFields();
     // }
   };
 
-  return (
-    <>
-      <h2>Create New Store</h2>
+  const handleSizeChange = (values) => {
+    setSelectedSizes(values);
+  };
 
+  const handleQuantityChange = (size, value) => {
+    setSizeQuantities({
+      ...sizeQuantities,
+      [size]: value,
+    });
+  };
+
+  return (
+    <Modal
+      title="Create New Product"
+      visible={isVisible}
+      onOk={form.submit}
+      onCancel={handleCancel}
+    >
       <Form name="create-product" onFinish={handleSubmit} form={form}>
         <Form.Item
           label="Product name"
-          name="username"
+          name="productName"
           rules={[
             {
               required: true,
@@ -29,7 +57,7 @@ function CreateProduct() {
             },
           ]}
         >
-          <Input placeholder="Input name"/>
+          <Input placeholder="Input name" />
         </Form.Item>
 
         <Form.Item
@@ -38,17 +66,22 @@ function CreateProduct() {
           rules={[
             {
               required: true,
-              message: "Please input description name !!!",
+              message: "Please input description !!!",
             },
           ]}
         >
-          <Input.TextArea rows={6} showCount maxLength={100} placeholder="Input description"/>
+          <Input.TextArea
+            rows={6}
+            showCount
+            maxLength={100}
+            placeholder="Input description"
+          />
         </Form.Item>
 
         <Form.Item
           name="category"
           label="Category"
-          rules={[{ required: true, message: "Please input category name!" }]}
+          rules={[{ required: true, message: "Please input category!" }]}
         >
           <Select placeholder="Select your category">
             <Option value="Trà sữa">Trà sữa</Option>
@@ -57,16 +90,34 @@ function CreateProduct() {
         </Form.Item>
 
         <Form.Item
-          name="size"
-          label="Size"
-          rules={[{ required: true, message: "Please input size name!" }]}
+          name="sizes"
+          label="Sizes"
+          rules={[{ required: true, message: "Please select at least one size!" }]}
         >
-          <Select placeholder="Select your size">
+          <Select
+            mode="multiple"
+            placeholder="Select your sizes"
+            onChange={handleSizeChange}
+          >
             <Option value="S">S</Option>
             <Option value="M">M</Option>
             <Option value="L">L</Option>
           </Select>
         </Form.Item>
+
+        {selectedSizes.map((size) => (
+          <Form.Item
+            key={size}
+            label={`Quantity for Size ${size}`}
+            rules={[{ required: true, message: "Please input quantity!" }]}
+          >
+            <InputNumber
+              min={0}
+              placeholder="Input quantity"
+              onChange={(value) => handleQuantityChange(size, value)}
+            />
+          </Form.Item>
+        ))}
 
         <Form.Item
           label="Price"
@@ -74,11 +125,11 @@ function CreateProduct() {
           rules={[
             {
               required: true,
-              message: "Please input price price! !!!",
+              message: "Please input price!",
             },
           ]}
         >
-          <Input placeholder="Input price"/>
+          <Input placeholder="Input price" />
         </Form.Item>
 
         <Form.Item
@@ -87,18 +138,18 @@ function CreateProduct() {
           rules={[
             {
               required: true,
-              message: "Please input discount name! !!!",
+              message: "Please input discount!",
             },
           ]}
         >
-          <Input placeholder="Input discount"/>
+          <Input placeholder="Input discount" />
         </Form.Item>
 
         <Form.Item
           name="feature"
           label="Feature"
           valuePropName="checked"
-          initialValue={true} // Giá trị mặc định là VIP
+          initialValue={true}
         >
           <Switch
             checkedChildren="Feature"
@@ -111,7 +162,7 @@ function CreateProduct() {
           name="status"
           label="Status"
           valuePropName="checked"
-          initialValue={true} // Giá trị mặc định là Còn phòng
+          initialValue={true}
         >
           <Switch
             checkedChildren="Active"
@@ -126,7 +177,7 @@ function CreateProduct() {
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </Modal>
   );
 }
 
