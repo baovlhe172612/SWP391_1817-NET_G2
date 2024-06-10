@@ -12,7 +12,6 @@ function Profile() {
   // SUBMIT
   const handleSubmit = (values) => {
     // e.preventDefault();
-
     console.log({...account, values});
   };
   return (
