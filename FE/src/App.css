@@ -3402,12 +3402,18 @@ blockquote p {
   padding-top: 10px;
 }
 
-.product-content .product-name {
+/* .product-content .product-name {
   margin-bottom: 5px;
   color: #303030;
   font-size: 18px;
   display: block;
-}
+  white-space: nowrap;        
+  overflow: hidden;           
+  text-overflow: ellipsis;    
+  max-width: 200px;           
+  margin: 0 auto;             
+} */
+
 
 .product-content .product-name:hover {
   color: #abd373;

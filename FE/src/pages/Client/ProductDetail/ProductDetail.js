@@ -118,7 +118,7 @@ function ProductDetail() {
                     </div>
                     <div className="col-lg-6 pt-5 pt-lg-0">
                       <div className="single-product-content">
-                        <h2 className="title">{productSize.productName}</h2>
+                        <h2 className="title">{productSize.productName} Size {productSize.sizeName}</h2>
                         <div className="price-box">
                           <span className="new-price">{productSize.price}đ</span>
                         </div>
@@ -175,7 +175,7 @@ function ProductDetail() {
         <Divider />
         {similarProducts.length > 0 && (
           <Col span={24} >
-            <div className="similar-products">
+            <div className="similar-products" style={{textAlign:"center"}}>
               <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
 
               <div className="row">
@@ -184,7 +184,15 @@ function ProductDetail() {
                     <div className="product-item">
                       <div className="product-img">
                         <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
-                          <img className="primary-img" src={product.img} alt="Product Images" />
+                          <img className="primary-img"
+                           src={product.img}
+                            alt="Product Images"
+                          style={{
+                            maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
+                            height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                            marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                          }}
+                           />
                         </Link>
                         <div className="product-add-action">
                           <ul>
