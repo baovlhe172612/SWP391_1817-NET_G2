@@ -1,8 +1,18 @@
 import React from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { ADD_ITEM } from "../../../actions/CartActions";
 
 function Cart() {
+  const cartItems = useSelector(state => state.cart.items);
+  const dispatch = useDispatch();
+  const handleSub = () => {
+    const product = { id: 3, name: 'Product 2', price: 100 };
+    dispatch({ type: ADD_ITEM, payload: product }); // Gửi action ADD_ITEM với dữ liệu sản phẩm
+  };
+  console.log(cartItems);
   return (
     <>
+    <button onClick={handleSub}>Thêm vào giỏ hàng</button> 
       <div class="main-wrapper">
         {/* <!-- Begin Main Content Area --> */}
         <main class="main-content">
