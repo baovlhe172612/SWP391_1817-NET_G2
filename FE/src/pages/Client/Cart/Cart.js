@@ -41,7 +41,21 @@ function Cart() {
                   <div class="row">
                     <div class="col-12">
                       <div>
-                        <button onClick={handleDeleteAll}>Delete All</button>
+                      <button
+  style={{
+    marginBottom: "20px",
+    backgroundColor: "red",
+    color: "white",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    cursor: "pointer"
+  }}
+  onClick={handleDeleteAll}
+>
+  Delete All
+</button>
+
                       </div>
                       <form action="javascript:void(0)">
                         <div class="table-content table-responsive">
@@ -85,13 +99,8 @@ function Cart() {
                                   Total <span>{cart?.total}đ</span>
                                 </li>
                               </ul>
-                              <div class="center-button">
-                                <a href="#">
-                                  <button class="center-button">Proceed to checkout</button>
-                                </a>
-                              </div>
-
-
+                              
+                                <a href="#">Proceed to checkout</a>                            
                             </div>
                           </div>
                         </div>
