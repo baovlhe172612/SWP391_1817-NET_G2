@@ -43,7 +43,8 @@ export const post = async (url, values) => {
   }
 
   // Trả về đối tượng phản hồi
-  return response;
+  const data = response.json();
+  return data;
 };
 
 export const deleteItem = async (url) => {

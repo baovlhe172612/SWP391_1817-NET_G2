@@ -3,19 +3,11 @@ import React, { useEffect, useState } from "react";
 import { get } from "../../../helpers/API.helper";
 import Qr from "../../../components/Admin/QR/Qr";
 import { TABLE } from "../../../helpers/APILinks";
-import Pagination from "../../../components/Mixin/Pagination/Pagination";
 
 function ListQr() {
   const [qrs, setQrs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // pagination table
-  const paginationTable = {
-    currentPage: currentPage,
-    item: 24,
-    skip: (currentPage - 1) * 24,
-    countPage: 0,
-  };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -56,11 +48,6 @@ function ListQr() {
               <Qr key={qr.tableId} qr={qr} />
             </>
           ))}
-
-        <Col xl={16} md={16}></Col>
-        <Col xl={8} md={8}>
-          <Pagination />
-        </Col>
       </Row>
     </>
   );
