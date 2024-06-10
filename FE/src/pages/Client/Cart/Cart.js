@@ -3,14 +3,15 @@ import { Container, Row, Table } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
 import { clearCart } from "../../../reducers/cartSlice.js";
+import { Link } from "react-router-dom";
 
 function Cart() {
   const cart = useSelector(state => state.cart);
-  const dispatch = useDispatch(); 
-  const handleDeleteAll = () =>{
-   
-      dispatch(clearCart());
-  
+  const dispatch = useDispatch();
+  const handleDeleteAll = () => {
+
+    dispatch(clearCart());
+
   }
   return (
     <Container>
@@ -40,71 +41,90 @@ function Cart() {
                 <div class="container">
                   <div class="row">
                     <div class="col-12">
-                      <div>
-                      <button
-  style={{
-    marginBottom: "20px",
-    backgroundColor: "red",
-    color: "white",
-    border: "none",
-    padding: "10px 20px",
-    borderRadius: "5px",
-    cursor: "pointer"
-  }}
-  onClick={handleDeleteAll}
->
-  Delete All
-</button>
+                      {cart?.list.length > 0 ? (<>
+                        <div>
+                          <button
+                            style={{
+                              marginBottom: "20px",
+                              backgroundColor: "green",
+                              color: "white",
+                              border: "none",
+                              padding: "10px 20px",
+                              borderRadius: "5px",
+                              cursor: "pointer"
+                            }}
+                            onClick={handleDeleteAll}
+                          >
+                            Delete All
+                          </button>
 
-                      </div>
-                      <form action="javascript:void(0)">
-                        <div class="table-content table-responsive">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th class="product_remove">remove</th>
-                                <th class="product-thumbnail">images</th>
-                                <th class="cart-product-name">Product</th>
-                                <th class="product-price">Unit Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-subtotal">Total</th>
-                              </tr>
-                            </thead>
-
-
-                            {/* <!-- product --> */}
-                            <tbody>
-
-                              {
-                                cart?.list.map(item => {
-                                  return (
-                                    <CartItem
-                                      key={item?.productSizeID}
-                                      data={item}
-                                    />
-                                  )
-                                })
-                              }
-                            
-                            </tbody>
-                          </table>
                         </div>
-
-                        <div class="row">
-                          <div class="col-md-5 ml-auto">
-                            <div class="cart-page-total">
-                              <h2>Cart totals</h2>
-                              <ul>                          
-                                <li>
-                                  Total <span>{cart?.total}đ</span>
+                        <Row gutter={16}>
+                          {
+                            cart?.list.map(item => {
+                              return (
+                                <CartItem
+                                  key={item?.productSizeID}
+                                  data={item}
+                                />
+                              )
+                            })
+                          }
+                        </Row>
+                        <div className="row" >
+                          <div className="col-md-5 ml-auto">
+                            <div className="cart-page-total">
+                              <h2>Total Price</h2>
+                              <ul>
+                                <li style={{
+                                  fontSize: '18px',
+                                  fontWeight: '800',
+                                  padding: '15px 0px',
+                                }}>
+                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                                 </li>
                               </ul>
-                              
-                                <a href="#">Proceed to checkout</a>                            
+                              <Link
+                                to=""
+                                style={{
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  textAlign: 'center',
+                                  width: '100%',
+                                  padding: '10px 20px',
+                                  textDecoration: 'none', // Important to remove underline
+                                  color: '#fff', // Use hex color without !important
+                                  backgroundColor: '#007bff', // Ensure background color is added
+                                  borderRadius: '5px',
+                                  fontWeight: 'bold',
+                                }}
+
+                              >
+                                Proceed to checkout
+                              </Link>
                             </div>
                           </div>
                         </div>
-                      </form>
+                      </>) : ((
+                        <div style={{ textAlign: 'center', padding: '50px 0' }}>
+                          <h3 style={{color:'green'}}>Your cart is empty</h3>
+                          <p>
+                            <Link
+                              to="/"
+                              style={{
+                                color: '#007bff',
+                                textDecoration: 'underline',
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              Continue shopping
+                            </Link>
+                          </p>
+                        </div>
+                      ))}
+
+
                     </div>
                   </div>
                 </div>

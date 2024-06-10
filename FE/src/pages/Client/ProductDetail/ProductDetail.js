@@ -159,11 +159,12 @@ function ProductDetail(props) {
                         </p>
                         <Button
                           className="add-to-cart-btn"
+                          size='large'
                           style={{
                             backgroundColor: '#ff9900',
                             color: 'white',
                             border: 'none',
-                            padding: '10px 20px',
+                            // padding: '20px 40px',
                             cursor: 'pointer',
                             borderRadius: '5px'
                           }}

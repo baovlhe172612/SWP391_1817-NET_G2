@@ -74,10 +74,10 @@ function Header({ tableId }) {
             <div className="col-lg-12">
               <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                 <Link to="/">
-                  <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
+                  <img style={{ paddingRight: '10px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
                 </Link>
 
-                <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
+                <div style={{ paddingTop: '20px' }} className="header-right d-flex align-items-center">
 
 
                     
@@ -106,43 +106,6 @@ function Header({ tableId }) {
         </div>
       </div>
 
-      {/* <Carousel autoplay effect="fade" easing="ease" speed={800}>
-        <div className="slider-item">
-
-          <Image
-            width={400}
-            height={400}
-            src={`https://png.pngtree.com/png-vector/20240207/ourlarge/pngtree-juice-drink-sticker-retro-png-image_11712623.png`}
-          />
-        </div>
-        <div className="slider-item">
-
-          <Image
-            width={400}
-            height={400}
-            src={`https://www.highlandscoffee.com.vn/vnt_upload/product/06_2023/thumbs/270_crop_HLC_New_logo_5.1_Products__PHINDI_KEM_SUA.jpg`}
-          />
-
-        </div>
-        <div className="slider-item">
-
-          <Image
-            width={400}
-            height={400}
-            src="https://www.highlandscoffee.com.vn/vnt_upload/product/HLCPOSTOFFICE_DRAFT/PNG_FINAL/3_MENU_NGUYEN_BAN/thumbs/270_crop_Chanh_Da_Xay.jpg"
-          />
-
-        </div>
-        <div className="slider-item">
-          <Image
-            width={400}
-            height={400}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM_nfnQkXXCNcOhXS-766JKhhtqwGoAIhH0Q&s"
-          />
-
-
-        </div>
-      </Carousel> */}
 
 
       {/* Header Middle */}
@@ -248,7 +211,7 @@ function Header({ tableId }) {
                 <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                   <Link to="/">
                     <img
-                      style={{ paddingRight: '30px' }}
+                      style={{ paddingRight: '10px' }}
                       src="assets/images/logo/dark.png"
                       alt="Header Logo"
                     />
