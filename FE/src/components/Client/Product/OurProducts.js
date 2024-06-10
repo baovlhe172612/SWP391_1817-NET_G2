@@ -9,7 +9,7 @@ function OurProducts() {
     const fetchApi = async () => {
       try {
         const data = await get(
-          "http://localhost:5264/api/ProductControlles/getFourProductMin"
+          "http://localhost:5264/api/ProductSizes/getFourProductMin"
         );
         //
         setProducts(data);
