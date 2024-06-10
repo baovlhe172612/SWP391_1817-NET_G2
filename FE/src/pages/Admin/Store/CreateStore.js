@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
+import { Button, Form, Input, InputNumber, Select, Switch, message } from "antd";
 import { useEffect, useState } from "react";
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_STORE, STORES_DTOS } from "../../../helpers/APILinks";
@@ -13,6 +13,11 @@ function CreateStore() {
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
+    if(values.storeName.trim().length == '') {
+      message.error(`Please enter a full name`);
+      return;
+  }
+
     // console.log(values);
     // sửa lại trường cho accountId sang INT
     values.accountId = parseInt(values.accountId);
@@ -44,14 +49,7 @@ function CreateStore() {
     <>
       <h2 style={{ fontWeight: "500", margin: "10px 0 20px 3%" }}>Create Store</h2>
 
-      <Form
-        layout="horizontal"
-        name="create-room"
-        onFinish={handleSubmit}
-        form={form}
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 14 }}
-      >
+      <Form name="create-room" onFinish={handleSubmit} form={form}>
         <Form.Item
           label="Strore name"
           name="storeName"

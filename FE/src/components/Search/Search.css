@@ -1,0 +1,8 @@
+
+
+.search-bar-container{
+ /* Search.css */
+  position: relative;
+  width: 100%; 
+  min-width: 200px;
+}
