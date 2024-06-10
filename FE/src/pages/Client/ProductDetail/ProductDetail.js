@@ -118,7 +118,7 @@ function ProductDetail() {
                     </div>
                     <div className="col-lg-6 pt-5 pt-lg-0">
                       <div className="single-product-content">
-                        <h2 className="title">{productSize.productName}</h2>
+                        <h2 className="title">{productSize.productName} Size {productSize.sizeName}</h2>
                         <div className="price-box">
                           <span className="new-price">{productSize.price}đ</span>
                         </div>
@@ -174,29 +174,55 @@ function ProductDetail() {
 
         <Divider />
         {similarProducts.length > 0 && (
-          <Col span={24}>
-          <div className="similar-products">
-            <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
-            <Carousel autoplay effect="fade" easing="ease" speed={500} autoplaySpeed={2000}>
-              {similarProducts.map((product) => (
-                <div className="slider-item" key={product.productId}>
-                  <Col span={24} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Col span={24} >
+            <div className="similar-products" style={{textAlign:"center"}}>
+              <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
+
+              <div className="row">
+                {similarProducts.map((product) => (
+                  <Col span={12} key={product.productSizeID}>
                     <div className="product-item">
                       <div className="product-img">
-                        <a href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
-                        <Image className="" src={product.img} alt="Product Images" style={{ width: "50%", height: "auto",marginLeft: "27%"}} />
-                        </a>
+                        <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
+                          <img className="primary-img"
+                           src={product.img}
+                            alt="Product Images"
+                          style={{
+                            maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
+                            height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                            marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                          }}
+                           />
+                        </Link>
+                        <div className="product-add-action">
+                          <ul>
+                            <li>
+                              <a
+                                data-tippy="Add to wishlist"
+                                data-tippy-inertia="true"
+                                data-tippy-animation="shift-away"
+                                data-tippy-delay="50"
+                                data-tippy-arrow="true"
+                                data-tippy-theme="sharpborder"
+                              >
+                                <i className="pe-7s-like"></i>
+                              </a>
+                            </li>
+                            <li>
+                              <Link
+                                to={`/productDetail?productId=${product.productId
+                                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
+                              >
+                                <i class="pe-7s-look"></i>
+                              </Link>
+                            </li>
 
-                        {/* <Link href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
-                        <Image className="" src={product.img} alt="Product Images" style={{ width: "50%", height: "auto",marginLeft: "27%"}} />
-                        </Link> */}
+                          </ul>
+                        </div>
                       </div>
                       <div className="product-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                        <a
-                          href={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}
-                          style={{ fontFamily: "Arial", fontWeight: "bold", marginTop: "10px" }}
-                        >
-                            <i class="pe-7s-look"></i>{product.productName}
+                        <a className="product-name" href="shop.html" style={{ fontFamily: "Arial", fontWeight: "bold" }}>
+                          {product.productName} Size {product.sizeName}
                         </a>
                         
                         <div className="price-box pb-1" >
@@ -220,26 +246,11 @@ function ProductDetail() {
                       </div>
                     </div>
                   </Col>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-        </Col>
-          // <div className="similar-products">
-          //   <h3>Sản phẩm tương tự</h3>
-          //   <div className="row">
-          //     {similarProducts.map((product) => (
-          //       <div className="col-lg-3" key={product.id}>
-          //         <div className="similar-product">
-          //           <img src={product.img} alt={product.productName} />
-          //           <h4>{product.productName}</h4>
-          //           <span>{product.price}đ</span>
-          //           <a href={`/productDetail?productId=${product.id}&sizeId=${product.sizeId}`}>Xem chi tiết</a>
-          //         </div>
-          //       </div>
-          //     ))}
-          //   </div>
-          // </div>
+                ))}
+              </div>
+            </div>
+          </Col>
+          
         )}
       </div>
 
