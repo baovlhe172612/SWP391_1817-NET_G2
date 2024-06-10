@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Select, Switch, message } from "antd";
+import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_STORE, STORES_DTOS } from "../../../helpers/APILinks";
@@ -10,40 +10,23 @@ const { Option } = Select;
 function CreateStore() {
   const [Accounts, setAccounts] = useState([]);
   const [form] = Form.useForm();
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const data = await get("http://localhost:5264/api/Account");
-
-        if (data) {
-          setAccounts(data);
-        }
-      } catch (error) {
-        console.log("err in CreateStore", error);
-        setAccounts([]);
-      }
-    };
-
-    fetchApi();
-  }, []);
+  const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
-    if(values.storeName.trim().length == '') {
-      message.error(`Please enter a full name`);
-      return;
-  }
-
     // console.log(values);
     // sửa lại trường cho accountId sang INT
     values.accountId = parseInt(values.accountId);
 
     // sửa lại trường isDelete => từ true => 1 và ngược lại
-    values.isDelete = values.isDelete ? 0 : 1;
+    values.status = values.status ? 1 : 0;
+
+    values.isDelete = 0;
+
 
     console.log(values);
     const dataUpdate = await post(CREATE_STORE, values);
+
+    console.log(dataUpdate)
 
     if (dataUpdate) {
       // thông báo ra hoàn thành tạo
@@ -53,19 +36,22 @@ function CreateStore() {
 
       // chuyển hướng đến listore
       // navigate(`/admin/store/`)
-      navigate(`/admin/store/create`)
+      navigate(`/admin/store/create`);
     }
   };
 
   return (
     <>
-      <h2>Create Store</h2>
+      <h2 style={{ fontWeight: "500", margin: "10px 0 20px 3%" }}>Create Store</h2>
 
-      <Form 
-      layout="horizontal"
-      labelCol={{ span: 3 }}
-      wrapperCol={{ span: 14 }}
-      name="create-room" onFinish={handleSubmit} form={form}>
+      <Form
+        layout="horizontal"
+        name="create-room"
+        onFinish={handleSubmit}
+        form={form}
+        labelCol={{ span: 3 }}
+        wrapperCol={{ span: 14 }}
+      >
         <Form.Item
           label="Strore name"
           name="storeName"
@@ -75,6 +61,7 @@ function CreateStore() {
               message: "Please input your name store!",
             },
           ]}
+          // style={{ minWidth: "40px" }}
         >
           <Input />
         </Form.Item>
@@ -93,7 +80,7 @@ function CreateStore() {
         </Form.Item>
 
         <Form.Item
-          name="isDelete"
+          name="status"
           label="Switch"
           valuePropName="checked"
           initialValue={true}
@@ -106,7 +93,11 @@ function CreateStore() {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ margin: "10px 0 0 5%" }}
+          >
             Submit
           </Button>
         </Form.Item>

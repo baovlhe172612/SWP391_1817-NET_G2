@@ -33,7 +33,7 @@ function LayoutDefaultAdmin() {
     }
   }, [login]);
 
-  const account = useSelector(state => state.AccountReducer);
+  const account = useSelector((state) => state.AccountReducer);
   return (
     <>
       <Layout className="layout-default">
@@ -67,17 +67,19 @@ function LayoutDefaultAdmin() {
               {/* BTN LOGIN/LOGOUT/USER */}
               {login ? (
                 <>
-                  <Button
-                    type="primary"
-                    icon={<UserOutlined />}
-                    style={{
-                      margin: "0 8px",
-                      backgroundColor: "#abd373",
-                      borderColor: "#abd373",
-                    }}
-                  >
-                  {account.fullName}
-                  </Button>
+                  <Link to={`/admin/profile`}>
+                    <Button
+                      type="primary"
+                      icon={<UserOutlined />}
+                      style={{
+                        margin: "0 8px",
+                        backgroundColor: "#abd373",
+                        borderColor: "#abd373",
+                      }}
+                    >
+                      {account.fullName}
+                    </Button>
+                  </Link>
                   {/* LOGOUT */}
                   <Link to="/admin/logout">
                     <Button
@@ -123,7 +125,9 @@ function LayoutDefaultAdmin() {
             <></>
           )}
           <Content className="content">
-            <Outlet />
+            <div className="content_header">
+              <Outlet />
+            </div>
           </Content>
         </Layout>
       </Layout>
