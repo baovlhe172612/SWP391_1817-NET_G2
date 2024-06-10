@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { get } from '../../../helpers/API.helper';
-import { Carousel, Col, Divider, Image } from 'antd';
+import { Button, Carousel, Col, Divider, Image } from 'antd';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../reducers/cartSlice';
 
-function ProductDetail() {
+function ProductDetail(props) {
+
   // Sử dụng useLocation hook để lấy thông tin về URL hiện tại
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -20,7 +23,7 @@ function ProductDetail() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${sizeId}`);
-     
+
       setProducts(data);
       //Lấy danh sách các sản phẩm tương tự
       const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
@@ -28,7 +31,7 @@ function ProductDetail() {
       // Ensure the response is an array before filtering
       if (Array.isArray(similarProductsData)) {
         // Filter out the current product from the list of similar products
-        const filteredSimilarProducts = similarProductsData.slice(0,3);
+        const filteredSimilarProducts = similarProductsData.slice(0, 3);
         console.log("filteredSimilarProducts", filteredSimilarProducts)
         setSimilarProducts(filteredSimilarProducts);
       } else {
@@ -55,7 +58,7 @@ function ProductDetail() {
       // Ensure the response is an array before filtering
       if (Array.isArray(similarProductsData)) {
         // Filter out the current product from the list of similar products
-        const filteredSimilarProducts = similarProductsData.slice(0,3);
+        const filteredSimilarProducts = similarProductsData.slice(0, 3);
         console.log("filteredSimilarProducts", filteredSimilarProducts)
         setSimilarProducts(filteredSimilarProducts);
       } else {
@@ -65,6 +68,14 @@ function ProductDetail() {
     } catch (error) {
       console.error('Error updating size:', error);
     }
+  };
+
+  const dispatch = useDispatch()
+  const handleAddToCart = (product) => {
+    dispatch(addToCart({
+      ...product,
+      quantity: 1
+    }));
   };
 
   return (
@@ -146,17 +157,22 @@ function ProductDetail() {
                         <p className="short-desc">
                           Please place an order at the nearest Mixue store. This website only introduces products and does not allow for orders.
                         </p>
-                        <ul className="quantity-with-btn">
-                          {/* <li className="quantity">
-                          <div className="cart-plus-minus">
-                            <input className="cart-plus-minus-box" value="1" type="text" />
-                          </div>
-                        </li> */}
-                          <li className="add-to-cart">
-                            <a className="btn-custom" href="#" style={{ border: '4px solid black' }}>Thêm vào giỏ hàng</a>
-                          </li>
+                        <Button
+                          className="add-to-cart-btn"
+                          style={{
+                            backgroundColor: '#ff9900',
+                            color: 'white',
+                            border: 'none',
+                            padding: '10px 20px',
+                            cursor: 'pointer',
+                            borderRadius: '5px'
+                          }}
+                          onClick={() => handleAddToCart(productSize)} // Truyền productSize vào hàm handleAddToCart
+                          variant="success"
+                        >
+                          Thêm vào giỏ hàng
+                        </Button>
 
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -174,84 +190,79 @@ function ProductDetail() {
 
         <Divider />
         {similarProducts.length > 0 && (
-          <Col span={24} >
-            <div className="similar-products" style={{textAlign:"center"}}>
-              <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
-
-              <div className="row">
+          <Col span={24}>
+            <div className="similar-products">
+              <h3 style={{ textAlign: 'center', fontWeight: "bold", marginBottom: "20px" }}>Sản phẩm tương tự</h3>
+              <Carousel autoplay effect="fade" easing="ease" speed={800} className="carousel-container">
                 {similarProducts.map((product) => (
-                  <Col span={12} key={product.productSizeID}>
+                  <div className="slider-item" key={product.productSizeID}>
                     <div className="product-item">
                       <div className="product-img">
                         <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
-                          <img className="primary-img"
-                           src={product.img}
-                            alt="Product Images"
-                          style={{
-                            maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
-                            height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
-                            marginBottom: "10px" // Khoảng cách phía dưới ảnh
-                          }}
-                           />
+                          <img className="primary-img" src={product.img} alt="Product Images"
+                            style={{
+                              maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
+                              height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                              marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                            }} />
                         </Link>
-                        <div className="product-add-action">
-                          <ul>
-                            <li>
-                              <a
-                                data-tippy="Add to wishlist"
-                                data-tippy-inertia="true"
-                                data-tippy-animation="shift-away"
-                                data-tippy-delay="50"
-                                data-tippy-arrow="true"
-                                data-tippy-theme="sharpborder"
-                              >
-                                <i className="pe-7s-like"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <Link
-                                to={`/productDetail?productId=${product.productId
-                                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
-                              >
-                                <i class="pe-7s-look"></i>
-                              </Link>
-                            </li>
-
-                          </ul>
-                        </div>
+                        {/* <div className="product-add-action">
+                  <ul>
+                    <li>
+                      <a
+                        data-tippy="Add to wishlist"
+                        data-tippy-inertia="true"
+                        data-tippy-animation="shift-away"
+                        data-tippy-delay="50"
+                        data-tippy-arrow="true"
+                        data-tippy-theme="sharpborder"
+                      >
+                        <i className="pe-7s-like"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
+                        <i className="pe-7s-look"></i>
+                      </Link>
+                    </li>
+                  </ul>
+                </div> */}
                       </div>
-                      <div className="product-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                        <a className="product-name" href="shop.html" style={{ fontFamily: "Arial", fontWeight: "bold" }}>
+                      <div className="product-content">
+
+                        <a className="product-name" href={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
                           {product.productName} Size {product.sizeName}
                         </a>
-                        
-                        <div className="price-box pb-1" >
+                        <div className="price-box pb-1">
                           <span className="new-price" style={{ fontSize: "16px" }}>
                             {product.price}đ
                           </span>
                         </div>
-                        <div className="price-box pb-1">
-                  <button className="add-to-cart-btn" style={{
-                    backgroundColor: '#ff9900',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    marginBottom: '20px'
-                  }}>
+                        {/* <div className="price-box pb-1">
+                  <button
+                    className="add-to-cart-btn"
+                    style={{
+                      backgroundColor: '#ff9900',
+                      color: 'white',
+                      border: 'none',
+                      padding: '10px 20px',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      marginTop: '10px'
+                    }}
+                  >
                     Thêm vào giỏ hàng
                   </button>
-                </div>
+                </div> */}
                       </div>
                     </div>
-                  </Col>
+                  </div>
                 ))}
-              </div>
+              </Carousel>
             </div>
           </Col>
-          
         )}
+
       </div>
 
     </>
