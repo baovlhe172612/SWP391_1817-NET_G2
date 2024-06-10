@@ -42,6 +42,27 @@ namespace Swp391.Repository
             return storeDtosByStatus;
         }
 
+        public List<StoreDtos> StoreByNameRepo(string name)
+        {
+            var storeDtosByName = (from s in _context.Stores
+                                     join a in _context.Accounts on s.StoreId equals a.StoreId
+                                     where s.StoreName.Contains(name) && a.RoleId == 2
+                                     select new StoreDtos
+                                     {
+                                         StoreId = s.StoreId,
+                                         StoreName = s.StoreName,
+                                         Location = s.Location,
+                                         IsDelete = s.IsDelete,
+                                         Status = s.Status,
+                                         AccountName = a.UserName,
+                                         RoleId = a.RoleId,
+                                         AccountId = a.AccountId,
+                                     }
+                                    ).ToList(); // Sử dụng ToList() để lấy danh sách các kết quả
+
+            return storeDtosByName;
+        }
+
         public void createStore(Store store)
         {
             _context.Stores.Add(store);

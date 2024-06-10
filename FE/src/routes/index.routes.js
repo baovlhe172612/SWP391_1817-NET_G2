@@ -34,6 +34,7 @@ import ProtectedRole from "../components/Admin/ProtectedRole/ProtectedRole";
 import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
+import SearchStore from "../pages/Admin/Store/SearchStore";
 
 const routes = [
   {
@@ -116,6 +117,10 @@ const routes = [
                   {
                     path: "edit/:id",
                     element: <UpdateStore />,
+                  },
+                  {
+                    path: "search",
+                    element: <SearchStore />,
                   },
                 ],
               },

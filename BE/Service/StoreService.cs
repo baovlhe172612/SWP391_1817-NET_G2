@@ -84,5 +84,9 @@ namespace Swp391.Service
             return storeRepo.getAllStoreByStatus(status);
         }
 
+        public List<StoreDtos> StoreByNameService(string name) {
+            return storeRepo.StoreByNameRepo(name);
+        }
+
     }
 }

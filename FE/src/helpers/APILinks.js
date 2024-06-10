@@ -8,6 +8,7 @@ export const CREATE_STORE = `${LOCALHOST_API}/api/stores/POST`;
 export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
 export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/PATCH`;
+export const SEARCH_STORE = `${LOCALHOST_API}/api/stores/search`;
 
 // API ACCOUNTDTOS
 export const GET_ACCOUNT_BY_AUTH = `${LOCALHOST_API}/api/AccountDtos/GET`
