@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag, Input } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function ListCategory() {
   const [Category, setCategory] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const [updated, setUpdated] = useState(false); // Add a state to trigger re-fetch
 
   useEffect(() => {
@@ -21,6 +22,14 @@ function ListCategory() {
 
     fetchApi();
   }, [updated]); // Add updated state to dependency array
+
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredCategories = Category.filter(category =>
+    category.categoryName.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   const columns = [
     {
@@ -73,11 +82,11 @@ function ListCategory() {
     if (confirm.isConfirmed) {
       try {
         const dataDelete = await patch(
-          `http://localhost:5264/api/Category/delete/${record.categoryId},
+          `http://localhost:5264/api/Category/delete/${record.categoryId}`,
           {
             isDelete: 1,
           }
-        `);
+        );
         console.log("dataDelete: ", dataDelete);
 
         if (dataDelete) {
@@ -101,7 +110,13 @@ function ListCategory() {
 
   return (
     <>
-      <Table columns={columns} dataSource={Category} rowKey="categoryId" />
+      <Input
+        placeholder="Search Category"
+        value={searchText}
+        onChange={handleSearch}
+        style={{ marginBottom: 20 }}
+      />
+      <Table columns={columns} dataSource={filteredCategories} rowKey="categoryId" />
     </>
   );
 }
