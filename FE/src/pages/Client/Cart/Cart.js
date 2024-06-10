@@ -1,7 +1,13 @@
 import React from "react";
+import { Container, Row, Table } from "react-bootstrap"
+import { useSelector } from "react-redux"
+import CartItem from "../Cart/CartItem.js"
 
 function Cart() {
+  const cart = useSelector(state => state.cart)
   return (
+    <Container>
+      <Row>
     <>
       <div class="main-wrapper">
         {/* <!-- Begin Main Content Area --> */}
@@ -40,8 +46,23 @@ function Cart() {
                             <th class="product-subtotal">Total</th>
                           </tr>
                         </thead>
+
+
+{/* <!-- product --> */}
                         <tbody>
-                          <tr>
+
+                          {
+                                cart?.list.map(item => {
+                                    return (
+                                        <CartItem 
+                                            key={item?.productSizeID}
+                                            data={item}
+                                        />
+                                    )
+                                })
+                            }
+
+                          {/* <tr>
                             <td class="product_remove">
                               <a href="#">
                                 <i
@@ -55,108 +76,14 @@ function Cart() {
                                 ></i>
                               </a>
                             </td>
-                            {/* <td class="product-thumbnail">
-                              <a href="#">
-                                <img
-                                  src="assets/images/product/small-size/1-1-112x124.png"
-                                  alt="Cart Thumbnail"
-                                />
-                              </a>
-                            </td> */}
-                            <td class="product-name">
-                              <a href="#">American Marigold</a>
-                            </td>
-                            <td class="product-price">
-                              <span class="amount">$23.45</span>
-                            </td>
-                            <td class="quantity">
-                              <div class="cart-plus-minus">
-                                <input
-                                  class="cart-plus-minus-box"
-                                  value="1"
-                                  type="text"
-                                />
-                                <div class="dec qtybutton">
-                                  <i class="fa fa-minus"></i>
-                                </div>
-                                <div class="inc qtybutton">
-                                  <i class="fa fa-plus"></i>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="product-subtotal">
-                              <span class="amount">$23.45</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="product_remove">
-                              <a href="#">
-                                <i
-                                  class="pe-7s-close"
-                                  data-tippy="Remove"
-                                  data-tippy-inertia="true"
-                                  data-tippy-animation="shift-away"
-                                  data-tippy-delay="50"
-                                  data-tippy-arrow="true"
-                                  data-tippy-theme="sharpborder"
-                                ></i>
-                              </a>
-                            </td>
-                            {/* <td class="product-thumbnail">
-                              <a href="#">
-                                <img
-                                  src="assets/images/product/small-size/1-2-112x124.png"
-                                  alt="Cart Thumbnail"
-                                />
-                              </a>
-                            </td> */}
-                            <td class="product-name">
-                              <a href="#">Black Eyed Susan</a>
-                            </td>
-                            <td class="product-price">
-                              <span class="amount">$25.45</span>
-                            </td>
-                            <td class="quantity">
-                              <div class="cart-plus-minus">
-                                <input
-                                  class="cart-plus-minus-box"
-                                  value="1"
-                                  type="text"
-                                />
-                                <div class="dec qtybutton">
-                                  <i class="fa fa-minus"></i>
-                                </div>
-                                <div class="inc qtybutton">
-                                  <i class="fa fa-plus"></i>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="product-subtotal">
-                              <span class="amount">$25.45</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="product_remove">
-                              <a href="#">
-                                <i
-                                  class="pe-7s-close"
-                                  data-tippy="Remove"
-                                  data-tippy-inertia="true"
-                                  data-tippy-animation="shift-away"
-                                  data-tippy-delay="50"
-                                  data-tippy-arrow="true"
-                                  data-tippy-theme="sharpborder"
-                                ></i>
-                              </a>
-                            </td>
-                            {/* <td class="product-thumbnail">
+                            <td class="product-thumbnail">
                               <a href="#">
                                 <img
                                   src="assets/images/product/small-size/1-3-112x124.png"
                                   alt="Cart Thumbnail"
                                 />
                               </a>
-                            </td> */}
+                            </td>
                             <td class="product-name">
                               <a href="#">Bleeding Heart</a>
                             </td>
@@ -181,7 +108,7 @@ function Cart() {
                             <td class="product-subtotal">
                               <span class="amount">$30.45</span>
                             </td>
-                          </tr>
+                          </tr> */}
                         </tbody>
                       </table>
                     </div>
@@ -191,11 +118,11 @@ function Cart() {
                         <div class="cart-page-total">
                           <h2>Cart totals</h2>
                           <ul>
-                            <li>
+                            {/* <li>
                               Subtotal <span>$79.35</span>
-                            </li>
+                            </li> */}
                             <li>
-                              Total <span>$79.35</span>
+                              Total <span>{cart?.total}đ</span>
                             </li>
                           </ul>
                           <div class="center-button">
@@ -215,7 +142,10 @@ function Cart() {
 
       </div>
     </>
+    </Row>
+    </Container>
   );
+  
 }
 
 export default Cart;
