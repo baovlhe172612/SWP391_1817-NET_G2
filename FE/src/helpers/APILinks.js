@@ -2,6 +2,7 @@ const LOCALHOST_API = "http://localhost:5264"
 
 
 // API ACCOUNT
+export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account`
 
 
 // API CATEGORY
@@ -19,7 +20,7 @@ export const LIST_STORES = `${LOCALHOST_API}/api/stores`;
 export const CREATE_STORE = `${LOCALHOST_API}/api/stores/POST`;
 export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
-export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/PATCH`;
+export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/Update`;
 export const SEARCH_STORE = `${LOCALHOST_API}/api/stores/search`;
 
 // API Category

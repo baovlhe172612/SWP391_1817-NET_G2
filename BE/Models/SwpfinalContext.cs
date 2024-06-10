@@ -221,7 +221,8 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.dateDeleted).HasColumnName("dateDeleted");
         });
 
         modelBuilder.Entity<Table>(entity =>

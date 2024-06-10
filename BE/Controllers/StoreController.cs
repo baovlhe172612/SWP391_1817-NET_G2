@@ -71,8 +71,8 @@ namespace Swp391.Controllers
         {
             try
             {
-                storeService.UpdateStore(store);
-                return Ok(store);
+                var newStore = storeService.UpdateStore(store);
+                return Ok(newStore);
             }
             catch (Exception ex)
             {

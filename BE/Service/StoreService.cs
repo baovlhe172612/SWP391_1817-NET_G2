@@ -65,16 +65,19 @@ namespace Swp391.Service
         /// <summary>
         /// hàm update all store 
         /// </summary>
-        public void UpdateStore(Store store)
+        public Store UpdateStore(Store store)
         {
             try
             {
-                storeRepo.UpdateStore(store);
+                var storeNew = storeRepo.UpdateStore(store);
+                return storeNew;
             }
             catch (System.Exception ex)
             {
                 throw new Exception("Update fail: " + ex.Message);
             }
+
+            return null;
         }
 
         /// <summary>

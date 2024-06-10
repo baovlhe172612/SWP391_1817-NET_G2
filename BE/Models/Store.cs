@@ -16,7 +16,8 @@ public partial class Store
 
     public int? Status { get; set; }
 
-    public DateOnly? StatusDate { get; set; }
+    public DateOnly? dateCreated { get; set; }
+    public DateOnly? dateDeleted { get; set; }
 
     [JsonIgnore]
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();

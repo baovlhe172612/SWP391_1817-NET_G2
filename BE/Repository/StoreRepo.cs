@@ -45,19 +45,19 @@ namespace Swp391.Repository
         public List<StoreDtos> StoreByNameRepo(string name)
         {
             var storeDtosByName = (from s in _context.Stores
-                                     join a in _context.Accounts on s.StoreId equals a.StoreId
-                                     where s.StoreName.Contains(name) && a.RoleId == 2
-                                     select new StoreDtos
-                                     {
-                                         StoreId = s.StoreId,
-                                         StoreName = s.StoreName,
-                                         Location = s.Location,
-                                         IsDelete = s.IsDelete,
-                                         Status = s.Status,
-                                         AccountName = a.UserName,
-                                         RoleId = a.RoleId,
-                                         AccountId = a.AccountId,
-                                     }
+                                   join a in _context.Accounts on s.StoreId equals a.StoreId
+                                   where s.StoreName.Contains(name) && a.RoleId == 2
+                                   select new StoreDtos
+                                   {
+                                       StoreId = s.StoreId,
+                                       StoreName = s.StoreName,
+                                       Location = s.Location,
+                                       IsDelete = s.IsDelete,
+                                       Status = s.Status,
+                                       AccountName = a.UserName,
+                                       RoleId = a.RoleId,
+                                       AccountId = a.AccountId,
+                                   }
                                     ).ToList(); // Sử dụng ToList() để lấy danh sách các kết quả
 
             return storeDtosByName;
@@ -73,24 +73,23 @@ namespace Swp391.Repository
         /// <summary>
         /// Update IsDelete
         /// </summary>
-        public void UpdateStore(Store store)
+        public Store UpdateStore(Store store)
         {
             try
-            {
-                var existingStore = _context.Stores.Local.FirstOrDefault(s => s.StoreId == store.StoreId)
-                ?? _context.Stores.Attach(store).Entity;
-                existingStore.StoreName = store.StoreName;
-                existingStore.Location = store.Location;
-                existingStore.IsDelete = store.IsDelete;
-                _context.Update(existingStore);
+            {   
+                store.dateCreated = null;
+                store.dateDeleted = null;
+                _context.Stores.Update(store);
                 _context.SaveChanges();
+                return store;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception("Update fail: " + ex.Message);
+                throw new Exception("Update failed: " + ex.Message);
             }
+            // Bổ sung return mặc định (sẽ không bao giờ tới đây do catch block ném exception)
+            return null;
         }
-
 
     }
 }
