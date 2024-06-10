@@ -28,7 +28,7 @@ function ListFeedBack() {
         const date = new Date(dateString);
         // US English uses month-day-year order
         // console.log(date.toLocaleDateString('en-US'));
-        // → "12/19/2012"
+        // → "12/20/2012"
 
         // British English uses day-month-year order
         // console.log(date.toLocaleDateString('en-GB'));

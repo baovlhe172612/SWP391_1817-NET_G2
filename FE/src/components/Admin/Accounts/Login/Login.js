@@ -34,6 +34,8 @@ function Login() {
           // không dùng session nữa => gửi lên store 1 thằng account mới luôn
           dispatch(accountActions(accountByToken));
 
+          console.log(accountByToken)
+
           // nếu Account có role là employee => tự động chuyển đến trang listTable
           if (accountByToken.roleId == 3) {
             navigate("/admin/table");

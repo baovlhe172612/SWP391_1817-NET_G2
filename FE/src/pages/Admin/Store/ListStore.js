@@ -22,8 +22,10 @@ function ListStore() {
         let data = [];
         if (searchStatus.get("status")) {
           data = await get(`${LIST_STORES}?status=${searchStatus.get("status")}`);
+         
         } else {
           data = await get(`${LIST_STORES}`);
+        
         }
 
         console.log('hello')
@@ -139,6 +141,7 @@ function ListStore() {
     try {
       // truy vấn store
       const dataStore = await get(`${LIST_STORES}?status=${status}`);
+      console.log("dataStore",dataStore);
       if (dataStore) {
         setStores(dataStore);
       }

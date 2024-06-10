@@ -7,14 +7,7 @@ import { addToCart } from "../../../redux/slice/cartSlice.js"
 
 function Product(props) {
   const { product } = props;
-  const dispatch = useDispatch()
-    const handleAddToCart = () => {
-        dispatch(addToCart({
-            ...product,
-            quantity: 1
-        }))
-        
-    }
+  console.log(props)
 
   return (
     <>
@@ -24,14 +17,14 @@ function Product(props) {
             <div className="product-item">
               <div className="product-img">
                 <Link
-                  to={`/productDetail?productId=${
-                    product.productId
-                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
+                  to={`/productDetail?productId=${product.productId
+                    }&sizeId=${1}&categoryId=${product.categoryId}`}
                 >
                   <img
                     className="primary-img"
                     src={product.img}
                     alt="Product Images"
+                  // style={{height: "50%", width: "50%"}}
                   />
                 </Link>
                 <div className="product-add-action">
@@ -50,9 +43,8 @@ function Product(props) {
                     </li>
                     <li>
                       <Link
-                        to={`/productDetail?productId=${
-                          product.productId
-                        }&sizeId=${product.sizeId}&categoryId=${product.category}`}
+                        to={`/productDetail?productId=${product.productId
+                          }&sizeId=${1}&categoryId=${product.categoryId}`}
                       >
                         <i className="pe-7s-look"></i>
                       </Link>
@@ -60,36 +52,50 @@ function Product(props) {
                   </ul>
                 </div>
               </div>
-              <div className="product-content">
-                <a
-                  className="product-name"
-                  href="shop.html"
+              <div
+                class="product-content"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
+                {/* <a
+                  class="product-name"
+                  href={`/productDetail?productId=${product.productId
+                  }&sizeId=${1}&categoryId=${product.categoryId}`}
                   style={{ fontFamily: "Arial", fontWeight: "bold" }}
                 >
-                  {product.productName} Size {product.sizeName}
-                </a>
-                <div className="price-box pb-1">
-                  <span className="new-price" style={{ fontSize: "16px" }}>
-                    {product.price}đ
+                  {product.productName}
+                </a> */}
+                <Link
+                 class="product-name"
+                        to={`/productDetail?productId=${product.productId
+                          }&sizeId=${1}&categoryId=${product.categoryId}`}
+                      >
+                        <i class="pe-7s-look"></i>
+                        {product.productName}
+                      </Link>
+                <div class="price-box pb-1">
+                  <span class="new-price" style={{ fontSize: "16px" }}>
+                    {product.price + 10000}đ
                   </span>
                 </div>
                 <div className="price-box pb-1">
-                  <Button
-                    className="add-to-cart-btn"
-                    style={{
-                      backgroundColor: '#ff9900',
-                      color: 'white',
-                      border: 'none',
-                      padding: '10px 20px',
-                      cursor: 'pointer',
-                      borderRadius: '5px'
-                    }}
-                    onClick={handleAddToCart} variant="success"
-                  >
+                  <button className="add-to-cart-btn" style={{
+                    backgroundColor: '#ff9900',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    borderRadius: '5px'
+                  }}>
                     Thêm vào giỏ hàng
-                  </Button>
+                  </button>
                 </div>
               </div>
+
             </div>
           </Col>
         </>
