@@ -68,11 +68,11 @@ export default function CartItem({ data }) {
                                 title="Card title"
                                 description=""
                             /> */}
-                                <Col lg={12} md={12} xs={24}>
+                                <Col lg={12} md={12} xs={20}>
                                     <a href="#"> {data.productName} Size {data.sizeName}</a>
                                 </Col>
                                 <Col lg={12} md={12} xs={48}>
-                                    <div className="amount"> {data.price}đ</div>
+                                    <div className="amount"> {data.price.toLocaleString('vi-VN')}đ * {quantity}</div>
                                 </Col>
 
                             </div>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
 import { clearCart } from "../../../reducers/cartSlice.js";
 import { Link } from "react-router-dom";
+import { Button } from "antd";
 
 function Cart() {
   const cart = useSelector(state => state.cart);
@@ -28,7 +29,7 @@ function Cart() {
                         <h2 class="breadcrumb-heading">Cart Page</h2>
                         <ul>
                           <li>
-                            <a href="/">Home</a>
+                            <Link to="/">Home</Link>
                           </li>
                           <li>Cart Page</li>
                         </ul>
@@ -81,7 +82,7 @@ function Cart() {
                                   fontWeight: '800',
                                   padding: '15px 0px',
                                 }}>
-                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
                                 </li>
                               </ul>
                               <Link
@@ -95,7 +96,7 @@ function Cart() {
                                   padding: '10px 20px',
                                   textDecoration: 'none', // Important to remove underline
                                   color: '#fff', // Use hex color without !important
-                                  backgroundColor: '#007bff', // Ensure background color is added
+                                  backgroundColor: 'green', 
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
@@ -108,7 +109,7 @@ function Cart() {
                         </div>
                       </>) : ((
                         <div style={{ textAlign: 'center', padding: '50px 0' }}>
-                          <h3 style={{color:'green'}}>Your cart is empty</h3>
+                          <h3 style={{color:'green', marginBottom:'10%'}}>Your cart is empty</h3>
                           <p>
                             <Link
                               to="/"
@@ -116,9 +117,11 @@ function Cart() {
                                 color: '#007bff',
                                 textDecoration: 'underline',
                                 fontWeight: 'bold',
+                               
                               }}
                             >
-                              Continue shopping
+                              <Button type="primary" > Continue shopping</Button>
+                             
                             </Link>
                           </p>
                         </div>
