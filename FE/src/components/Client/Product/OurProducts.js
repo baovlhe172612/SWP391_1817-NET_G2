@@ -12,7 +12,7 @@ function OurProducts() {
           "http://localhost:5264/api/ProductSizes/getFourProductMin"
         );
         //
-        console.log("data: ",data)
+        //console.log("data: ",data)
         setProducts(data);
       } catch (error) {
         console.log("Lỗi tại OurProducts", error);

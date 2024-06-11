@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { removeItem, updateQuantity } from "../../../reducers/cartSlice.js";
 import styles from "./CartItem.module.css";
 
-export default function CartItem({ data }) {
+export default function CartItem({ data, onItemChange  }) {
     const dispatch = useDispatch();
     
     const [quantity, setQuantity] = useState(data?.quantity);
@@ -17,12 +17,14 @@ export default function CartItem({ data }) {
 
     const handleRemove = () => {
         dispatch(removeItem({ productSizeID: data?.productSizeID }));
+        onItemChange(data.productSizeID, 0, data.price); 
     };
 
     useEffect(() => {
         setTotalPrice(data?.price * quantity);
         dispatch(updateQuantity({ productSizeID: data?.productSizeID, quantity }));
-    }, [quantity, data?.price, data?.productSizeID, dispatch]);
+        onItemChange(data.productSizeID, quantity, data.price);
+    }, [quantity, data?.price, data?.productSizeID, dispatch, onItemChange]);
 
     return(
         <tr>
@@ -62,7 +64,7 @@ export default function CartItem({ data }) {
                                 setQuantity(pre => pre - 1);
                             }
                         }}>-</button>
-                        <input type="number" value={quantity} className={styles.input} onChange={handleChange} />
+                        <input className={styles.input}  value={quantity} onChange={handleChange} />
                         <button className={styles.changeBtn} onClick={() => setQuantity(pre => pre + 1)}>+</button>
                     </div>
                 </div>
@@ -71,5 +73,7 @@ export default function CartItem({ data }) {
                 <span className="amount">{totalPrice}đ</span>
             </td>
         </tr>
+        
+
     );
 }
