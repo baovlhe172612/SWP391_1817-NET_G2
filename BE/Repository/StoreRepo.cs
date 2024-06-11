@@ -13,14 +13,12 @@ namespace Swp391.Repository
         /// Thao tác với Models Store => tạo store mới
         /// </summary>
         private SwpfinalContext _context = new SwpfinalContext();
-
         public List<Store> getAllStore()
         {
             return _context.Stores
                             .Where(store => store.IsDelete == 0)
                             .ToList();
         }
-
         public List<StoreDtos> getAllStoreByStatus(int status)
         {
             var storeDtosByStatus = (from s in _context.Stores
@@ -38,14 +36,12 @@ namespace Swp391.Repository
                                          AccountId = a.AccountId,
                                      }
                                     ).ToList(); // Sử dụng ToList() để lấy danh sách các kết quả
-
             return storeDtosByStatus;
         }
 
         public void createStore(Store store)
         {
             _context.Stores.Add(store);
-
             _context.SaveChanges();
         }
 
@@ -60,7 +56,9 @@ namespace Swp391.Repository
                 ?? _context.Stores.Attach(store).Entity;
                 existingStore.StoreName = store.StoreName;
                 existingStore.Location = store.Location;
+                existingStore.Status = store.Status;
                 existingStore.IsDelete = store.IsDelete;
+                existingStore.dateCreated = null;
                 _context.Update(existingStore);
                 _context.SaveChanges();
             }
@@ -69,7 +67,5 @@ namespace Swp391.Repository
                 throw new Exception("Update fail: " + ex.Message);
             }
         }
-
-
     }
 }

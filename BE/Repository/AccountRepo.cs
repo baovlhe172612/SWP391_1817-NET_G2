@@ -162,6 +162,7 @@ namespace Swp391.Repository
                         }
                         // Update fields
                         existingAccount.FullName = newAccount.FullName;
+                        existingAccount.PassWord = newAccount.PassWord;
                         existingAccount.Status = newAccount.Status;
                         existingAccount.Email = newAccount.Email;
                         existingAccount.Address = newAccount.Address;

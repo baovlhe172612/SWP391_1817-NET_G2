@@ -75,7 +75,7 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
@@ -209,7 +209,6 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Size>(entity =>
         {
             entity.ToTable("Size");
-
             entity.Property(e => e.SizeId).HasColumnName("SizeID");
             entity.Property(e => e.SizeName).HasMaxLength(50);
             entity.Property(e => e.Status).HasColumnName("status");
@@ -221,7 +220,7 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
         });
 
         modelBuilder.Entity<Table>(entity =>
