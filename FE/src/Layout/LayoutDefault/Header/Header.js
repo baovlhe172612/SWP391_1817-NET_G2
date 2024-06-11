@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List} from 'antd';
+import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List, App} from 'antd';
 import "./Header.css"
-const { Search } = Input;
+import  Search  from '../../../components/Search/Search';
+
+
 
 function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const [query, setQuery] = useState("");
-  
-  const [results, setResults] = useState([]);
-  const Navigate = useNavigate();
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -27,34 +26,7 @@ function Header({ tableId }) {
 
   
 
-  const handleSearch = (value) => {
-    Navigate(`listProduct?search=${value}`);
-  };
 
-  const fetchSearchResults = async (searchQuery) => {
-    if (!searchQuery) {
-      setResults([]);
-      return;
-    }
-    try {
-      const response = await fetch(`http://localhost:5264/api/ProductControlles/search?search=${searchQuery}`);
-      const data = await response.json();
-      setResults(data);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  };
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if(query != null){
-        fetchSearchResults(query); // query ở đây chính là searchQuery
-      }
-      
-    }, 2000);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [query]);
   
   return (
     <>
@@ -104,35 +76,9 @@ function Header({ tableId }) {
 
 
                     
-                   <Search
-                    placeholder="Search for products"
-                    
-                    enterButton
-                    onChange={e => {
-                      const value = e.target.value;
-                      if (value.length >= 2) {
-                          setQuery(value);
-                      } else {
-                          setQuery(null); // Hoặc giá trị phù hợp khi không đủ ký tự
-                      }
-                  }}
-                    onSearch={handleSearch}
-                   />
+                   <Search />
                    
-                   {results.length > 0 && (
-                      <List
-                        itemLayout="horizontal"
-                        dataSource={results}
-                        renderItem={item => (
-                          <List.Item>
-                            <List.Item.Meta
-                              title={item.productName}
-                              price={item.price}
-                            />
-                          </List.Item>
-                        )}
-                      />
-                    )}
+                  
                   
 
                   <ul className="d-flex align-items-center m-0">

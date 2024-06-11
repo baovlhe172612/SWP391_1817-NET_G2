@@ -65,14 +65,14 @@ function Cart() {
                                 ></i>
                               </a>
                             </td>
-                            <td class="product-thumbnail">
+                            {/* <td class="product-thumbnail">
                               <a href="#">
                                 <img
                                   src="assets/images/product/small-size/1-1-112x124.png"
                                   alt="Cart Thumbnail"
                                 />
                               </a>
-                            </td>
+                            </td> */}
                             <td class="product-name">
                               <a href="#">American Marigold</a>
                             </td>
@@ -112,14 +112,14 @@ function Cart() {
                                 ></i>
                               </a>
                             </td>
-                            <td class="product-thumbnail">
+                            {/* <td class="product-thumbnail">
                               <a href="#">
                                 <img
                                   src="assets/images/product/small-size/1-2-112x124.png"
                                   alt="Cart Thumbnail"
                                 />
                               </a>
-                            </td>
+                            </td> */}
                             <td class="product-name">
                               <a href="#">Black Eyed Susan</a>
                             </td>
@@ -159,14 +159,14 @@ function Cart() {
                                 ></i>
                               </a>
                             </td>
-                            <td class="product-thumbnail">
+                            {/* <td class="product-thumbnail">
                               <a href="#">
                                 <img
                                   src="assets/images/product/small-size/1-3-112x124.png"
                                   alt="Cart Thumbnail"
                                 />
                               </a>
-                            </td>
+                            </td> */}
                             <td class="product-name">
                               <a href="#">Bleeding Heart</a>
                             </td>
@@ -195,36 +195,7 @@ function Cart() {
                         </tbody>
                       </table>
                     </div>
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="coupon-all">
-                          {/* <div class="coupon">
-                            <input
-                              id="coupon_code"
-                              class="input-text"
-                              name="coupon_code"
-                              value=""
-                              placeholder="Coupon code"
-                              type="text"
-                            />
-                            <input
-                              class="button mt-xxs-30"
-                              name="apply_coupon"
-                              value="Apply coupon"
-                              type="submit"
-                            />
-                          </div> */}
-                          <div class="coupon2">
-                            <input
-                              class="button"
-                              name="update_cart"
-                              value="Update cart"
-                              type="submit"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
                     <div class="row">
                       <div class="col-md-5 ml-auto">
                         <div class="cart-page-total">
@@ -237,7 +208,11 @@ function Cart() {
                               Total <span>$79.35</span>
                             </li>
                           </ul>
-                          <a href="#">Proceed to checkout</a>
+                          <div class="center-button">
+                            <a href="#">Proceed to checkout</a>
+                          </div>
+
+
                         </div>
                       </div>
                     </div>

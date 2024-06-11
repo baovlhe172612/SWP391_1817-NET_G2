@@ -71,10 +71,8 @@ function Login() {
         // message login success
         alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
 
-        if (values.remember) {
-          // set TOKEN for login again
-          setCookie("token", dataAuthen.token, 10);
-        }
+        // set TOKEN for login again
+        setCookie("token", dataAuthen.token, 10);
 
         // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));
@@ -99,11 +97,11 @@ function Login() {
       // alear_false("Đăng nhập thất bại", "False");
     }
   };
+
   return (
     <>
       <div className="container">
         <div className="signin-content">
-          {/* FORM */}
           <div className="signin-form">
             <h2 className="form-title">Sign in</h2>
             <Form
@@ -153,27 +151,19 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
-          </div>
-
-          {/* IMAGE */}
-          <div className="signin-image">
-            <figure>
-              <img
-                src="https://upload.wikimedia.org/wikipedia/vi/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg"
-                alt="sign in"
-              />
-            </figure>
-            {/* LINK */}
             <Link className="signup-image-link" to="/admin/register">
-              Create an account
-            </Link>
 
-            <Link className="signup-image-link" to="/admin/forgotPassword">
-              Forgot Password
+              <Button type="primary" >
+                Create an account
+              </Button>
             </Link>
           </div>
+
+     
         </div>
       </div>
+     
+
     </>
   );
 }

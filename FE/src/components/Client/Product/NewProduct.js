@@ -9,7 +9,7 @@ function NewProduct() {
     const fetchApi = async () => {
       try {
         const data = await get(
-          "http://localhost:5264/api/ProductControlles/getFourProductNew"
+          "http://localhost:5264/api/ProductSizes/getFourProductMax"
         );
         //
         setProducts(data);
@@ -53,7 +53,7 @@ function NewProduct() {
                       {/* <!-- PRODUCT --> */}
                       {products.length > 0 &&
                         products.map((product) => {
-                          return <Product product={product} />;
+                          return <Product key={product.productSizeID} product={product} />;
                         })}
                       {/* <!-- PRODUCT --> */}
                     </div>

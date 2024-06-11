@@ -1,6 +1,7 @@
 using BE.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Swp391.Dtos;
 
 using Swp391.Service;
 
@@ -109,12 +110,22 @@ namespace Swp391.Controllers
         }
         [HttpGet]
         public IActionResult GetAllStore()
-        {                     
+        {
             return Ok(storeService.getAllStore());
         }
 
+        [HttpGet("/api/status/{status}")]
+        public IActionResult getAllStoreStatus(int status)
+        {
+            var storeDtos = storeService.GetStoreByStatus(status);
 
+            if (storeDtos != null)
+            {
+                return Ok(storeDtos);
+            } 
 
+            return BadRequest();
+        }
     }
 
 }

@@ -15,7 +15,7 @@ function ListProduct() {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const searchQuery = searchParams.get('search');
+  //const searchQuery = searchParams.get('search');
   const searchByCategoryID = searchParams.get('categoryId');
   
   
@@ -23,7 +23,7 @@ function ListProduct() {
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       const fetchApi = async () => {
         const data = await get(
-          `http://localhost:5264/api/ProductControlles/getProductByCategoryId?categoriesID=${searchByCategoryID}`
+          `http://localhost:5264/api/ProductSizes/getProductSizeByCategoryId?categoriesID=${searchByCategoryID}`
         );
   
         console.log("da ghi de tai day 29");
@@ -35,56 +35,6 @@ function ListProduct() {
   }, [searchByCategoryID ]); 
 
   
-  //dùng để search
-  // const fetchProducts = async (page = 1, condition = 1, search = '') => {
-  //   let url = http://localhost:5264/api/ProductControlles/getProductByPage?page=${page}&condition=${condition};
-
-  //   if (condition === 1 || condition === 2 || condition === 3 || condition === 4) {
-  //     url = http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${condition};
-  //   }
-
-  //   if (search) {
-  //     url = http://localhost:5264/api/ProductControlles/search?keyword=${search};
-  //   }
-  //   const data = await get(url);
-  //   console.log("da ghi de tai day 51");
-  //   setProducts(data);
-  //   if (data === "No products found with the given keyword.") {
-  //     setProducts([]); // Set products to an empty array
-  //   } else {
-  //     console.log("da ghi de tai day 56");
-  //     setProducts(data);
-  //   }
-  
-
-    
-  //   // Update total pages and total products for search queries
-  //   if (search) {
-  //     const totalPagesData = await get(http://localhost:5264/api/ProductControlles/getCountPageProduct?keyword=${search});
-     
-  //     setTotalPages(totalPagesData);
-
-  //     const totalProductData = await get(http://localhost:5264/api/ProductControlles/getCountProduct?keyword=${search});
-  //     console.log("totalProductData",totalProductData);
-  //     setTotalProduct(totalProductData);
-  //   } else {
-  //     const totalPagesData = await get("http://localhost:5264/api/ProductControlles/getCountPageProduct");
-     
-  //     setTotalPages(totalPagesData);
-
-  //     const totalProductData = await get("http://localhost:5264/api/ProductControlles/getCountProduct");
-      
-  //     setTotalProduct(totalProductData);
-  //   }
-  // };
-
-
-
-
-  // useEffect(() => {
-  //   fetchProducts(currentPage, conditionSort, searchQuery);
-  // }, [currentPage, conditionSort, searchQuery]);
-
 
 
 
@@ -93,7 +43,7 @@ function ListProduct() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-        "http://localhost:5264/api/ProductControlles/getProductByPage?page=1"
+        "http://localhost:5264/api/ProductSizes/getProductSizeByPage?page=1"
       );
       const dataCate = await get("http://localhost:5264/api/Category");
       
@@ -108,27 +58,27 @@ function ListProduct() {
     fetchApi();
   }, []);
   
-  useEffect(() => {
-    if (searchQuery !== null && parseInt(searchQuery) !== 0) {
-      const fetchApi = async () => {
-        const data = await get(
-          `http://localhost:5264/api/ProductControlles/search?search=${searchQuery}`
-        );
+  // useEffect(() => {
+  //   if (searchQuery !== null && parseInt(searchQuery) !== 0) {
+  //     const fetchApi = async () => {
+  //       const data = await get(
+  //         `http://localhost:5264/api/ProductControlles/search?search=${searchQuery}`
+  //       );
   
-        console.log("da ghi de tai day 117");
-        console.log(data);
-        setProducts(data);
-      };
+  //       console.log("da ghi de tai day 117");
+  //       console.log(data);
+  //       setProducts(data);
+  //     };
   
-      fetchApi();
-    }
-  }, []); 
+  //     fetchApi();
+  //   }
+  // }, []); 
 
 
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-        "http://localhost:5264/api/ProductControlles/getCountPageProduct"
+        "http://localhost:5264/api/ProductSizes/getCountPageProductSize"
       );
       //
 
@@ -143,7 +93,7 @@ function ListProduct() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-        "http://localhost:5264/api/ProductControlles/getCountProduct"
+        "http://localhost:5264/api/ProductSizes/getCountProductSize"
       );
       //
 
@@ -159,7 +109,7 @@ function ListProduct() {
 
     try {
       const response = await fetch(
-        `http://localhost:5264/api/ProductControlles/getProductByPage?page=${item}`
+        `http://localhost:5264/api/ProductSizes/getProductSizeByPage?page=${item}`
       );
       if (!response.ok) {
         const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
@@ -179,15 +129,13 @@ function ListProduct() {
   
     setCondition(selectedSortCondition);
   
-    console.log("searchByCategoryID:", searchByCategoryID);
-    console.log("parseInt(searchByCategoryID):", parseInt(searchByCategoryID));
-    console.log("Condition check:", searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0);
+
   
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       console.log("Inside if condition");
       try {
         const response = await fetch(
-          `http://localhost:5264/api/ProductControlles/getProductByCategoryIDAndCondition?categoriID=${searchByCategoryID}&condition=${selectedSortCondition}`
+          `http://localhost:5264/api/ProductSizes/getProductByCategoryIDAndCondition?categoriID=${searchByCategoryID}&condition=${selectedSortCondition}`
         );
         if (!response.ok) {
           const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
@@ -204,7 +152,7 @@ function ListProduct() {
       console.log("Inside else condition");
       try {
         const response = await fetch(
-         `http://localhost:5264/api/ProductControlles/getProductByPageWithCondition?condition=${selectedSortCondition}`
+         `http://localhost:5264/api/ProductSizes/getProductWithCondition?condition=${selectedSortCondition}`
         );
         if (!response.ok) {
           const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi

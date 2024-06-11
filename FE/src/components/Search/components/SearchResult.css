@@ -1,0 +1,24 @@
+.search-result {
+  padding: 10px 20px;
+}
+
+.search-result:hover {
+  
+  cursor: pointer;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+}
+
+.product-image {
+  width: 50px; /* Điều chỉnh kích thước hình ảnh nếu cần */
+  height: auto;
+  margin-right: 10px; /* Khoảng cách giữa hình ảnh và thông tin sản phẩm */
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+}
