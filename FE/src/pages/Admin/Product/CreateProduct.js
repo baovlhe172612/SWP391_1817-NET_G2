@@ -1,4 +1,5 @@
-import { Button, Form, Input, Select, Switch, Modal, InputNumber } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select, Switch, Modal, InputNumber, Upload } from "antd";
 import React, { useState } from "react";
 
 const { Option } = Select;
@@ -7,6 +8,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
   const [form] = Form.useForm();
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [sizeQuantities, setSizeQuantities] = useState({});
+  const [image, setImage] = useState(null);
 
   const handleSubmit = async (values) => {
     console.log({
@@ -38,7 +40,11 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
       [size]: value,
     });
   };
-
+  const handleImageChange = ({ file }) => {
+    if (file.status === "done") {
+      setImage(file.response.url); // Assuming the server returns the image URL in the response
+    }
+  };
   return (
     <Modal
       title="Create New Product"
@@ -133,16 +139,23 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
         </Form.Item>
 
         <Form.Item
-          label="Discount"
-          name="discount"
-          rules={[
-            {
-              required: true,
-              message: "Please input discount!",
-            },
-          ]}
+          label="Image"
+          name="image"
+          rules={[{ required: true, message: "Please upload an image!" }]}
         >
-          <Input placeholder="Input discount" />
+          <Upload
+            name="image"
+            listType="picture-card"
+            showUploadList={false}
+            action="/api/upload" // Replace with your server endpoint
+            onChange={handleImageChange}
+          >
+            {image? (
+              <img src={image} alt="product" style={{ width: "100%" }} />
+            ) : (
+              <UploadOutlined />
+            )}
+          </Upload>
         </Form.Item>
 
         <Form.Item

@@ -41,7 +41,7 @@ export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 // API PRODUCTDTOS
 
 // API PRODUCTSIZES
-
+export const LIST_PRODUCT_SIZE = `${LOCALHOST_API}/api/ProductSizes`;
 // API TABLE
 
 // API FeedBack <=> messegerbox
