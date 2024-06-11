@@ -12,11 +12,13 @@ namespace Swp391.Dtos
         public string SizeName { get; set; }
         public int Price { get; set; }
         public int Category { get; set; }
-        public int isDelete { get; set; }
-        public int StoreId { get; set; }
+        public string CategoryName { get; set; }
+        public int? StoreId { get; set; }
         public string StoreName { get; set; }
+        public int? IsDelete { get; set; }
         public List<SizeDto> Sizes { get; set; }
         public DateOnly? dateCreated {  get; set; }
+
     }
     public class SizeDto
     {

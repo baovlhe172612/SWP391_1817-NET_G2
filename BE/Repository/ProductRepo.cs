@@ -1,5 +1,6 @@
 ﻿using BE.Models;
 using Microsoft.EntityFrameworkCore;
+using Swp391.Dtos;
 
 
 namespace Swp391.Repository
@@ -46,6 +47,8 @@ namespace Swp391.Repository
                            .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
                            .ToList();
         }
+
+        
 
 
 
