@@ -13,7 +13,7 @@ public partial class Category
 
     public int? Status { get; set; }
 
-    public DateOnly? StatusDate { get; set; }
+    public DateOnly? dateCreated { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
