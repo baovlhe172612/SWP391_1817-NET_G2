@@ -14,7 +14,6 @@ namespace Swp391.Repository
         /// <returns>toàn bộ sản phẩm</returns>
         public List<Product> getAllProduct()
         {
-           
             return context.Products.ToList();
         }
         /// <summary>

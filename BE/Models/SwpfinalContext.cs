@@ -72,7 +72,6 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
-
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
@@ -164,7 +163,7 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)

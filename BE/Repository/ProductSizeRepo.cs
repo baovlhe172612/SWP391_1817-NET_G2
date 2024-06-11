@@ -27,10 +27,10 @@ namespace Swp391.Repository
                                   ProductId = p.ProductId,
                                   ProductName = p.ProductName,
                                   Img = p.Img,
-                                  SizeId = ps.SizeId,
+                                  SizeId = s.SizeId,
                                   SizeName = s.SizeName,
                                   Price = (int)(p.Price + s.Price),
-                                  Category = p.CategoryId,
+                                  Category = p.CategoryId,                                  
                                }).ToList();
 
             return ProductSize;
