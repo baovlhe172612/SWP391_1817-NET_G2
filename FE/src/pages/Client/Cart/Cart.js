@@ -2,10 +2,10 @@ import React, { useCallback, useState } from "react";
 import { Container, Row, Table } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
-import { clearCart } from "../../../reducers/cartSlice.js";
 import { post } from "../../../helpers/API.helper.js";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
+import { clearCart } from "../../../actions/CartAction.js";
 function Cart() {
   const cart = useSelector(state => state.cart);
   const [cartData, setCartData] = useState(cart.list || []);

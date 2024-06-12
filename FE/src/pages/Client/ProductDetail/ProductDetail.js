@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { get } from '../../../helpers/API.helper';
 import { Button, Carousel, Col, Divider, Image } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../../reducers/cartSlice';
+import { addToCart } from '../../../actions/CartAction';
+
 
 function ProductDetail(props) {
 
