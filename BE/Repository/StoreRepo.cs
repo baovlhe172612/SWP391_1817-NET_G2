@@ -41,6 +41,8 @@ namespace Swp391.Repository
 
         public void createStore(Store store)
         {
+            store.DateCreated = DateOnly.FromDateTime(DateTime.Now);
+            store.DateDeleted = null;
             _context.Stores.Add(store);
             _context.SaveChanges();
         }
