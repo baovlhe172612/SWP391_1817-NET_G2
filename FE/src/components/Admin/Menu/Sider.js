@@ -10,12 +10,13 @@ import {
   ShoppingCartOutlined,
   ProductOutlined,
   MenuOutlined,
+  QrcodeOutlined, // Updated icon for QR section
+  ReadOutlined, // Updated icon for Blogs section
 } from "@ant-design/icons";
 import { getSessionItem } from "../../../helpers/Session.helper";
 import { hasRole } from "../../../helpers/CheckRole";
 
 const itemsSider = (account) => {
-
   const items = [
     hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "DashBoard",
@@ -26,7 +27,7 @@ const itemsSider = (account) => {
           key: "DashBoard1",
           label: <Link to="/admin/dashboard">DashBoard All</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Owner"]) && {
       key: "Store",
@@ -41,7 +42,7 @@ const itemsSider = (account) => {
           key: "store/create",
           label: <Link to="/admin/store/create">Create Store</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Owner"]) && {
       key: "manager store",
@@ -56,7 +57,7 @@ const itemsSider = (account) => {
           key: "manager/create",
           label: <Link to="/admin/manager-store/create">Create Store's Manager</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner", "Employee"]) && {
       key: "manager table",
@@ -71,7 +72,7 @@ const itemsSider = (account) => {
           key: "table/create",
           label: <Link to="/admin/table/create">Create Table</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager employee",
@@ -86,7 +87,7 @@ const itemsSider = (account) => {
           key: "employee/create",
           label: <Link to="/admin/employee/create">Create Employee</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager category",
@@ -101,7 +102,7 @@ const itemsSider = (account) => {
           key: "category/create",
           label: <Link to="/admin/category/create">Create Category</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager product",
@@ -116,10 +117,10 @@ const itemsSider = (account) => {
           key: "product/create",
           label: <Link to="/admin/product/create">Create Product</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner"]) && {
-      key: "feedback ",
+      key: "feedback",
       label: "Feedback",
       icon: <MenuOutlined />,
       children: [
@@ -127,7 +128,7 @@ const itemsSider = (account) => {
           key: "feedback/listFeedbacks",
           label: <Link to="/admin/feedback/">List Feedback</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner", "Employee"]) && {
       key: "manager orders",
@@ -138,20 +139,35 @@ const itemsSider = (account) => {
           key: "orders/",
           label: <Link to="/admin/orders/">List orders</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
     hasRole(account.roleName, ["Manager", "Owner"]) && {
       key: "manager qrs",
       label: "List Qrs",
-      icon: <ShoppingCartOutlined />,
+      icon: <QrcodeOutlined />,
       children: [
         {
           key: "listQr/",
           label: <Link to="/admin/listQr/">List QR</Link>,
         },
-      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+      ].filter(Boolean),
     },
-  ];
+    hasRole(account.roleName, ["Manager"]) && {
+      key: "manager blogs",
+      label: "Blogs",
+      icon: <ReadOutlined />,
+      children: [
+        {
+          key: "blogs/list",
+          label: <Link to="/admin/blogs/">List Blogs</Link>,
+        },
+        {
+          key: "blogs/confirming",
+          label: <Link to="/admin/blogs/confirming">Confirming</Link>,
+        },
+      ].filter(Boolean),
+    },
+  ].filter(Boolean);
 
   return items;
 };
