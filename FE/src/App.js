@@ -14,8 +14,8 @@ import './assets/css/swiper-bundle.min.css'
 function App() {
 
   return (
-    <Provider store={store}>       
-         <AllRoute />      
+    <Provider store={store}>
+      <AllRoute />
     </Provider>
   );
 }

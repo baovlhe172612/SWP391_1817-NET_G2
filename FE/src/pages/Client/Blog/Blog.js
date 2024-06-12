@@ -66,7 +66,7 @@ function Blog() {
 
 
 
-              <form onSubmit={handleSubmit} encType="multipart/form-data">
+              <form className="form" onSubmit={handleSubmit} encType="multipart/form-data">
                 <Row gutter={[16, 16]}>
                   <Col span={24}>
                     <div className="form-group">

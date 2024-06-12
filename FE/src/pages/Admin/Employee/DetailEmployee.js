@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 
 function DetailEmployee() {
   const { id } = useParams();
+  console.log("id: ",id)
   const [accountEmployee, setAccountEmployee] = useState(null);
 
   const fetchApi = async () => {
