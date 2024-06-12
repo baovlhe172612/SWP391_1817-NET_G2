@@ -1,27 +1,34 @@
-import { post } from "../../../helpers/API.helper";
-
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Button, Space, Table, Tag } from "antd";
+import { get, patch } from "../../../helpers/API.helper";
+import {
+  DELETE_BLOG_ID,
+  GET_BLOGS_STATUS,
+  LIST_BLOGS,
+  SEARCH_BLOG,
+} from "../../../helpers/APILinks";
+import Swal from "sweetalert2";
+import Status from "../../../components/Mixin/Status/Status";
+import Search from "antd/es/input/Search";
 
 function ListBlog() {
-  const [blogs, setBlogs] = useState([]);
+  const [Blogs, setBlogs] = useState([]);
   const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
+  const navigate = useNavigate();
+  let status = searchStatus.get(`status`);
+  status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
   // lấy qua API
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        let data = [];
-        if (searchStatus.get("status")) {
-          data = await get(`${LIST_BLOGS}?status=${searchStatus.get("status")}`);
-        } else {
-          data = await get(`${LIST_BLOGS}`);
-        }
-
-        console.log('hello')
+        console.log(status);
+        const data = await get(`${GET_BLOGS_STATUS}/${status}`);
 
         if (data) {
           setBlogs(data);
-          console.log(data);
         }
       } catch (error) {
         console.log("err in ListBlog", error);
@@ -30,7 +37,7 @@ function ListBlog() {
     };
 
     fetchApi();
-  }, [updated, searchStatus]);
+  }, [updated, searchStatus, status]);
 
   // COLUMS
   const columns = [
@@ -38,11 +45,6 @@ function ListBlog() {
       title: "BlogID",
       dataIndex: "BlogID",
       key: "BlogID",
-    },
-    {
-      title: "Author",
-      dataIndex: "Author",
-      key: "Author",
     },
     {
       title: "Title",
@@ -56,48 +58,82 @@ function ListBlog() {
     },
     {
       title: "Image",
-      dataIndex: "Image",
-      key: "Image",
+      dataIndex: "Img",
+      key: "Img",
     },
     {
-      title: "Delete",
-      dataIndex: "Delete",
-      key: "Delete",
+      title: "IsPublished",
+      dataIndex: "IsPublished",
+      key: "IsPublished",
       render: (status) =>
-        status == 0 ? (
+        status == 1 ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
         ),
     },
-
-    
+    {
+      title: "IsNewFeed",
+      dataIndex: "IsNewFeed",
+      key: "IsNewFeed",
+      render: (status) =>
+        status == 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
+    },
+    {
+      title: "IsDelete",
+      dataIndex: "IsDelete",
+      key: "IsDelete",
+      render: (status) =>
+        status == 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
+    },
+    {
+      title: "Author",
+      dataIndex: "Author",
+      key: "Author",
+    },
+    {
+      title: "Tags",
+      dataIndex: "Tags",
+      key: "Tags",
+    },
     {
       title: "CreatedDate",
       dataIndex: "CreatedDate",
       key: "CreatedDate",
-    
     },
     {
-      title: "ModifiedDate",
-      dataIndex: "ModifiedDate",
-      key: "ModifiedDate",
-    
+      title: "ModifiDate",
+      dataIndex: "ModifiDate",
+      key: "ModifiDate",
     },
-
+    {
+      title: "Tags",
+      dataIndex: "Tags",
+      key: "Tags",
+    },
     {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
-      render: (postID) => (
+      render: (BlogId) => (
         <Space size="middle">
-          <Link to={`/admin/post/edit/${postID}`}>
+          <Link to={`/admin/Blog/edit/${BlogId}`}>
             <Button type="primary">Edit</Button>
           </Link>
-          <Link to={`/admin/post/edit/${postID}`}>
-            <Button type="primary" ghost>Detail</Button>
+          <Link to={`/admin/Blog/edit/${BlogId}`}>
+            <Button type="primary" ghost>
+              Detail
+            </Button>
           </Link>
-          <Button type="primary" danger onClick={() => handleDelete(postID)}>
+          <Button type="primary" danger onClick={() => handleDelete(BlogId)}>
             Delete
           </Button>
         </Space>
@@ -109,22 +145,22 @@ function ListBlog() {
   let data = [];
 
   // Nếu có data từ api => tạo data cho Table
-  if (blogs.length > 0) {
-    data = blogs.map((blog) => {
+  if (Blogs.length > 0) {
+    data = Blogs.map((Blog, index) => {
       return {
-        postID: blog.,
-        StoreName: store.storeName,
-        Location: store.location,
-        Email: store.email,
-        UserName: store.userName,
-        Status: store.isDelete,
-        actions: store.storeId,
-        key: store.storeId,
+        BlogID: Blog.BlogId,
+        BlogName: Blog.BlogName,
+        Location: Blog.location,
+        Email: Blog.email,
+        UserName: Blog.userName,
+        Status: Blog.status,
+        actions: Blog.BlogId,
+        key: index,
       };
     });
   }
-  // Handler for deleting a store
-  const handleDelete = async (storeId) => {
+  // Handler for deleting a Blog
+  const handleDelete = async (BlogId) => {
     // bởi vì Swal là file đợi => phải có await mới được
     const confirm = await Swal.fire({
       title: "Are you sure?",
@@ -137,9 +173,9 @@ function ListBlog() {
     });
 
     if (confirm.isConfirmed) {
-      console.log(`${DELETE_STORE_ID}${storeId}`);
-      const dataDelete = await patch(`${DELETE_STORE_ID}${storeId}`, {
-        storeId: storeId,
+      console.log(`${DELETE_BLOG_ID}${BlogId}`);
+      const dataDelete = await patch(`${DELETE_BLOG_ID}${BlogId}`, {
+        BlogId: BlogId,
       });
 
       if (dataDelete) {
@@ -155,29 +191,49 @@ function ListBlog() {
     }
   };
 
-  // Handler for change status in  store
-  const handleStatus = async (status) => {
+  const handleStatus = (changeBlogs) => {
+    setBlogs(changeBlogs);
+  };
+
+  // search
+  const onSearch = async (values) => {
     try {
-      // truy vấn store
-      const dataStore = await get(`${LIST_STORES}?status=${status}`);
-      if (dataStore) {
-        setStores(dataStore);
+      let data = [];
+      if (values) {
+        data = await get(`${SEARCH_BLOG}?name=${values}`);
+      } else {
+        data = await get(`${GET_BLOGS_STATUS}/${status}`);
       }
-    } catch (error) {}
+
+      setBlogs(data);
+    } catch (error) {
+      console.log(error, `ListBlog`);
+      setBlogs([]);
+    }
   };
 
   return (
     <>
-      <Status handleStatus={handleStatus} />
+      <Space>
+        <Status handleStatus={handleStatus} />
+
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          onSearch={onSearch}
+        />
+      </Space>
+
       <Table
         columns={columns}
         dataSource={data}
-        pagination={false}
         style={{ margin: "20px 0" }}
+        pagination={{ pageSize: 6 }}
       />
-      <PaginationDesign />
     </>
   );
 }
 
-export default ListStore;
+export default ListBlog;

@@ -1,13 +1,16 @@
-
-
 import React, { useEffect, useState } from "react";
 import { get, post } from "../../../helpers/API.helper"; // Giả sử bạn đã có phương thức POST trong API.helper
-import './Blog.css'
+import "./Blog.css";
 import { Button, Col, Input, Row } from "antd";
+import { Link } from "react-router-dom";
 
 function Blog() {
   const [BlogData, setBlogData] = useState([]);
-  const [newPost, setNewPost] = useState({ title: "", contents: "", img: null });
+  const [newPost, setNewPost] = useState({
+    title: "",
+    contents: "",
+    img: null,
+  });
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -21,25 +24,24 @@ function Blog() {
     console.log("e.target.name:", e.target.name);
     console.log("e.target.content:", e.target.value);
     setNewPost({ ...newPost, [e.target.name]: e.target.value });
-
   };
 
   const handleImageChange = (e) => {
     setNewPost({ ...newPost, img: e.target.files[0] });
   };
 
-
-  console.log("newposst", newPost)
+  console.log("newposst", newPost);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
   };
-
 
   return (
     <>
       <div className="main-content">
-        <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
+        <div
+          className="breadcrumb-area breadcrumb-height"
+          data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg"
+        >
           <div className="container h-100">
             <div className="row h-100">
               <div className="col-lg-12">
@@ -61,11 +63,6 @@ function Blog() {
         <div className="container1">
           <div className="row mb-4">
             <div className="col-12">
-
-
-
-
-
               <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <Row gutter={[16, 16]}>
                   <Col span={24}>
@@ -86,7 +83,6 @@ function Blog() {
                       <p>Contents:</p>
                       <textarea
                         name="contents"
-
                         onChange={handleInputChange}
                         className="form-control"
                         placeholder="What's on your mind?"
@@ -106,16 +102,16 @@ function Blog() {
                       />
                     </div>
                   </Col>
-                  <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Col
+                    span={24}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
                     <Button type="primary" htmlType="submit">
                       Đăng
                     </Button>
                   </Col>
-
                 </Row>
               </form>
-
-
             </div>
           </div>
         </div>
@@ -303,15 +299,24 @@ function Blog() {
                             <div className="blog-meta">
                               <ul>
                                 <li className="author">
-                                  <a href="#"><strong>By:</strong> {item.author}</a>
+                                  <a href="#">
+                                    <strong>By:</strong> {item.author}
+                                  </a>
                                 </li>
                                 <br />
                                 <li className="date">{item.createdDate}</li>
                               </ul>
                             </div>
-                            <h2 className="title">
-                              <a href="blog-detail.html">{item.title}</a>
-                            </h2>
+                            <div>
+                              <h2 className="title" key={item.postID}>
+                                <Link to={`/blog-detail/${item.postID}`}>
+                                  {item.title}
+                                </Link>
+
+                                <p className="short-desc mb-7">{item.contents}</p>
+
+                              </h2>
+                            </div>
                             <p className="short-desc mb-7">{item.contents}</p>
                           </div>
                           <div className="blog-img img-hover-effect">
