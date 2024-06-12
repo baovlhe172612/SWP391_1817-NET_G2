@@ -174,5 +174,21 @@ namespace Swp391.Controllers
 
             return Ok(listProuctSize);
         }
+
+        // create product
+        [HttpPost("Create")]
+        public IActionResult CreateProduct(ProductSizeDtos product)
+        {
+            try
+            {
+                _service.CreateProduct(product);
+                return Ok(new { message = "Product created successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
     }
 }

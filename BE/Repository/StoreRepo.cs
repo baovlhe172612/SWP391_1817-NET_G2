@@ -58,7 +58,8 @@ namespace Swp391.Repository
                 existingStore.Location = store.Location;
                 existingStore.Status = store.Status;
                 existingStore.IsDelete = store.IsDelete;
-                existingStore.dateCreated = null;
+                existingStore.DateCreated = null;
+                existingStore.DateDeleted = null;
                 _context.Update(existingStore);
                 _context.SaveChanges();
             }

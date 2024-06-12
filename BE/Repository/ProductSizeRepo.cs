@@ -1,6 +1,6 @@
 ﻿using BE.Models;
+using Swp391.Controllers;
 using Swp391.Dtos;
-
 
 namespace Swp391.Repository
 {
@@ -9,7 +9,6 @@ namespace Swp391.Repository
         /// <summary>
         /// lấy toàn bộ product đi cùng size tại repo
         /// </summary>
-
         /// <returns>trả về toàn bộ product đi cùng size</returns>
 
         public List<ProductSizeDtos> GetAllProductSize()
@@ -37,6 +36,48 @@ namespace Swp391.Repository
                                   /*StoreName=st.StoreName,*/
                                }).ToList();
             return ProductSize;
+        }
+
+        public void CreateProduct(ProductSizeDtos newproduct)
+        {   
+            SwpfinalContext _context = new SwpfinalContext();
+            var Product = new Product
+            { ProductId = newproduct.ProductId,
+                ProductName = newproduct.ProductName,
+                CategoryId = newproduct.Category,
+                Img = newproduct.Img,
+                Price = newproduct.Price,
+                CreateDate = DateTime.Now,
+                IsDelete = 0,
+                StoreId = newproduct.StoreId,
+                Status = 1,
+                DateDeleted = null,
+                ModifileDate = null,               
+            };
+            foreach (var size in newproduct.Sizes) 
+            {
+                var productsize = new ProductSize {                                               
+                ProductId = newproduct.ProductId,
+                SizeId = size.SizeId,
+                Quanity = size.Quantity,
+                Price = newproduct.Price + size.Price,
+                IsDelete = 0,
+                Status = 1,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now),
+                DateDeleted = null,
+                };
+                _context.ProductSizes.Add(productsize);
+            };
+            _context.Products.Add(Product);
+            _context.SaveChanges();
+        }
+
+        public void UpdateProduct(ProductSize newproduct)
+        {
+            SwpfinalContext _context = new SwpfinalContext();
+            var productsize = newproduct;
+            productsize.DateDeleted = null;
+            _context.ProductSizes.Add(productsize);
         }
     }
 }

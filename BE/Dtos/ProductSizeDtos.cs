@@ -16,14 +16,15 @@ namespace Swp391.Dtos
         public int? StoreId { get; set; }
         public string StoreName { get; set; }
         public int? IsDelete { get; set; }
-        public List<SizeDto> Sizes { get; set; }
+        public List<SizeDtos> Sizes { get; set; }
         public DateOnly? dateCreated {  get; set; }
         public int? Quantity { get; set; }
-
+        public DateTime? CreateDate { get; set; }
     }
-    public class SizeDto
+    public class SizeDtos
     {
         public int SizeId { get; set; }
         public int Quantity { get; set; }
+         public double Price { get; set; }
     }
 }
