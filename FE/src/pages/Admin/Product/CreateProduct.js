@@ -8,6 +8,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
   const [form] = Form.useForm();
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [sizeQuantities, setSizeQuantities] = useState({});
+  const [sizePrices, setSizePrices] = useState({});
   const [image, setImage] = useState(null);
 
   const handleSubmit = async (values) => {
@@ -16,6 +17,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
       sizes: selectedSizes.map(size => ({
         size,
         quantity: sizeQuantities[size] || 0,
+        price: sizePrices[size] || 0,
       })),
     });
     // const response = await createProduct({
@@ -23,6 +25,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
     //   sizes: selectedSizes.map(size => ({
     //     size,
     //     quantity: sizeQuantities[size] || 0,
+    //     price: sizePrices[size] || 0,
     //   })),
     // });
     // if (response) {
@@ -40,11 +43,20 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
       [size]: value,
     });
   };
+
+  const handlePriceChange = (size, value) => {
+    setSizePrices({
+      ...sizePrices,
+      [size]: value,
+    });
+  };
+
   const handleImageChange = ({ file }) => {
     if (file.status === "done") {
       setImage(file.response.url); // Assuming the server returns the image URL in the response
     }
   };
+
   return (
     <Modal
       title="Create New Product"
@@ -83,6 +95,18 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
             placeholder="Input description"
           />
         </Form.Item>
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: "Please input price!",
+            },
+          ]}
+        >
+          <Input placeholder="Input price" />
+        </Form.Item>
 
         <Form.Item
           name="category"
@@ -112,31 +136,31 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
         </Form.Item>
 
         {selectedSizes.map((size) => (
-          <Form.Item
-            key={size}
-            label={`Quantity for Size ${size}`}
-            rules={[{ required: true, message: "Please input quantity!" }]}
-          >
-            <InputNumber
-              min={0}
-              placeholder="Input quantity"
-              onChange={(value) => handleQuantityChange(size, value)}
-            />
-          </Form.Item>
+          <div key={size}>
+            <Form.Item
+              label={`Quantity for Size ${size}`}
+              rules={[{ required: true, message: "Please input quantity!" }]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="Input quantity"
+                onChange={(value) => handleQuantityChange(size, value)}
+              />
+            </Form.Item>
+            <Form.Item
+              label={`Price for Size ${size}`}
+              rules={[{ required: true, message: "Please input price!" }]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="Input price"
+                onChange={(value) => handlePriceChange(size, value)}
+              />
+            </Form.Item>
+          </div>
         ))}
 
-        <Form.Item
-          label="Price"
-          name="price"
-          rules={[
-            {
-              required: true,
-              message: "Please input price!",
-            },
-          ]}
-        >
-          <Input placeholder="Input price" />
-        </Form.Item>
+        
 
         <Form.Item
           label="Image"
@@ -150,7 +174,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel }) {
             action="/api/upload" // Replace with your server endpoint
             onChange={handleImageChange}
           >
-            {image? (
+            {image ? (
               <img src={image} alt="product" style={{ width: "100%" }} />
             ) : (
               <UploadOutlined />

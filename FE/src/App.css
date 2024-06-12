@@ -97,9 +97,10 @@ ul {
   list-style: none;
 }
 img {
-  width: 70px;
+  /* width: 70px;
   height: 100%;
-  object-fit: cover; /* Hoặc contain */
+  object-fit: cover;  */
+  max-width: 100%;
 }
 
 /* img {
