@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -13,7 +14,7 @@ public partial class ProductSize
 
     public int? Quanity { get; set; }
 
-    public int? Price { get; set; }
+    public double? Price { get; set; }
 
     public int? IsDelete { get; set; }
 
@@ -25,7 +26,8 @@ public partial class ProductSize
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
+    [JsonIgnore]
     public virtual Product Product { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Size Size { get; set; } = null!;
 }

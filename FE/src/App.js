@@ -12,11 +12,10 @@ import './assets/css/nice-select.css'
 import './assets/css/Pe-icon-7-stroke.css'
 import './assets/css/swiper-bundle.min.css'
 function App() {
-
   return (
-    <Provider store={store}>
-      <AllRoute />
-    </Provider>
+      
+         <AllRoute />      
+    
   );
 }
 

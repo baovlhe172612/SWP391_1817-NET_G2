@@ -16,7 +16,6 @@ function UpdateStoreManager() {
     const fetchApi = async () => {
       try {
         const data = await get(`http://localhost:5264/api/Account/${id}`);
-        console.log("data",data)
         // const dataAccount = await get(`${LIST_ACCOUNT}`);
         // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form
         form.setFieldsValue({
@@ -24,17 +23,16 @@ function UpdateStoreManager() {
             fullName: data.fullName,
             userName: data.userName,
             passWord: data.passWord,           
-            status: data.status === 0,
+            status: data.status === 1,
             email: data.email, 
             isDelete: data.isDelete ,
             storeId: data.storeId,                     
             phone: data.phone,
-            address: data.address,      
+            location: data.location,      
             roleId: data.roleId,
             cccd: data.cccd,
         });  
-        setAccountmanager(data);   
-        console.log("accountmanager",accountmanager)    
+        setAccountmanager(data);       
       } catch (error) {
         console.log("err in UpdateStore", error);
         setAccountmanager([]);

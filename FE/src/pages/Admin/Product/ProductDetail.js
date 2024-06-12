@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Row, Space, Table, Tag, Button } from "antd";
-import { LIST_PRODUCT_DTOS, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks";
+import { LIST_PRODUCT_DTOS } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import CreateProduct from './CreateProduct';
 import { FaPlus } from 'react-icons/fa';
 import UpdateIsDelete from "./UpdateIsDelete";
 import { Link } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
-
 function ListProductAdmin() {
   const [products, setProducts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,7 +18,8 @@ function ListProductAdmin() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(LIST_PRODUCT_SIZE);
+        const data = await get(LIST_PRODUCT_DTOS);
+
         if (data) {
           console.log(data)
           setProducts(data);
@@ -64,16 +64,6 @@ function ListProductAdmin() {
       title: "categoryName",
       dataIndex: "categoryName",
       key: "categoryName",
-    },
-    {
-      title: "Size",
-      dataIndex: "sizeName",
-      key: "sizeName",
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
     },
     {
       title: "Delete",
@@ -128,11 +118,8 @@ function ListProductAdmin() {
         "price" : product.price,
         "img": product.img,
         "categoryName": product.categoryName,
-        "sizeName":product.sizeName,
         "isDelete": product.isDelete,
-        "quantity": product.quantity,
         "action": ["Delete", "Update"]
-        
       }
     })
   }
