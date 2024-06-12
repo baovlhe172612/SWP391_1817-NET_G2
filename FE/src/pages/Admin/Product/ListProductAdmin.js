@@ -71,6 +71,11 @@ function ListProductAdmin() {
       key: "sizeName",
     },
     {
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
+    },
+    {
       title: "Delete",
       dataIndex: "isDelete",
       key: "isDelete",
@@ -125,7 +130,9 @@ function ListProductAdmin() {
         "categoryName": product.categoryName,
         "sizeName":product.sizeName,
         "isDelete": product.isDelete,
+        "quantity": product.quantity,
         "action": ["Delete", "Update"]
+        
       }
     })
   }
