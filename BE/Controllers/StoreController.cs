@@ -71,8 +71,8 @@ namespace Swp391.Controllers
         {
             try
             {
-                storeService.UpdateStore(store);
-                return Ok(store);
+                var newStore = storeService.UpdateStore(store);
+                return Ok(newStore);
             }
             catch (Exception ex)
             {
@@ -122,9 +122,21 @@ namespace Swp391.Controllers
             if (storeDtos != null)
             {
                 return Ok(storeDtos);
-            } 
+            }
 
             return BadRequest();
+        }
+
+        [HttpGet("search")]
+        public IActionResult GetStoreByName([FromQuery]string name)
+        {
+            var listStoreByName = storeService.StoreByNameService(name);
+
+            if(listStoreByName != null) {
+                return Ok(listStoreByName);
+            }
+
+            return NotFound();
         }
     }
 

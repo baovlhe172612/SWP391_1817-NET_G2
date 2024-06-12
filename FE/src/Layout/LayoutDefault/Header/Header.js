@@ -3,13 +3,18 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Input, Space, Row, Col, Carousel, Collapse, Image, Tabs , List, App} from 'antd';
 import "./Header.css"
 import  Search  from '../../../components/Search/Search';
+import { useSelector } from "react-redux";
 
 
 
 function Header({ tableId }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const { list } = useSelector(state => state.cart)
+  // const {
+  //   isEmpty,
+  //   totalItems,
+  // } = useCart();
 
 
   const toggleMenu = () => {
@@ -69,10 +74,10 @@ function Header({ tableId }) {
             <div className="col-lg-12">
               <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                 <Link to="/">
-                  <img style={{ paddingRight: '30px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
+                  <img style={{ paddingRight: '10px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
                 </Link>
 
-                <div style={{ paddingTop: '30px' }} className="header-right d-flex align-items-center">
+                <div style={{ paddingTop: '20px' }} className="header-right d-flex align-items-center">
 
 
                     
@@ -85,7 +90,8 @@ function Header({ tableId }) {
                     <li className="minicart-wrap me-3 me-lg-0">
                       <Link to="/cart" className="minicart-btn toolbar-btn">
                         <i className="pe-7s-shopbag"></i>
-                        <span className="quantity">3</span>
+                        {/* {!isEmpty && <span className="quantity">{totalItems}</span>} */}
+                        <span className="quantity">{list?.length}</span>
                       </Link>
                     </li>
 
@@ -100,43 +106,6 @@ function Header({ tableId }) {
         </div>
       </div>
 
-      <Carousel autoplay effect="fade" easing="ease" speed={800}>
-        <div className="slider-item">
-
-          <Image
-            width={400}
-            height={400}
-            src={`https://png.pngtree.com/png-vector/20240207/ourlarge/pngtree-juice-drink-sticker-retro-png-image_11712623.png`}
-          />
-        </div>
-        <div className="slider-item">
-
-          <Image
-            width={400}
-            height={400}
-            src={`https://www.highlandscoffee.com.vn/vnt_upload/product/06_2023/thumbs/270_crop_HLC_New_logo_5.1_Products__PHINDI_KEM_SUA.jpg`}
-          />
-
-        </div>
-        <div className="slider-item">
-
-          <Image
-            width={400}
-            height={400}
-            src="https://www.highlandscoffee.com.vn/vnt_upload/product/HLCPOSTOFFICE_DRAFT/PNG_FINAL/3_MENU_NGUYEN_BAN/thumbs/270_crop_Chanh_Da_Xay.jpg"
-          />
-
-        </div>
-        <div className="slider-item">
-          <Image
-            width={400}
-            height={400}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM_nfnQkXXCNcOhXS-766JKhhtqwGoAIhH0Q&s"
-          />
-
-
-        </div>
-      </Carousel>
 
 
       {/* Header Middle */}
@@ -242,7 +211,7 @@ function Header({ tableId }) {
                 <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                   <Link to="/">
                     <img
-                      style={{ paddingRight: '30px' }}
+                      style={{ paddingRight: '10px' }}
                       src="assets/images/logo/dark.png"
                       alt="Header Logo"
                     />
@@ -258,7 +227,8 @@ function Header({ tableId }) {
                       <li className="minicart-wrap me-3 me-lg-0">
                         <Link to="/cart" className="minicart-btn toolbar-btn">
                           <i className="pe-7s-shopbag"></i>
-                          <span className="quantity">3</span>
+                          {/* {!isEmpty && <span className="quantity">{totalItems}</span>} */}
+                          <span className="quantity">{list?.length}</span>
                         </Link>
                       </li>
                       <li className="mobile-menu_wrap d-block d-lg-none">

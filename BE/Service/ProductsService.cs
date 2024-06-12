@@ -160,7 +160,7 @@ namespace Swp391.Service
                 case 1:
                     {
                         listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderBy(p => p.ProductId) // Sắp xếp theo ProductID
+                                    .OrderBy(p => p.ProductId) // Sắp xếp theo id
 
                                     .ToList();
                         break;
@@ -168,7 +168,7 @@ namespace Swp391.Service
                 case 2:
                     {
                         listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderBy(p => p.ProductName) // Sắp xếp theo ProductID
+                                    .OrderBy(p => p.ProductName) // Sắp xếp theo name
 
                                     .ToList();
                         break;
@@ -176,7 +176,7 @@ namespace Swp391.Service
                 case 3:
                     {
                         listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderByDescending(p => p.Price) // Sắp xếp theo ProductID
+                                    .OrderByDescending(p => p.Price) // Sắp xếp theo price giam dan
 
                                     .ToList();
                         break;
@@ -184,7 +184,7 @@ namespace Swp391.Service
                 case 4:
                     {
                         listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderBy(p => p.Price) // Sắp xếp theo ProductID
+                                    .OrderBy(p => p.Price) // Sắp xếp theo price tang dan
 
                                     .ToList();
                         break;

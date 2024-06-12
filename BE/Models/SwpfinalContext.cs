@@ -43,7 +43,7 @@ public partial class SwpfinalContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=Khongcopass@2003;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,10 +72,9 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
-
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
@@ -164,7 +163,7 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -221,7 +220,8 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.dateDeleted).HasColumnName("dateDeleted");
         });
 
         modelBuilder.Entity<Table>(entity =>

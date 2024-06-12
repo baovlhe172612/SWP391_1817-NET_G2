@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+
+
+
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, Space, Switch, message } from "antd";
-import { post } from '../../../helpers/API.helper';
-import { get } from "../../../helpers/API.helper";
+import { post, get } from '../../../helpers/API.helper';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
@@ -9,36 +11,23 @@ function CreateEmployee() {
     const account = useSelector(state => state.AccountReducer);
     console.log(account)
 
-
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
     const handleSubmit = async (values) => {
-        if(values.fullName.trim().length == '') {
-            message.error(`Please enter a full name`);
-            return;
-        }
-        // console.log(values);
-        // Gửi giá trị của Switch trực tiếp, không cần xử lý bổ sung
         values.isDelete = 0;
         values.roleId = 3;
-        if (values.status) {
-            values.status = 1;
-        } else {
-            values.status = 0;
-        }
+        values.status = values.status ? 1 : 0;
+        
         try {
             const response = await post(`http://localhost:5264/api/Account`, values);
-            // Kiểm tra giá trị trả về từ API
-            console.log("response", response)
             if (response) {
                 form.resetFields();
                 message.success('Account created successfully!');
                 navigate(`/admin/employee/`);
-                // Thực hiện các hành động khác nếu cần
             }
         } catch (error) {
-            message.error('Account created Fail!UserName or Email or Phone or Cccd is exist');
+            message.error('Account creation failed! Username, Email, Phone, or CCCD might already exist.');
             console.error("Failed to create account. Please try again later", error);
         }
     };
@@ -50,14 +39,24 @@ function CreateEmployee() {
             console.log("stores: ", data)
             setStores(data);
         } catch (error) {
-            message.error("Error fetching accounts");
+            message.error("Error fetching stores");
             console.log("Error in ListStoreManager", error);
             setStores([]);
         }
     };
+
     useEffect(() => {
         fetchApi();
     }, []);
+
+    const noOnlySpacesRule = {
+        validator: (_, value) => {
+            if (value && value.trim() === "") {
+                return Promise.reject(new Error('This field cannot contain only spaces!'));
+            }
+            return Promise.resolve();
+        }
+    };
 
     return (
         <>
@@ -78,6 +77,7 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your username!',
                         },
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
@@ -91,6 +91,7 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your password!',
                         },
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input.Password />
@@ -117,6 +118,7 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your E-mail!',
                         },
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
@@ -130,6 +132,7 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your full name!',
                         },
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
@@ -137,11 +140,11 @@ function CreateEmployee() {
 
                 <Form.Item
                     label="Address"
-                    name="Address"
+                    name="address"
+                    rules={[noOnlySpacesRule]}
                 >
                     <Input />
                 </Form.Item>
-
 
                 <Form.Item
                     label="CCCD"
@@ -149,18 +152,17 @@ function CreateEmployee() {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your cccd!',
+                            message: 'Please input your CCCD!',
                         },
                         {
                             pattern: /^0\d{0,11}$/,
-                            message: 'Please input your number starting with 0 and ensure the length is less than or equal to 12 digits!',
+                            message: 'Please input a number starting with 0 and ensure the length is less than or equal to 12 digits!',
                         },
+                        noOnlySpacesRule
                     ]}
-
                 >
                     <Input />
                 </Form.Item>
-
 
                 <Form.Item
                     label="Phone"
@@ -172,13 +174,13 @@ function CreateEmployee() {
                         },
                         {
                             pattern: /^0\d{0,9}$/,
-                            message: 'Please input your number start =0 and ensure the length is <= 10 digits!',
+                            message: 'Please input a number starting with 0 and ensure the length is less than or equal to 10 digits!',
                         },
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
                 </Form.Item>
-
 
                 <Form.Item
                     label="Role"
@@ -197,25 +199,14 @@ function CreateEmployee() {
                     initialValue={account.storeId}
                 >
                     <Select>
-                       
-                            <Select.Option value={account.storeId}>
-                                {account.storeName} 
-                            </Select.Option>
-                      
+                        <Select.Option value={account.storeId}>
+                            {account.storeName}
+                        </Select.Option>
                     </Select>
-
-                    {/* <Select defaultValue={account.storeId}>
-                        <Option value={account.storeId}>{account.storeName}</Option>
-                        {(Stores.filter(store => store.storeId !== account.storeId)).map(store => (
-                            <Option key={store.storeId} value={store.storeId}>
-                                {store.storeName}
-                            </Option>
-                        ))}
-                    </Select> */}
-
                 </Form.Item>
+
                 <Form.Item
-                    label="isdelete"
+                    label="isDelete"
                     name="isDelete"
                     hidden
                 >
@@ -223,7 +214,7 @@ function CreateEmployee() {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" >
+                    <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
                 </Form.Item>

@@ -16,13 +16,21 @@ public partial class Store
 
     public int? Status { get; set; }
 
-    public DateOnly? StatusDate { get; set; }
+    public DateOnly? DateCreated { get; set; }
+
+    public DateOnly? DateDeleted { get; set; }
 
     [JsonIgnore]
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
-    [JsonIgnore]
+
+    public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+
+    public virtual ICollection<MessengerBox> MessengerBoxes { get; set; } = new List<MessengerBox>();
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-    [JsonIgnore]
+
+    public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     [JsonIgnore]
     public virtual ICollection<Table> Tables { get; set; } = new List<Table>();

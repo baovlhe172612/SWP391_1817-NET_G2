@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { get } from '../../../helpers/API.helper';
-import { Col, Divider } from 'antd';
+import { Button, Carousel, Col, Divider, Image } from 'antd';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../reducers/cartSlice';
 
-function ProductDetail() {
+function ProductDetail(props) {
+
   // Sử dụng useLocation hook để lấy thông tin về URL hiện tại
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -11,8 +14,7 @@ function ProductDetail() {
   // Lấy giá trị của các tham số từ query string
   const productId = searchParams.get('productId');
   const categoryId = searchParams.get('categoryId');
-  console.log("productId", productId)
-  console.log("categoryId", categoryId)
+
   const sizeId = searchParams.get('sizeId');
 
   const [productSize, setProducts] = useState(null);
@@ -21,15 +23,16 @@ function ProductDetail() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${sizeId}`);
-      console.log(data);
+
+      console.log("data: ",data)
       setProducts(data);
-      // Lấy danh sách các sản phẩm tương tự
-      const similarProductsData = await get(`http://localhost:5264/api/ProductControlles/getProductByCategoryId?categoriesID=${categoryId}`);
+      //Lấy danh sách các sản phẩm tương tự
+      const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
       // Lọc ra các sản phẩm khác với sản phẩm hiện tại
       // Ensure the response is an array before filtering
       if (Array.isArray(similarProductsData)) {
         // Filter out the current product from the list of similar products
-        const filteredSimilarProducts = similarProductsData.filter(product => product.id !== productId);
+        const filteredSimilarProducts = similarProductsData.slice(0, 3);
         console.log("filteredSimilarProducts", filteredSimilarProducts)
         setSimilarProducts(filteredSimilarProducts);
       } else {
@@ -51,11 +54,29 @@ function ProductDetail() {
 
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
-      console.log(data);
+      const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
+      // Lọc ra các sản phẩm khác với sản phẩm hiện tại
+      // Ensure the response is an array before filtering
+      if (Array.isArray(similarProductsData)) {
+        // Filter out the current product from the list of similar products
+        const filteredSimilarProducts = similarProductsData.slice(0, 3);
+        console.log("filteredSimilarProducts", filteredSimilarProducts)
+        setSimilarProducts(filteredSimilarProducts);
+      } else {
+        console.error('Similar products data is not an array:', similarProductsData);
+      }
       setProducts(data);
     } catch (error) {
       console.error('Error updating size:', error);
     }
+  };
+
+  const dispatch = useDispatch()
+  const handleAddToCart = (product) => {
+    dispatch(addToCart({
+      ...product,
+      quantity: 1
+    }));
   };
 
   return (
@@ -64,7 +85,6 @@ function ProductDetail() {
 
         {productSize ? (
           <>
-
             <main className="main-content">
               <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
                 <div className="container h-100">
@@ -74,7 +94,7 @@ function ProductDetail() {
                         <h2 className="breadcrumb-heading">Single Product</h2>
                         <ul>
                           <li>
-                            <a href="index.html">Home</a>
+                            <a href="/">Home</a>
                           </li>
                           <li>Single Product variable</li>
                         </ul>
@@ -109,7 +129,7 @@ function ProductDetail() {
                     </div>
                     <div className="col-lg-6 pt-5 pt-lg-0">
                       <div className="single-product-content">
-                        <h2 className="title">{productSize.productName}</h2>
+                        <h2 className="title">{productSize.productName} Size {productSize.sizeName}</h2>
                         <div className="price-box">
                           <span className="new-price">{productSize.price}đ</span>
                         </div>
@@ -125,29 +145,27 @@ function ProductDetail() {
                             <option value="3" selected={productSize.sizeId === 3}>M</option>
                           </select>
                         </div>
-                        <div className="note-input">
-                          <span className="note-label">Thêm ghi chú của bạn:</span>
-                          <input
-                            type="text"
-                            className="note-text"
-                            placeholder="VD: 50% đường 50% đá"
-                          />
-                        </div>
+                     
                         <hr />
                         <p className="short-desc">
                           Please place an order at the nearest Mixue store. This website only introduces products and does not allow for orders.
                         </p>
-                        <ul className="quantity-with-btn">
-                          {/* <li className="quantity">
-                          <div className="cart-plus-minus">
-                            <input className="cart-plus-minus-box" value="1" type="text" />
-                          </div>
-                        </li> */}
-                          <li className="add-to-cart">
-                            <a className="btn-custom" href="#" style={{ border: '4px solid black' }}>Thêm vào giỏ hàng</a>
-                          </li>
+                        <Button
+                          className="add-to-cart-btn"
+                          size='large'
+                          style={{
+                            backgroundColor: '#ff9900',
+                            color: 'white',
+                            border: 'none',
+                            cursor: 'pointer',
+                            borderRadius: '5px'
+                          }}
+                          onClick={() => handleAddToCart(productSize)} // Truyền productSize vào hàm handleAddToCart
+                          variant="success"
+                        >
+                          Thêm vào giỏ hàng
+                        </Button>
 
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -165,77 +183,52 @@ function ProductDetail() {
 
         <Divider />
         {similarProducts.length > 0 && (
-          <Col span={24} >
-            <div className="similar-products">
-              <h3 style={{ textAlign: 'center', fontWeight: "850" }}>Sản phẩm tương tự</h3>
-
-              <div className="row">
-                {similarProducts.map((product) => (
-                  <Col span={12} key={product.productId}>
-                    <div className="product-item">
-                      <div className="product-img">
-                        <Link to={`/productDetail?productId=${product.productId}&sizeId=${1}&categoryId=${product.categoryId}`}>
-                          <img className="primary-img" src={product.img} alt="Product Images" />
-                        </Link>
-                        <div className="product-add-action">
-                          <ul>
-                            <li>
-                              <a
-                                data-tippy="Add to wishlist"
-                                data-tippy-inertia="true"
-                                data-tippy-animation="shift-away"
-                                data-tippy-delay="50"
-                                data-tippy-arrow="true"
-                                data-tippy-theme="sharpborder"
-                              >
-                                <i className="pe-7s-like"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <Link
-                                to={`/productDetail?productId=${product.productId
-                                  }&sizeId=${1}&categoryId=${product.categoryId}`}
-                              >
-                                <i class="pe-7s-look"></i>
-                              </Link>
-                            </li>
-
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="product-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                        <a className="product-name" href="shop.html" style={{ fontFamily: "Arial", fontWeight: "bold" }}>
-                          {product.productName}
-                        </a>
-                        <div className="price-box pb-1">
-                          <span className="new-price" style={{ fontSize: "16px" }}>
-                            {product.price + 10000}đ
-                          </span>
-                        </div>
-
-                      </div>
-                    </div>
-                  </Col>
-                ))}
+  <Col span={24}>
+    <div className="similar-products">
+      <h3 style={{ textAlign: 'center', fontWeight: "bold", marginBottom: "20px" }}>Sản phẩm tương tự</h3>
+      <Carousel autoplay effect="fade" easing="ease" speed={800} className="carousel-container">
+        {similarProducts.map((product) => (
+          <div className="slider-item" key={product.productSizeID} style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="product-item" style={{ textAlign: 'center', padding: '10px' }}>
+              <div className="product-img" style={{ display: 'flex', justifyContent: 'center' }}>
+                <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
+                  <img className="primary-img" src={product.img} alt="Product Images"
+                    style={{
+                      maxWidth: "120px", // Điều chỉnh kích thước tối đa của ảnh
+                      maxHeight: "120px", // Đảm bảo ảnh không quá lớn
+                      height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                      // marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                    }} />
+                </Link>
+              </div>
+              <div className="product-content">
+                <Link className="product-name" to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}
+                  style={{
+                    display: 'block',
+                    fontSize: '14px', // Giảm kích thước chữ
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '5px',
+                    textDecoration: 'none',
+                    textAlign: 'center', // Căn giữa tên sản phẩm
+                  }}>
+                  {product.productName} Size {product.sizeName}
+                </Link>
+                <div className="price-box pb-1" style={{ textAlign: 'center' }}>
+                  <span className="new-price" style={{ fontSize: "14px", color: '#000' }}>
+                    {product.price.toLocaleString('vi-VN')} ₫
+                  </span>
+                </div>
               </div>
             </div>
-          </Col>
-          // <div className="similar-products">
-          //   <h3>Sản phẩm tương tự</h3>
-          //   <div className="row">
-          //     {similarProducts.map((product) => (
-          //       <div className="col-lg-3" key={product.id}>
-          //         <div className="similar-product">
-          //           <img src={product.img} alt={product.productName} />
-          //           <h4>{product.productName}</h4>
-          //           <span>{product.price}đ</span>
-          //           <a href={`/productDetail?productId=${product.id}&sizeId=${product.sizeId}`}>Xem chi tiết</a>
-          //         </div>
-          //       </div>
-          //     ))}
-          //   </div>
-          // </div>
-        )}
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </Col>
+)}
+
+
       </div>
 
     </>

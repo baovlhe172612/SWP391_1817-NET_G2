@@ -13,12 +13,12 @@ export const SearchResult = ({ result }) => {
   return (
     <Link to={`/productDetail?productId=${
       result.productId
-    }&sizeId=${1}&categoryId=${result.categoryId}`} className='search-result' onClick={handleClick}>
+    }&sizeId=${result.sizeId}&categoryId=${result.category}`} className='search-result' onClick={handleClick}>
       <div className="product-info">
         <img src={result.img} alt={result.productName} className="product-image" />
         <div className="product-details">
-          <div className="product-name">{result.productName}</div>
-          <div className="product-price">{result.price + 10000}đ</div>
+          <div className="product-name">{result.productName} Size {result.sizeName}</div>
+          <div className="product-price">{result.price}đ</div>
         </div>
       </div>
     </Link>

@@ -1,32 +1,44 @@
 import { Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from 'react-bootstrap';
+import { useDispatch } from "react-redux"
+import { addToCart } from "../../../reducers/cartSlice.js"
 
 function Product(props) {
   const { product } = props;
-  console.log(props)
- 
+  const dispatch = useDispatch()
+    const handleAddToCart = () => {
+        dispatch(addToCart({
+            ...product,
+            quantity: 1
+        }))       
+    }
+
   return (
     <>
       {product ? (
         <>
-          {/* <Col sm={8} > //</>class="col-xl-3 col-md-4 col-sm-3" > */}
-          <Col span={12} >
-            <div class="product-item">
-              <div class="product-img">
+          <Col span={12}>
+            <div className="product-item" style={{textAlign:"center"}}>
+              <div className="product-img">
                 <Link
                   to={`/productDetail?productId=${
                     product.productId
-                  }&sizeId=${1}&categoryId=${product.categoryId}`}
+                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
                 >
                   <img
-                    class="primary-img"
+                    className="primary-img"
                     src={product.img}
                     alt="Product Images"
-                    // style={{height: "50%", width: "50%"}}
+                    style={{
+                      maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
+                      height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                      marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                    }}
                   />
                 </Link>
-                <div class="product-add-action">
+                {/* <div className="product-add-action">
                   <ul>
                     <li>
                       <a
@@ -37,75 +49,56 @@ function Product(props) {
                         data-tippy-arrow="true"
                         data-tippy-theme="sharpborder"
                       >
-                        <i class="pe-7s-like"></i>
+                        <i className="pe-7s-like"></i>
                       </a>
                     </li>
-
                     <li>
                       <Link
                         to={`/productDetail?productId=${
                           product.productId
-                        }&sizeId=${1}&categoryId=${product.categoryId}`}
+                        }&sizeId=${product.sizeId}&categoryId=${product.category}`}
                       >
-                        <i class="pe-7s-look"></i>
+                        <i className="pe-7s-look"></i>
                       </Link>
                     </li>
-                    {/* <li>
-                      <a
-                        href="cart.html"
-                        data-tippy="Add to cart"
-                        data-tippy-inertia="true"
-                        data-tippy-animation="shift-away"
-                        data-tippy-delay="50"
-                        data-tippy-arrow="true"
-                        data-tippy-theme="sharpborder"
-                      >
-                        <i class="pe-7s-cart"></i>
-                      </a>
-                    </li> */}
                   </ul>
-                </div>
+                </div> */}
               </div>
-              <div
-                class="product-content"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
-              >
+              <div className="product-content">
                 <a
-                  class="product-name"
+                  className="product-name"
                   href="shop.html"
                   style={{ fontFamily: "Arial", fontWeight: "bold" }}
                 >
-                  {product.productName}
+                  {product.productName} Size {product.sizeName}
                 </a>
-                <div class="price-box pb-1">
-                  <span class="new-price" style={{ fontSize: "16px" }}>
-                    {product.price + 10000}đ
+                <div className="price-box pb-1">
+                  <span className="new-price" style={{ fontSize: "16px" }}>
+                    {product.price}đ
                   </span>
                 </div>
                 <div className="price-box pb-1">
-                <button className="add-to-cart-btn" style={{
-                  backgroundColor: '#ff9900',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  cursor: 'pointer',
-                  borderRadius: '5px'
-                }}>
-                  Thêm vào giỏ hàng
-                </button>
+                  <Button
+                    className="add-to-cart-btn"
+                    style={{
+                      backgroundColor: '#ff9900',
+                      color: 'white',
+                      border: 'none',
+                      padding: '10px 20px',
+                      cursor: 'pointer',
+                      borderRadius: '5px'
+                    }}
+                    onClick={handleAddToCart} variant="success"
+                  >
+                    Thêm vào giỏ hàng
+                  </Button>
                 </div>
               </div>
-              
             </div>
           </Col>
         </>
       ) : (
-        <>Lỗi khi lấy data</>
+        <>Lỗi khi lấy dữ liệu</>
       )}
     </>
   );

@@ -14,4 +14,10 @@ public partial class MessengerBox
     public DateTime? CreateDate { get; set; }
 
     public int? IsDelete { get; set; }
+
+    public int? StoreId { get; set; }
+
+    public DateOnly? DateDeleted { get; set; }
+
+    public virtual Store? Store { get; set; }
 }
