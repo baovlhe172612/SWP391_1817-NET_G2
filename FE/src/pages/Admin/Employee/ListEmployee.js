@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, Tag, message, Input } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
-import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
 import { Link } from "react-router-dom";
+import UpdateIsDelete from "./UpdateIsDelete";
+
+const { Search } = Input;
 
 function ListEmployee() {
-  const [AccountEmployee, setAccountEmployee] = useState([]);
+  const [accountEmployee, setAccountEmployee] = useState([]);
+  const [filterStatus, setFilterStatus] = useState([]); // State to store selected filters
+  const [searchTerm, setSearchTerm] = useState(""); // State to store search term
 
   const fetchApi = async () => {
     try {
@@ -14,7 +18,6 @@ function ListEmployee() {
       setAccountEmployee(data);
     } catch (error) {
       message.error("Error fetching accounts");
-      console.log("Error in ListStoreManager", error);
       setAccountEmployee([]);
     }
   };
@@ -23,10 +26,56 @@ function ListEmployee() {
     fetchApi();
   }, []);
 
-
-
   const onReload = () => {
     fetchApi();
+  };
+
+  const handleFilterChange = (status) => {
+    console.log("status: ",status)
+    
+//  prevStatus.includes(status) kiểm tra xem trạng thái hiện tại có bao gồm status hay không.
+// Nếu có, hàm sẽ trả về một mảng trống [] để loại bỏ bộ lọc.
+// Nếu không, hàm sẽ trả về một mảng chứa trạng thái được chọn [status].
+    setFilterStatus((prevStatus) => 
+      prevStatus.includes(status) ? [] : [status]
+    
+    );
+    console.log("filterStatus after",filterStatus)
+  };
+
+  const getFilteredData = () => {
+
+    // Khởi tạo biến filteredData và gán nó với toàn bộ danh sách nhân viên 
+    let filteredData = accountEmployee;
+
+    console.log("filterStatus.length",filterStatus.length)
+    // Apply status filter
+    if (filterStatus.length > 0) {
+     
+      const statusMap = {
+        active: 1,
+        inactive: 0,
+      };
+
+      filteredData = filteredData.filter(
+       
+        (employee) => employee.status === statusMap[filterStatus[0]]
+      );
+      // console.log("filterStatus[0]",filterStatus[0]),
+      console.log("filteredData",filteredData)
+      console.log("----------------------------------------------------------",)
+    }
+
+    // Apply search filter
+    if (searchTerm) {
+      filteredData = filteredData.filter((employee) =>
+        Object.keys(employee).some((key) =>
+          String(employee[key]).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+
+    return filteredData;
   };
 
   const columns = [
@@ -34,46 +83,12 @@ function ListEmployee() {
       title: "AccountID",
       dataIndex: "accountId",
       key: "accountId",
-      // Custom text rendering
     },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      // Custom text rendering
     },
-    {
-      title: "User Name",
-      dataIndex: "userName",
-      key: "user",
-    },
-    {
-      title: "Password",
-      dataIndex: "passWord",
-      key: "password",
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => {
-        const statusMap = {
-          1: { text: "Active", color: "green" },
-          0: { text: "Inactive", color: "red" },
-        };
-        const { text, color } = statusMap[status] || {
-          text: "Unknown",
-          color: "gray",
-        };
-        return <Tag color={color}>{text}</Tag>;
-      },
-    },
-
     {
       title: "Role Name",
       dataIndex: "roleName",
@@ -84,48 +99,64 @@ function ListEmployee() {
       dataIndex: "storeName",
       key: "storeName",
     },
-
     {
-      title: "CCCD",
-      dataIndex: "cccd",
-      key: "cccd",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => {
+        const statusMap = {
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" },
+        };
+        const { text, color } = statusMap[status] || { text: "Unknown", color: "gray" };
+        return <Tag color={color}>{text}</Tag>;
+      },
     },
-    
-
     {
       title: "Actions",
       key: "actions",
-      render: (_, record) => {
-        return (
-          <Space size="middle">
-            <UpdateIsDelete record={record} onReload={onReload} />
-
-            <Link to={`/admin/employee/edit/${record.accountId}`}>
-              <Button type="primary">Edit</Button>
-            </Link>
-
-            <Link to={`/admin/employee/detail/${record.accountId}`}>
-              <Button type="primary">Detail</Button>
-            </Link>
-          </Space>
-        );
-      },
+      render: (_, record) => (
+        <Space size="middle">
+          <UpdateIsDelete record={record} onReload={onReload} />
+          <Link to={`/admin/employee/edit/${record.accountId}`}>
+            <Button type="primary">Edit</Button>
+          </Link>
+          <Link to={`/admin/employee/detail/${record.accountId}`}>
+            <Button type="primary">Detail</Button>
+          </Link>
+        </Space>
+      ),
     },
   ];
 
-  console.log("AccountEmployee: ", AccountEmployee);
-
   return (
     <>
-      <Table columns={columns} dataSource={AccountEmployee} pagination={{pageSize: 3}}/>
+      <Space style={{ marginBottom: 16 }}>
+        {/** Filter buttons for Active and Inactive */}
+        <Button.Group>
+          <Button
+            type={filterStatus.includes("active") ? "primary" : ""}
+            onClick={() => handleFilterChange("active")}
+          >
+            Active
+          </Button>
+          <Button
+            type={filterStatus.includes("inactive") ? "primary" : ""}
+            onClick={() => handleFilterChange("inactive")}
+          >
+            Inactive
+          </Button>
+        </Button.Group>
 
-      {/* <div>
-        {AccountEmployee.map(account => (
-          <div>
-            {account.fullName}
-          </div>
-        ))}
-      </div> */}
+        {/** Search input */}
+        <Search
+          placeholder="Search"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: 200 }}
+        />
+      </Space>
+
+      <Table columns={columns} dataSource={getFilteredData()} />
     </>
   );
 }
