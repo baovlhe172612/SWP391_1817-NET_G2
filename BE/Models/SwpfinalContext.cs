@@ -74,7 +74,7 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Category");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.StatusDate).HasColumnName("statusDate");
+            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
