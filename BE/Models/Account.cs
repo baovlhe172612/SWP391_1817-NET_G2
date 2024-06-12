@@ -23,7 +23,7 @@ public partial class Account
 
     public int RoleId { get; set; }
 
-    public string Token { get; set; } = null!;
+    public string Token { get; set; } 
 
     public int? IsDelete { get; set; }
 
@@ -34,8 +34,8 @@ public partial class Account
     public DateOnly? StatusDate { get; set; }
 
     public DateOnly? DateStartWork { get; set; }
-
-    public virtual Role Role { get; set; } = null!;
-
+    [JsonIgnore]
+    public virtual Role Role { get; set; } 
+    [JsonIgnore]
     public virtual Store? Store { get; set; }
 }

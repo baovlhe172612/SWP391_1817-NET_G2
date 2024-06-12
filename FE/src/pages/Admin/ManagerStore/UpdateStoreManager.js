@@ -85,9 +85,9 @@ function UpdateStoreManager() {
 
   return (
     <>
-      <h2>Edit Account Manager</h2>
+      
       <Form
-        name="create-room"
+        name="Update-Managers"
         onFinish={(values) => {
           handleSubmit(values);
         }}
@@ -102,10 +102,23 @@ function UpdateStoreManager() {
           name="fullName"
           rules={[
             {
-              required: true,
-              message: "Please input your name manager!",
+                required: true,
+                message: 'Please input your full name!',
             },
-          ]}
+            {
+                validator(_, value) {
+                    // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                    const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!fullNameRegex.test(value)) {
+                        return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}        
         >
           <Input />
         </Form.Item>
@@ -120,7 +133,26 @@ function UpdateStoreManager() {
         
         <Form.Item
           label="PassWord"
-          name="passWord"         
+          name="passWord" 
+          rules={[
+            {
+                required: true,
+                message: 'Please input your password!',
+            },
+            {
+                validator(_, value) {
+                    // Example regex: minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!passwordRegex.test(value)) {
+                        return Promise.reject('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}        
         >
           <Input  />
         </Form.Item>

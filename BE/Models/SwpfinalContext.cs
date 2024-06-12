@@ -43,7 +43,7 @@ public partial class SwpfinalContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=lamlam276762;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=Khongcopass@2003;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -74,7 +74,6 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
-
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
             entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");

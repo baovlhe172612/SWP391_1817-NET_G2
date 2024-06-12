@@ -73,10 +73,8 @@ function Login() {
         // message login success
         alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
 
-        if (values.remember) {
-          // set TOKEN for login again
-          setCookie("token", dataAuthen.token, 10);
-        }
+        // set TOKEN for login again
+        setCookie("token", dataAuthen.token, 10);
 
         // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));

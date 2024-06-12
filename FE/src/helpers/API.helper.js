@@ -1,3 +1,5 @@
+import { message } from "antd";
+
 export const get = async (url) => {
   const response = await fetch(url, {
     method: "GET",
@@ -22,6 +24,12 @@ export const patch = async (url, values) => {
     body: JSON.stringify(values),
   };
   const response = await fetch(url, init);
+
+  // check lỗi 
+  if(!response.ok) {
+    // message.error(response.status, response.statusText)
+    console.log(response.status)
+  }
   const data = await response.json();
   return data;
 };
@@ -43,7 +51,8 @@ export const post = async (url, values) => {
   }
 
   // Trả về đối tượng phản hồi
-  return response;
+  const data = response.json();
+  return data;
 };
 
 export const deleteItem = async (url) => {
