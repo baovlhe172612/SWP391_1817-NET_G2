@@ -19,6 +19,10 @@ public partial class ProductSize
 
     public int? Status { get; set; }
 
+    public DateOnly? DateCreated { get; set; }
+
+    public DateOnly? DateDeleted { get; set; }
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Product Product { get; set; } = null!;

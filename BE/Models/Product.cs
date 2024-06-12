@@ -25,7 +25,9 @@ public partial class Product
 
     public int? Status { get; set; }
 
-    public DateOnly? dateCreated { get; set; }
+    public DateOnly? DateCreated { get; set; }
+
+    public DateOnly? DateDeleted { get; set; }
 
     public virtual Category Category { get; set; } = null!;
 

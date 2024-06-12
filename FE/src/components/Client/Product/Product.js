@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import { useDispatch } from "react-redux"
-import { addToCart } from "../../../redux/slice/cartSlice.js"
+import { addToCart } from "../../../reducers/cartSlice.js"
 
 function Product(props) {
   const { product } = props;
@@ -12,8 +12,7 @@ function Product(props) {
         dispatch(addToCart({
             ...product,
             quantity: 1
-        }))
-        
+        }))       
     }
 
   return (
@@ -21,7 +20,7 @@ function Product(props) {
       {product ? (
         <>
           <Col span={12}>
-            <div className="product-item">
+            <div className="product-item" style={{textAlign:"center"}}>
               <div className="product-img">
                 <Link
                   to={`/productDetail?productId=${
@@ -32,9 +31,14 @@ function Product(props) {
                     className="primary-img"
                     src={product.img}
                     alt="Product Images"
+                    style={{
+                      maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
+                      height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                      marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                    }}
                   />
                 </Link>
-                <div className="product-add-action">
+                {/* <div className="product-add-action">
                   <ul>
                     <li>
                       <a
@@ -58,7 +62,7 @@ function Product(props) {
                       </Link>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
               <div className="product-content">
                 <a
