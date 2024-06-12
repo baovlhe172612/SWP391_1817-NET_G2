@@ -32,13 +32,17 @@ namespace Swp391.Repository
                                    Status = a.Status,
                                    Email = a.Email,
                                    FullName = a.FullName,
-                                   Location = a.Address,
+                                   Address = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
+                                   StoreId = s.StoreId,
                                    RoleName = r.RoleName,
                                    StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
+                                   Cccd = a.Cccd,
+                                   DateStartWork = a.DateStartWork,
+                                   StatusDate = a.StatusDate,
                                }).FirstOrDefault();
 
             return accountDtos;
@@ -59,16 +63,21 @@ namespace Swp391.Repository
                                    Status = a.Status,
                                    Email = a.Email,
                                    FullName = a.FullName,
-                                   Location = a.Address,
+                                   Address = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
+                                   StoreId = s.StoreId,
                                    RoleName = r.RoleName,
                                    StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
+                                   Cccd = a.Cccd,
+                                   DateStartWork = a.DateStartWork,
+                                   StatusDate = a.StatusDate,
                                }).FirstOrDefault();
 
             return accountDtos;
         }
+        
     }
 }

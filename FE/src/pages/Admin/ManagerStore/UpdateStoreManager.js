@@ -10,12 +10,13 @@ const { Option } = Select;
 function UpdateStoreManager() {
   const [accountmanager, setAccountmanager] = useState([]);
   const [form] = Form.useForm();
-  const { id } = useParams();
+  const id = useParams().id;
   const navigate = useNavigate()
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const data = await get(`http://localhost:5264/api/Account/${id}`);
+        console.log("data",data)
         // const dataAccount = await get(`${LIST_ACCOUNT}`);
         // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form
         form.setFieldsValue({
@@ -23,15 +24,17 @@ function UpdateStoreManager() {
             fullName: data.fullName,
             userName: data.userName,
             passWord: data.passWord,           
-            status: data.status === 1,
+            status: data.status === 0,
             email: data.email, 
             isDelete: data.isDelete ,
             storeId: data.storeId,                     
             phone: data.phone,
             location: data.location,      
             roleId: data.roleId,
+            cccd: data.cccd,
         });  
-        setAccountmanager(data);       
+        setAccountmanager(data);   
+        console.log("accountmanager",accountmanager)    
       } catch (error) {
         console.log("err in UpdateStore", error);
         setAccountmanager([]);
@@ -46,6 +49,7 @@ function UpdateStoreManager() {
     values.status = values.status ? 1 : 0;
     values.roleId = 2
     values.isDelete =  0;
+    
     console.log(values);
     const data = await put(`http://localhost:5264/api/Account/${id}`, values);   
     if(data) {
@@ -56,25 +60,34 @@ function UpdateStoreManager() {
   };
   // api store
   const [Stores, setStores] = useState([]);
+  const [Accounts, setAccounts] = useState([]);
   const fetchApi = async () => {
     try {
-      const data = await get("http://localhost:5264/api/stores");     
+      const data = await get("http://localhost:5264/api/stores");  
+      const dataAccount = await get(`http://localhost:5264/api/Account/all`);  
       setStores(data);
+      setAccounts(dataAccount);
     } catch (error) {
       message.error("Error fetching accounts");
       console.log("Error in ListStoreManager", error);
       setStores([]);
+      setAccounts([]);
     }
   };
   useEffect(() => {
     fetchApi();
   }, []);
 
+  // lọc account hiện tại 
+  const filteredAccounts = Accounts.filter(account => account.accountId !== accountmanager.accountId);
+  console.log(filteredAccounts); 
+
+
   return (
     <>
-      <h2>Edit Accoungt Manager</h2>
+      
       <Form
-        name="create-room"
+        name="Update-Managers"
         onFinish={(values) => {
           handleSubmit(values);
         }}
@@ -89,18 +102,30 @@ function UpdateStoreManager() {
           name="fullName"
           rules={[
             {
-              required: true,
-              message: "Please input your name manager!",
+                required: true,
+                message: 'Please input your full name!',
             },
-          ]}
+            {
+                validator(_, value) {
+                    // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                    const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!fullNameRegex.test(value)) {
+                        return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}        
         >
           <Input />
         </Form.Item>
 
         <Form.Item
           label="User Name"
-          name="userName"
-          
+          name="userName"         
         >
           <Input readOnly />
         </Form.Item>
@@ -108,61 +133,118 @@ function UpdateStoreManager() {
         
         <Form.Item
           label="PassWord"
-          name="passWord"
-         
-        >
-          <Input readOnly />
-        </Form.Item>
-        <Form.Item
-          label="Phone"
-          name="phone"
+          name="passWord" 
           rules={[
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value) {
-                  return Promise.reject('Please input your phone number!');
-                }                           
-                if (!/^\d{10}$/.test(value)) {
-                  return Promise.reject('Phone number must be 10 digits!');
-                }
-                if (!/^0\d{9}$/.test(value)) {
-                  return Promise.reject('Phone number must begin with 0!');
-                }                
-                return Promise.resolve();
-              },
-            }),
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-            },
             {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: 'Please input your password!',
             },
-        ]}
+            {
+                validator(_, value) {
+                    // Example regex: minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!passwordRegex.test(value)) {
+                        return Promise.reject('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}        
         >
-          <Input />
+          <Input  />
         </Form.Item>
         <Form.Item
-          label="Location"
-          name="location"
+                  label="Phone"
+                  name="phone"
+                  rules={[
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value) {
+                          return Promise.reject('Please input your phone number!');
+                        }                           
+                        if (!/^\d{10}$/.test(value)) {
+                          return Promise.reject('Phone number must be 10 digits!');
+                        }
+                        if (!/^0\d{9}$/.test(value)) {
+                          return Promise.reject('Phone number must begin with 0!');
+                        }
+                        if(filteredAccounts.some((account)=>account.phone === value)){
+                          return Promise.reject('Phone number already exists');
+                        }                
+                        return Promise.resolve();
+                      },
+                    }),
+                  ]}
+              >
+                  <Input />
+              </Form.Item>
+              <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                      {
+                          type: 'email',
+                          message: 'The input is not valid E-mail!',
+                      },
+                      {
+                          required: true,
+                          message: 'Please input your E-mail!',
+                      },
+                      ({getFieldValue})=>({
+                        validator(_, value){    
+                                              
+                          if(filteredAccounts.some((account)=>account.email === value)){
+                            return Promise.reject('Email already exists');
+                          }                
+                          return Promise.resolve();
+                        }
+                      }),
+                  ]}
+              >
+                  <Input />
+              </Form.Item>
+        <Form.Item
+          label="Address"
+          name="address"
           rules={[
             {
               required: true,
-              message: "Please input the address store!",
+              message: "Please input the address !",
             },
           ]}
         >
           <Input />
         </Form.Item>
+        <Form.Item
+                  label="CCCD"
+                  name="cccd"
+                  rules={[
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value) {
+                          return Promise.reject('Please input your CCCD number!');
+                        }                           
+                        if (!/^\d{12}$/.test(value)) {
+                          return Promise.reject('CCCD number must be 12 digits!');
+                        }
+                        if (!/^0\d{11}$/.test(value)) {
+                          return Promise.reject('CCCD number must begin with 0!');
+                        }
+                        
+                        if(filteredAccounts.some((account)=>account.cccd === value)){
+                          return Promise.reject('CCCD already exists');
+                        }                
+                        return Promise.resolve();
+                      },
+                    }),
+                  ]}
+              >
+                  <Input />
+              </Form.Item>
+
         <Form.Item
                   label="Role"
                   name="roleId"    
@@ -177,18 +259,16 @@ function UpdateStoreManager() {
                     label="Store"
                     name="storeId"
                     key="storeId"
-                >
+                >               
             <Select defaultValue={accountmanager.storeId}>
-             <Select.Option value={accountmanager.storeId}>{accountmanager.storeName}</Select.Option>
+             <Option value={accountmanager.storeId}>{accountmanager.storeName}</Option>          
                  {(Stores.filter(store => store.storeId !== accountmanager.storeId)).map(store => (
-             <Select.Option key={store.storeId} value={store.storeId}>
+             <Option key={store.storeId} value={store.storeId}>
                   {store.storeName}
-              </Select.Option>
-              ))}
-              
-</Select>
-                </Form.Item>
-        
+              </Option>
+              ))}            
+           </Select>
+                </Form.Item>       
         <Form.Item name="status" label="Switch" valuePropName="checked">
           <Switch />
         </Form.Item>

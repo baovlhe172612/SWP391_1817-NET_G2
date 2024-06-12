@@ -59,7 +59,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner", "Employee"]) && {
+    hasRole(account.roleName, ["Manager", "Employee"]) && {
       key: "manager table",
       label: "Table",
       icon: <TableOutlined />,
@@ -74,7 +74,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
+    hasRole(account.roleName, ["Manager"]) && {
       key: "manager employee",
       label: "Employee",
       icon: <UserOutlined />,
@@ -89,7 +89,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
+    hasRole(account.roleName, ["Manager", "Ower"]) && {
       key: "manager category",
       label: "Category",
       icon: <RadarChartOutlined />,
@@ -104,7 +104,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
+    hasRole(account.roleName, ["Manager", "Ower"]) && {
       key: "manager product",
       label: "Product",
       icon: <ProductOutlined />,
@@ -119,8 +119,8 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
-      key: "feedback",
+    hasRole(account.roleName, ["Manager", "Ower"]) && {
+      key: "feedback ",
       label: "Feedback",
       icon: <MenuOutlined />,
       children: [
@@ -130,7 +130,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner", "Employee"]) && {
+    hasRole(account.roleName, ["Manager", "Ower", "Employee"]) && {
       key: "manager orders",
       label: "Orders",
       icon: <ShoppingCartOutlined />,
@@ -141,7 +141,7 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean),
     },
-    hasRole(account.roleName, ["Manager", "Owner"]) && {
+    hasRole(account.roleName, ["Manager", "Ower"]) && {
       key: "manager qrs",
       label: "List Qrs",
       icon: <QrcodeOutlined />,

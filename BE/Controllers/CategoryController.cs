@@ -35,9 +35,17 @@ namespace Swp391.Controllers
         [HttpPost("add_new/")]
         public IActionResult AddCategory([FromBody] Category category)
         {
-            _categoryService.AddCategory(category);
+           
+            try
+            {
+                 _categoryService.AddCategory(category);
             return CreatedAtAction(nameof(GetAllCategory), new { id = category.CategoryId }, category);
-
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it)
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPatch("update/{id}")]

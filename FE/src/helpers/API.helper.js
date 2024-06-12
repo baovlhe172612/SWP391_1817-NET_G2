@@ -1,3 +1,5 @@
+import { message } from "antd";
+
 export const get = async (url) => {
   const response = await fetch(url, {
     method: "GET",
@@ -22,12 +24,18 @@ export const patch = async (url, values) => {
     body: JSON.stringify(values),
   };
   const response = await fetch(url, init);
+
+  // check lỗi 
+  if(!response.ok) {
+    // message.error(response.status, response.statusText)
+    console.log(response.status)
+  }
   const data = await response.json();
   return data;
 };
 
 export const post = async (url, values) => {
-  console.log("data truoc khi post", values);
+  
 
   const options = {
     method: "POST",
@@ -43,7 +51,8 @@ export const post = async (url, values) => {
   }
 
   // Trả về đối tượng phản hồi
-  return response;
+  const data = response.json();
+  return data;
 };
 
 export const deleteItem = async (url) => {
@@ -57,7 +66,14 @@ export const deleteItem = async (url) => {
 
   const response = await fetch(url, deleteMethod);
   const data = await response.json();
-  return data;
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+
+  // Trả về đối tượng phản hồi
+  return response;
 };
 
 export const put = async (url, values) => {
@@ -78,6 +94,5 @@ export const put = async (url, values) => {
   // Trả về đối tượng phản hồi
   return response;
 };
-
 
 

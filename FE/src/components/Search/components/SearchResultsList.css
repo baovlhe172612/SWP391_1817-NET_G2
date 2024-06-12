@@ -1,0 +1,22 @@
+
+.result-list {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border-radius: 10px ;
+  border: 1px solid #ddd;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto; /* Add scroll if content overflows */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Bắt đầu từ trạng thái ẩn */
+  transform: translateY(-20px); /* Di chuyển lên trên một chút */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease; /* Thêm chuyển tiếp mượt mà */
+}
+
+.result-list.show {
+  opacity: 1; /* Hiển thị */
+  transform: translateY(0); /* Di chuyển trở lại vị trí ban đầu */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm shadow để tạo hiệu ứng nổi */
+}
