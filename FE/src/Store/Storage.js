@@ -5,6 +5,5 @@ const localStorageMiddleware = store => next => action => {
     localStorage.setItem('cart', JSON.stringify(state.cart)); // Assuming your cart state is nested under 'cart'
     return result;
   };
-
   export default localStorageMiddleware;
   

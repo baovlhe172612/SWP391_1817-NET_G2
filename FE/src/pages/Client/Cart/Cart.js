@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
 import { clearCart } from "../../../reducers/cartSlice.js";
 import { post } from "../../../helpers/API.helper.js";
-
+import { Link } from "react-router-dom";
+import { Button } from "antd";
 function Cart() {
   const cart = useSelector(state => state.cart);
   const [cartData, setCartData] = useState(cart.list || []);
@@ -37,6 +38,7 @@ function Cart() {
         price: item.price,
       }));
 
+    console.log("dataToSend: ", dataToSend)
     //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
 
     if (dataToSend !== null && dataToSend.length > 0) {
@@ -57,7 +59,7 @@ function Cart() {
     } else {
       alert('Mua hàng không thành công!!!!');
     }
-    
+
   };
 
   return (
@@ -88,75 +90,75 @@ function Cart() {
                 <div class="container">
                   <div class="row">
                     <div class="col-12">
-                      <div>
-                        <button
-                          style={{
-                            marginBottom: "20px",
-                            backgroundColor: "red",
-                            color: "white",
-                            border: "none",
-                            padding: "10px 20px",
-                            borderRadius: "5px",
-                            cursor: "pointer"
-                          }}
-                          onClick={handleDeleteAll}
-                        >
-                          Delete All
-                        </button>
+                      {cart?.list.length > 0 ? (<>
+                        <div>
+                          <button
+                            style={{
+                              marginBottom: "20px",
+                              backgroundColor: "green",
+                              color: "white",
+                              border: "none",
+                              padding: "10px 20px",
+                              borderRadius: "5px",
+                              cursor: "pointer"
+                            }}
+                            onClick={handleDeleteAll}
+                          >
+                            Delete All
+                          </button>
 
-                      </div>
-                      <form action="javascript:void(0)">
-                        <div class="table-content table-responsive">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th class="product_remove">remove</th>
-                                <th class="product-thumbnail">images</th>
-                                <th class="cart-product-name">Product</th>
-                                <th class="product-price">Unit Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-subtotal">Total</th>
-                              </tr>
-                            </thead>
-
-
-                            {/* <!-- product --> */}
-                            <tbody>
-
-                              {
-                                cart?.list.map(item => {
-                                  return (
-                                    <CartItem
-                                      key={item?.productSizeID}
-                                      data={item}
-                                      onItemChange={handleItemChange}
-                                    />
-                                  )
-                                })
-                              }
-
-                            </tbody>
-                          </table>
                         </div>
-
-                        <div class="row">
-                          <div class="col-md-5 ml-auto">
-                            <div class="cart-page-total">
-                              <h2>Cart totals</h2>
+                        <Row gutter={16}>
+                          {
+                            cart?.list.map(item => {
+                              return (
+                                <CartItem
+                                  key={item?.productSizeID}
+                                  data={item}
+                                  onItemChange={handleItemChange}
+                                />
+                              )
+                            })
+                          }
+                        </Row>
+                        <div className="row" >
+                          <div className="col-md-5 ml-auto">
+                            <div className="cart-page-total">
+                              <h2>Total Price</h2>
                               <ul>
-                                <li>
-                                  Total <span>{cart?.total}đ</span>
+                                <li style={{
+                                  fontSize: '18px',
+                                  fontWeight: '800',
+                                  padding: '15px 0px',
+                                }}>
+                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
                                 </li>
                               </ul>
-
-                              <button onClick={handleCheckout}>Proceed to checkout</button>
-                              
+                              <Link
+                                to=""
+                                style={{
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  textAlign: 'center',
+                                  width: '100%',
+                                  padding: '10px 20px',
+                                  textDecoration: 'none', // Important to remove underline
+                                  color: '#fff', // Use hex color without !important
+                                  backgroundColor: 'green',
+                                  borderRadius: '5px',
+                                  fontWeight: 'bold',
+                                }}
+                                onClick={handleCheckout}
+                              >
+                                Proceed to checkout
+                              </Link>
                             </div>
                           </div>
                         </div>
                       </>) : ((
                         <div style={{ textAlign: 'center', padding: '50px 0' }}>
-                          <h3 style={{color:'green', marginBottom:'10%'}}>Your cart is empty</h3>
+                          <h3 style={{ color: 'green', marginBottom: '10%' }}>Your cart is empty</h3>
                           <p>
                             <Link
                               to="/"
@@ -164,11 +166,11 @@ function Cart() {
                                 color: '#007bff',
                                 textDecoration: 'underline',
                                 fontWeight: 'bold',
-                               
+
                               }}
                             >
                               <Button type="primary" > Continue shopping</Button>
-                             
+
                             </Link>
                           </p>
                         </div>
