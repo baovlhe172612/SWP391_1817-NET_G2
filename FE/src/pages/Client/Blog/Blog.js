@@ -1,34 +1,50 @@
+
+
 import React, { useEffect, useState } from "react";
-import { get } from "../../../helpers/API.helper";
+import { get, post } from "../../../helpers/API.helper"; // Giả sử bạn đã có phương thức POST trong API.helper
+import './Blog.css'
+import { Button, Col, Input, Row } from "antd";
 
 function Blog() {
   const [BlogData, setBlogData] = useState([]);
+  const [newPost, setNewPost] = useState({ title: "", contents: "", img: null });
 
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get("http://localhost:5264/api/Post");
-      //
-      console.log(data);
-
       setBlogData(data);
     };
-
     fetchApi();
   }, []);
 
+  const handleInputChange = (e) => {
+    console.log("e.target.name:", e.target.name);
+    console.log("e.target.content:", e.target.value);
+    setNewPost({ ...newPost, [e.target.name]: e.target.value });
+
+  };
+
+  const handleImageChange = (e) => {
+    setNewPost({ ...newPost, img: e.target.files[0] });
+  };
+
+
+  console.log("newposst", newPost)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+  };
+
+
   return (
     <>
-      <div class="main-content">
-        <div
-          class="breadcrumb-area breadcrumb-height"
-          data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg"
-        >
-          <div class="container h-100">
-            <div class="row h-100">
-              {/* Phần dưới chữ Bog */}
-              <div class="col-lg-12">
-                <div class="breadcrumb-item">
-                  <h2 class="breadcrumb-heading">Blog</h2>
+      <div className="main-content">
+        <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
+          <div className="container h-100">
+            <div className="row h-100">
+              <div className="col-lg-12">
+                <div className="breadcrumb-item">
+                  <h2 className="breadcrumb-heading">Blog</h2>
                   <ul>
                     <li>
                       <a href="/">Home</a>
@@ -41,149 +57,207 @@ function Blog() {
           </div>
         </div>
 
-        <div class="blog-area section-space-y-axis-100">
-          <div class="container">
-            <div class="row">
-              <div class="col-xl-3 col-lg-4 order-2 pt-5 pt-lg-0">
-                <div class="sidebar-area">
-                  {/* Thanh search bên tay phải:  */}
-                  <div class="widgets-searchbox">
+        {/* Form Đăng Trạng Thái */}
+        <div className="container1">
+          <div className="row mb-4">
+            <div className="col-12">
+
+
+
+
+
+              <form className="form" onSubmit={handleSubmit} encType="multipart/form-data">
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <div className="form-group">
+                      <p>Title:</p>
+                      <Input
+                        type="text"
+                        name="title"
+                        onChange={handleInputChange}
+                        className="form-control"
+                        placeholder="Title"
+                        required
+                      />
+                    </div>
+                  </Col>
+                  <Col span={24}>
+                    <div className="form-group">
+                      <p>Contents:</p>
+                      <textarea
+                        name="contents"
+
+                        onChange={handleInputChange}
+                        className="form-control"
+                        placeholder="What's on your mind?"
+                        rows="3"
+                        required
+                      ></textarea>
+                    </div>
+                  </Col>
+                  <Col span={24}>
+                    <div className="form-group">
+                      <p>Image:</p>
+                      <input
+                        type="file"
+                        name="img"
+                        onChange={handleImageChange}
+                        className="form-control-file"
+                      />
+                    </div>
+                  </Col>
+                  <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button type="primary" htmlType="submit">
+                      Đăng
+                    </Button>
+                  </Col>
+
+                </Row>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div className="blog-area section-space-y-axis-100">
+          <div className="container">
+            <div className="row">
+              <div className="col-xl-3 col-lg-4 order-2 pt-5 pt-lg-0">
+                <div className="sidebar-area">
+                  <div className="widgets-searchbox">
                     <form id="widgets-searchbox">
                       <input
-                        class="input-field"
+                        className="input-field"
                         type="text"
                         placeholder="Search"
                       />
-                      <button class="widgets-searchbox-btn" type="submit">
-                        <i class="fa fa-search"></i>
+                      <button className="widgets-searchbox-btn" type="submit">
+                        <i className="fa fa-search"></i>
                       </button>
                     </form>
                   </div>
-
-                  {/* Category cho từng sản phẩm  */}
-                  <div class="widgets-area">
-                    <div class="widgets-item pt-0">
-                      <h2 class="widgets-title mb-4">Categories</h2>
-                      <ul class="widgets-category">
+                  <div className="widgets-area">
+                    <div className="widgets-item pt-0">
+                      <h2 className="widgets-title mb-4">Categories</h2>
+                      <ul className="widgets-category">
                         <li>
                           <a href="#">
-                            <i class="fa fa-chevron-right"></i>
+                            <i className="fa fa-chevron-right"></i>
                             All <span>(65)</span>
                           </a>
                         </li>
                         <li>
                           <a href="#">
-                            <i class="fa fa-chevron-right"></i>
+                            <i className="fa fa-chevron-right"></i>
                             Trà sữa <span>(12)</span>
                           </a>
                         </li>
                         <li>
                           <a href="#">
-                            <i class="fa fa-chevron-right"></i>
+                            <i className="fa fa-chevron-right"></i>
                             Cà Phê <span>(22)</span>
                           </a>
                         </li>
                         <li>
                           <a href="#">
-                            <i class="fa fa-chevron-right"></i>
+                            <i className="fa fa-chevron-right"></i>
                             Nước ép <span>(19)</span>
                           </a>
                         </li>
                       </ul>
                     </div>
-
-                    {/* Bài đăng gần đây */}
-                    <div class="widgets-item">
-                      <h2 class="widgets-title mb-4">Recent Post</h2>
-                      <div class="swiper-container widgets-list-slider">
-                        <div class="swiper-wrapper">
-                          <div class="swiper-slide">
-                            <div class="widgets-list-item">
-                              <div class="widgets-list-img">
+                    <div className="widgets-item">
+                      <h2 className="widgets-title mb-4">Recent Post</h2>
+                      <div className="swiper-container widgets-list-slider">
+                        <div className="swiper-wrapper">
+                          <div className="swiper-slide">
+                            <div className="widgets-list-item">
+                              <div className="widgets-list-img">
                                 <a href="#">
                                   <img
-                                    class="img-full"
+                                    className="img-full"
                                     src="assets/images/blog/small-size/1-1-70x70.png"
                                     alt="Blog Images"
                                   />
                                 </a>
                               </div>
-                              <div class="widgets-list-content">
-                                <div class="widgets-meta">
+                              <div className="widgets-list-content">
+                                <div className="widgets-meta">
                                   <ul>
-                                    <li class="date">24 April 2021</li>
+                                    <li className="date">24 April 2021</li>
                                   </ul>
                                 </div>
-                                <h2 class="title mb-0">
+                                <h2 className="title mb-0">
                                   <a href="#">Lorem ipsum dolo conse tetur.</a>
                                 </h2>
                               </div>
                             </div>
                           </div>
-                          <div class="swiper-slide">
-                            <div class="widgets-list-item">
-                              <div class="widgets-list-img">
+                          <div className="swiper-slide">
+                            <div className="widgets-list-item">
+                              <div className="widgets-list-img">
                                 <a href="#">
                                   <img
-                                    class="img-full"
+                                    className="img-full"
                                     src="assets/images/blog/small-size/1-2-70x70.png"
                                     alt="Blog Images"
                                   />
                                 </a>
                               </div>
-                              <div class="widgets-list-content">
-                                <div class="widgets-meta">
+                              <div className="widgets-list-content">
+                                <div className="widgets-meta">
                                   <ul>
-                                    <li class="date">24 April 2021</li>
+                                    <li className="date">24 April 2021</li>
                                   </ul>
                                 </div>
-                                <h2 class="title mb-0">
+                                <h2 className="title mb-0">
                                   <a href="#">Lorem ipsum dolo conse tetur.</a>
                                 </h2>
                               </div>
                             </div>
                           </div>
-                          <div class="swiper-slide">
-                            <div class="widgets-list-item">
-                              <div class="widgets-list-img">
+                          <div className="swiper-slide">
+                            <div className="widgets-list-item">
+                              <div className="widgets-list-img">
                                 <a href="#">
                                   <img
-                                    class="img-full"
+                                    className="img-full"
                                     src="assets/images/blog/small-size/1-3-70x70.png"
                                     alt="Blog Images"
                                   />
                                 </a>
                               </div>
-                              <div class="widgets-list-content">
-                                <div class="widgets-meta">
+                              <div className="widgets-list-content">
+                                <div className="widgets-meta">
                                   <ul>
-                                    <li class="date">24 April 2021</li>
+                                    <li className="date">24 April 2021</li>
                                   </ul>
                                 </div>
-                                <h2 class="title mb-0">
+                                <h2 className="title mb-0">
                                   <a href="#">Lorem ipsum dolo conse tetur.</a>
                                 </h2>
                               </div>
                             </div>
                           </div>
-                          <div class="swiper-slide without-border">
-                            <div class="widgets-list-item">
-                              <div class="widgets-list-img">
+                          <div className="swiper-slide without-border">
+                            <div className="widgets-list-item">
+                              <div className="widgets-list-img">
                                 <a href="#">
                                   <img
-                                    class="img-full"
+                                    className="img-full"
                                     src="assets/images/blog/small-size/1-1-70x70.png"
                                     alt="Blog Images"
                                   />
                                 </a>
                               </div>
-                              <div class="widgets-list-content">
-                                <div class="widgets-meta">
+                              <div className="widgets-list-content">
+                                <div className="widgets-meta">
                                   <ul>
-                                    <li class="date">24 April 2021</li>
+                                    <li className="date">24 April 2021</li>
                                   </ul>
                                 </div>
-                                <h2 class="title mb-0">
+                                <h2 className="title mb-0">
                                   <a href="#">Lorem ipsum dolo conse tetur.</a>
                                 </h2>
                               </div>
@@ -192,11 +266,9 @@ function Blog() {
                         </div>
                       </div>
                     </div>
-
-                    {/* Đồ uống phổ biến */}
-                    <div class="widgets-item">
-                      <h2 class="widgets-title mb-4">Đồ uống phổ biến</h2>
-                      <ul class="widgets-tag">
+                    <div className="widgets-item">
+                      <h2 className="widgets-title mb-4">Đồ uống phổ biến</h2>
+                      <ul className="widgets-tag">
                         <li>
                           <a href="#">Fashion</a>
                         </li>
@@ -221,39 +293,38 @@ function Blog() {
                 </div>
               </div>
 
-              {/* Bên trái: Danh sách các bài đăng */}
-              <div class="col-xl-9 col-lg-8 order-1">
-                <div class="blog-item-wrap row g-y-30">
-                  {/* Bài đăng here */}
-                  {BlogData.map((item) => {
+              <div className="col-xl-9 col-lg-8 order-1">
+                <div className="blog-item-wrap row g-y-30">
+                  {BlogData.map((item, index) => {
                     return (
-                      <div class="col-md-6">
-                        <div class="blog-item">
-                          <div class="blog-content">
-                            <div class="blog-meta">
+                      <div key={index} className="col-md-6">
+                        <div className="blog-item">
+                          <div className="blog-content">
+                            <div className="blog-meta">
                               <ul>
-                                <li class="author">
+                                <li className="author">
                                   <a href="#"><strong>By:</strong> {item.author}</a>
-                                </li><br/>
-                                <li class="date">{item.createdDate}</li>
+                                </li>
+                                <br />
+                                <li className="date">{item.createdDate}</li>
                               </ul>
                             </div>
-                            <h2 class="title">
+                            <h2 className="title">
                               <a href="blog-detail.html">{item.title}</a>
                             </h2>
-                            <p class="short-desc mb-7">{item.contents}</p>
+                            <p className="short-desc mb-7">{item.contents}</p>
                           </div>
-                          <div class="blog-img img-hover-effect">
+                          <div className="blog-img img-hover-effect">
                             <a href="blog-detail.html">
                               <img
-                                class="img-full"
+                                className="img-full"
                                 src={item.img}
                                 alt="Blog Image"
                               />
                             </a>
-                            <div class="inner-btn-wrap">
-                              <a class="inner-btn" href="blog-detail.html">
-                                <i class="pe-7s-link"></i>
+                            <div className="inner-btn-wrap">
+                              <a className="inner-btn" href="blog-detail.html">
+                                <i className="pe-7s-link"></i>
                               </a>
                             </div>
                           </div>
@@ -261,30 +332,27 @@ function Blog() {
                       </div>
                     );
                   })}
-                  {/* Bài đăng here */}
                 </div>
-
-                {/* pagination */}
-                <div class="pagination-area">
+                <div className="pagination-area">
                   <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item active">
-                        <a class="page-link" href="#">
+                    <ul className="pagination justify-content-end">
+                      <li className="page-item active">
+                        <a className="page-link" href="#">
                           1
                         </a>
                       </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">
+                      <li className="page-item">
+                        <a className="page-link" href="#">
                           2
                         </a>
                       </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">
+                      <li className="page-item">
+                        <a className="page-link" href="#">
                           3
                         </a>
                       </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                      <li className="page-item">
+                        <a className="page-link" href="#" aria-label="Next">
                           &raquo;
                         </a>
                       </li>

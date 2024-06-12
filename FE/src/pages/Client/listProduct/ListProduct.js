@@ -50,8 +50,8 @@ function ListProduct() {
 
       setCategory(dataCate);
       //
-      console.log("da ghi de tai day 104");
-      console.log(data);
+      // console.log("da ghi de tai day 104");
+      // console.log(data);
       setProducts(data);
     };
 
@@ -116,7 +116,7 @@ function ListProduct() {
         throw new Error(`Network response was not ok: " ${errorText}`);
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
-      console.log("da ghi de tai day 152");
+      //console.log("da ghi de tai day 152");
       setProducts(data);
     } catch (error) {
       console.error("Error updating size:", error);
@@ -182,13 +182,14 @@ function ListProduct() {
                   <li class="page-count">
                     <span>4</span> Product Found of <span>{totalProduct}</span>
                   </li>
-                  <li class="product-view-wrap">
+                  <li class="short">
                     <ul class="nav" role="tablist">
                       {/* MENU CATEGORY */}
                       <MenuCategory categories={categories}/>
                       {/* MENU CATEGORY */}
                     </ul>
                   </li>
+
                   <li class="short">
                     <select
                       className="nice-select"

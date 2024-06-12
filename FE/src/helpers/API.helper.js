@@ -35,7 +35,7 @@ export const patch = async (url, values) => {
 };
 
 export const post = async (url, values) => {
-  console.log("data truoc khi post", values);
+  
 
   const options = {
     method: "POST",

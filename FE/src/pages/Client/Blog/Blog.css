@@ -1,0 +1,77 @@
+/* Container Styling */
+.container1 {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 15px;
+  }
+  
+  /* Form Styling */
+  .form {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form Group */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Input and Textarea Styling */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+  }
+  
+  /* File Input Styling */
+  .form-control-file {
+    display: block;
+    font-size: 16px;
+    padding: 10px 0;
+    border: none;
+  }
+  
+  /* Button Styling */
+  .btn-primary {
+    background: #007bff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .container {
+      padding: 10px;
+    }
+  
+    form {
+      padding: 15px;
+    }
+  
+    .btn-primary {
+      width: 100%;
+    }
+  }
+  
