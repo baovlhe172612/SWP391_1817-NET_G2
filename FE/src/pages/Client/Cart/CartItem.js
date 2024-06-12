@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "../../../reducers/cartSlice.js";
 import styles from "./CartItem.module.css";
 import { Avatar, Card, Col, Row } from "antd";
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta.js";
+import { removeItem, updateQuantity } from "../../../actions/CartAction";
 
 export default function CartItem({ data }) {
     const dispatch = useDispatch();
@@ -21,16 +21,15 @@ export default function CartItem({ data }) {
 
     const handleRemove = () => {
         console.log("OK")
-        dispatch(removeItem({ productSizeID: data?.productSizeID }));
+        dispatch(removeItem(data?.productSizeID));
     };
 
     useEffect(() => {
         setTotalPrice(data?.price * quantity);
-        dispatch(updateQuantity({ productSizeID: data?.productSizeID, quantity }));
+        dispatch(updateQuantity( data?.productSizeID, quantity ));
     }, [quantity, data?.price, data?.productSizeID, dispatch]);
 
     return (
-
         <>
             <div>
                 <Col lg={24} md={24} xs={48}>

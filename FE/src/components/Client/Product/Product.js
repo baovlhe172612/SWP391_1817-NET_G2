@@ -2,8 +2,8 @@ import { Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-import { useDispatch } from "react-redux"
-import { addToCart } from "../../../reducers/cartSlice.js"
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../actions/CartAction";
 
 function Product(props) {
   const { product } = props;

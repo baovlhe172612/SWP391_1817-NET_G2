@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import AllRoute from './components/Client/AllRoutes/AllRoute';
-import store from './reducers/CartRoot';
 import './App.css';
 import './assets/css/animate.min.css'
 import './assets/css/bootstrap.min.css'
