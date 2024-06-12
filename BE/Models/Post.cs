@@ -26,4 +26,8 @@ public partial class Post
     public DateTime CreatedDate { get; set; }
 
     public DateTime ModifiDate { get; set; }
+
+    public int? StoreId { get; set; }
+
+    public virtual Store? Store { get; set; }
 }

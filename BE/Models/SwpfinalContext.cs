@@ -50,6 +50,7 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Account>(entity =>
         {
             entity.ToTable("Account");
+
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.Cccd)
                 .HasMaxLength(12)
@@ -58,7 +59,8 @@ public partial class SwpfinalContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.StoreId).HasColumnName("StoreID");          
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");
+
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -73,8 +75,13 @@ public partial class SwpfinalContext : DbContext
         {
             entity.ToTable("Category");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Categories)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_Category_Store");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
@@ -85,6 +92,12 @@ public partial class SwpfinalContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("MessengerBoxID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
+            entity.Property(e => e.StoreId).HasColumnName("storeId");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.MessengerBoxes)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_MessengerBox_Store");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -150,6 +163,11 @@ public partial class SwpfinalContext : DbContext
                 .HasColumnName("PostID");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.ModifiDate).HasColumnType("datetime");
+            entity.Property(e => e.StoreId).HasColumnName("storeId");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Posts)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_Post_Store");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -159,11 +177,12 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.Img).HasColumnName("img");
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -183,6 +202,8 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Product_Size");
 
             entity.Property(e => e.ProductSizeId).HasColumnName("Product_SizeID");
+            entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.SizeId).HasColumnName("SizeID");
             entity.Property(e => e.Status).HasColumnName("status");
@@ -209,6 +230,8 @@ public partial class SwpfinalContext : DbContext
         {
             entity.ToTable("Size");
             entity.Property(e => e.SizeId).HasColumnName("SizeID");
+            entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.SizeName).HasMaxLength(50);
             entity.Property(e => e.Status).HasColumnName("status");
         });
@@ -218,8 +241,9 @@ public partial class SwpfinalContext : DbContext
             entity.ToTable("Store");
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
+            entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
         });
 
         modelBuilder.Entity<Table>(entity =>

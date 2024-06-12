@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Container, Row, Table } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
@@ -14,6 +14,51 @@ function Cart() {
     dispatch(clearCart());
 
   }
+
+
+
+  const handleItemChange = useCallback((productSizeID, newQuantity, newPrice) => {
+    setCartData(prevCartData =>
+      prevCartData.map(item =>
+        item.productSizeID === productSizeID ? { ...item, quantity: newQuantity, price: newPrice * newQuantity } : item
+      )
+    );
+  }, []);
+
+
+
+  const handleCheckout = async () => {
+    const dataToSend = cartData
+      .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
+      .map(item => ({
+        productSizeID: item.productSizeID,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+    //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
+
+    if (dataToSend !== null && dataToSend.length > 0) {
+      try {
+        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail`, dataToSend);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+
+        }
+
+        const responseData = await response.json();
+        console.log('Response:', responseData);
+        alert('Đã mua hàng thành công!');
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
+    } else {
+      alert('Mua hàng không thành công!!!!');
+    }
+    
+  };
+
   return (
     <Container>
       <Row>
