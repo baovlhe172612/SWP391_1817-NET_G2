@@ -15,11 +15,19 @@ public partial class Store
 
     public int? Status { get; set; }
 
-    public DateOnly? StatusDate { get; set; }
+    public DateOnly? DateCreated { get; set; }
+
+    public DateOnly? DateDeleted { get; set; }
 
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 
+    public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+
+    public virtual ICollection<MessengerBox> MessengerBoxes { get; set; } = new List<MessengerBox>();
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 

@@ -7,7 +7,7 @@ import { Avatar, Card, Col, Row } from "antd";
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta.js";
 
-export default function CartItem({ data }) {
+export default function CartItem({ data, onItemChange  }) {
     const dispatch = useDispatch();
 
     const [quantity, setQuantity] = useState(data?.quantity);
@@ -22,12 +22,14 @@ export default function CartItem({ data }) {
     const handleRemove = () => {
         console.log("OK")
         dispatch(removeItem({ productSizeID: data?.productSizeID }));
+        onItemChange(data.productSizeID, 0, data.price); 
     };
 
     useEffect(() => {
         setTotalPrice(data?.price * quantity);
         dispatch(updateQuantity({ productSizeID: data?.productSizeID, quantity }));
-    }, [quantity, data?.price, data?.productSizeID, dispatch]);
+        onItemChange(data.productSizeID, quantity, data.price);
+    }, [quantity, data?.price, data?.productSizeID, dispatch, onItemChange]);
 
     return (
 
