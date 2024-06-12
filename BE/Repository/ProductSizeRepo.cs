@@ -25,7 +25,7 @@ namespace Swp391.Repository
                                   ProductSizeID = ps.ProductSizeId,
                                   ProductId = p.ProductId,
                                   ProductName = p.ProductName,
-                               /*   StoreId=p.StoreId,*/
+                               /*StoreId=p.StoreId,*/
                                   Img = p.Img,
                                   SizeId = s.SizeId,
                                   SizeName = s.SizeName,
@@ -33,9 +33,9 @@ namespace Swp391.Repository
                                   Category = p.CategoryId,
                                   IsDelete= ps.IsDelete,
                                   CategoryName=c.CategoryName,
+                                  Quantity=ps.Quanity,
                                   /*StoreName=st.StoreName,*/
                                }).ToList();
-
             return ProductSize;
         }
     }

@@ -18,6 +18,7 @@ namespace Swp391.Dtos
         public int? IsDelete { get; set; }
         public List<SizeDto> Sizes { get; set; }
         public DateOnly? dateCreated {  get; set; }
+        public int? Quantity { get; set; }
 
     }
     public class SizeDto
