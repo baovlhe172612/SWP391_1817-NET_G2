@@ -16,9 +16,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // thêm biến Provider cho react-redux
   <BrowserRouter>
-    <Provider store={store}>
+    
       <App />
-    </Provider>
+    
   </BrowserRouter>
 );
 

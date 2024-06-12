@@ -13,7 +13,7 @@ public partial class ProductSize
 
     public int? Quanity { get; set; }
 
-    public int? Price { get; set; }
+    public double? Price { get; set; }
 
     public int? IsDelete { get; set; }
 

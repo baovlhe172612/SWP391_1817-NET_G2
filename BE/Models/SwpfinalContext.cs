@@ -178,7 +178,6 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
-            entity.Property(e => e.DateCreated).HasColumnName("dateCreated");
             entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.Img).HasColumnName("img");
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
