@@ -3,16 +3,18 @@ import { Container, Row, Table } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
 import { clearCart } from "../../../reducers/cartSlice.js";
+import { post } from "../../../helpers/API.helper.js";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
-
 function Cart() {
   const cart = useSelector(state => state.cart);
+  const [cartData, setCartData] = useState(cart.list || []);
+
   const dispatch = useDispatch();
   const handleDeleteAll = () => {
 
     dispatch(clearCart());
-
+    setCartData([]);
   }
 
 
@@ -36,6 +38,7 @@ function Cart() {
         price: item.price,
       }));
 
+    console.log("dataToSend: ", dataToSend)
     //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
 
     if (dataToSend !== null && dataToSend.length > 0) {
@@ -56,7 +59,7 @@ function Cart() {
     } else {
       alert('Mua hàng không thành công!!!!');
     }
-    
+
   };
 
   return (
@@ -112,6 +115,7 @@ function Cart() {
                                 <CartItem
                                   key={item?.productSizeID}
                                   data={item}
+                                  onItemChange={handleItemChange}
                                 />
                               )
                             })
@@ -141,11 +145,11 @@ function Cart() {
                                   padding: '10px 20px',
                                   textDecoration: 'none', // Important to remove underline
                                   color: '#fff', // Use hex color without !important
-                                  backgroundColor: 'green', 
+                                  backgroundColor: 'green',
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
-
+                                onClick={handleCheckout}
                               >
                                 Proceed to checkout
                               </Link>
@@ -154,7 +158,7 @@ function Cart() {
                         </div>
                       </>) : ((
                         <div style={{ textAlign: 'center', padding: '50px 0' }}>
-                          <h3 style={{color:'green', marginBottom:'10%'}}>Your cart is empty</h3>
+                          <h3 style={{ color: 'green', marginBottom: '10%' }}>Your cart is empty</h3>
                           <p>
                             <Link
                               to="/"
@@ -162,11 +166,11 @@ function Cart() {
                                 color: '#007bff',
                                 textDecoration: 'underline',
                                 fontWeight: 'bold',
-                               
+
                               }}
                             >
                               <Button type="primary" > Continue shopping</Button>
-                             
+
                             </Link>
                           </p>
                         </div>
