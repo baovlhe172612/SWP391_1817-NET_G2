@@ -16,9 +16,6 @@ function Cart() {
     dispatch(clearCart());
     setCartData([]);
   }
-
-
-
   const handleItemChange = useCallback((productSizeID, newQuantity, newPrice) => {
     setCartData(prevCartData =>
       prevCartData.map(item =>
@@ -26,8 +23,6 @@ function Cart() {
       )
     );
   }, []);
-
-
 
   const handleCheckout = async () => {
     const dataToSend = cartData

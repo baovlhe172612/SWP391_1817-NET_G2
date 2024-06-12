@@ -21,12 +21,12 @@ export default function CartItem({ data }) {
 
     const handleRemove = () => {
         console.log("OK")
-        dispatch(removeItem({ productSizeID: data?.productSizeID }));
+        dispatch(removeItem(data?.productSizeID));
     };
 
     useEffect(() => {
         setTotalPrice(data?.price * quantity);
-        dispatch(updateQuantity({ productSizeID: data?.productSizeID, quantity }));
+        dispatch(updateQuantity( data?.productSizeID, quantity ));
     }, [quantity, data?.price, data?.productSizeID, dispatch]);
 
     return (
