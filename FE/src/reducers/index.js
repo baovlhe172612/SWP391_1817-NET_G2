@@ -5,7 +5,6 @@ const allReducers = combineReducers({
   // thêm nhiều reducer ở đây
   LoginReducer,
   AccountReducer,
-  
 });
 
 export default allReducers;

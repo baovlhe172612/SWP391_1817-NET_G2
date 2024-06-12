@@ -96,10 +96,16 @@ ul {
   padding: 0;
   list-style: none;
 }
-
 img {
-  max-width: 100%;
+  width: 70px;
+  height: 100%;
+  object-fit: cover; /* Hoặc contain */
 }
+
+/* img {
+  max-width: 100%;
+  
+} */
 
 .img-full {
   width: 100%;
@@ -1829,7 +1835,7 @@ blockquote p {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   text-transform: uppercase;
   position: relative;
 }
@@ -3402,12 +3408,18 @@ blockquote p {
   padding-top: 10px;
 }
 
-.product-content .product-name {
+/* .product-content .product-name {
   margin-bottom: 5px;
   color: #303030;
   font-size: 18px;
   display: block;
-}
+  white-space: nowrap;        
+  overflow: hidden;           
+  text-overflow: ellipsis;    
+  max-width: 200px;           
+  margin: 0 auto;             
+} */
+
 
 .product-content .product-name:hover {
   color: #abd373;
@@ -6377,7 +6389,7 @@ blockquote p {
 }
 .cart-page-total a {
  text-align: center;
-  background-color: #0ae06ab1;
+  background-color: rgba(0, 0, 0, 0.726);
   border: 0;
   color: #ffffff;
   display: inline-block;
@@ -6389,10 +6401,7 @@ blockquote p {
   transition: all 0.3s ease 0s;
 }
 
-.cart-page-total a:hover {
-  background-color: #c0108e;
-  color: #ffffff;
-}
+
 
 /*----------------------------------------*/
 /*  26. Wishlist
@@ -6965,4 +6974,8 @@ blockquote p {
   margin-bottom: 70px;
 }
 
+
+.ant-card .ant-card-body {
+  padding: 10px;
+}
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post, get } from '../../../helpers/API.helper';
+import { post, get } from '../../../helpers/API.helper';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
@@ -16,6 +17,8 @@ function CreateEmployee() {
         values.roleId = 3;
         values.status = values.status ? 1 : 0;
         
+        values.status = values.status ? 1 : 0;
+        
         try {
             const response = await post(`http://localhost:5264/api/Account`, values);
             if (response) {
@@ -24,6 +27,7 @@ function CreateEmployee() {
                 navigate(`/admin/employee/`);
             }
         } catch (error) {
+            message.error('Account creation failed! Username, Email, Phone, or CCCD might already exist.');
             message.error('Account creation failed! Username, Email, Phone, or CCCD might already exist.');
             console.error("Failed to create account. Please try again later", error);
         }
@@ -37,14 +41,25 @@ function CreateEmployee() {
             setStores(data);
         } catch (error) {
             message.error("Error fetching stores");
+            message.error("Error fetching stores");
             console.log("Error in ListStoreManager", error);
             setStores([]);
         }
     };
 
+
     useEffect(() => {
         fetchApi();
     }, []);
+
+    const noOnlySpacesRule = {
+        validator: (_, value) => {
+            if (value && value.trim() === "") {
+                return Promise.reject(new Error('This field cannot contain only spaces!'));
+            }
+            return Promise.resolve();
+        }
+    };
 
     const noOnlySpacesRule = {
         validator: (_, value) => {
@@ -75,6 +90,7 @@ function CreateEmployee() {
                             message: 'Please input your username!',
                         },
                         noOnlySpacesRule
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
@@ -88,6 +104,7 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your password!',
                         },
+                        noOnlySpacesRule
                         noOnlySpacesRule
                     ]}
                 >
@@ -116,6 +133,7 @@ function CreateEmployee() {
                             message: 'Please input your E-mail!',
                         },
                         noOnlySpacesRule
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
@@ -130,6 +148,7 @@ function CreateEmployee() {
                             message: 'Please input your full name!',
                         },
                         noOnlySpacesRule
+                        noOnlySpacesRule
                     ]}
                 >
                     <Input />
@@ -137,6 +156,8 @@ function CreateEmployee() {
 
                 <Form.Item
                     label="Address"
+                    name="address"
+                    rules={[noOnlySpacesRule]}
                     name="address"
                     rules={[noOnlySpacesRule]}
                 >
@@ -150,11 +171,14 @@ function CreateEmployee() {
                         {
                             required: true,
                             message: 'Please input your CCCD!',
+                            message: 'Please input your CCCD!',
                         },
                         {
                             pattern: /^0\d{0,11}$/,
                             message: 'Please input a number starting with 0 and ensure the length is less than or equal to 12 digits!',
+                            message: 'Please input a number starting with 0 and ensure the length is less than or equal to 12 digits!',
                         },
+                        noOnlySpacesRule
                         noOnlySpacesRule
                     ]}
                 >
@@ -172,7 +196,9 @@ function CreateEmployee() {
                         {
                             pattern: /^0\d{0,9}$/,
                             message: 'Please input a number starting with 0 and ensure the length is less than or equal to 10 digits!',
+                            message: 'Please input a number starting with 0 and ensure the length is less than or equal to 10 digits!',
                         },
+                        noOnlySpacesRule
                         noOnlySpacesRule
                     ]}
                 >
@@ -199,10 +225,15 @@ function CreateEmployee() {
                         <Select.Option value={account.storeId}>
                             {account.storeName}
                         </Select.Option>
+                        <Select.Option value={account.storeId}>
+                            {account.storeName}
+                        </Select.Option>
                     </Select>
                 </Form.Item>
 
+
                 <Form.Item
+                    label="isDelete"
                     label="isDelete"
                     name="isDelete"
                     hidden
@@ -211,6 +242,7 @@ function CreateEmployee() {
                 </Form.Item>
 
                 <Form.Item>
+                    <Button type="primary" htmlType="submit">
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
