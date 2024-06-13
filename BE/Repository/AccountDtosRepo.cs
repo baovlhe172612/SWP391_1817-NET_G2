@@ -36,10 +36,13 @@ namespace Swp391.Repository
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
-                                   StoreId=s.StoreId,
+                                   StoreId = s.StoreId,
                                    RoleName = r.RoleName,
                                    StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
+                                   Cccd = a.Cccd,
+                                   DateStartWork = a.DateStartWork,
+                                   StatusDate = a.StatusDate,
                                }).FirstOrDefault();
 
             return accountDtos;
@@ -63,14 +66,18 @@ namespace Swp391.Repository
                                    Address = a.Address,
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
-                                   StoreId = s.StoreId,
                                    Token = a.Token,
+                                   StoreId = s.StoreId,
                                    RoleName = r.RoleName,
                                    StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
+                                   Cccd = a.Cccd,
+                                   DateStartWork = a.DateStartWork,
+                                   StatusDate = a.StatusDate,
                                }).FirstOrDefault();
 
             return accountDtos;
         }
+        
     }
 }
