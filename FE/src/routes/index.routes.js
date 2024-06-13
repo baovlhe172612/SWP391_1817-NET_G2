@@ -194,11 +194,7 @@ const routes = [
                   {
                     path: "",
                     element: <ListProductAdmin />,
-                  },
-                  {
-                    path: "create",
-                    element: <CreateProduct />,
-                  },
+                  },               
                 ],
               },
               {

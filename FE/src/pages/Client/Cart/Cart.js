@@ -1,194 +1,231 @@
-import React, { useCallback, useState } from "react";
-import { Container, Row, Table } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import CartItem from "../Cart/CartItem.js"
-import { clearCart } from "../../../reducers/cartSlice.js";
-import { post } from "../../../helpers/API.helper.js";
-import { Link } from "react-router-dom";
-import { Button } from "antd";
+import React from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { ADD_ITEM } from "../../../actions/CartActions";
+
 function Cart() {
-  const cart = useSelector(state => state.cart);
-  const [cartData, setCartData] = useState(cart.list || []);
-
+  const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
-  const handleDeleteAll = () => {
-
-    dispatch(clearCart());
-    setCartData([]);
-  }
-
-
-
-  const handleItemChange = useCallback((productSizeID, newQuantity, newPrice) => {
-    setCartData(prevCartData =>
-      prevCartData.map(item =>
-        item.productSizeID === productSizeID ? { ...item, quantity: newQuantity, price: newPrice * newQuantity } : item
-      )
-    );
-  }, []);
-
-
-
-  const handleCheckout = async () => {
-    const dataToSend = cartData
-      .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
-      .map(item => ({
-        productSizeID: item.productSizeID,
-        quantity: item.quantity,
-        price: item.price,
-      }));
-
-    console.log("dataToSend: ", dataToSend)
-    //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
-
-    if (dataToSend !== null && dataToSend.length > 0) {
-      try {
-        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail`, dataToSend);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-
-        }
-
-        const responseData = await response.json();
-        console.log('Response:', responseData);
-        alert('Đã mua hàng thành công!');
-      } catch (error) {
-        console.error('Error sending data:', error);
-      }
-    } else {
-      alert('Mua hàng không thành công!!!!');
-    }
-
+  const handleSub = () => {
+    const product = { id: 3, name: 'Product 2', price: 100 };
+    dispatch({ type: ADD_ITEM, payload: product }); // Gửi action ADD_ITEM với dữ liệu sản phẩm
   };
-
+  console.log(cartItems);
   return (
-    <Container>
-      <Row>
-        <>
-          <div class="main-wrapper">
-            {/* <!-- Begin Main Content Area --> */}
-            <main class="main-content">
-              <div class="breadcrumb-area breadcrumb-height">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="breadcrumb-item">
-                        <h2 class="breadcrumb-heading">Cart Page</h2>
-                        <ul>
-                          <li>
-                            <Link to="/">Home</Link>
-                          </li>
-                          <li>Cart Page</li>
-                        </ul>
+    <>
+    <button onClick={handleSub}>Thêm vào giỏ hàng</button> 
+      <div class="main-wrapper">
+        {/* <!-- Begin Main Content Area --> */}
+        <main class="main-content">
+          <div class="breadcrumb-area breadcrumb-height">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="breadcrumb-item">
+                    <h2 class="breadcrumb-heading">Cart Page</h2>
+                    <ul>
+                      <li>
+                        <a href="index.html">Home</a>
+                      </li>
+                      <li>Cart Page</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cart-area">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <form action="javascript:void(0)">
+                    <div class="table-content table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="product_remove">remove</th>
+                            <th class="product-thumbnail">images</th>
+                            <th class="cart-product-name">Product</th>
+                            <th class="product-price">Unit Price</th>
+                            <th class="product-quantity">Quantity</th>
+                            <th class="product-subtotal">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="product_remove">
+                              <a href="#">
+                                <i
+                                  class="pe-7s-close"
+                                  data-tippy="Remove"
+                                  data-tippy-inertia="true"
+                                  data-tippy-animation="shift-away"
+                                  data-tippy-delay="50"
+                                  data-tippy-arrow="true"
+                                  data-tippy-theme="sharpborder"
+                                ></i>
+                              </a>
+                            </td>
+                            {/* <td class="product-thumbnail">
+                              <a href="#">
+                                <img
+                                  src="assets/images/product/small-size/1-1-112x124.png"
+                                  alt="Cart Thumbnail"
+                                />
+                              </a>
+                            </td> */}
+                            <td class="product-name">
+                              <a href="#">American Marigold</a>
+                            </td>
+                            <td class="product-price">
+                              <span class="amount">$23.45</span>
+                            </td>
+                            <td class="quantity">
+                              <div class="cart-plus-minus">
+                                <input
+                                  class="cart-plus-minus-box"
+                                  value="1"
+                                  type="text"
+                                />
+                                <div class="dec qtybutton">
+                                  <i class="fa fa-minus"></i>
+                                </div>
+                                <div class="inc qtybutton">
+                                  <i class="fa fa-plus"></i>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="product-subtotal">
+                              <span class="amount">$23.45</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="product_remove">
+                              <a href="#">
+                                <i
+                                  class="pe-7s-close"
+                                  data-tippy="Remove"
+                                  data-tippy-inertia="true"
+                                  data-tippy-animation="shift-away"
+                                  data-tippy-delay="50"
+                                  data-tippy-arrow="true"
+                                  data-tippy-theme="sharpborder"
+                                ></i>
+                              </a>
+                            </td>
+                            {/* <td class="product-thumbnail">
+                              <a href="#">
+                                <img
+                                  src="assets/images/product/small-size/1-2-112x124.png"
+                                  alt="Cart Thumbnail"
+                                />
+                              </a>
+                            </td> */}
+                            <td class="product-name">
+                              <a href="#">Black Eyed Susan</a>
+                            </td>
+                            <td class="product-price">
+                              <span class="amount">$25.45</span>
+                            </td>
+                            <td class="quantity">
+                              <div class="cart-plus-minus">
+                                <input
+                                  class="cart-plus-minus-box"
+                                  value="1"
+                                  type="text"
+                                />
+                                <div class="dec qtybutton">
+                                  <i class="fa fa-minus"></i>
+                                </div>
+                                <div class="inc qtybutton">
+                                  <i class="fa fa-plus"></i>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="product-subtotal">
+                              <span class="amount">$25.45</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="product_remove">
+                              <a href="#">
+                                <i
+                                  class="pe-7s-close"
+                                  data-tippy="Remove"
+                                  data-tippy-inertia="true"
+                                  data-tippy-animation="shift-away"
+                                  data-tippy-delay="50"
+                                  data-tippy-arrow="true"
+                                  data-tippy-theme="sharpborder"
+                                ></i>
+                              </a>
+                            </td>
+                            {/* <td class="product-thumbnail">
+                              <a href="#">
+                                <img
+                                  src="assets/images/product/small-size/1-3-112x124.png"
+                                  alt="Cart Thumbnail"
+                                />
+                              </a>
+                            </td> */}
+                            <td class="product-name">
+                              <a href="#">Bleeding Heart</a>
+                            </td>
+                            <td class="product-price">
+                              <span class="amount">$30.45</span>
+                            </td>
+                            <td class="quantity">
+                              <div class="cart-plus-minus">
+                                <input
+                                  class="cart-plus-minus-box"
+                                  value="1"
+                                  type="text"
+                                />
+                                <div class="dec qtybutton">
+                                  <i class="fa fa-minus"></i>
+                                </div>
+                                <div class="inc qtybutton">
+                                  <i class="fa fa-plus"></i>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="product-subtotal">
+                              <span class="amount">$30.45</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-5 ml-auto">
+                        <div class="cart-page-total">
+                          <h2>Cart totals</h2>
+                          <ul>
+                            <li>
+                              Subtotal <span>$79.35</span>
+                            </li>
+                            <li>
+                              Total <span>$79.35</span>
+                            </li>
+                          </ul>
+                          <div class="center-button">
+                            <a href="#">Proceed to checkout</a>
+                          </div>
+
+
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
-              <div class="cart-area">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-12">
-                      {cart?.list.length > 0 ? (<>
-                        <div>
-                          <button
-                            style={{
-                              marginBottom: "20px",
-                              backgroundColor: "green",
-                              color: "white",
-                              border: "none",
-                              padding: "10px 20px",
-                              borderRadius: "5px",
-                              cursor: "pointer"
-                            }}
-                            onClick={handleDeleteAll}
-                          >
-                            Delete All
-                          </button>
-
-                        </div>
-                        <Row gutter={16}>
-                          {
-                            cart?.list.map(item => {
-                              return (
-                                <CartItem
-                                  key={item?.productSizeID}
-                                  data={item}
-                                  onItemChange={handleItemChange}
-                                />
-                              )
-                            })
-                          }
-                        </Row>
-                        <div className="row" >
-                          <div className="col-md-5 ml-auto">
-                            <div className="cart-page-total">
-                              <h2>Total Price</h2>
-                              <ul>
-                                <li style={{
-                                  fontSize: '18px',
-                                  fontWeight: '800',
-                                  padding: '15px 0px',
-                                }}>
-                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
-                                </li>
-                              </ul>
-                              <Link
-                                to=""
-                                style={{
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  textAlign: 'center',
-                                  width: '100%',
-                                  padding: '10px 20px',
-                                  textDecoration: 'none', // Important to remove underline
-                                  color: '#fff', // Use hex color without !important
-                                  backgroundColor: 'green',
-                                  borderRadius: '5px',
-                                  fontWeight: 'bold',
-                                }}
-                                onClick={handleCheckout}
-                              >
-                                Proceed to checkout
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </>) : ((
-                        <div style={{ textAlign: 'center', padding: '50px 0' }}>
-                          <h3 style={{ color: 'green', marginBottom: '10%' }}>Your cart is empty</h3>
-                          <p>
-                            <Link
-                              to="/"
-                              style={{
-                                color: '#007bff',
-                                textDecoration: 'underline',
-                                fontWeight: 'bold',
-
-                              }}
-                            >
-                              <Button type="primary" > Continue shopping</Button>
-
-                            </Link>
-                          </p>
-                        </div>
-                      ))}
-
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </main>
-
+            </div>
           </div>
-        </>
-      </Row>
-    </Container>
-  );
+        </main>
 
+      </div>
+    </>
+  );
 }
 
 export default Cart;

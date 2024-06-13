@@ -6,23 +6,30 @@ import "./Profile.css";
 import { put } from "../../../helpers/API.helper";
 import { UPDATE_ACCOUNT_ID } from "../../../helpers/APILinks";
 import { alear_false, alear_success } from "../../../helpers/Alert.helper";
+import { updateAccountObj } from "../../../helpers/Obj.helper";
 
 const { Item } = Form;
 
 function Profile() {
   const account = useSelector((state) => state.AccountReducer);
 
+  console.log(account)
+
   // SUBMIT
   const handleSubmit = async (values) => {
-    const profileNew = { ...account, values }
+    const profileNewV1 = { ...account, values }
+
+    const profileNewV2 = updateAccountObj(profileNewV1);
+
+    console.log(profileNewV1)
 
     try {
       const dataPatch = await put(
-        `${UPDATE_ACCOUNT_ID}/${profileNew.accountId}`,
-        profileNew
+        `${UPDATE_ACCOUNT_ID}/${profileNewV1.accountId}`,
+        profileNewV2
       );
 
-      console.log(dataPatch)
+      // console.log(dataPatch)
 
       if (dataPatch.ok) {
         alear_success(`Update Success`, `updated`);
