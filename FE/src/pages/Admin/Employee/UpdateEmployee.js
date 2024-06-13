@@ -11,6 +11,7 @@ const { Option } = Select;
 
 function UpdateStoreManager() {
   const account = useSelector(state => state.AccountReducer);
+  console.log("account",account)
   const [accountemployee, setAccountemployee] = useState([]);
   const [form] = Form.useForm();
   const id = useParams().id;

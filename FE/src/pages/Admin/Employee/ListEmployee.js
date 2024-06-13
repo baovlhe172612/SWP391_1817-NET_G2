@@ -4,6 +4,7 @@ import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import UpdateIsDelete from "./UpdateIsDelete";
+import updateStatus from "./UpdateStatus";
 
 const { Search } = Input;
 
@@ -103,15 +104,40 @@ function ListEmployee() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => {
+      render: (status, record) => {
         const statusMap = {
           1: { text: "Active", color: "green" },
-          0: { text: "Inactive", color: "red" },
+          0: { text: "Inactive", color: "red" }
         };
-        const { text, color } = statusMap[status] || { text: "Unknown", color: "gray" };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray"
+        };    
+        return (
+          <Button onClick={() => updateStatus(record, onReload)}>
+            <Tag color={color}>{text}</Tag>
+          </Button>
+        );
+      }
+    },
+
+    {
+      title: "isDelete",
+      dataIndex: "isDelete",
+      key: "isDelete",
+      render: (status) => {
+        const statusMap = {
+          0: { text: "Undeleted", color: "green" },
+          1: { text: "Deleted", color: "red" },
+        };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray",
+        };
         return <Tag color={color}>{text}</Tag>;
       },
     },
+    
     {
       title: "Actions",
       key: "actions",
@@ -132,7 +158,7 @@ function ListEmployee() {
   return (
     <>
       <Space style={{ marginBottom: 16 }}>
-        {/** Filter buttons for Active and Inactive */}
+   
         <Button.Group>
           <Button
             type={filterStatus.includes("active") ? "primary" : ""}
@@ -148,7 +174,7 @@ function ListEmployee() {
           </Button>
         </Button.Group>
 
-        {/** Search input */}
+      
         <Search
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}

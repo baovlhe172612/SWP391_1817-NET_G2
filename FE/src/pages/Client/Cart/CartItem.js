@@ -13,7 +13,7 @@ export default function CartItem({ data }) {
     const [quantity, setQuantity] = useState(data?.quantity);
     const [totalPrice, setTotalPrice] = useState(data?.price * data?.quantity);
 
-    console.log(totalPrice)
+    console.log("totalPrice",totalPrice)
     const handleChange = (e) => {
         const value = parseInt(e.target.value) > 0 ? parseInt(e.target.value) : 1;
         setQuantity(value);

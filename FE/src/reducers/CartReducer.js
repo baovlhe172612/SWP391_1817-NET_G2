@@ -7,8 +7,11 @@ const getInitialState = () => {
     const savedState = localStorage.getItem('cart');
     return savedState ? JSON.parse(savedState) : { list: [], total: 0 };
 };
+console.log("getInitialState",getInitialState)
 
 const cartReducer = (state = getInitialState(), action) => {
+    console.log("state",state)
+    console.log("action",action)
     switch (action.type) {
         case ADD_TO_CART: {
             const check = state.list.findIndex(product => product.productSizeID === action.payload.productSizeID);
