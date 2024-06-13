@@ -33,23 +33,20 @@ function Cart() {
         price: item.price,
       }));
 
-    console.log("dataToSend: ", dataToSend)
+    // console.log("dataToSend: ", dataToSend)
     //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
 
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
         const response = await post(`http://localhost:5264/api/Order/AddOrderDetail`, dataToSend);
+        
+        
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-
-        }
-
-        const responseData = await response.json();
+        const responseData = response;
         console.log('Response:', responseData);
         alert('Đã mua hàng thành công!');
       } catch (error) {
-        console.error('Error sending data:', error);
+        console.log('Error sending data:', error);
       }
     } else {
       alert('Mua hàng không thành công!!!!');
