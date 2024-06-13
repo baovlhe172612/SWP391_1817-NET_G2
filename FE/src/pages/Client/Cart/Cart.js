@@ -6,16 +6,31 @@ import { post } from "../../../helpers/API.helper.js";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
+import CheckoutModal from "./CheckoutModal.js";
+
 function Cart() {
   const cart = useSelector(state => state.cart);
   const [cartData, setCartData] = useState(cart.list || []);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
   const handleDeleteAll = () => {
 
     dispatch(clearCart());
     setCartData([]);
   }
+// show modal
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const handleItemChange = useCallback((productSizeID, newQuantity, newPrice) => {
     setCartData(prevCartData =>
       prevCartData.map(item =>
@@ -126,7 +141,7 @@ function Cart() {
                                   Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
                                 </li>
                               </ul>
-                              <Link
+                              <Button
                                 to=""
                                 style={{
                                   display: 'flex',
@@ -141,10 +156,11 @@ function Cart() {
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
-                                onClick={handleCheckout}
+                                onClick={showModal}                               
                               >
                                 Proceed to checkout
-                              </Link>
+                              </Button>
+                              <CheckoutModal isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel}/>
                             </div>
                           </div>
                         </div>
