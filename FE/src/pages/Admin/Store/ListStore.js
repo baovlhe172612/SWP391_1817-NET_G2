@@ -25,9 +25,9 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        console.log(status);
         const data = await get(`${GET_STORES_STATUS}/${status}`);
 
+        // console.log(data)
         if (data) {
           setStores(data);
         }
@@ -64,6 +64,11 @@ function ListStore() {
         ),
     },
     {
+      title: "Manager",
+      dataIndex: "Manager",
+      key: "Manager",
+    },
+    {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
@@ -95,8 +100,8 @@ function ListStore() {
         StoreID: store.storeId,
         StoreName: store.storeName,
         Location: store.location,
-        Email: store.email,
-        UserName: store.userName,
+        // Email: store.email,
+        Manager: store.accountName,
         Status: store.status,
         actions: store.storeId,
         key: index,

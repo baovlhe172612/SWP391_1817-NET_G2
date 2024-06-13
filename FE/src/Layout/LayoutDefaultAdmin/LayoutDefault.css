@@ -37,6 +37,7 @@
     padding: 20px;
     background: white;
     height: 100%;
+    min-height: 600px;
     border-radius: 10px;
 }
 .header__collapse{

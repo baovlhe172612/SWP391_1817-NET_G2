@@ -14,7 +14,7 @@ import {
 } from "@ant-design/icons";
 import MenuSider from "../../components/Admin/Menu/index";
 import { Link, Outlet } from "react-router-dom";
-import { Footer } from "antd/es/layout/layout";
+import  Footer from './Footer/Footer';
 import Notify from "../../components/Admin/Notify";
 import { getSessionItem } from "../../helpers/Session.helper";
 
