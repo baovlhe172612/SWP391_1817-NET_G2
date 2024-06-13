@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post, get } from '../../../helpers/API.helper';

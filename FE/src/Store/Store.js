@@ -1,15 +1,40 @@
-import { createStore, applyMiddleware } from "redux";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
-import { thunk } from "redux-thunk";
-import allReducers from "../reducers";
+// store.js
+
+import { createStore } from 'redux';
+import allReducers from '../reducers';
 
 
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["cart"], // Only persist the cart state
+
+// Load state from local storage
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('state');
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (error) {
+    console.error('Error loading state from local storage:', error);
+    return undefined;
+  }
 };
-const persistedReducer = persistReducer(persistConfig, allReducers);
-export const store = createStore(persistedReducer, applyMiddleware(thunk));
-export const persistor = persistStore(store);
+
+// Save state to local storage
+const saveState = (state) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+  } catch (error) {
+    console.error('Error saving state to local storage:', error);
+  }
+};
+
+// Create store with initial state from local storage
+const store = createStore(allReducers, loadState());
+
+// Subscribe to store changes and save state to local storage
+store.subscribe(() => {
+  saveState(store.getState());
+});
+
+export default store;

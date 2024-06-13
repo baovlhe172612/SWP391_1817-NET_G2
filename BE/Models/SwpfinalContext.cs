@@ -72,9 +72,13 @@ public partial class SwpfinalContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
+
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Categories)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_Category_Store");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
@@ -159,11 +163,11 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.DateDeleted).HasColumnName("dateDeleted");
             entity.Property(e => e.Img).HasColumnName("img");
             entity.Property(e => e.ModifileDate).HasColumnType("datetime");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -220,8 +224,6 @@ public partial class SwpfinalContext : DbContext
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.dateCreated).HasColumnName("dateCreated");
-            entity.Property(e => e.dateDeleted).HasColumnName("dateDeleted");
         });
 
         modelBuilder.Entity<Table>(entity =>

@@ -29,7 +29,7 @@ function UpdateStoreManager() {
             isDelete: data.isDelete ,
             storeId: data.storeId,                     
             phone: data.phone,
-            location: data.location,      
+            address: data.address,      
             roleId: data.roleId,
             cccd: data.cccd,
         });  

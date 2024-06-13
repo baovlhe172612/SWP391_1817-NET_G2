@@ -63,7 +63,12 @@ function Blog() {
         <div className="container1">
           <div className="row mb-4">
             <div className="col-12">
-              <form onSubmit={handleSubmit} encType="multipart/form-data">
+
+
+
+
+
+              <form className="form" onSubmit={handleSubmit} encType="multipart/form-data">
                 <Row gutter={[16, 16]}>
                   <Col span={24}>
                     <div className="form-group">
