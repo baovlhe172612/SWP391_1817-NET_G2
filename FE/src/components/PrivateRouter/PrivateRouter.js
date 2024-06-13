@@ -54,7 +54,7 @@ function PrivateRouter() {
 
   return (
     <>
-      <Outlet />
+      {checkLogin && <Outlet />}
     </>
   );
 }

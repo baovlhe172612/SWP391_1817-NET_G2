@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
   DELETE_STORE_ID,
   GET_STORES_STATUS,
   LIST_STORES,
+  SEARCH_STORE,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
+import Search from "antd/es/input/Search";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
   const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
+  const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
@@ -21,6 +24,7 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
+        console.log(status);
         const data = await get(`${GET_STORES_STATUS}/${status}`);
 
         if (data) {
@@ -85,7 +89,7 @@ function ListStore() {
 
   // Nếu có data từ api => tạo data cho Table
   if (stores.length > 0) {
-    data = stores.map((store) => {
+    data = stores.map((store, index) => {
       return {
         StoreID: store.storeId,
         StoreName: store.storeName,
@@ -94,7 +98,7 @@ function ListStore() {
         UserName: store.userName,
         Status: store.status,
         actions: store.storeId,
-        key: store.storeId,
+        key: index,
       };
     });
   }
@@ -134,9 +138,36 @@ function ListStore() {
     setStores(changeStores);
   };
 
+  // search
+  const onSearch = async (values) => {
+    try {
+      let data = [];
+      if (values) {
+        data = await get(`${SEARCH_STORE}?name=${values}`);
+      } else {
+        data = await get(`${GET_STORES_STATUS}/${status}`);
+      }
+
+      setStores(data);
+    } catch (error) {
+      console.log(error, `ListStore`);
+      setStores([]);
+    }
+  };
+
   return (
     <>
-      <Status handleStatus={handleStatus}/>
+      <Space>
+        <Status handleStatus={handleStatus} />
+
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          onSearch={onSearch}
+        />
+      </Space>
 
       <Table
         columns={columns}
