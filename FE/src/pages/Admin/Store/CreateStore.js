@@ -26,7 +26,7 @@ function CreateStore() {
     values.isDelete = 0;
 
     console.log(values);
-    const dataUpdate = values//await post(CREATE_STORE, values);
+    const dataUpdate = await post(CREATE_STORE, values);
 
     console.log(dataUpdate)
 

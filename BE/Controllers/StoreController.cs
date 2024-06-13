@@ -51,7 +51,6 @@ namespace Swp391.Controllers
             {
                 return Ok(new
                 {
-                    id = id,
                     store = store,
                 });
 

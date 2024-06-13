@@ -50,26 +50,25 @@ namespace Swp391.Repository
         /// <summary>
         /// Update IsDelete
         /// </summary>
-        public void UpdateStore(Store store)
+        public Store UpdateStore(Store store)
         {
             try
             {
-                var existingStore = _context.Stores.Local.FirstOrDefault(s => s.StoreId == store.StoreId)
-                ?? _context.Stores.Attach(store).Entity;
                 existingStore.StoreName = store.StoreName;
-                existingStore.Location = store.Location;
-                existingStore.Status = store.Status;
-                existingStore.IsDelete = store.IsDelete;
-                existingStore.DateCreated = null;
-                existingStore.DateDeleted = null;
-                _context.Update(existingStore);
+                _context.Update(store);
+
                 _context.SaveChanges();
+
+                return store;
             }
             catch (System.Exception ex)
             {
                 throw new Exception("Update fail: " + ex.Message);
             }
+
+            return null;
         }
+
 
         public List<Store> getAllNewStore()
         {
@@ -77,7 +76,7 @@ namespace Swp391.Repository
                             join a in _context.Accounts
                             on s.StoreId equals a.StoreId into sa
                             from suba in sa.DefaultIfEmpty()
-                            where suba == null
+                            where suba == null & s.IsDelete == 0
                             select s).ToList();
 
             return newStore;
