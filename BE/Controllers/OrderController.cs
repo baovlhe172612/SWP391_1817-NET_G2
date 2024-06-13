@@ -46,7 +46,7 @@ namespace BE.Controllers
 
             _service.updateOrderService(orderJustAdd);
 
-            return Ok(orderJustAdd);
+            return Ok(cartItems);
         }
     }
 }
