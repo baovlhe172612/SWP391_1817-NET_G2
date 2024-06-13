@@ -54,7 +54,6 @@ namespace Swp391.Repository
         {
             try
             {
-                existingStore.StoreName = store.StoreName;
                 _context.Update(store);
 
                 _context.SaveChanges();
