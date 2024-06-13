@@ -31,10 +31,12 @@ namespace Swp391
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
-            {
+            { 
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FieldEngineerApi v1"));
 
             app.UseHttpsRedirection();
 
@@ -44,9 +46,7 @@ namespace Swp391
 
             app.MapControllers();
 
-            
-
-            app.Run("http://0.0.0.0:5264");
+            app.Run();
         }
     }
 }

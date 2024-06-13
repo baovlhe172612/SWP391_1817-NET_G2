@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using BE.Models;
 using Swp391.Dtos;
-
-
 namespace Swp391.Repository
 {
     public class AccountDtosRepo
@@ -38,6 +36,9 @@ namespace Swp391.Repository
                                    Token = a.Token,
                                    StoreId=s.StoreId,
                                    RoleName = r.RoleName,
+                                   Cccd=a.Cccd,
+                                   StatusDate=a.StatusDate,
+                                   DateStartWork=a.DateStartWork,
                                    StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
                                }).FirstOrDefault();
@@ -65,6 +66,9 @@ namespace Swp391.Repository
                                    RoleId = a.RoleId,
                                    StoreId = s.StoreId,
                                    Token = a.Token,
+                                   Cccd = a.Cccd,
+                                   StatusDate = a.StatusDate,
+                                   DateStartWork = a.DateStartWork,
                                    RoleName = r.RoleName,
                                    StoreName = s.StoreName,
                                    IsDelete = (int)a.IsDelete,
