@@ -15,7 +15,7 @@ function CreateStore() {
   const handleSubmit = async (values) => {
     // console.log(values);
     // sửa lại trường cho accountId sang INT
-    values.accountId = parseInt(values.accountId);
+    // values.accountId = parseInt(values.accountId);
 
     // sửa lại trường isDelete => từ true => 1 và ngược lại
     values.status = values.status ? 1 : 0;

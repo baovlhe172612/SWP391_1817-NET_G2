@@ -70,5 +70,17 @@ namespace Swp391.Repository
                 throw new Exception("Update fail: " + ex.Message);
             }
         }
+
+        public List<Store> getAllNewStore()
+        {
+            var newStore = (from s in _context.Stores
+                            join a in _context.Accounts
+                            on s.StoreId equals a.StoreId into sa
+                            from suba in sa.DefaultIfEmpty()
+                            where suba == null
+                            select s).ToList();
+
+            return newStore;
+        }
     }
 }

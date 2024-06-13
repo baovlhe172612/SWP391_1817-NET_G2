@@ -126,6 +126,19 @@ namespace Swp391.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("newStore")]
+        public IActionResult GetNewStore()
+        {
+            var storeDtos = storeService.GetNewStore();
+
+            if (storeDtos != null)
+            {
+                return Ok(storeDtos);
+            } 
+
+            return BadRequest();
+        }
     }
 
 }

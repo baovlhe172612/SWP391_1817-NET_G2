@@ -119,7 +119,7 @@ function LayoutDefaultAdmin() {
           {/* login == true => mới có sider */}
           {login ? (
             <Sider className="slider" collapsed={collapsed} theme="light">
-              {<MenuSider />}
+              {<MenuSider account={account}/>}
             </Sider>
           ) : (
             <></>

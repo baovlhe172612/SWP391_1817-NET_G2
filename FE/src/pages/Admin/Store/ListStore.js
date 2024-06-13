@@ -6,6 +6,7 @@ import {
   DELETE_STORE_ID,
   GET_STORES_STATUS,
   LIST_STORES,
+  NEW_STORE,
   SEARCH_STORE,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
@@ -155,10 +156,20 @@ function ListStore() {
     }
   };
 
+  const handleNewStore = async () => {
+    const newStore = await get(`${NEW_STORE}`);
+
+    if(newStore) {
+      setStores(newStore)
+    }
+  }
+
   return (
     <>
       <Space>
         <Status handleStatus={handleStatus} />
+
+        <Button type="primary" onClick={handleNewStore}>New Store</Button>
 
         <Search
           placeholder="input search text"

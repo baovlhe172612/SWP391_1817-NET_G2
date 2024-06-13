@@ -22,6 +22,7 @@ export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
 export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/Update`;
 export const SEARCH_STORE = `${LOCALHOST_API}/api/stores/search`;
+export const NEW_STORE = `${LOCALHOST_API}/api/stores/newStore`;
 
 // API Category
 

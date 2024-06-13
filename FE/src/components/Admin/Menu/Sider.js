@@ -59,12 +59,12 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager", "Employee"]) && {
-      key: "manager table",
+      key: "table",
       label: "Table",
       icon: <TableOutlined />,
       children: [
         {
-          key: "table/listStore",
+          key: "listTable",
           label: <Link to="/admin/table/">List Table</Link>,
         },
         hasRole(account.roleName, ["Manager", "Owner"]) && {
