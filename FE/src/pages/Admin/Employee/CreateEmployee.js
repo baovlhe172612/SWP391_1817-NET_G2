@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React, { useEffect, useState } from 'react';
 // import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 // import { post, get } from '../../../helpers/API.helper';
@@ -224,6 +225,9 @@
 
 
 import React, { useEffect, useState } from 'react'
+=======
+import React, { useEffect, useState } from 'react';
+>>>>>>> main
 import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";

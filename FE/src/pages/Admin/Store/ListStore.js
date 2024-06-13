@@ -21,6 +21,7 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
+        console.log(status);
         const data = await get(`${GET_STORES_STATUS}/${status}`);
 
         if (data) {
@@ -132,6 +133,23 @@ function ListStore() {
 
   const handleStatus = (changeStores) => {
     setStores(changeStores);
+  };
+
+  // search
+  const onSearch = async (values) => {
+    try {
+      let data = [];
+      if (values) {
+        data = await get(`${SEARCH_STORE}?name=${values}`);
+      } else {
+        data = await get(`${GET_STORES_STATUS}/${status}`);
+      }
+
+      setStores(data);
+    } catch (error) {
+      console.log(error, `ListStore`);
+      setStores([]);
+    }
   };
 
   return (

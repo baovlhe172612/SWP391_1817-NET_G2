@@ -42,7 +42,8 @@ function UpdateStore() {
     if(data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
-      navigate(`/admin/store/`)
+
+      navigate(`/admin/store/`);
     }
   };
 

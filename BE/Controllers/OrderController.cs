@@ -24,7 +24,7 @@ namespace BE.Controllers
             //lấy ra orderList 
             DateTime currentTime = DateTime.Now;
 
-            Order order = new Order {  Status = 1, StoreId=1, TableId=1,Date= currentTime };
+            Order order = new Order {  Status = 0, StoreId=1, TableId=1,Date= currentTime };
 
             //tạo order mới
             _service.addOrderService(order);

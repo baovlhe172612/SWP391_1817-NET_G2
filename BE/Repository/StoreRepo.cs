@@ -65,8 +65,6 @@ namespace Swp391.Repository
 
         public void createStore(Store store)
         {
-            store.DateCreated = DateOnly.FromDateTime(DateTime.Now);
-            store.DateDeleted = null;
             _context.Stores.Add(store);
 
             _context.SaveChanges();
@@ -78,6 +76,10 @@ namespace Swp391.Repository
         public Store UpdateStore(Store store)
         {
             try
+            {   
+                store.dateCreated = null;
+                store.dateDeleted = null;
+                _context.Stores.Update(store);
             {
                 var existingStore = _context.Stores.Local.FirstOrDefault(s => s.StoreId == store.StoreId)
                 ?? _context.Stores.Attach(store).Entity;
