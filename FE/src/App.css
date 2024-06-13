@@ -96,10 +96,17 @@ ul {
   padding: 0;
   list-style: none;
 }
-
 img {
+  /* width: 70px;
+  height: 100%;
+  object-fit: cover;  */
   max-width: 100%;
 }
+
+/* img {
+  max-width: 100%;
+  
+} */
 
 .img-full {
   width: 100%;
@@ -1829,7 +1836,7 @@ blockquote p {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   text-transform: uppercase;
   position: relative;
 }
@@ -6383,7 +6390,7 @@ blockquote p {
 }
 .cart-page-total a {
  text-align: center;
-  background-color: #0ae06ab1;
+  background-color: rgba(0, 0, 0, 0.726);
   border: 0;
   color: #ffffff;
   display: inline-block;
@@ -6395,10 +6402,7 @@ blockquote p {
   transition: all 0.3s ease 0s;
 }
 
-.cart-page-total a:hover {
-  background-color: #c0108e;
-  color: #ffffff;
-}
+
 
 /*----------------------------------------*/
 /*  26. Wishlist
@@ -6971,4 +6975,8 @@ blockquote p {
   margin-bottom: 70px;
 }
 
+
+.ant-card .ant-card-body {
+  padding: 10px;
+}
 

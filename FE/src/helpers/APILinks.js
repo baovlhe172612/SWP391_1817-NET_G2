@@ -2,6 +2,7 @@ const LOCALHOST_API = "http://localhost:5264"
 
 
 // API ACCOUNT
+export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account`
 
 
 // API CATEGORY
@@ -13,12 +14,14 @@ const LOCALHOST_API = "http://localhost:5264"
 // API POST
 
 // API STORE
+export const GET_STORES_STATUS = `${LOCALHOST_API}/api/status`;
 export const STORES_DTOS = `${LOCALHOST_API}/api/storesDtos`;
 export const LIST_STORES = `${LOCALHOST_API}/api/stores`;
 export const CREATE_STORE = `${LOCALHOST_API}/api/stores/POST`;
 export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
-export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/PATCH`;
+export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/Update`;
+export const SEARCH_STORE = `${LOCALHOST_API}/api/stores/search`;
 
 // API Category
 
@@ -40,7 +43,7 @@ export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 // API PRODUCTDTOS
 
 // API PRODUCTSIZES
-
+export const LIST_PRODUCT_SIZE = `${LOCALHOST_API}/api/ProductSizes`;
 // API TABLE
 
 // API FeedBack <=> messegerbox

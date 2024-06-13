@@ -34,7 +34,7 @@ function Login() {
           // không dùng session nữa => gửi lên store 1 thằng account mới luôn
           dispatch(accountActions(accountByToken));
 
-          console.log(accountByToken)
+          console.log('accountByToken:::', accountByToken)
 
           // nếu Account có role là employee => tự động chuyển đến trang listTable
           if (accountByToken.roleId == 3) {
@@ -73,10 +73,8 @@ function Login() {
         // message login success
         alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
 
-        if (values.remember) {
-          // set TOKEN for login again
-          setCookie("token", dataAuthen.token, 10);
-        }
+        // set TOKEN for login again
+        setCookie("token", dataAuthen.token, 10);
 
         // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));

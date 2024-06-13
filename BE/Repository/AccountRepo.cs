@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Swp391.Dtos;
-
+using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Text;
 
 namespace Swp391.Repository
 {
@@ -161,6 +162,7 @@ namespace Swp391.Repository
                         }
                         // Update fields
                         existingAccount.FullName = newAccount.FullName;
+                        existingAccount.PassWord = newAccount.PassWord;
                         existingAccount.Status = newAccount.Status;
                         existingAccount.Email = newAccount.Email;
                         existingAccount.Address = newAccount.Address;
@@ -209,6 +211,8 @@ namespace Swp391.Repository
             }
             else
             {
+                // Tạo token ngẫu nhiên
+                string token = GenerateRandomToken(32);
                 // Tạo một đối tượng Account từ dữ liệu được truyền vào thông qua newAccount
                 Account account = new Account
                 {
@@ -220,7 +224,7 @@ namespace Swp391.Repository
                     Address = newAccount.Address,
                     Phone = newAccount.Phone,
                     RoleId = newAccount.RoleId,
-                    Token = String.Empty,
+                    Token = token,
                     IsDelete = newAccount.IsDelete,
                     StoreId = newAccount.StoreId,
                     Cccd = newAccount.Cccd,
@@ -231,9 +235,25 @@ namespace Swp391.Repository
                 _context.SaveChanges();
             }
         }
+        private string GenerateRandomToken(int length)
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var byteArray = new byte[length];
+                rng.GetBytes(byteArray);
+
+                StringBuilder token = new StringBuilder(length);
+                foreach (byte b in byteArray)
+                {
+                    token.Append(b.ToString("X2")); // Convert byte to hexadecimal string
+                }
+
+                return token.ToString();
+            }
+        }
 
 
-  
+
 
         /// <summary>
         /// UpdateisdeleteAccount(int id, int isdelete): Cập nhật trường IsDelete của một tài khoản.
@@ -284,6 +304,7 @@ namespace Swp391.Repository
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
                                          StoreName=s.StoreName,
+                                         Cccd=a.Cccd,
                                          Token = a.Token,
                                          StoreId = (int)a.StoreId,
                                          RoleName = r.RoleName,                                       
@@ -311,12 +332,12 @@ namespace Swp391.Repository
                                          Address = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
+                                         Cccd=a.Cccd,
                                          StoreName=s.StoreName,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
                                          IsDelete = (int)a.IsDelete,
                                      }).FirstOrDefault();
-
             return accountsWithRoles;
         }
 

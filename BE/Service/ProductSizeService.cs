@@ -1,4 +1,5 @@
 ﻿using BE.Models;
+using Swp391.Controllers;
 using Swp391.Dtos;
 using Swp391.Repository;
 
@@ -171,6 +172,12 @@ namespace Swp391.Service
             }
             return listProductByCategoryIDAndCondition;
 
+        }
+
+        // Create product
+        public void CreateProduct(ProductSizeDtos newproduct)
+        {
+            _repo.CreateProduct(newproduct);
         }
     }
 }

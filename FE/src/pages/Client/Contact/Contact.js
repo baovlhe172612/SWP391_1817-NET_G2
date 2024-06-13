@@ -21,7 +21,7 @@ function Contact() {
     // };
 
     const handleChangeInput = (e) => {
-        console.log(e.target.name)
+        console.log("e.target.name",e.target.name)
         console.log(e.target.value)
         const objectNew = {
             ...data,

@@ -1,5 +1,6 @@
 ﻿using BE.Models;
 using Microsoft.EntityFrameworkCore;
+using Swp391.Dtos;
 
 
 namespace Swp391.Repository
@@ -14,7 +15,6 @@ namespace Swp391.Repository
         /// <returns>toàn bộ sản phẩm</returns>
         public List<Product> getAllProduct()
         {
-           
             return context.Products.ToList();
         }
         /// <summary>
@@ -47,6 +47,8 @@ namespace Swp391.Repository
                            .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
                            .ToList();
         }
+
+        
 
 
 

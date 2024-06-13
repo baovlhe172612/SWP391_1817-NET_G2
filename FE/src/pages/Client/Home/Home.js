@@ -4,7 +4,6 @@ import QRCodeComponent from "../QRScanner/QRScanner";
 function Home() {
   return (
     <>
-     
       <OurProducts />
       <NewProduct />
     </>

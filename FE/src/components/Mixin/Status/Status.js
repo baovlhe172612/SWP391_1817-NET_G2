@@ -2,15 +2,33 @@ import React from "react";
 import { Button, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { get } from "../../../helpers/API.helper";
+import { GET_STORES_STATUS } from "../../../helpers/APILinks";
 
-function Status({handleStatus}) {
+function Status({ handleStatus }) {
+  const changeStatus = (status) => {
+    const fetchApi = async () => {
+      try {
+        const data = await get(
+          `${GET_STORES_STATUS}/${status == "active" ? 1 : 0}`
+        );
+
+        console.log(data)
+        //
+        handleStatus(data)
+
+      } catch (error) {}
+    };
+
+    fetchApi();
+  };
   const items = [
     {
-      label: <Link to={`/admin/store?status=1`}>Active</Link>,
+      label: <span onClick={() => changeStatus("active")}>Active</span>,
       key: 0,
     },
     {
-      label: <Link to={`/admin/store?status=0`}>Inactive</Link>,
+      label: <span onClick={() => changeStatus("Inactive")}>Inactive</span>,
       key: 1,
     },
   ];

@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { get } from '../../../helpers/API.helper';
 import { Button, Carousel, Col, Divider, Image } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../../reducers/cartSlice';
+import { addToCart } from '../../../actions/CartAction';
+
 
 function ProductDetail(props) {
 
@@ -24,6 +25,7 @@ function ProductDetail(props) {
     const fetchApi = async () => {
       const data = await get(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${sizeId}`);
 
+      console.log("data: ",data)
       setProducts(data);
       //Lấy danh sách các sản phẩm tương tự
       const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
@@ -84,7 +86,6 @@ function ProductDetail(props) {
 
         {productSize ? (
           <>
-
             <main className="main-content">
               <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
                 <div className="container h-100">
@@ -94,7 +95,7 @@ function ProductDetail(props) {
                         <h2 className="breadcrumb-heading">Single Product</h2>
                         <ul>
                           <li>
-                            <a href="index.html">Home</a>
+                            <a href="/">Home</a>
                           </li>
                           <li>Single Product variable</li>
                         </ul>
@@ -145,25 +146,18 @@ function ProductDetail(props) {
                             <option value="3" selected={productSize.sizeId === 3}>M</option>
                           </select>
                         </div>
-                        <div className="note-input">
-                          <span className="note-label">Thêm ghi chú của bạn:</span>
-                          <input
-                            type="text"
-                            className="note-text"
-                            placeholder="VD: 50% đường 50% đá"
-                          />
-                        </div>
+                     
                         <hr />
                         <p className="short-desc">
                           Please place an order at the nearest Mixue store. This website only introduces products and does not allow for orders.
                         </p>
                         <Button
                           className="add-to-cart-btn"
+                          size='large'
                           style={{
                             backgroundColor: '#ff9900',
                             color: 'white',
                             border: 'none',
-                            padding: '10px 20px',
                             cursor: 'pointer',
                             borderRadius: '5px'
                           }}
@@ -190,78 +184,51 @@ function ProductDetail(props) {
 
         <Divider />
         {similarProducts.length > 0 && (
-          <Col span={24}>
-            <div className="similar-products">
-              <h3 style={{ textAlign: 'center', fontWeight: "bold", marginBottom: "20px" }}>Sản phẩm tương tự</h3>
-              <Carousel autoplay effect="fade" easing="ease" speed={800} className="carousel-container">
-                {similarProducts.map((product) => (
-                  <div className="slider-item" key={product.productSizeID}>
-                    <div className="product-item">
-                      <div className="product-img">
-                        <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
-                          <img className="primary-img" src={product.img} alt="Product Images"
-                            style={{
-                              maxWidth: "150px", // Điều chỉnh kích thước tối đa của ảnh
-                              height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
-                              marginBottom: "10px" // Khoảng cách phía dưới ảnh
-                            }} />
-                        </Link>
-                        {/* <div className="product-add-action">
-                  <ul>
-                    <li>
-                      <a
-                        data-tippy="Add to wishlist"
-                        data-tippy-inertia="true"
-                        data-tippy-animation="shift-away"
-                        data-tippy-delay="50"
-                        data-tippy-arrow="true"
-                        data-tippy-theme="sharpborder"
-                      >
-                        <i className="pe-7s-like"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
-                        <i className="pe-7s-look"></i>
-                      </Link>
-                    </li>
-                  </ul>
-                </div> */}
-                      </div>
-                      <div className="product-content">
-
-                        <a className="product-name" href={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
-                          {product.productName} Size {product.sizeName}
-                        </a>
-                        <div className="price-box pb-1">
-                          <span className="new-price" style={{ fontSize: "16px" }}>
-                            {product.price}đ
-                          </span>
-                        </div>
-                        {/* <div className="price-box pb-1">
-                  <button
-                    className="add-to-cart-btn"
+  <Col span={24}>
+    <div className="similar-products">
+      <h3 style={{ textAlign: 'center', fontWeight: "bold", marginBottom: "20px" }}>Sản phẩm tương tự</h3>
+      <Carousel autoplay effect="fade" easing="ease" speed={800} className="carousel-container">
+        {similarProducts.map((product) => (
+          <div className="slider-item" key={product.productSizeID} style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="product-item" style={{ textAlign: 'center', padding: '10px' }}>
+              <div className="product-img" style={{ display: 'flex', justifyContent: 'center' }}>
+                <Link to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}>
+                  <img className="primary-img" src={product.img} alt="Product Images"
                     style={{
-                      backgroundColor: '#ff9900',
-                      color: 'white',
-                      border: 'none',
-                      padding: '10px 20px',
-                      cursor: 'pointer',
-                      borderRadius: '5px',
-                      marginTop: '10px'
-                    }}
-                  >
-                    Thêm vào giỏ hàng
-                  </button>
-                </div> */}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Carousel>
+                      maxWidth: "120px", // Điều chỉnh kích thước tối đa của ảnh
+                      maxHeight: "120px", // Đảm bảo ảnh không quá lớn
+                      height: "auto", // Đảm bảo tỉ lệ ảnh không bị méo
+                      // marginBottom: "10px" // Khoảng cách phía dưới ảnh
+                    }} />
+                </Link>
+              </div>
+              <div className="product-content">
+                <Link className="product-name" to={`/productDetail?productId=${product.productId}&sizeId=${product.sizeId}&categoryId=${product.category}`}
+                  style={{
+                    display: 'block',
+                    fontSize: '14px', // Giảm kích thước chữ
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '5px',
+                    textDecoration: 'none',
+                    textAlign: 'center', // Căn giữa tên sản phẩm
+                  }}>
+                  {product.productName} Size {product.sizeName}
+                </Link>
+                <div className="price-box pb-1" style={{ textAlign: 'center' }}>
+                  <span className="new-price" style={{ fontSize: "14px", color: '#000' }}>
+                    {product.price.toLocaleString('vi-VN')} ₫
+                  </span>
+                </div>
+              </div>
             </div>
-          </Col>
-        )}
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </Col>
+)}
+
 
       </div>
 
