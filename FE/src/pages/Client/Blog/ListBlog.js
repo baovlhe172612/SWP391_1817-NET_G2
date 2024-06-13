@@ -6,7 +6,7 @@ import {
   DELETE_BLOG_ID,
   GET_BLOGS_STATUS,
   LIST_BLOGS,
-  SEARCH_BLOG,
+  
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
@@ -200,8 +200,7 @@ function ListBlog() {
     try {
       let data = [];
       if (values) {
-        data = await get(`${SEARCH_BLOG}?name=${values}`);
-      } else {
+        } else {
         data = await get(`${GET_BLOGS_STATUS}/${status}`);
       }
 

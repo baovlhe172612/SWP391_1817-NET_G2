@@ -255,8 +255,8 @@ const routes = [
                     element: <ListBlog />,
                   },
                   {
-                    path: "orderdetails",
-                    element: <OrderDetails />,
+                    path: "blog-detail/:id",
+                    element: <BlogDetail />,
                   },
                 ],
               },

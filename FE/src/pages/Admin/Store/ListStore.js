@@ -136,7 +136,7 @@ function ListStore() {
   const handleStatus = (changeStores) => {
     setStores(changeStores);
   };
-
+  const onSearch = () => {}
   return (
     <>
       <Space>

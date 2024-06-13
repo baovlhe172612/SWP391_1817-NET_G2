@@ -32,10 +32,10 @@ const blogData = [
   // ...add other objects here
 ];
 
-const BlogDataDisplay = () => {
+const BlogDetail = () => {
   return (
     <div>
-      <h1>Blog Data Display</h1>
+      <h1>Blog Detail</h1>
       <table border="1" cellPadding="10" cellSpacing="0">
         <thead>
           <tr>
@@ -72,4 +72,4 @@ const BlogDataDisplay = () => {
   );
 };
 
-export default BlogDataDisplay;
+export default BlogDetail;

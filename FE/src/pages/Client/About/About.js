@@ -194,7 +194,7 @@ function About() {
                         <iframe
                           width="100%"
                           height="100%"
-                          src="https://www.youtube.com/embed/e7yj2r61lQw"
+                          src="https://www.youtube.com/embed/b6O-8VzZzW4?si=uNmkqq0qgfVYaZor"
                           frameborder="0"
                           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                           allowfullscreen

@@ -5,7 +5,7 @@ import { Button, Col, Input, Row } from "antd";
 import { Link } from "react-router-dom";
 
 function Blog() {
-  const [BlogData, setBlogData] = useState([]);
+  const [Blog, setBlog ]= useState([]);
   const [newPost, setNewPost] = useState({
     title: "",
     contents: "",
@@ -15,7 +15,7 @@ function Blog() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get("http://localhost:5264/api/Post");
-      setBlogData(data);
+      setBlog(data);
     };
     fetchApi();
   }, []);
@@ -34,6 +34,8 @@ function Blog() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
+
+  console.log(Blog)
 
   return (
     <>
@@ -296,7 +298,7 @@ function Blog() {
 
               <div className="col-xl-9 col-lg-8 order-1">
                 <div className="blog-item-wrap row g-y-30">
-                  {BlogData.map((item, index) => {
+                  {Blog.map((item, index) => {
                     return (
                       <div key={index} className="col-md-6">
                         <div className="blog-item">
@@ -313,13 +315,10 @@ function Blog() {
                               </ul>
                             </div>
                             <div>
-                              <h2 className="title" key={item.postID}>
-                                <Link to={`/blog-detail/${item.postID}`}>
+                              <h2 className="title" key={item.postId}>
+                                <Link to={`/blog-detail/${item.postId}`}>
                                   {item.title}
                                 </Link>
-
-                                <p className="short-desc mb-7">{item.contents}</p>
-
                               </h2>
                             </div>
                             <p className="short-desc mb-7">{item.contents}</p>
