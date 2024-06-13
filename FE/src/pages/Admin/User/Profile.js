@@ -1,37 +1,38 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, Row, Col, Card } from "antd";
 // import "antd/dist/antd.css";
 import "./Profile.css";
-import { put } from "../../../helpers/API.helper";
+import { put, putV2 } from "../../../helpers/API.helper";
 import { UPDATE_ACCOUNT_ID } from "../../../helpers/APILinks";
 import { alear_false, alear_success } from "../../../helpers/Alert.helper";
-import { updateAccountObj } from "../../../helpers/Obj.helper";
+import { accountActions } from "../../../actions/AccountActions";
 
 const { Item } = Form;
 
 function Profile() {
   const account = useSelector((state) => state.AccountReducer);
+  const dispatch = useDispatch();
 
   console.log(account)
 
   // SUBMIT
   const handleSubmit = async (values) => {
-    const profileNewV1 = { ...account, values }
-
-    const profileNewV2 = updateAccountObj(profileNewV1);
+    const profileNewV1 = { ...account, ...values }
 
     console.log(profileNewV1)
 
     try {
-      const dataPatch = await put(
-        `${UPDATE_ACCOUNT_ID}/${profileNewV1.accountId}`,
-        profileNewV2
+      const dataPatch = await putV2(
+        `${UPDATE_ACCOUNT_ID}`,
+        profileNewV1
       );
 
-      // console.log(dataPatch)
+      console.log(dataPatch)
 
-      if (dataPatch.ok) {
+      // dispatch(accountActions(dataPatch));
+
+      if (dataPatch) {
         alear_success(`Update Success`, `updated`);
       } else {
       alear_false(`Update false`, `updated false`);
