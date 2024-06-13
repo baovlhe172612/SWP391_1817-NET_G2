@@ -34,11 +34,11 @@ const itemsSider = (account) => {
       icon: <AppstoreAddOutlined />,
       children: [
         {
-          key: "store/listStore",
+          key: "listStore",
           label: <Link to="/admin/store/">List Store</Link>,
         },
         {
-          key: "store/create",
+          key: "create",
           label: <Link to="/admin/store/create">Create Store</Link>,
         },
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,

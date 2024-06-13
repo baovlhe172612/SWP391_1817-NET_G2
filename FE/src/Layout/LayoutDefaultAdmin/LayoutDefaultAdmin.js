@@ -24,6 +24,9 @@ function LayoutDefaultAdmin() {
   const [collapsed, setCollapsed] = useState(true);
   // lấy login + account từ redux
   const login = useSelector((state) => state.LoginReducer);
+  const { selectedKey, openKey } = useSelector((state) => state.SiderReducer);
+  const account = useSelector((state) => state.AccountReducer);
+
   //
   const dispatch = useDispatch();
 
@@ -33,7 +36,6 @@ function LayoutDefaultAdmin() {
     }
   }, [login]);
 
-  const account = useSelector((state) => state.AccountReducer);
   return (
     <>
       <Layout className="layout-default">
@@ -119,7 +121,13 @@ function LayoutDefaultAdmin() {
           {/* login == true => mới có sider */}
           {login ? (
             <Sider className="slider" collapsed={collapsed} theme="light">
-              {<MenuSider account={account}/>}
+              {
+                <MenuSider
+                  account={account}
+                  selectedKey={selectedKey}
+                  openKey={openKey}
+                />
+              }
             </Sider>
           ) : (
             <></>
