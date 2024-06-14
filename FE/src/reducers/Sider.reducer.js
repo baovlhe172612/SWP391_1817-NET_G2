@@ -2,7 +2,7 @@
 const SiderReducer = (
   state = {
     selectedKey: ["DashBoard1"],
-    openKey: ["DashBoard"],
+    openKey: ["dashBoard"],
   },
   { type, payload }
 ) => {

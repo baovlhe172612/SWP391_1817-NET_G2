@@ -18,7 +18,7 @@ const itemsSider = (account) => {
 
   const items = [
     hasRole(account.roleName, ["Manager", "Owner"]) && {
-      key: "DashBoard",
+      key: "dashboard",
       icon: <DashboardOutlined />,
       label: "DashBoard",
       children: [
@@ -29,7 +29,7 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,
     },
     hasRole(account.roleName, ["Owner"]) && {
-      key: "Store",
+      key: "store",
       label: "Store",
       icon: <AppstoreAddOutlined />,
       children: [
@@ -44,17 +44,17 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Owner"]) && {
-      key: "manager store",
+      key: "managerStore",
       label: "Store's Manager",
       icon: <UserAddOutlined />,
       children: [
         {
           key: "manager/listStore",
-          label: <Link to="/admin/manager-store/">List Store's Manager</Link>,
+          label: <Link to="/admin/managerStore/">List Store's Manager</Link>,
         },
         {
           key: "manager/create",
-          label: <Link to="/admin/manager-store/create">Create Store's Manager</Link>,
+          label: <Link to="/admin/managerStore/create">Create Store's Manager</Link>,
         },
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
@@ -74,7 +74,7 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager"]) && {
-      key: "manager employee",
+      key: "employee",
       label: "Employee",
       icon: <UserOutlined />,
       children: [
@@ -89,7 +89,7 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager", "Ower"]) && {
-      key: "manager category",
+      key: "category",
       label: "Category",
       icon: <RadarChartOutlined />,
       children: [
@@ -104,7 +104,7 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager", "Ower"]) && {
-      key: "manager product",
+      key: "product",
       label: "Product",
       icon: <ProductOutlined />,
       children: [
@@ -130,7 +130,7 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager", "Ower", "Employee"]) && {
-      key: "manager orders",
+      key: "orders",
       label: "Orders",
       icon: <ShoppingCartOutlined />,
       children: [
@@ -141,7 +141,7 @@ const itemsSider = (account) => {
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager", "Ower"]) && {
-      key: "manager qrs",
+      key: "listQr",
       label: "List Qrs",
       icon: <ShoppingCartOutlined />,
       children: [

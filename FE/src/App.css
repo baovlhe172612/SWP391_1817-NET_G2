@@ -49,6 +49,10 @@ html {
 html,
 body {
   height: 100%;
+  font-size: 1.125rem;
+  /* font-weight: 400 !important; */
+  color: #ddd;
+  /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important; */
 }
 
 body {

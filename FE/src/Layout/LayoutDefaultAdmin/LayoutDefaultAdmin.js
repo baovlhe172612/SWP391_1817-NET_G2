@@ -14,7 +14,7 @@ import {
 } from "@ant-design/icons";
 import MenuSider from "../../components/Admin/Menu/index";
 import { Link, Outlet } from "react-router-dom";
-import  Footer from './Footer/Footer';
+import Footer from "./Footer/Footer";
 import Notify from "../../components/Admin/Notify";
 import { getSessionItem } from "../../helpers/Session.helper";
 
@@ -31,8 +31,10 @@ function LayoutDefaultAdmin() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!login) {
+    if (login == true) {
       setCollapsed(false);
+    } else {
+      setCollapsed(true);
     }
   }, [login]);
 

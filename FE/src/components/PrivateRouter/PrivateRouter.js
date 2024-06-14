@@ -11,6 +11,8 @@ import { accountActions } from "../../actions/AccountActions";
 function PrivateRouter() {
   // useSelector: nhận và trả hết tất cả các reducers có trong ALLREDUCER (STORE)
   const checkLogin = useSelector((state) => state.LoginReducer);
+  const {selectedKey, openKey} = useSelector((state) => state.SiderReducer);
+  console.log({selectedKey, openKey})
   // get Token
   const token = getCookie("token");
   const dispatch = useDispatch();
@@ -28,13 +30,10 @@ function PrivateRouter() {
           // không dùng session nữa => gửi lên store 1 thằng account mới luôn 
           dispatch(accountActions(accountByToken));
 
-          console.log(accountByToken)
-
           if (accountByToken.roleId == 3) {
             navigate("/admin/table");
           } else {
-            // move => admin
-            navigate("/admin/dashboard");
+            navigate(`/admin/${openKey[0]}`);
           }
         }
       } catch (error) {

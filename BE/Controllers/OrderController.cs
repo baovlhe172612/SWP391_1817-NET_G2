@@ -48,5 +48,16 @@ namespace BE.Controllers
 
             return Ok(cartItems);
         }
+    
+        // GET ALL ORDERS
+        [HttpGet("v1/orders")]
+        public IActionResult ListOrder() {
+            var listOrder = _service.getListOrderService();
+
+            if(listOrder != null) {
+                return Ok(listOrder);
+            }
+            return BadRequest();
+        }
     }
 }

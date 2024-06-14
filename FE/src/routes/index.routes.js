@@ -125,7 +125,7 @@ const routes = [
                 ],
               },
               {
-                path: "manager-store",
+                path: "managerStore",
                 children: [
                   {
                     path: "",

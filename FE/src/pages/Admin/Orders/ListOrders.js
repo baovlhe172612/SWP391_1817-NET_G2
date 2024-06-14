@@ -1,107 +1,89 @@
-import React from "react";
-import { Table, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Button, Table, Tag, message } from "antd";
+import { get } from "../../../helpers/API.helper";
+import { LIST_ORDER } from "../../../helpers/APILinks";
+import {
+  getColorText,
+  getDateTime,
+  getStatusText,
+} from "../../../helpers/Text.helper";
+
 function ListOrders() {
+  const [orders, setOrders] = useState([]);
+  // let data = [];
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        // Get data orders
+        const data = await get(`${LIST_ORDER}`);
+
+        console.log(data);
+
+        if (data) {
+          setOrders(data);
+        }
+      } catch (error) {
+        // Notification Error
+        console.log(error, "ListOrders");
+        message.error("Server error");
+      }
+    };
+
+    fetchApi();
+  }, []);
   const columns = [
     {
       title: "Order ID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "orderId",
+      key: "orderId",
       render: (text) => <a>{text}</a>, // custom text
     },
     {
       title: "Table Name",
-      dataIndex: "table_name",
-      key: "table_name",
-      render: (text) => <a>{text}</a>, // custom text
-    },
-    {
-      title: "Store Name",
-      dataIndex: "store_name",
-      key: "store_name",
-      render: (text) => <a>{text}</a>, // custom text
+      dataIndex: "tableId",
+      key: "tableId",
+      render: (text) => <strong>Table-{text}</strong>, // custom text
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status) => (
-        <Tag color={status === "1" ? "green" : "red"}>
-          {status === "1" ? "Done" : "Process"}
-        </Tag>
+        <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>
       ),
     },
     {
-        title: "Date",
-        dataIndex: "date",
-        key: "date",
-        render: (text) => <a>{text}</a>, // custom text
-      },
-      {
-        title: "Total",
-        dataIndex: "total",
-        key: "total",
-        render: (text) => <a>${text}</a>, // custom text
-      },
-      {title: "Detail",
-      dataIndex: "id", 
-      key: "id_detail",
-      render: (text) => (
-        <a href="orderdetails" style={{ color: 'red' }}>Detail</a>
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: (date) => <span>{getDateTime(date)}</span>,
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+      render: (text) => <strong style={{ fontSize: "1.1rem" }}>${text}</strong>, // custom text
+    },
+    {
+      title: "Detail",
+      dataIndex: "orderId",
+      key: "orderIdDetail",
+      render: (orderId) => (
+        <Link to={`${1}/${orderId}`}>
+          <Button type="primary">Detail</Button>
+        </Link>
       ),
-      }
-  ];
-
-  const data = [
-    {
-      id: "1",
-      table_name: "Table 1",
-      store_name: "Store A",
-      status: "1",
-      date: "2023-05-16",
-      total: "50.00",
-    },
-    {
-      id: "2",
-      table_name: "Table 2",
-      store_name: "Store B",
-      status: "0",
-      date: "2023-05-17",
-      total: "75.00",
-    },
-    {
-      id: "3",
-      table_name: "Table 3",
-      store_name: "Store A",
-      status: "1",
-      date: "2023-05-18",
-      total: "100.00",
-    },
-    {
-      id: "4",
-      table_name: "Table 4",
-      store_name: "Store C",
-      status: "0",
-      date: "2023-05-19",
-      total: "120.00",
-    },
-    {
-      id: "5",
-      table_name: "Table 5",
-      store_name: "Store B",
-      status: "1",
-      date: "2023-05-20",
-      total: "60.00",
     },
   ];
-   
 
-
-  
   return (
     <>
-      <Table columns={columns} dataSource={data} rowKey="id" />
+         
+         <Table columns={columns} dataSource={orders} pagination={{pageSize: 6}}  rowKey="id" />
     </>
   );
 }
 
-export default ListOrders
+export default ListOrders;

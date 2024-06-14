@@ -13,7 +13,10 @@ namespace BE.Repository
         /// <returns>toàn bộ hóa đơn</returns>
         public List<Order> getAllOrder()
         {
-            return context.Orders.ToList();
+            var listOrder = context.Orders
+                            .OrderByDescending(o => o.Date) 
+                            .ToList();
+            return listOrder;
         }
 
         /// <summary>
