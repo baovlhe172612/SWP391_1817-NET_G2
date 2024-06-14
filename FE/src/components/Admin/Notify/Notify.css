@@ -1,0 +1,82 @@
+/* Bước 1 */
+.notify__dropdown{
+    background-color: tomato;
+
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 250px;
+}
+/* Bước 2 */
+.notify__header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    border-radius: 8px;
+}
+/* Bước 3 */
+.notify__body{
+    border-top: 1px solid #ffff;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Bước 4: .ant-dropdown-menu có sẵm trong ant */
+.notify__body .ant-dropdown-menu{
+    border-radius: 0;
+}
+/* Bước 5 */
+.notify__item{
+    display: flex;
+   
+}
+
+/* Bước 11 */
+.ant-dropdown-menu-item{
+    border-bottom: 1px solid #ddd;
+}
+/* Bước 6 */
+.notify__item-icon{
+    width: 30px;
+    height: 30px;
+    background-color: rgb(226, 144, 51);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+/* Bước 7 */
+.notify__item-icon span {
+  color: rgb(9, 206, 179); 
+}
+/* Bước 8 */
+.notify__item-content{
+    flex: 1;
+    margin-left: 20px;
+  
+}
+/* Bước 9 */
+.notify__item-title{
+    font-weight: 600;
+    font-size: 15px;
+   
+}
+/* BƯớc 10 */
+.notify__item-hour{
+    font-size: 10px;
+}
+
+.notify__dot {
+    position: relative;
+  }
+  
+  .notify__dot .ant-badge-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+  
