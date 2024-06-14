@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BE.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly OrderService _service = new OrderService();
@@ -50,14 +50,11 @@ namespace BE.Controllers
         }
     
         // GET ALL ORDERS
-        [HttpGet("v1/orders")]
-        public IActionResult ListOrder() {
-            var listOrder = _service.getListOrderService();
+        [HttpGet("v1/orders/store/{id}")]
+        public IActionResult ListOrder(int id) {
+            var listOrder = _service.getListOrderServiceByStoreId(id);
 
-            if(listOrder != null) {
-                return Ok(listOrder);
-            }
-            return BadRequest();
+            return Ok(listOrder);
         }
     }
 }

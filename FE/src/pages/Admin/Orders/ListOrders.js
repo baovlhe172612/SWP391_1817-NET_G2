@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Button, Table, Tag, message } from "antd";
 import { get } from "../../../helpers/API.helper";
 import { LIST_ORDER } from "../../../helpers/APILinks";
@@ -11,18 +12,22 @@ import {
 
 function ListOrders() {
   const [orders, setOrders] = useState([]);
+  const account = useSelector((state) => state.AccountReducer);
   // let data = [];
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
         // Get data orders
-        const data = await get(`${LIST_ORDER}`);
+        const data = await get(`${LIST_ORDER}/${account.storeId}`);
 
         console.log(data);
 
         if (data) {
           setOrders(data);
+          if (data.length === 0) {
+            message.error("No order in store");
+          }
         }
       } catch (error) {
         // Notification Error
@@ -80,8 +85,12 @@ function ListOrders() {
 
   return (
     <>
-         
-         <Table columns={columns} dataSource={orders} pagination={{pageSize: 6}}  rowKey="id" />
+      <Table
+        columns={columns}
+        dataSource={orders}
+        pagination={{ pageSize: 6 }}
+        rowKey="id"
+      />
     </>
   );
 }

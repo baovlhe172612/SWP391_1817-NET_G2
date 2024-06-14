@@ -8,7 +8,7 @@ export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
 // API CATEGORY
 
 // API ORDERS
-export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders`
+export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders/store`
 
 
 // API MESSENGERBOX

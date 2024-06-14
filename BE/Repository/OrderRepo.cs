@@ -13,10 +13,34 @@ namespace BE.Repository
         /// <returns>toàn bộ hóa đơn</returns>
         public List<Order> getAllOrder()
         {
-            var listOrder = context.Orders
-                            .OrderByDescending(o => o.Date) 
-                            .ToList();
-            return listOrder;
+            return context.Orders.ToList();
+        }
+
+        public List<Order> getAllOrderByStoreId(int id)
+        {
+            try
+            {
+                var listOrder = context.Orders
+                                .Where(o => o.StoreId == id)
+                                .OrderByDescending(o => o.Date)
+                                .ToList();
+
+                // Kiểm tra nếu danh sách rỗng
+                if (listOrder == null || listOrder.Count == 0)
+                {
+                    return new List<Order>();
+                }
+
+                return listOrder;
+            }
+            catch (Exception ex)
+            {
+                // Log exception if needed, for example:
+                // Log.Error(ex, "An error occurred while fetching orders");
+                throw new Exception("An error occurred while fetching orders", ex);
+
+                return new List<Order>();
+            }
         }
 
         /// <summary>
