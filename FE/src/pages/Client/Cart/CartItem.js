@@ -7,26 +7,28 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/ico
 import Meta from "antd/es/card/Meta.js";
 import { removeItem, updateQuantity } from "../../../actions/CartAction";
 
-export default function CartItem({ data }) {
+export default function CartItem({ data, onItemChange }) {
     const dispatch = useDispatch();
 
     const [quantity, setQuantity] = useState(data?.quantity);
     const [totalPrice, setTotalPrice] = useState(data?.price * data?.quantity);
 
-    console.log(totalPrice)
+    
     const handleChange = (e) => {
         const value = parseInt(e.target.value) > 0 ? parseInt(e.target.value) : 1;
         setQuantity(value);
     };
 
     const handleRemove = () => {
-        console.log("OK")
-        dispatch(removeItem({ productSizeID: data?.productSizeID }));
+        //console.log("OK")
+        dispatch(removeItem(data?.productSizeID));
+        onItemChange(data.productSizeID, 0, data.price); 
     };
 
     useEffect(() => {
         setTotalPrice(data?.price * quantity);
-        dispatch(updateQuantity({ productSizeID: data?.productSizeID, quantity }));
+        dispatch(updateQuantity( data?.productSizeID, quantity ));
+        onItemChange(data.productSizeID, quantity, data.price);
     }, [quantity, data?.price, data?.productSizeID, dispatch]);
 
     return (
