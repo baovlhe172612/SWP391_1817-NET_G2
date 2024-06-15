@@ -1,22 +1,25 @@
-import { Col, Row } from "antd";
+import { Col, Row, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { get } from "../../../helpers/API.helper";
 import Qr from "../../../components/Admin/QR/Qr";
-import { TABLE } from "../../../helpers/APILinks";
+import { LIST_TABLE, TABLE } from "../../../helpers/APILinks";
+import { useSelector } from "react-redux";
 
 function ListQr() {
   const [qrs, setQrs] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const account = useSelector(state => state.AccountReducer)
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(TABLE);
+        const data = await get(`${LIST_TABLE}/${account?.storeId}`);
 
         if (data) {
           setQrs(data);
-          // console.log(data)
+
+          if(data.length == 0) {
+            message.error('No data')
+          }
         }
       } catch (error) {
         console.log("err in ListQr", error);
@@ -26,11 +29,6 @@ function ListQr() {
 
     fetchApi();
   }, []);
-
-  // page = 1 => 24
-  // page = 2 => 24 => 48
-  // pagination: count / 24 + 1
-  // skip: (n - 1) * 24
 
   return (
     <>

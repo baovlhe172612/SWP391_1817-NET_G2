@@ -7,18 +7,16 @@ namespace Swp391.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TableController : ControllerBase
+    public class tables : ControllerBase
     {
         private TableService _tableService = new TableService();
 
         // phương thức lấy toàn bộ table
-        [HttpGet]
-        public IActionResult getAllTable()
+        [HttpGet("store/{storeID}")]
+        public IActionResult getAllTable(int storeID)
         {
-            return Ok(_tableService.getAllTable());
+            return Ok(_tableService.getAllTable(storeID));
         }
-
-
 
 
     }                   

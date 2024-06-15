@@ -36,9 +36,9 @@ export const GET_ACCOUNT_BY_AUTH = `${LOCALHOST_API}/api/AccountDtos/GET`
 export const GET_ACCOUNT_BY_TOKEN = `${LOCALHOST_API}/api/AccountDtos/GET`
 
 // API TABLE
-export const TABLE = `${LOCALHOST_API}/api/Table`;
+export const TABLE = `${LOCALHOST_API}/api/tables`;
 export const LIST_ACCOUNT = `${LOCALHOST_API}/api/Account`;
-export const LIST_TABLE = `${LOCALHOST_API}/api/Table`;
+export const LIST_TABLE = `${LOCALHOST_API}/api/tables/store`;
 
 // API PRODUCT CONTROLLERS
 export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;

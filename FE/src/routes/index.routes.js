@@ -66,12 +66,20 @@ const routes = [
         element: <ListProduct />,
       },
       {
-        path: "listproduct/:id",
+        path: "listproduct/:tableId/:storeId",
         element: <ListProduct />,
       },
       {
         path: "productDetail",
         element: <ProductDetail />,
+      },
+      {
+        path: "404err",
+        element: <NotFound />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
