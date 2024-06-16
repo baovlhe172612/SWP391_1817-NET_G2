@@ -14,7 +14,7 @@ namespace BE.Controllers
         private readonly OrderDetailService _detailService = new OrderDetailService();
 
         [HttpPost("AddOrderDetail")]
-        public IActionResult Order( List<CartItemDtos> cartItems, int payMentID)
+        public IActionResult Order( List<CartItemDtos> cartItems, int payMentID, String note)
         {
             if(cartItems == null || cartItems.Count == 0)
             {
@@ -24,7 +24,7 @@ namespace BE.Controllers
             //lấy ra orderList 
             DateTime currentTime = DateTime.Now;
 
-            Order order = new Order {  Status = 0, StoreId=1, TableId=1, PaymentId = payMentID,Date= currentTime };
+            Order order = new Order {  Status = 0, StoreId=1, TableId=1, PaymentId = payMentID, Note = note,Date= currentTime };
 
             //tạo order mới
             _service.addOrderService(order);
