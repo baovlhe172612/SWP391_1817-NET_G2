@@ -16,7 +16,7 @@ function ListProductAdmin() {
     pageSize: 5, // Set the default page size to 3
   });
   // lấy qua API
-  useEffect(() => {
+
     const fetchApi = async () => {
       try {
         const data = await get(LIST_PRODUCT_SIZE);
@@ -30,8 +30,12 @@ function ListProductAdmin() {
       }
     };
 
+  useEffect(() => {
     fetchApi();
   }, []);
+  const onReload = () => {
+    fetchApi();
+  };
     // divide page
     const handleTableChange = (pagination) => {
       setPagination(pagination);
@@ -154,7 +158,7 @@ function ListProductAdmin() {
       <Button icon={<FaPlus />} type="primary" onClick={showModal}>
         New Product
       </Button>
-      <CreateProduct isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} />
+      <CreateProduct isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} onReload={onReload}/>
       <Table columns={columns}
        dataSource={data && data.slice((pagination.current - 1) * pagination.pageSize, pagination.current * pagination.pageSize).map((account) => ({ ...account, key: account.accountId }))}
         pagination={{
