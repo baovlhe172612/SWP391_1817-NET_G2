@@ -175,7 +175,7 @@ namespace Swp391.Service
         }
 
         // Create product
-        public void CreateProduct(ProductSizeDtos newproduct)
+        public void CreateProduct(ProductcreateDtos newproduct)
         {
             _repo.CreateProduct(newproduct);
         }

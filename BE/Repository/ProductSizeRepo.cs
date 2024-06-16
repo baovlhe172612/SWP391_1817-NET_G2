@@ -38,11 +38,19 @@ namespace Swp391.Repository
             return ProductSize;
         }
 
-        public void CreateProduct(ProductSizeDtos newproduct)
-        {   
+        public void CreateProduct(ProductcreateDtos newproduct)
+        {
             SwpfinalContext _context = new SwpfinalContext();
-            var Product = new Product
-            { ProductId = newproduct.ProductId,
+            if (newproduct == null)
+            {
+                throw new ArgumentNullException(nameof(newproduct));
+            }
+            if (newproduct.Sizes == null || newproduct.Sizes.Count == 0)
+            {
+                throw new ArgumentException("Sizes list is null or empty");
+            }
+            var product = new Product
+            {              
                 ProductName = newproduct.ProductName,
                 CategoryId = newproduct.Category,
                 Img = newproduct.Img,
@@ -52,26 +60,27 @@ namespace Swp391.Repository
                 StoreId = newproduct.StoreId,
                 Status = 1,
                 DateDeleted = null,
-                ModifileDate = null,               
+                ModifileDate = null
             };
-            foreach (var size in newproduct.Sizes) 
+            _context.Products.Add(product);
+            _context.SaveChanges();
+            foreach (var size in newproduct.Sizes)
             {
-                var productsize = new ProductSize {                                               
-                ProductId = newproduct.ProductId,
-                SizeId = size.SizeId,
-                Quanity = size.Quantity,
-                Price = newproduct.Price + size.Price,
-                IsDelete = 0,
-                Status = 1,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now),
-                DateDeleted = null,
+                var productSize = new ProductSize
+                {
+                    ProductId = product.ProductId,
+                    SizeId = size.SizeId, // Access SizeId from SizeDtos
+                    Quanity = size.Quantity, // Access Quantity from SizeDtos
+                    Price = newproduct.Price + size.Price, // Calculate Price based on newproduct.Price and SizeDtos.Price
+                    IsDelete = 0,
+                    Status = 1,
+                    DateCreated = DateOnly.FromDateTime(DateTime.Now),
+                    DateDeleted = null,
                 };
-                _context.ProductSizes.Add(productsize);
-            };
-            _context.Products.Add(Product);
+                _context.ProductSizes.Add(productSize);                
+            }
             _context.SaveChanges();
         }
-
         public void UpdateProduct(ProductSize newproduct)
         {
             SwpfinalContext _context = new SwpfinalContext();
