@@ -10,10 +10,10 @@ public partial class Conversation
 
     public int UserChatFirstId { get; set; } // USER
 
-    public int UserSecondId { get; set; } // ADMIN
-    [JsonIgnore]
-    public virtual Message ConversationNavigation { get; set; } = null!;
-    [JsonIgnore]
+    public int? UserSecondId { get; set; }
+
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+
     public virtual UserChat? UserChatFirst { get; set; }
     [JsonIgnore]
     public virtual UserChat? UserSecond { get; set; }
