@@ -10,10 +10,11 @@ public partial class Conversation
 
     public int UserChatFirstId { get; set; } // USER
 
-    public int? UserSecondId { get; set; }
+    public int UserSecondId { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
-
+    [JsonIgnore]
     public virtual UserChat? UserChatFirst { get; set; }
     [JsonIgnore]
     public virtual UserChat? UserSecond { get; set; }

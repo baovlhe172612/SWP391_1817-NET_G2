@@ -117,9 +117,8 @@ public partial class SwpfinalContext : DbContext
             entity.Property(e => e.MessId).HasColumnName("MessID");
             entity.Property(e => e.CoverId).HasColumnName("CoverID");
             entity.Property(e => e.SensiderId).HasColumnName("SensiderID");
-            entity.Property(e => e.TimeStamp)
-                .IsRowVersion()
-                .IsConcurrencyToken();
+            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
+
 
             entity.HasOne(d => d.Cover).WithMany(p => p.Messages)
                 .HasForeignKey(d => d.CoverId)

@@ -31,7 +31,9 @@ function Chat({ setCollapsed, connection }) {
         {
           userChatFirstId: parseInt(tableIdV2) * 100, // userID
           userSecondId: parseInt(storeId) // admin
-        }
+        }, 
+
+        parseInt(tableIdV2) * 100
 
       );
     }

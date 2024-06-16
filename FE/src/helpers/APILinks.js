@@ -3,7 +3,7 @@ const LOCALHOST_API = "http://localhost:5264"
 
 // API ACCOUNT
 export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
-
+ 
 
 // API CATEGORY
 

@@ -40,9 +40,9 @@ function ChatDetail({ connection }) {
     };
 
     // Đăng ký sự kiện receiveMessage
-    const receiveMessage = (userChat, ChatRoom, message, newConversation) => {
+    const receiveMessage = (userChat, ChatRoom, message, conversationExist, newMessage) => {
       setMessageUser(`${message} ${userChat.userName}, xin chao`);
-      console.log(userChat, ChatRoom, message, newConversation);
+      console.log(userChat, ChatRoom, message, conversationExist, newMessage);
     };
 
     if (connection.state === signalR.HubConnectionState.Connected) {

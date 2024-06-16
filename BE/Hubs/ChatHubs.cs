@@ -13,6 +13,8 @@ namespace BE.Hubs
     {
         private ChatService _chatService = new ChatService();
         private ConversationService _conversationService = new ConversationService();
+        private MessageService _messageService = new MessageService();
+
         public async Task JoinChat(UserChat userChat)
         {
             try
@@ -34,49 +36,65 @@ namespace BE.Hubs
 
         public async Task JoinSpecificChatroom(UserChat userChat, string ChatRoom)
         {
-            // add người dùng vào ChatRoom
-            await Groups.AddToGroupAsync(Context.ConnectionId, ChatRoom);
-
-            // thêm người dùng vào DB
-            userChat.UserId = userChat.UserId * 100;
-
-            var userChatBd = _chatService.FindUserPassById(userChat.UserId);
-
-            if (userChatBd == null)
+            try
             {
-                userChatBd = _chatService.AddUseChat(userChat);
-            }
+                // add người dùng vào ChatRoom
+                await Groups.AddToGroupAsync(Context.ConnectionId, ChatRoom);
 
-            // gửi tin nhắn cho MỌI NGƯỜI ( chưa biết gửi tin nhắn cho 1 người)
-            await Clients.Group(ChatRoom)
-            .SendAsync("JoinSpecificChatroom", userChatBd, ChatRoom);
+                // thêm người dùng vào DB
+                userChat.UserId = userChat.UserId * 100;
+
+                var userChatBd = _chatService.FindUserPassById(userChat.UserId);
+
+                if (userChatBd == null)
+                {
+                    // create conversation
+                    userChatBd = _chatService.AddUseChat(userChat);
+                }
+
+                // lưu tin nhắn vào DB
+
+
+                // gửi tin nhắn cho MỌI NGƯỜI ( chưa biết gửi tin nhắn cho 1 người)
+                await Clients.Group(ChatRoom)
+                .SendAsync("JoinSpecificChatroom", userChatBd, ChatRoom);
+            }
+            catch (System.Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Exception in SendMessage: {ex.Message}");
+                // Optional: Send a message to the client with error details
+            }
         }
 
-        public async Task SendMessage(UserChat userChat, string message, string ChatRoom, Conversation conversation)
+        public async Task SendMessage(UserChat userChat, string message, string ChatRoom, Conversation conversation, int SensiderId)
         {
             try
             {
                 // Check Conversation
                 var conversationExist = _conversationService.FindConversation(conversation.UserChatFirstId, conversation.UserSecondId);
 
-                
                 // Tạo Conversation
                 if (conversationExist == null)
                 {
-                    // var newConversation = new Conversation
-                    // {
-                    //     UserChatFirstId = conversation.UserChatFirstId,
-                    //     UserSecondId = conversation.UserSecondId,
-                    // };
-
-                    conversation = _conversationService.AddConversation(conversation);
+                    conversationExist = _conversationService.AddConversation(conversation);
                 }
 
                 // Lưu tin nhắn trong DB
+                var newMessage = new Message
+                {
+                    CoverId = conversationExist.ConversationId,
+                    SensiderId = SensiderId,
+                    ContentChat = message,
+                    TimeStamp = DateTime.UtcNow,
+                    MessId = 0 // Sửa lại thành tên thuộc tính MessId
+                };
+
+                newMessage = _messageService.AddMessage(newMessage);
 
                 // gửi tin nhắn đến tất cả người có trong phòng chat
                 await Clients.Group(ChatRoom)
-                    .SendAsync("ReceiveMessageInput", userChat, ChatRoom, message, conversation);
+                    .SendAsync("ReceiveMessageInput", userChat, ChatRoom, message, conversationExist, newMessage);
             }
             catch (Exception ex)
             {
