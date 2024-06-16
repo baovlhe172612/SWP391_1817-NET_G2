@@ -40,10 +40,7 @@ namespace Swp391.Repository
                                    StatusDate=a.StatusDate,
                                    DateStartWork=a.DateStartWork,
                                    StoreName = s.StoreName,
-                                   IsDelete = (int)a.IsDelete,
-                                   Cccd = a.Cccd,
-                                   DateStartWork = a.DateStartWork,
-                                   StatusDate = a.StatusDate,
+                                   IsDelete = (int)a.IsDelete,                                                                                                    
                                }).FirstOrDefault();
 
             return accountDtos;
@@ -68,17 +65,13 @@ namespace Swp391.Repository
                                    Phone = a.Phone,
                                    RoleId = a.RoleId,
                                    Token = a.Token,
-                                   StoreId = s.StoreId,
-                                   Token = a.Token,
+                                   StoreId = s.StoreId,                                 
                                    Cccd = a.Cccd,
                                    StatusDate = a.StatusDate,
                                    DateStartWork = a.DateStartWork,
                                    RoleName = r.RoleName,
                                    StoreName = s.StoreName,
-                                   IsDelete = (int)a.IsDelete,
-                                   Cccd = a.Cccd,
-                                   DateStartWork = a.DateStartWork,
-                                   StatusDate = a.StatusDate,
+                                   IsDelete = (int)a.IsDelete,                                                                                                    
                                }).FirstOrDefault();
 
             return accountDtos;

@@ -1,9 +1,11 @@
-﻿
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace Swp391
 {
     public class Program
     {
-     
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -14,14 +16,11 @@ namespace Swp391
             builder.Services.AddSwaggerGen();
 
             // Configure CORS
-
-            //add cors ?? tránh
-            
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.AllowAnyOrigin()  
+                    policy.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -31,16 +30,19 @@ namespace Swp391
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
-            { 
+            {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FieldEngineerApi v1"));
             }
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FieldEngineerApi v1"));
+            else
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FieldEngineerApi v1"));
+            }
 
             app.UseHttpsRedirection();
 
-            app.UseCors(); // Áp d?ng chính sách CORS
+            app.UseCors(); // Apply the CORS policy
 
             app.UseAuthorization();
 

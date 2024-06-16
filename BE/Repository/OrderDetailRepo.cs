@@ -7,7 +7,6 @@ namespace BE.Repository
         /// <summary>
         /// lấy toàn bộ chi tiet san pham
         /// </summary>
-
         /// <returns>lấy toàn bộ chi tiet san pham</returns>
         private readonly SwpfinalContext _context = new SwpfinalContext();
         public List<OrderDetail> listOrderDetail()

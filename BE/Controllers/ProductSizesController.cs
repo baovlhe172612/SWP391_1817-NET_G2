@@ -177,11 +177,11 @@ namespace Swp391.Controllers
 
         // create product
         [HttpPost("Create")]
-        public IActionResult CreateProduct(ProductSizeDtos product)
+        public IActionResult CreateProduct([FromBody] ProductcreateDtos newproduct)
         {
             try
             {
-                _service.CreateProduct(product);
+                _service.CreateProduct(newproduct);
                 return Ok(new { message = "Product created successfully" });
             }
             catch (Exception ex)

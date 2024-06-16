@@ -77,8 +77,8 @@ namespace Swp391.Repository
         {
             try
             {   
-                store.dateCreated = null;
-                store.dateDeleted = null;
+                store.DateCreated = null;
+                store.DateDeleted = null;
                 _context.Stores.Update(store);
                 _context.SaveChanges();
                 return store;
