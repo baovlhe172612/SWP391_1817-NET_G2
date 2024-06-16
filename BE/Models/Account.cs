@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -24,7 +23,7 @@ public partial class Account
 
     public int RoleId { get; set; }
 
-    public string Token { get; set; } 
+    public string Token { get; set; } = null!;
 
     public int? IsDelete { get; set; }
 
@@ -35,8 +34,8 @@ public partial class Account
     public DateOnly? StatusDate { get; set; }
 
     public DateOnly? DateStartWork { get; set; }
-    [JsonIgnore]
-    public virtual Role Role { get; set; } 
-    [JsonIgnore]
+
+    public virtual Role Role { get; set; } = null!;
+
     public virtual Store? Store { get; set; }
 }

@@ -11,7 +11,7 @@ public partial class Conversation
 
     public int? UserSecondId { get; set; }
 
-    public virtual Message ConversationNavigation { get; set; } = null!;
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
     public virtual UserChat? UserChatFirst { get; set; }
 
