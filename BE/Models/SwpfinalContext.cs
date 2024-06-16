@@ -95,16 +95,9 @@ public partial class SwpfinalContext : DbContext
         {
             entity.ToTable("Conversation");
 
-            entity.Property(e => e.ConversationId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ConversationID");
+            entity.Property(e => e.ConversationId).HasColumnName("ConversationID");
             entity.Property(e => e.UserChatFirstId).HasColumnName("UserChatFirstID");
             entity.Property(e => e.UserSecondId).HasColumnName("UserSecondID");
-
-            entity.HasOne(d => d.ConversationNavigation).WithOne(p => p.Conversation)
-                .HasForeignKey<Conversation>(d => d.ConversationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Conversation_Message");
 
             entity.HasOne(d => d.UserChatFirst).WithMany(p => p.ConversationUserChatFirsts)
                 .HasForeignKey(d => d.UserChatFirstId)
@@ -128,9 +121,12 @@ public partial class SwpfinalContext : DbContext
                 .IsRowVersion()
                 .IsConcurrencyToken();
 
+            entity.HasOne(d => d.Cover).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.CoverId)
+                .HasConstraintName("FK_Message_Conversation");
+
             entity.HasOne(d => d.Sensider).WithMany(p => p.Messages)
                 .HasForeignKey(d => d.SensiderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Message_UserChat");
         });
 
