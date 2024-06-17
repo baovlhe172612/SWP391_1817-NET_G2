@@ -10,6 +10,7 @@ import {
   ShoppingCartOutlined,
   ProductOutlined,
   MenuOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import { getSessionItem } from "../../../helpers/Session.helper";
 import { hasRole } from "../../../helpers/CheckRole";
@@ -137,6 +138,17 @@ const itemsSider = (account) => {
         {
           key: "orders/",
           label: <Link to="/admin/orders/">List orders</Link>,
+        },
+      ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
+    },
+    hasRole(account.roleName, ["Manager", "Employee"]) && {
+      key: "chat",
+      label: "Chat",
+      icon: <MessageOutlined />,
+      children: [
+        {
+          key: "listChat/",
+          label: <Link to="/admin/chat">List chat</Link>,
         },
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },

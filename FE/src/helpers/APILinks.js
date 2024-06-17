@@ -13,7 +13,9 @@ export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders/store`
 
 // API MESSENGERBOX
 
-// API POST
+// API MESSAGE
+export const GET_MESSAGE = `${LOCALHOST_API}/api/messages`;
+
 
 // API STORE
 export const GET_STORES_STATUS = `${LOCALHOST_API}/api/status`;

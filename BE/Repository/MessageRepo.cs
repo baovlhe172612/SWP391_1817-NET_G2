@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BE.Models;
 using Microsoft.EntityFrameworkCore; // Thêm dòng này để sử dụng DbUpdateException
-
+using BE.Dtos;
 
 namespace BE.Repository
 {
@@ -41,5 +41,23 @@ namespace BE.Repository
             return message;
         }
 
+        public List<MessageDtos> GetMessageByConverId(int conversationId)
+        {
+            var query = (from me in _context.Messages
+                         join us in _context.UserChats on me.SensiderId equals us.UserId
+                         where me.CoverId == conversationId
+                         orderby me.TimeStamp
+                         select new MessageDtos
+                         {
+                             MessId = me.MessId,
+                             CoverId = me.CoverId,
+                             SensiderId = me.SensiderId,
+                             ContentChat = me.ContentChat,
+                             TimeStamp = me.TimeStamp,
+                             Role = us.Role,
+                             UserName = us.UserName
+                         }).ToList();
+            return query;
+        }
     }
 }

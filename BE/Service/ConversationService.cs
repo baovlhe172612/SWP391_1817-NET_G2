@@ -30,6 +30,9 @@ namespace BE.Service
             return count;
         }
 
+        public List<Conversation> GetConversationByStoreId(int id) {
+            return _conversationRepo.GetConversationByStoreId(id);
+        }
 
     }
 }

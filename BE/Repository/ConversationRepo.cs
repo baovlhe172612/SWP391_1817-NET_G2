@@ -50,5 +50,12 @@ namespace BE.Repository
             }
         }
 
+        public List<Conversation> GetConversationByStoreId(int id) {
+            var listConversation = _context.Conversations
+                                .Where( con => con.UserSecondId == id)
+                                .ToList();
+            return listConversation;
+        }
+
     }
 }

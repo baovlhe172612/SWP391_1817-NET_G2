@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import "./Chat.css";
 import { getCookie } from "../../../helpers/Cookie.helper";
+import { get } from "../../../helpers/API.helper";
+import { GET_MESSAGE } from "../../../helpers/APILinks";
+import { useDispatch, useSelector } from "react-redux";
+import { messageActions } from "../../../actions/message.actions";
 
 function ChatDetail({ connection }) {
-  const [messageAdmin, setMessageAdmin] = useState("Hello friend");
-  const [messageUser, setMessageUser] = useState("");
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
+  const listMessage = useSelector((state) => state.MessageReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const joinChatroom = async () => {
@@ -16,11 +20,15 @@ function ChatDetail({ connection }) {
           await connection.invoke(
             "JoinSpecificChatroom",
             {
-              UserId: parseInt(tableIdV2),
+              UserId: parseInt(tableIdV2) * 10000,
               Role: 0,
               UserName: `table: ${tableIdV2}`,
             },
-            `store ${storeId}`
+
+            `store ${storeId}`,
+
+            parseInt(tableIdV2) * 10000,
+            parseInt(storeId)
           );
           console.log("JoinChat invoked successfully.");
         } catch (error) {
@@ -30,21 +38,54 @@ function ChatDetail({ connection }) {
     };
 
     // Đăng ký sự kiện JoinSpecificChatroom
-    const handleJoinSpecificChatroom = (userChat, Store) => {
+    const handleJoinSpecificChatroom = async (
+      userChat,
+      Store,
+      conversationExist
+    ) => {
       try {
-        setMessageUser(`Hello toi moi vao ${userChat.userName}`);
-        console.log(userChat, Store);
+        // nhận list message từ API
+        if (conversationExist) {
+          try {
+            const data = await get(
+              `${GET_MESSAGE}/${conversationExist.conversationId}`
+            );
+            // setMessage(data);
+            dispatch(messageActions(data));
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+        // console.log(userChat, Store, conversationExist);
       } catch (error) {
         console.error("Error invoking JoinChat:", error);
       }
     };
 
     // Đăng ký sự kiện receiveMessage
-    const receiveMessage = (userChat, ChatRoom, message, conversationExist, newMessage) => {
-      setMessageUser(`${message} ${userChat.userName}, xin chao`);
-      console.log(userChat, ChatRoom, message, conversationExist, newMessage);
+    const receiveMessage = async (
+      userChat,
+      ChatRoom,
+      message,
+      conversationExist,
+      newMessage
+    ) => {
+      // nhận list message từ API
+      if (conversationExist) {
+        try {
+          const data = await get(
+            `${GET_MESSAGE}/${conversationExist.conversationId}`
+          );
+          dispatch(messageActions(data));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      // console.log(userChat, ChatRoom, message, conversationExist, newMessage);
     };
 
+    // lắng nghe những sự kiệu nếu connect tồn tại
     if (connection.state === signalR.HubConnectionState.Connected) {
       joinChatroom();
       connection.on("JoinSpecificChatroom", handleJoinSpecificChatroom);
@@ -60,42 +101,33 @@ function ChatDetail({ connection }) {
   return (
     <>
       <main class="msger-chat">
-        <div class="msg left-msg">
-          <div
-            class="msg-img"
-            style={{
-              background: "https://image.flaticon.com/icons/svg/327/327779.svg",
-            }}
-          ></div>
+        {listMessage.length > 0 &&
+          listMessage.map((message, index) => (
+            <div
+              className={message.role === 1 ? "msg left-msg" : "msg right-msg"}
+              key={index}
+            >
+              <div
+                className="msg-img"
+                style={{
+                  backgroundImage:
+                    "url('https://image.flaticon.com/icons/svg/327/327779.svg')",
+                }}
+              ></div>
 
-          <div class="msg-bubble">
-            <div class="msg-info">
-              <div class="msg-info-name">Admin</div>
-              <div class="msg-info-time">12:45</div>
+              <div className="msg-bubble">
+                <div className="msg-info">
+                  <div className="msg-info-name">{message.userName}</div>
+                  <div className="msg-info-time">{message.timeStamp}</div>
+                </div>
+
+                <div className="msg-text">{message.contentChat}</div>
+              </div>
             </div>
-
-            <div class="msg-text">{messageAdmin}</div>
-          </div>
-        </div>
-
-        <div class="msg right-msg">
-          <div
-            class="msg-img"
-            //   style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"
-          ></div>
-
-          <div class="msg-bubble">
-            <div class="msg-info">
-              <div class="msg-info-name">Sajad</div>
-              <div class="msg-info-time">12:46</div>
-            </div>
-
-            <div class="msg-text">{messageUser}</div>
-          </div>
-        </div>
+          ))}
       </main>
     </>
   );
 }
 
-export default React.memo(ChatDetail); //ChatDetail; 
+export default React.memo(ChatDetail); //ChatDetail;

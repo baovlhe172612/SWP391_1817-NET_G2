@@ -35,6 +35,7 @@ import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
+import ListChat from "../pages/Admin/Chat/ListChat";
 
 const routes = [
   {
@@ -251,6 +252,15 @@ const routes = [
                   {
                     path: "orderdetails",
                     element: <OrderDetails />,
+                  },
+                ],
+              },
+              {
+                path: "chat",
+                children: [
+                  {
+                    path: "",
+                    element: <ListChat />,
                   },
                 ],
               },

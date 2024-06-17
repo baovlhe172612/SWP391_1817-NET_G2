@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, Row, Col, Card } from "antd";
 // import "antd/dist/antd.css";
 import "./Profile.css";
-import { put, putV2 } from "../../../helpers/API.helper";
-import { UPDATE_ACCOUNT_ID } from "../../../helpers/APILinks";
+import { get, put, putV2 } from "../../../helpers/API.helper";
+import { GET_ACCOUNT_BY_TOKEN, UPDATE_ACCOUNT_ID } from "../../../helpers/APILinks";
 import { alear_false, alear_success } from "../../../helpers/Alert.helper";
 import { accountActions } from "../../../actions/AccountActions";
 
@@ -28,12 +28,15 @@ function Profile() {
         profileNewV1
       );
 
-      console.log(dataPatch)
-
-      // dispatch(accountActions(dataPatch));
-
       if (dataPatch) {
         alear_success(`Update Success`, `updated`);
+
+        const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${dataPatch.token}`);
+        console.log(accountByToken)
+
+      dispatch(accountActions(accountByToken));
+
+
       } else {
       alear_false(`Update false`, `updated false`);
       }

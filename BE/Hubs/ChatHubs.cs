@@ -34,36 +34,53 @@ namespace BE.Hubs
             }
         }
 
-        public async Task JoinSpecificChatroom(UserChat userChat, string ChatRoom)
+        public async Task JoinSpecificChatroom(UserChat userChat, string ChatRoom, int UserChatFirstId, int UserSecondId)
         {
             try
             {
                 // add người dùng vào ChatRoom
                 await Groups.AddToGroupAsync(Context.ConnectionId, ChatRoom);
 
-                // thêm người dùng vào DB
-                userChat.UserId = userChat.UserId * 100;
+                // thêm người dùng vào DB -----------------------
+                if (userChat.Role == 0)
+                {
+                    userChat.UserId = userChat.UserId;
+                }
 
                 var userChatBd = _chatService.FindUserPassById(userChat.UserId);
 
                 if (userChatBd == null)
                 {
-                    // create conversation
+                    // create userChat
                     userChatBd = _chatService.AddUseChat(userChat);
                 }
 
-                // lưu tin nhắn vào DB
+                // Check Conversation
+                var conversationExist = _conversationService.FindConversation(UserChatFirstId, UserSecondId);
 
+                // // Tạo Conversation
+                if (conversationExist == null)
+                {
+                    var conversation = new Conversation
+                    {
+                        ConversationId = 0,
+                        UserChatFirstId = UserChatFirstId,
+                        UserSecondId = UserSecondId,
+                    };
+
+                    conversationExist = _conversationService.AddConversation(conversation);
+                }
 
                 // gửi tin nhắn cho MỌI NGƯỜI ( chưa biết gửi tin nhắn cho 1 người)
                 await Clients.Group(ChatRoom)
-                .SendAsync("JoinSpecificChatroom", userChatBd, ChatRoom);
+                .SendAsync("JoinSpecificChatroom", userChatBd, ChatRoom, conversationExist);//, conversationExist);
             }
             catch (System.Exception ex)
             {
                 // Log the exception
                 Console.WriteLine($"Exception in SendMessage: {ex.Message}");
                 // Optional: Send a message to the client with error details
+                await Clients.Caller.SendAsync("ReceiveMessageError", ex.Message);
             }
         }
 
@@ -92,6 +109,9 @@ namespace BE.Hubs
 
                 newMessage = _messageService.AddMessage(newMessage);
 
+                // thay đổi trang admin khi có người gửi tin nhắn
+                await GetAllConver(conversationExist.UserSecondId, ChatRoom);
+
                 // gửi tin nhắn đến tất cả người có trong phòng chat
                 await Clients.Group(ChatRoom)
                     .SendAsync("ReceiveMessageInput", userChat, ChatRoom, message, conversationExist, newMessage);
@@ -105,5 +125,31 @@ namespace BE.Hubs
             }
         }
 
+        public async Task GetAllConver(int storeId, string chatRoom)
+        {
+            try
+            {
+                // add người dùng vào ChatRoom
+                await Groups.AddToGroupAsync(Context.ConnectionId, chatRoom);
+
+                // lấy listConversation từ DB
+                List<Conversation> listConversation = _conversationService.GetConversationByStoreId(storeId);
+
+                // trả ra list
+                await Clients.Group(chatRoom)
+                .SendAsync("listConversation", listConversation, chatRoom);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task GetMessage() {
+            
+        }
+
     }
+
 }

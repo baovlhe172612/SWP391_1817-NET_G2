@@ -29,11 +29,11 @@ function Chat({ setCollapsed, connection }) {
         `store ${storeId}`,
 
         {
-          userChatFirstId: parseInt(tableIdV2) * 100, // userID
+          userChatFirstId: parseInt(tableIdV2) * 10000, // userID
           userSecondId: parseInt(storeId) // admin
         }, 
 
-        parseInt(tableIdV2) * 100
+        parseInt(tableIdV2) * 10000
 
       );
     }
