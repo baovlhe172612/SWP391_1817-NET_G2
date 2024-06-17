@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import "./Chat.css";
 import { getCookie } from "../../../helpers/Cookie.helper";
@@ -14,13 +14,17 @@ import {
 function ChatDetail({ connection }) {
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
-  // const [listMessage, setListMessage] = useState([]);
-  // const [load, setLoad] = useState(false);
-  // const [conversation, setConversation] = useState(null);
   const listMessage = useSelector((state) => state.MessageReducer);
   const dispatch = useDispatch();
 
   //conversationExist.conversationId
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [listMessage]);
 
   useEffect(() => {
     // Đăng ký sự kiện JoinSpecificChatroom
@@ -37,7 +41,7 @@ function ChatDetail({ connection }) {
               `${GET_MESSAGE}/${conversationExist.conversationId}`
             );
 
-            dispatch(messageActions(data))
+            dispatch(messageActions(data));
           } catch (error) {
             console.log(error);
           }
@@ -64,7 +68,7 @@ function ChatDetail({ connection }) {
             `${GET_MESSAGE}/${conversationExist.conversationId}`
           );
           dispatch(messageActions(data));
-          console.log(`nhận tin nhắn oke ${userChat.userId}`)
+          console.log(`nhận tin nhắn oke ${userChat.userId}`);
         } catch (error) {
           console.log(error);
         }
@@ -100,48 +104,39 @@ function ChatDetail({ connection }) {
     };
   }, [connection]);
 
-  // useEffect(() => {
-  //   const fetchApi = async () => {
-  //     try {
-  //       const data = await get(
-  //         `${GET_MESSAGE}/${conversation.conversationId}`
-  //       );
-  //       setListMessage(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchApi();
-  // }, [load, conversation]);
-
   return (
     <>
-      <main class="msger-chat">
+      <main className="msger-chat">
         {listMessage.length > 0 &&
-          listMessage.map((message, index) => (
-            <div
-              className={message.role === 1 ? "msg left-msg" : "msg right-msg"}
-              key={index}
-            >
+          listMessage.map((message, index) => {
+            const isLastMessage = index == listMessage.length - 1;
+            return (
               <div
-                className="msg-img"
-                style={{
-                  backgroundImage:
-                    "url('https://image.flaticon.com/icons/svg/327/327779.svg')",
-                }}
-              ></div>
+                className={
+                  message.role === 1 ? "msg left-msg" : "msg right-msg"
+                }
+                key={index}
+                ref={isLastMessage ? lastMessageRef : null}
+              >
+                <div
+                  className="msg-img"
+                  style={{
+                    backgroundImage:
+                      "url('https://image.flaticon.com/icons/svg/327/327779.svg')",
+                  }}
+                ></div>
 
-              <div className="msg-bubble">
-                <div className="msg-info">
-                  <div className="msg-info-name">{message.userName}</div>
-                  <div className="msg-info-time">{message.timeStamp}</div>
+                <div className="msg-bubble">
+                  <div className="msg-info">
+                    <div className="msg-info-name">{message.userName}</div>
+                    <div className="msg-info-time">{message.timeStamp}</div>
+                  </div>
+
+                  <div className="msg-text">{message.contentChat}</div>
                 </div>
-
-                <div className="msg-text">{message.contentChat}</div>
               </div>
-            </div>
-          ))}
+            );
+          })}
       </main>
     </>
   );

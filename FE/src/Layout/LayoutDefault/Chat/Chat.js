@@ -13,7 +13,24 @@ function Chat({ setCollapsed, connection }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log(`store ${storeId}`)
+    console.log(
+      {
+        UserId: parseInt(tableIdV2) * 10000,
+        Role: 0,
+        UserName: `table: ${tableIdV2}`,
+      },
+
+      message,
+
+      `store ${storeId} - ${parseInt(tableIdV2) * 10000}`,
+
+      {
+        userChatFirstId: parseInt(tableIdV2) * 10000, // userID
+        userSecondId: parseInt(storeId), // admin
+      },
+
+      parseInt(tableIdV2) * 10000
+    );
 
     if (connection.state === signalR.HubConnectionState.Connected) {
       await connection.invoke(
@@ -25,19 +42,18 @@ function Chat({ setCollapsed, connection }) {
         },
 
         message,
-        
-        `store ${storeId}`,
+
+        `store ${storeId} - ${parseInt(tableIdV2) * 10000}`,
 
         {
           userChatFirstId: parseInt(tableIdV2) * 10000, // userID
-          userSecondId: parseInt(storeId) // admin
-        }, 
+          userSecondId: parseInt(storeId), // admin
+        },
 
         parseInt(tableIdV2) * 10000
-
       );
 
-      setMessage('')
+      setMessage("");
     }
   };
 

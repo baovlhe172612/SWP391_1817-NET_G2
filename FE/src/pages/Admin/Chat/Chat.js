@@ -7,14 +7,22 @@ import { GET_MESSAGE } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import { messageActions } from "../../../actions/message.actions";
 import { messageAdminActions } from "../../../actions/messageAdmin.actions";
+import {
+  OnJoinSpecificChatRoom,
+  OnReciveMessage,
+  joinSpecificChatroom,
+  sendMessage,
+} from "../../../helpers/Chat.helper";
 
 function Chat({ conversation }) {
-  const connection = useSelector((state) => state.ConnectionReducer);
   const [message, setMessage] = useState("");
+  const connection = useSelector((state) => state.ConnectionReducer);
   const account = useSelector((state) => state.AccountReducer);
-  const dispatch = useDispatch();
   const listMessage = useSelector((state) => state.MessageReducer);
+  const dispatch = useDispatch();
 
+  const storeId = account.storeId;
+  
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -30,38 +38,41 @@ function Chat({ conversation }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // lấy storeId
     const storeId = account.storeId;
 
-    if (connection.state === signalR.HubConnectionState.Connected) {
-      await connection.invoke(
-        "SendMessage",
-        {
-          UserId: parseInt(storeId),
-          Role: 1,
-          UserName: `store: ${storeId}`,
-        },
+    // gửi lên server sự kiện sendMessage
+    sendMessage(
+      connection,
+      {
+        UserId: parseInt(storeId),
+        Role: 1,
+        UserName: `store: ${storeId}`,
+      },
 
-        message,
+      message,
 
-        `store ${storeId} - ${conversation.userChatFirstId}`,
+      `store ${storeId} - ${conversation.userChatFirstId}`,
 
-        {
-          userChatFirstId: conversation.userChatFirstId, // userID
-          userSecondId: parseInt(storeId), // admin
-        },
+      {
+        userChatFirstId: conversation.userChatFirstId, // userID
+        userSecondId: parseInt(storeId), // admin
+      },
 
-        storeId
-      );
-    }
+      storeId
+    );
 
+    // lấy lại data mới khi gửi lên
     try {
       const data = await get(`${GET_MESSAGE}/${conversation.conversationId}`);
+      listMessage = data;
+
       dispatch(messageAdminActions(data));
     } catch (error) {
       console.log(error);
     }
 
-    setMessage("");
+    setMessage(" ");
   };
 
   return (
