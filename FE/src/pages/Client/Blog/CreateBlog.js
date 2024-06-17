@@ -106,4 +106,4 @@ function CreateBlog() {
   );
 }
 
-export default CreateStore;
+export default CreateBlog;

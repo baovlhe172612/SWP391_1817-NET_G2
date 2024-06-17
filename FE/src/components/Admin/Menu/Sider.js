@@ -162,9 +162,10 @@ const itemsSider = (account) => {
           label: <Link to="/admin/blogs/">List Blogs</Link>,
         },
         {
-          key: "blogs/confirming",
-          label: <Link to="/admin/blogs/confirming">Confirming</Link>,
+          key: "blogs/create",
+          label: <Link to="/admin/blogs/create">Create Blogs</Link>,
         },
+
       ].filter(Boolean),
     },
   ].filter(Boolean);

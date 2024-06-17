@@ -6,27 +6,27 @@ import {
   DELETE_BLOG_ID,
   GET_BLOGS_STATUS,
   LIST_BLOGS,
-  
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
 import Search from "antd/es/input/Search";
 
 function ListBlog() {
-  const [Blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
   const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
+  let data = [];
+
   // lấy qua API
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        console.log(status);
-        const data = await get(`${GET_BLOGS_STATUS}/${status}`);
-
+        const data = await get(`http://localhost:5264/api/Post`);
+        console.log(data);
         if (data) {
           setBlogs(data);
         }
@@ -39,27 +39,35 @@ function ListBlog() {
     fetchApi();
   }, [updated, searchStatus, status]);
 
+  if (blogs.length > 0) {
+    data = blogs.map((Blog, index) => {
+      return {
+        postId: Blog.postId,
+        title: Blog.title,
+        Contents: Blog.contents,
+        Img: Blog.img,
+        IsPublished: Blog.isPublished,
+        Status: Blog.status,
+        Author: Blog.author,
+        Tags: Blog.tags,
+        CreatedDate: Blog.createdDate,
+        ModifiDate: Blog.modifiDate,
+        key: index,
+      };
+    });
+  }
+
   // COLUMS
   const columns = [
     {
-      title: "BlogID",
-      dataIndex: "BlogID",
-      key: "BlogID",
+      title: "postId",
+      dataIndex: "postId",
+      key: "postId",
     },
     {
       title: "Title",
-      dataIndex: "Title",
-      key: "Title",
-    },
-    {
-      title: "Contents",
-      dataIndex: "Contents",
-      key: "Contents",
-    },
-    {
-      title: "Image",
-      dataIndex: "Img",
-      key: "Img",
+      dataIndex: "title",
+      key: "title",
     },
     {
       title: "IsPublished",
@@ -73,36 +81,20 @@ function ListBlog() {
         ),
     },
     {
-      title: "IsNewFeed",
-      dataIndex: "IsNewFeed",
-      key: "IsNewFeed",
+      title: "Status",
+      dataIndex: "Status",
+      key: "Status",
       render: (status) =>
         status == 1 ? (
-          <Tag color="green">Active</Tag>
+          <Tag color="green">Existing</Tag>
         ) : (
-          <Tag color="red">Inactive</Tag>
-        ),
-    },
-    {
-      title: "IsDelete",
-      dataIndex: "IsDelete",
-      key: "IsDelete",
-      render: (status) =>
-        status == 1 ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Inactive</Tag>
+          <Tag color="red">Deleted</Tag>
         ),
     },
     {
       title: "Author",
       dataIndex: "Author",
       key: "Author",
-    },
-    {
-      title: "Tags",
-      dataIndex: "Tags",
-      key: "Tags",
     },
     {
       title: "CreatedDate",
@@ -123,45 +115,34 @@ function ListBlog() {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
-      render: (BlogId) => (
+      render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/Blog/edit/${BlogId}`}>
-            <Button type="primary">Edit</Button>
+          <Link to={`/admin/Blog/edit/${record.postId}`}>
+            <Button type="primary">Update</Button>
           </Link>
-          <Link to={`/admin/Blog/edit/${BlogId}`}>
-            <Button type="primary" ghost>
-              Detail
+          {record.Status == 1 && (
+            <Link to={`/admin/Blog/edit/${record.postId}`}>
+              <Button type="primary" ghost>
+                Post
+              </Button>
+            </Link>
+          )}
+          {record.Status == 1 ? (
+            <Button type="primary" danger onClick={() => handleDelete(record.postId)}>
+              Delete
             </Button>
-          </Link>
-          <Button type="primary" danger onClick={() => handleDelete(BlogId)}>
-            Delete
-          </Button>
+          ) : (
+            <Button type="primary" onClick={() => handleUndelete(record.postId)}>
+              Undelete
+            </Button>
+          )}
         </Space>
       ),
     },
   ];
 
-  // DATA
-  let data = [];
-
-  // Nếu có data từ api => tạo data cho Table
-  if (Blogs.length > 0) {
-    data = Blogs.map((Blog, index) => {
-      return {
-        BlogID: Blog.BlogId,
-        BlogName: Blog.BlogName,
-        Location: Blog.location,
-        Email: Blog.email,
-        UserName: Blog.userName,
-        Status: Blog.status,
-        actions: Blog.BlogId,
-        key: index,
-      };
-    });
-  }
   // Handler for deleting a Blog
-  const handleDelete = async (BlogId) => {
-    // bởi vì Swal là file đợi => phải có await mới được
+  const handleDelete = async (postId) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -173,9 +154,9 @@ function ListBlog() {
     });
 
     if (confirm.isConfirmed) {
-      console.log(`${DELETE_BLOG_ID}${BlogId}`);
-      const dataDelete = await patch(`${DELETE_BLOG_ID}${BlogId}`, {
-        BlogId: BlogId,
+      const dataDelete = await patch(`${DELETE_BLOG_ID}${postId}`, {
+        postId: postId,
+        status: 0, // Assuming status 0 indicates "Deleted"
       });
 
       if (dataDelete) {
@@ -185,7 +166,36 @@ function ListBlog() {
           icon: "success",
         });
 
-        // load lại data
+        setUpdated(!updated);
+      }
+    }
+  };
+
+  // Handler for undeleting a Blog
+  const handleUndelete = async (postId) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You want to undelete this post?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, undelete it!",
+    });
+
+    if (confirm.isConfirmed) {
+      const dataUndelete = await patch(`${DELETE_BLOG_ID}${postId}`, {
+        postId: postId,
+        status: 1, // Assuming status 1 indicates "Existing"
+      });
+
+      if (dataUndelete) {
+        Swal.fire({
+          title: "Undeleted!",
+          text: "Your file has been undeleted.",
+          icon: "success",
+        });
+
         setUpdated(!updated);
       }
     }
@@ -200,7 +210,7 @@ function ListBlog() {
     try {
       let data = [];
       if (values) {
-        } else {
+      } else {
         data = await get(`${GET_BLOGS_STATUS}/${status}`);
       }
 

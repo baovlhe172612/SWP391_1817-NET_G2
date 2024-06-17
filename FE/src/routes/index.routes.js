@@ -36,6 +36,7 @@ import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
 import ListBlog from "../pages/Client/Blog/ListBlog";
+import BlogDetail from "../pages/Client/Blog/BlogDetail";
 
 const routes = [
   {
@@ -251,7 +252,7 @@ const routes = [
                 path: "blogs",
                 children: [
                   {
-                    path: "",
+                    path: "/admin/blogs/",
                     element: <ListBlog />,
                   },
                   {

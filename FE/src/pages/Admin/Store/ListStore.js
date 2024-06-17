@@ -38,6 +38,8 @@ function ListStore() {
     fetchApi();
   }, [updated, searchStatus, status]);
 
+  console.log(data);
+
   // COLUMS
   const columns = [
     {
@@ -136,7 +138,7 @@ function ListStore() {
   const handleStatus = (changeStores) => {
     setStores(changeStores);
   };
-  const onSearch = () => {}
+  const onSearch = () => {};
   return (
     <>
       <Space>

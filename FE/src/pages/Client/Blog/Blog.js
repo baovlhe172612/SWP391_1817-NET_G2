@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { get, post } from "../../../helpers/API.helper"; // Giả sử bạn đã có phương thức POST trong API.helper
+import { get, post } from "../../../helpers/API.helper";
 import "./Blog.css";
 import { Button, Col, Input, Row } from "antd";
 import { Link } from "react-router-dom";
 
 function Blog() {
-  const [Blog, setBlog ]= useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [newPost, setNewPost] = useState({
     title: "",
     contents: "",
@@ -15,14 +15,12 @@ function Blog() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get("http://localhost:5264/api/Post");
-      setBlog(data);
+      setBlogs(data);
     };
     fetchApi();
   }, []);
 
   const handleInputChange = (e) => {
-    console.log("e.target.name:", e.target.name);
-    console.log("e.target.content:", e.target.value);
     setNewPost({ ...newPost, [e.target.name]: e.target.value });
   };
 
@@ -30,12 +28,32 @@ function Blog() {
     setNewPost({ ...newPost, img: e.target.files[0] });
   };
 
-  console.log("newposst", newPost);
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
 
-  console.log(Blog)
+    const formData = new FormData();
+    formData.append("title", newPost.title);
+    formData.append("contents", newPost.contents);
+    formData.append("img", newPost.img);
+
+    try {
+      const response = await post("http://localhost:5264/api/Post/add_new", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (response) {
+        setBlogs([...blogs, response]);
+        setNewPost({
+          title: "",
+          contents: "",
+          img: null,
+        });
+      }
+    } catch (error) {
+      console.log("Error in creating blog post", error);
+    }
+  };
 
   return (
     <>
@@ -57,68 +75,6 @@ function Blog() {
                   </ul>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Form Đăng Trạng Thái */}
-        <div className="container1">
-          <div className="row mb-4">
-            <div className="col-12">
-
-
-
-
-
-              <form className="form" onSubmit={handleSubmit} encType="multipart/form-data">
-                <Row gutter={[16, 16]}>
-                  <Col span={24}>
-                    <div className="form-group">
-                      <p>Title:</p>
-                      <Input
-                        type="text"
-                        name="title"
-                        onChange={handleInputChange}
-                        className="form-control"
-                        placeholder="Title"
-                        required
-                      />
-                    </div>
-                  </Col>
-                  <Col span={24}>
-                    <div className="form-group">
-                      <p>Contents:</p>
-                      <textarea
-                        name="contents"
-                        onChange={handleInputChange}
-                        className="form-control"
-                        placeholder="What's on your mind?"
-                        rows="3"
-                        required
-                      ></textarea>
-                    </div>
-                  </Col>
-                  <Col span={24}>
-                    <div className="form-group">
-                      <p>Image:</p>
-                      <input
-                        type="file"
-                        name="img"
-                        onChange={handleImageChange}
-                        className="form-control-file"
-                      />
-                    </div>
-                  </Col>
-                  <Col
-                    span={24}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <Button type="primary" htmlType="submit">
-                      Đăng
-                    </Button>
-                  </Col>
-                </Row>
-              </form>
             </div>
           </div>
         </div>
@@ -298,49 +254,47 @@ function Blog() {
 
               <div className="col-xl-9 col-lg-8 order-1">
                 <div className="blog-item-wrap row g-y-30">
-                  {Blog.map((item, index) => {
-                    return (
-                      <div key={index} className="col-md-6">
-                        <div className="blog-item">
-                          <div className="blog-content">
-                            <div className="blog-meta">
-                              <ul>
-                                <li className="author">
-                                  <a href="#">
-                                    <strong>By:</strong> {item.author}
-                                  </a>
-                                </li>
-                                <br />
-                                <li className="date">{item.createdDate}</li>
-                              </ul>
-                            </div>
-                            <div>
-                              <h2 className="title" key={item.postId}>
-                                <Link to={`/blog-detail/${item.postId}`}>
-                                  {item.title}
-                                </Link>
-                              </h2>
-                            </div>
-                            <p className="short-desc mb-7">{item.contents}</p>
+                  {blogs.map((item, index) => (
+                    <div key={index} className="col-md-6">
+                      <div className="blog-item">
+                        <div className="blog-content">
+                          <div className="blog-meta">
+                            <ul>
+                              <li className="author">
+                                <a href="#">
+                                  <strong>By:</strong> {item.author}
+                                </a>
+                              </li>
+                              <br />
+                              <li className="date">{item.createdDate}</li>
+                            </ul>
                           </div>
-                          <div className="blog-img img-hover-effect">
-                            <a href="blog-detail.html">
-                              <img
-                                className="img-full"
-                                src={item.img}
-                                alt="Blog Image"
-                              />
+                          <div>
+                            <h2 className="title" key={item.postId}>
+                              <Link to={`/blog-detail/${item.postId}`}>
+                                {item.title}
+                              </Link>
+                            </h2>
+                          </div>
+                          <p className="short-desc mb-7">{item.contents}</p>
+                        </div>
+                        <div className="blog-img img-hover-effect">
+                          <a href="blog-detail.html">
+                            <img
+                              className="img-full"
+                              src={item.img}
+                              alt="Blog Image"
+                            />
+                          </a>
+                          <div className="inner-btn-wrap">
+                            <a className="inner-btn" href="blog-detail.html">
+                              <i className="pe-7s-link"></i>
                             </a>
-                            <div className="inner-btn-wrap">
-                              <a className="inner-btn" href="blog-detail.html">
-                                <i className="pe-7s-link"></i>
-                              </a>
-                            </div>
                           </div>
                         </div>
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
                 <div className="pagination-area">
                   <nav aria-label="Page navigation example">

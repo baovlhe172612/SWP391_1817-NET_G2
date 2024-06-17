@@ -1,75 +1,228 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Button, Space, Table, Tag } from "antd";
+import { get, patch } from "../../../helpers/API.helper";
+import {
+  GET_BLOGS_STATUS,
+  LIST_BLOGS,
+} from "../../../helpers/APILinks";
+import Swal from "sweetalert2";
+import Status from "../../../components/Mixin/Status/Status";
+import Search from "antd/es/input/Search";
 
-const blogData = [
-  {
-    id: 0,
-    title: "Hulk is best",
-    description: "hbsahd asdb abjs dbas dbsa db",
-    imageUrl: "https://static.wikia.nocookie.net/marveldatabase/images/b/b8/Incredible_Hulk_Vol_4_7_Textless.jpg/revision/latest?cb=20231210153342",
-    authorId: 0,
-    categoryId: 0,
-    author: "HA",
-    tags: "hahah",
-    views: 0,
-    createdAt: "2024-06-10 10:16:18.707",
-    updatedAt: "2024-06-10 10:16:18.707",
-    content: null
-  },
-  {
-    id: 1,
-    title: "Bí quyết pha chế hoàn hảo: Espresso của Highland Coffee",
-    description: "Tận hưởng hương vị đậm đà và mạnh mẽ của espresso đặc trưng từ Highland Coffee. Lý tưởng cho những người yêu thích cà phê với hương vị đầy đặn và mạnh mẽ.",
-    imageUrl: "https://file.hstatic.net/1000075078/file/thecoffeehouse_traxanhtaybac_8_2bff28c71b20486f875eb21fa39cd00d_grande.png?fbclid=IwZXh0bgNhZW0CMTAAAR1Gv9NuM4_AYW16sdRy5R8xXfnOjUvn52Ns5lfiQFaa8zPAUH0tf9Gzavw_aem_AbhfEbrEWH1vh8iugunZ_h2KP29TFQ4H_XR98A02fusws9o9iOcr1YkbPy8kpFdq_EHwxEnySf38CU8zA_snpep9",
-    authorId: 1,
-    categoryId: 1,
-    author: "Nguyễn Văn A",
-    tags: "cà phê, espresso, Highland Coffee",
-    views: 0,
-    createdAt: "2024-05-30 13:16:15.843",
-    updatedAt: "2024-05-30 13:16:15.843",
-    content: null
-  },
-  // ...add other objects here
-];
+function ListBlog() {
+  const [blogs, setBlogs] = useState([]);
+  const [searchStatus] = useSearchParams();
+  const [updated, setUpdated] = useState(false);
+  const navigate = useNavigate();
+  let status = searchStatus.get(`status`);
+  status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
-const BlogDetail = () => {
+  let data = [];
+
+  // lấy qua API
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const data = await get(`http://localhost:5264/api/Post`);
+        console.log(data);
+        if (data) {
+          setBlogs(data);
+        }
+      } catch (error) {
+        console.log("err in ListBlog", error);
+        setBlogs([]);
+      }
+    };
+
+    fetchApi();
+  }, [updated, searchStatus, status]);
+
+  if (blogs.length > 0) {
+    data = blogs.map((Blog, index) => {
+      return {
+        postId: Blog.postId,
+        title: Blog.title,
+        Contents: Blog.contents,
+        Img: Blog.img,
+        IsPublished: Blog.isPublished,
+        IsNewFeed: Blog.isNewFeed,
+        IsDelete: Blog.isDelete,
+        Author: Blog.author,
+        Tags: Blog.tags,
+        CreatedDate: Blog.createdDate,
+        ModifiDate: Blog.modifiDate,
+        key: index,
+      };
+    });
+  }
+
+  // COLUMS
+  const columns = [
+    {
+      title: "postId",
+      dataIndex: "postId",
+      key: "postId",
+    },
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+    },
+   
+   
+    {
+      title: "IsPublished",
+      dataIndex: "IsPublished",
+      key: "IsPublished",
+      render: (status) =>
+        status == 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
+    },
+    {
+      title: "IsNewFeed",
+      dataIndex: "IsNewFeed",
+      key: "IsNewFeed",
+      render: (status) =>
+        status == 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
+    },
+    {
+      title: "IsDelete",
+      dataIndex: "IsDelete",
+      key: "IsDelete",
+      render: (status) =>
+        status == 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
+    },
+    {
+      title: "Author",
+      dataIndex: "Author",
+      key: "Author",
+    },
+   
+    {
+      title: "CreatedDate",
+      dataIndex: "CreatedDate",
+      key: "CreatedDate",
+    },
+    {
+      title: "ModifiDate",
+      dataIndex: "ModifiDate",
+      key: "ModifiDate",
+    },
+    {
+      title: "Tags",
+      dataIndex: "Tags",
+      key: "Tags",
+    },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      key: "actions",
+      render: (text, record) => (
+        <Space size="middle">
+          <Link to={`/admin/Blog/edit/${record.postId}`}>
+            <Button type="primary">Edit</Button>
+          </Link>
+          <Link to={`/admin/Blog/edit/${record.postId}`}>
+            <Button type="primary" ghost>
+              Detail
+            </Button>
+          </Link>
+          <Button type="primary" danger onClick={() => handleDelete(record.postId)}>
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
+  // DATA
+
+  // Handler for deleting a Blog
+  const handleDelete = async (postId) => {
+    // bởi vì Swal là file đợi => phải có await mới được
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (confirm.isConfirmed) {
+      console.log(`${DELETE_BLOG_ID}${postId}`);
+      const dataDelete = await patch(`${DELETE_BLOG_ID}${postId}`, {
+        postId: postId,
+      });
+
+      if (dataDelete) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+
+        // load lại data
+        setUpdated(!updated);
+      }
+    }
+  };
+
+  const handleStatus = (changeBlogs) => {
+    setBlogs(changeBlogs);
+  };
+
+  // search
+  const onSearch = async (values) => {
+    try {
+      let data = [];
+      if (values) {
+      } else {
+        data = await get(`${GET_BLOGS_STATUS}/${status}`);
+      }
+
+      setBlogs(data);
+    } catch (error) {
+      console.log(error, `ListBlog`);
+      setBlogs([]);
+    }
+  };
+
   return (
-    <div>
-      <h1>Blog Detail</h1>
-      <table border="1" cellPadding="10" cellSpacing="0">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Author</th>
-            <th>Tags</th>
-            <th>Views</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-          </tr>
-        </thead>
-        <tbody>
-          {blogData.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.title}</td>
-              <td>{item.description}</td>
-              <td>
-                <img src={item.imageUrl} alt={item.title} width="100" />
-              </td>
-              <td>{item.author}</td>
-              <td>{item.tags}</td>
-              <td>{item.views}</td>
-              <td>{item.createdAt}</td>
-              <td>{item.updatedAt}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+    <>
+      <Space>
+        <Status handleStatus={handleStatus} />
 
-export default BlogDetail;
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          onSearch={onSearch}
+        />
+      </Space>
+
+      <Table
+        columns={columns}
+        dataSource={data}
+        style={{ margin: "20px 0" }}
+        pagination={{ pageSize: 6 }}
+      />
+    </>
+  );
+}
+
+export default ListBlog;
