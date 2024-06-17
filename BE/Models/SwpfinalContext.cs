@@ -49,7 +49,7 @@ public partial class SwpfinalContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=lamlam276762;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -95,16 +95,9 @@ public partial class SwpfinalContext : DbContext
         {
             entity.ToTable("Conversation");
 
-            entity.Property(e => e.ConversationId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ConversationID");
+            entity.Property(e => e.ConversationId).HasColumnName("ConversationID");
             entity.Property(e => e.UserChatFirstId).HasColumnName("UserChatFirstID");
             entity.Property(e => e.UserSecondId).HasColumnName("UserSecondID");
-
-            entity.HasOne(d => d.ConversationNavigation).WithOne(p => p.Conversation)
-                .HasForeignKey<Conversation>(d => d.ConversationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Conversation_Message");
 
             entity.HasOne(d => d.UserChatFirst).WithMany(p => p.ConversationUserChatFirsts)
                 .HasForeignKey(d => d.UserChatFirstId)
@@ -128,9 +121,12 @@ public partial class SwpfinalContext : DbContext
                 .IsRowVersion()
                 .IsConcurrencyToken();
 
+            entity.HasOne(d => d.Cover).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.CoverId)
+                .HasConstraintName("FK_Message_Conversation");
+
             entity.HasOne(d => d.Sensider).WithMany(p => p.Messages)
                 .HasForeignKey(d => d.SensiderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Message_UserChat");
         });
 

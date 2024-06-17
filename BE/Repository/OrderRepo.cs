@@ -15,11 +15,9 @@ namespace BE.Repository
         {
             return context.Orders.ToList();
         }
-
         /// <summary>
         /// add order
         /// </summary>
-
         /// <returns> add order</returns>
         public void addOrder(Order order)
         {

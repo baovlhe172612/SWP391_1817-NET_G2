@@ -11,6 +11,9 @@ import CheckoutModal from "./CheckoutModal.js";
 function Cart() {
   const cart = useSelector(state => state.cart);
   const [cartData, setCartData] = useState(cart.list || []);
+
+  const [cartDataModal, setCartDataModal] = useState([]);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
   const handleDeleteAll = () => {
@@ -18,28 +21,55 @@ function Cart() {
     dispatch(clearCart());
     setCartData([]);
   }
-// show modal
+
+
+  // show modal
   const showModal = () => {
     setIsModalVisible(true);
+
+    //console.log(cartData);
+
+    const dataToSend = cartData
+      .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
+      .map(item => ({
+        productSizeID: item.productSizeID,
+        productName: `${item.productName} - ${item.sizeName}`,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+
+    //console.log(dataToSend);
+    setCartDataModal(dataToSend);
   };
-  
-  const handleOk = () => {
+
+  const handleOk = async (formValues) => {
     setIsModalVisible(false);
+
+    //console.log(formValues.paymentMethod);
+    //handleCheckout(formValues.paymentMethod);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
+  //item change
   const handleItemChange = useCallback((productSizeID, newQuantity, newPrice) => {
     setCartData(prevCartData =>
       prevCartData.map(item =>
-        item.productSizeID === productSizeID ? { ...item, quantity: newQuantity, price: newPrice * newQuantity } : item
+        item.productSizeID === productSizeID ? {
+          ...item,
+          quantity: newQuantity, price: newPrice * newQuantity
+        } : item
       )
     );
+
+
   }, []);
 
-  const handleCheckout = async () => {
+
+  //checkout
+  const handleCheckout = async (value) => {
     const dataToSend = cartData
       .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
       .map(item => ({
@@ -48,17 +78,17 @@ function Cart() {
         price: item.price,
       }));
 
+    console.log(value);
+
     // console.log("dataToSend: ", dataToSend)
     //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
 
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
-        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail`, dataToSend);
-        
-        
+        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail?payMentID=${value}`, dataToSend);
 
         const responseData = response;
-        console.log('Response:', responseData);
+        //console.log('Response:', responseData);
         alert('Đã mua hàng thành công!');
       } catch (error) {
         console.log('Error sending data:', error);
@@ -156,11 +186,11 @@ function Cart() {
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
-                                onClick={showModal}                               
+                                onClick={showModal}
                               >
                                 Proceed to checkout
                               </Button>
-                              <CheckoutModal isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel}/>
+                              <CheckoutModal isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} cartDataModal={cartDataModal} />
                             </div>
                           </div>
                         </div>

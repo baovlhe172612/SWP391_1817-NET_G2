@@ -77,8 +77,8 @@ namespace Swp391.Repository
         {
             try
             {   
-                store.dateCreated = null;
-                store.dateDeleted = null;
+                store.DateCreated = null;
+                store.DateCreated = null;
                 _context.Stores.Update(store);
             {
                 var existingStore = _context.Stores.Local.FirstOrDefault(s => s.StoreId == store.StoreId)
