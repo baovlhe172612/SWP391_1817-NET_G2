@@ -42,8 +42,6 @@ function ListChat() {
 
   const handleClick = (item) => {
     setConversation(item)
-
-    console.log(item)
   }
 
   return (
@@ -87,7 +85,7 @@ function ListChat() {
         </div>
         {/*  */}
 
-        {conversation && <Chat conversation={conversation}/>}
+        {conversation && <Chat conversation={conversation} />}
       </div>
     </>
   );

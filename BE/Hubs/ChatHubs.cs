@@ -40,13 +40,7 @@ namespace BE.Hubs
             {
                 // add người dùng vào ChatRoom
                 await Groups.AddToGroupAsync(Context.ConnectionId, ChatRoom);
-
-                // thêm người dùng vào DB -----------------------
-                if (userChat.Role == 0)
-                {
-                    userChat.UserId = userChat.UserId;
-                }
-
+                // tìm xem người dùng tồn tại hay không
                 var userChatBd = _chatService.FindUserPassById(userChat.UserId);
 
                 if (userChatBd == null)
@@ -77,10 +71,11 @@ namespace BE.Hubs
             }
             catch (System.Exception ex)
             {
-                // Log the exception
-                Console.WriteLine($"Exception in SendMessage: {ex.Message}");
-                // Optional: Send a message to the client with error details
-                await Clients.Caller.SendAsync("ReceiveMessageError", ex.Message);
+                // Ghi nhật ký ngoại lệ chi tiết
+                Console.WriteLine($"Lỗi trong JoinSpecificChatroom: {ex.ToString()}");
+
+                // Gửi thông báo lỗi chi tiết cho client
+                throw new HubException("Failed to invoke 'JoinSpecificChatroom' due to an error on the server.", ex);
             }
         }
 
@@ -146,10 +141,10 @@ namespace BE.Hubs
             }
         }
 
-        public async Task GetMessage() {
-            
-        }
+        public async Task GetMessage()
+        {
 
+        }
     }
 
 }

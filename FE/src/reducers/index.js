@@ -5,6 +5,7 @@ import cartReducer from "./CartReducer";
 import SiderReducer from "./Sider.reducer";
 import ConnectionReducer from "./ConnectChat.reducer";
 import MessageReducer from "./Message.reducer";
+import MessageAdminReducer from "./MessageAdmin.reducer";
 const allReducers = combineReducers({
   // thêm nhiều reducer ở đây
   LoginReducer,
@@ -13,6 +14,7 @@ const allReducers = combineReducers({
   SiderReducer,
   ConnectionReducer,
   MessageReducer,
+  MessageAdminReducer
 });
 
 export default allReducers;

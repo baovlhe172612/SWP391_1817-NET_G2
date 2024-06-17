@@ -19,7 +19,7 @@ function Chat({ setCollapsed, connection }) {
       await connection.invoke(
         "SendMessage",
         {
-          UserId: parseInt(tableIdV2),
+          UserId: parseInt(tableIdV2) * 10000,
           Role: 0,
           UserName: `table: ${tableIdV2}`,
         },
@@ -36,6 +36,8 @@ function Chat({ setCollapsed, connection }) {
         parseInt(tableIdV2) * 10000
 
       );
+
+      setMessage('')
     }
   };
 
