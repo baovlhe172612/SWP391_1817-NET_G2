@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
-import {
-  DELETE_BLOG_ID,
-  GET_BLOGS_STATUS,
-  LIST_BLOGS,
-} from "../../../helpers/APILinks";
+import { DELETE_BLOG_ID, GET_BLOGS_STATUS, UP_BLOG_ID } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
 import Search from "antd/es/input/Search";
@@ -21,7 +17,7 @@ function ListBlog() {
 
   let data = [];
 
-  // lấy qua API
+  // Fetch data from API
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -39,6 +35,7 @@ function ListBlog() {
     fetchApi();
   }, [updated, searchStatus, status]);
 
+  // Prepare data for Table
   if (blogs.length > 0) {
     data = blogs.map((Blog, index) => {
       return {
@@ -57,7 +54,7 @@ function ListBlog() {
     });
   }
 
-  // COLUMS
+  // Define Table columns
   const columns = [
     {
       title: "postId",
@@ -73,23 +70,15 @@ function ListBlog() {
       title: "IsPublished",
       dataIndex: "IsPublished",
       key: "IsPublished",
-      render: (status) =>
-        status == 1 ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Inactive</Tag>
-        ),
+      render: (IsPublished) =>
+        IsPublished === "active" ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
     },
     {
       title: "Status",
       dataIndex: "Status",
       key: "Status",
-      render: (status) =>
-        status == 1 ? (
-          <Tag color="green">Existing</Tag>
-        ) : (
-          <Tag color="red">Deleted</Tag>
-        ),
+      render: (Status) =>
+        Status === 1 ? <Tag color="green">Existing</Tag> : <Tag color="red">Deleted</Tag>,
     },
     {
       title: "Author",
@@ -117,17 +106,15 @@ function ListBlog() {
       key: "actions",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/Blog/edit/${record.postId}`}>
+          <Link to={`/admin/Blog/update_post/${record.postId}`}>
             <Button type="primary">Update</Button>
           </Link>
-          {record.Status == 1 && (
-            <Link to={`/admin/Blog/edit/${record.postId}`}>
-              <Button type="primary" ghost>
-                Post
-              </Button>
-            </Link>
+          {record.Status === 1 && record.IsPublished !== "active" && (
+            <Button type="primary" onClick={() => handlePost(record.postId)}>
+              Post
+            </Button>
           )}
-          {record.Status == 1 ? (
+          {record.Status === 1 ? (
             <Button type="primary" danger onClick={() => handleDelete(record.postId)}>
               Delete
             </Button>
@@ -141,7 +128,37 @@ function ListBlog() {
     },
   ];
 
-  // Handler for deleting a Blog
+  // Handle post action
+  const handlePost = async (postId) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, post it!",
+    });
+
+    if (confirm.isConfirmed) {
+      const dataPost = await patch(`${UP_BLOG_ID}${postId}`, {
+        postId: postId,
+        status: 1, // Assuming status 1 indicates "Posted"
+      });
+
+      if (dataPost) {
+        Swal.fire({
+          title: "Posted!",
+          text: "Your file has been posted.",
+          icon: "success",
+        });
+
+        setUpdated(!updated);
+      }
+    }
+  };
+
+  // Handle delete action
   const handleDelete = async (postId) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
@@ -171,7 +188,7 @@ function ListBlog() {
     }
   };
 
-  // Handler for undeleting a Blog
+  // Handle undelete action
   const handleUndelete = async (postId) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
@@ -201,16 +218,19 @@ function ListBlog() {
     }
   };
 
+  // Handle status change
   const handleStatus = (changeBlogs) => {
     setBlogs(changeBlogs);
   };
 
-  // search
+  // Handle search
   const onSearch = async (values) => {
     try {
       let data = [];
       if (values) {
+        // Handle search logic
       } else {
+        // Fetch data by status
         data = await get(`${GET_BLOGS_STATUS}/${status}`);
       }
 
