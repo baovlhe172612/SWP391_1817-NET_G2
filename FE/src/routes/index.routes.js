@@ -37,6 +37,7 @@ import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
 import ListBlog from "../pages/Client/Blog/ListBlog";
 import BlogDetail from "../pages/Client/Blog/BlogDetail";
+import CreateBlog from "../pages/Client/Blog/CreateBlog";
 
 const routes = [
   {
@@ -256,8 +257,8 @@ const routes = [
                     element: <ListBlog />,
                   },
                   {
-                    path: "blog-detail/:id",
-                    element: <BlogDetail />,
+                    path: "/admin/blogs/create",
+                    element: <CreateBlog />,
                   },
                 ],
               },

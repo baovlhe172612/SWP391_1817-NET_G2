@@ -71,14 +71,14 @@ function ListBlog() {
       dataIndex: "IsPublished",
       key: "IsPublished",
       render: (IsPublished) =>
-        IsPublished === "active" ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+        IsPublished == 1 ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
     },
     {
       title: "Status",
       dataIndex: "Status",
       key: "Status",
       render: (Status) =>
-        Status === 1 ? <Tag color="green">Existing</Tag> : <Tag color="red">Deleted</Tag>,
+        Status == 1 ? <Tag color="green">Existing</Tag> : <Tag color="red">Deleted</Tag>,
     },
     {
       title: "Author",
@@ -109,12 +109,12 @@ function ListBlog() {
           <Link to={`/admin/Blog/update_post/${record.postId}`}>
             <Button type="primary">Update</Button>
           </Link>
-          {record.Status === 1 && record.IsPublished !== "active" && (
+          {record.Status == 1 && record.IsPublished !== 1 && (
             <Button type="primary" onClick={() => handlePost(record.postId)}>
               Post
             </Button>
           )}
-          {record.Status === 1 ? (
+          {record.Status == 1 ? (
             <Button type="primary" danger onClick={() => handleDelete(record.postId)}>
               Delete
             </Button>
