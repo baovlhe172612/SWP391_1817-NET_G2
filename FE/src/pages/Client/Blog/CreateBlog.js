@@ -30,13 +30,12 @@ function CreateBlog() {
   }, []);
 
   const handleSubmit = async (values) => {
-    values.postId = parseInt(values.postId);
 
     values.isPublished = 0;
 
     values.status = 1;
 
-    values.createDate = new Date().toISOString();
+    values.createdDate = new Date().toISOString();
 
     values.modifiDate = new Date().toISOString();
 
@@ -116,7 +115,7 @@ function CreateBlog() {
         </Form.Item>
         <Form.Item
           label="Tags"
-          name="Tags"
+          name="tags"
           rules={[
             {
               required: true,

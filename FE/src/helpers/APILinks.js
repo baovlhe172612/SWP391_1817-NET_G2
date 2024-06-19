@@ -18,7 +18,6 @@ export const CREATE_BLOG = `${LOCALHOST_API}/api/POST/add_new`;
 export const BLOG_DETAIL = `${LOCALHOST_API}/api/POST/`;
 export const DELETE_BLOG_ID = `${LOCALHOST_API}/api/POST/delete_post/`;
 export const UP_BLOG_ID = `${LOCALHOST_API}/api/POST/up_post/`;
-
 export const UPDATE_BLOG = `${LOCALHOST_API}/api/POST/update_post`;
 // API STORE
 export const GET_STORES_STATUS = `${LOCALHOST_API}/api/POST`;
