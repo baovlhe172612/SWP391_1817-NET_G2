@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Chat from "./Chat/Chat";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { getCookie } from "../../helpers/Cookie.helper";
+import { CHAT_API } from "../../helpers/APILinks";
 
 function LayoutDefault() {
   const [collapsed, setCollapsed] = useState(false);
@@ -19,7 +20,7 @@ function LayoutDefault() {
   // kết nối với server
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("http://0.0.0.0:5264/Chat")
+      .withUrl(`${CHAT_API}`)
       .withAutomaticReconnect()
       .build();
 

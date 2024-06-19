@@ -177,9 +177,9 @@
   overflow-y: auto;
 }
 
-.active {
+/* .active {
   background-color: #ddd;
-}
+} */
 /* .is(.users-list, .chat-box)::-webkit-scrollbar{
     width: 0;
   } */

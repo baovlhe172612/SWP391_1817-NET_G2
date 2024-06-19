@@ -29,7 +29,7 @@ function ListChat() {
 
     // lắng nghe sự kiện trả về
     const listConversation = (listConversation, chatRoom) => {
-      listConversation = listConversation.reverse();
+      setConversation(listConversation[0])
       setConversations(listConversation);
       console.log(listConversation, chatRoom);
     };

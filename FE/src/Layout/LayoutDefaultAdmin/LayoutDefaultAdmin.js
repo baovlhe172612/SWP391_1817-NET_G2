@@ -19,6 +19,7 @@ import Notify from "../../components/Admin/Notify";
 import { getSessionItem } from "../../helpers/Session.helper";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { connectActions } from "../../actions/connection.actions";
+import { CHAT_API } from "../../helpers/APILinks";
 
 const { Sider, Content } = Layout;
 
@@ -36,7 +37,7 @@ function LayoutDefaultAdmin() {
   // kết nối với server
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("http://0.0.0.0:5264/Chat")
+      .withUrl(`${CHAT_API}`)
       .withAutomaticReconnect()
       .build();
 

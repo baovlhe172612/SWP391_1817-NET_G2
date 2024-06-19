@@ -16,6 +16,9 @@ export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders/store`
 // API MESSAGE
 export const GET_MESSAGE = `${LOCALHOST_API}/api/messages`;
 
+// CHAT
+export const CHAT_API = `${LOCALHOST_API}/Chat`;
+
 
 // API STORE
 export const GET_STORES_STATUS = `${LOCALHOST_API}/api/status`;
