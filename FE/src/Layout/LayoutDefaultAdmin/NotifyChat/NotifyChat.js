@@ -12,6 +12,7 @@ function NotifyChat() {
     header: "Hello",
     title: "Have a good day",
   });
+  const [conversationId, setConversationId] = useState(null);
   const connection = useSelector((state) => state.ConnectionReducer);
   const account = useSelector((state) => state.AccountReducer);
 
@@ -45,12 +46,15 @@ function NotifyChat() {
           title: `${message}`,
         });
 
+        setConversationId(conversation.conversationId)
+
         setTimeout(() => {
           setShowAlert(false);
         }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
-        console.log(ChatRoom, message, conversation);
+        // console.log(ChatRoom, message, conversation);
       };
 
+      // reset connection if connected = fase
       const startConnection = async () => {
         try {
           if (connection.state === signalR.HubConnectionState.Disconnected) {
@@ -81,7 +85,7 @@ function NotifyChat() {
   return (
     <>
       {showAlert && (
-        <Link to={`/admin/chat`}>
+        <Link to={conversationId ? (`/admin/chat?conversationId=${conversationId}`) : (`/admin/chat`)}>
           <div className={`alert-container`} key={alertKey}>
             <Alert
               message={alertMessage.header}

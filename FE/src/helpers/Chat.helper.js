@@ -54,7 +54,14 @@ export const sendMessage = async (
 
       sensiderId
     );
+  } else {
+    console.log("Connection is not in a connected state."); // Logging the connection state
   }
+};
+
+//
+export const sendMessageGroup = async (connection, ChatRoom, message, conversation) => {
+  await connection.invoke("SendMessageGroup", ChatRoom, message, conversation);
 };
 
 // -----------------------------------------------------------------------
@@ -77,7 +84,9 @@ export const OnJoinSpecificChatRoom = () => {
           );
 
           dispatch(messageAdminActions(data));
-          console.log(` Invoking JoinChat success: ${conversationExist.conversationId}`);
+          console.log(
+            ` Invoking JoinChat success: ${conversationExist.conversationId}`
+          );
         } catch (error) {
           console.log(error);
         }
@@ -107,7 +116,7 @@ export const OnReciveMessage = (setLoad, load) => {
         const data = await get(
           `${GET_MESSAGE}/${conversationExist.conversationId}`
         );
-        
+
         setLoad(!load);
 
         dispatch(messageAdminActions(data));

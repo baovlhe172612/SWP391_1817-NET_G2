@@ -105,7 +105,7 @@ namespace BE.Hubs
                 newMessage = _messageService.AddMessage(newMessage);
 
                 // thay đổi trang admin khi có người gửi tin nhắn
-                await GetAllConver(conversationExist.UserSecondId, ChatRoom);
+                // await GetAllConver(conversationExist.UserSecondId, ChatRoom);
 
                 // gửi tin nhắn đến tất cả người có trong phòng chat
                 await Clients.Group(ChatRoom)

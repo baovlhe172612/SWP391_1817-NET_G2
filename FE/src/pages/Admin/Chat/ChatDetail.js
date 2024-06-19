@@ -11,6 +11,7 @@ import { GET_MESSAGE } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import { messageAdminActions } from "../../../actions/messageAdmin.actions";
 function ChatDetail({ connection, conversation, listMessage }) {
+  const [newListMessage, setNewListMessage] = useState(listMessage);
   const account = useSelector((state) => state.AccountReducer);
   const storeId = account.storeId;
   const lastMessageRef = useRef(null);

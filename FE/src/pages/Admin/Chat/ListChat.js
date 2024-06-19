@@ -6,12 +6,11 @@ import Chat from "./Chat";
 import "./ListChat.css";
 
 function ListChat() {
-  const connection = useSelector((state) => state.ConnectionReducer);
-  const account = useSelector((state) => state.AccountReducer);
   const [conversations, setConversations] = useState([]);
   const [conversation, setConversation] = useState(null);
-
-  console.log(conversation)
+  const connection = useSelector((state) => state.ConnectionReducer);
+  const account = useSelector((state) => state.AccountReducer);
+  let listMessage = useSelector((state) => state.MessageReducer);
 
   useEffect(() => {
     const storeId = account.storeId;
@@ -29,7 +28,7 @@ function ListChat() {
 
     // lắng nghe sự kiện trả về
     const listConversation = (listConversation, chatRoom) => {
-      setConversation(listConversation[0])
+      setConversation(listConversation[0]);
       setConversations(listConversation);
       console.log(listConversation, chatRoom);
     };
@@ -41,8 +40,8 @@ function ListChat() {
   }, [connection]);
 
   const handleClick = (item) => {
-    setConversation(item)
-  }
+    setConversation(item);
+  };
 
   return (
     <>
@@ -74,8 +73,8 @@ function ListChat() {
                   >
                     <img />
                     <div className="details">
-                      <span>table {(item.userChatFirstId) / 10000}</span>
-                      <div>Khoe khong</div>
+                      <span>table {item.userChatFirstId / 10000}</span>
+                      {/* <div>Khoe khong</div> */}
                     </div>
                   </div>
                 ))}
@@ -85,7 +84,7 @@ function ListChat() {
         </div>
         {/*  */}
 
-        {conversation && <Chat conversation={conversation} />}
+        {conversation && <Chat conversation={conversation} listMessage={listMessage}/>}
       </div>
     </>
   );

@@ -8,17 +8,13 @@ import { get } from "../../../helpers/API.helper";
 import { messageActions } from "../../../actions/message.actions";
 import { messageAdminActions } from "../../../actions/messageAdmin.actions";
 import {
-  OnJoinSpecificChatRoom,
-  OnReciveMessage,
-  joinSpecificChatroom,
   sendMessage,
 } from "../../../helpers/Chat.helper";
 
-function Chat({ conversation }) {
+function Chat({ conversation, listMessage }) {
   const [message, setMessage] = useState("");
   const connection = useSelector((state) => state.ConnectionReducer);
   const account = useSelector((state) => state.AccountReducer);
-  const listMessage = useSelector((state) => state.MessageReducer);
   const dispatch = useDispatch();
 
   const storeId = account.storeId;
