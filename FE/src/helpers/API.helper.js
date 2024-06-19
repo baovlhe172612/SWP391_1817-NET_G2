@@ -26,7 +26,7 @@ export const patch = async (url, values) => {
   const response = await fetch(url, init);
 
   // check lỗi 
-  if(!response.ok) {
+  if (!response.ok) {
     // message.error(response.status, response.statusText)
     console.log(response.status)
   }
@@ -51,8 +51,7 @@ export const post = async (url, values) => {
   }
 
   // Trả về đối tượng phản hồi
-  const data = response.json();
-  return data;
+  return response;
 };
 
 export const deleteItem = async (url) => {
@@ -93,6 +92,26 @@ export const put = async (url, values) => {
 
   // Trả về đối tượng phản hồi
   return response;
+};
+
+export const putV2 = async (url, values) => {
+  const options = {
+    method: "PUT",
+    mode: "cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  };
+
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+
+  // Trả về đối tượng phản hồi
+  const data = await response.json();
+  return data;
 };
 
 

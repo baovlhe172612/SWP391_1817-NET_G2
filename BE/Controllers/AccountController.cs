@@ -108,6 +108,19 @@ namespace Swp391.Controllers
             return Ok(accountDto); // Trả về account thông qua đối tượng DTO
         }
 
+        [HttpPut("UPDATE/V2")]
+        public IActionResult UpdateAccountV2(Account account)
+        {
+            var accountDto = _service.UpdateAccountV2(account);
+
+            if (accountDto == null)
+            {
+                return NotFound(); // Trả về mã trạng thái 404 Not Found nếu không tìm thấy account với ID tương ứng
+            }
+
+            return Ok(accountDto); // Trả về account thông qua đối tượng DTO
+        }
+
 
     }
 }

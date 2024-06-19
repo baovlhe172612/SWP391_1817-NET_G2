@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import About from "../../../pages/Client/About/About";
 function Footer() {
   return (
     <>
@@ -90,68 +92,34 @@ function Footer() {
                   <h3 className="footer-widget-title">Useful Links</h3>
                   <ul className="footer-widget-list-item">
                     <li>
-                      <a href="#">About Pronia</a>
+                      <Link to={About}>About Pronia</Link> 
                     </li>
-                    <li>
-                      <a href="#">How to shop</a>
-                    </li>
+                    
                     <li>
                       <a href="#">FAQ</a>
                     </li>
                     <li>
                       <a href="#">Contact us</a>
                     </li>
-                    <li>
-                      <a href="#">Log in</a>
-                    </li>
+                    
                   </ul>
                 </div>
               </div>
               <div className="col-lg-2 col-md-4 pt-40">
                 <div className="footer-widget-item">
-                  <h3 className="footer-widget-title">My Account</h3>
+                  <h3 className="footer-widget-title">My Table</h3>
                   <ul className="footer-widget-list-item">
-                    <li>
-                      <a href="#">Sign In</a>
-                    </li>
+                    
                     <li>
                       <a href="#">View Cart</a>
                     </li>
-                    <li>
-                      <a href="#">My Wishlist</a>
-                    </li>
-                    <li>
-                      <a href="#">Track My Order</a>
-                    </li>
-                    <li>
-                      <a href="#">Help</a>
-                    </li>
+                    
+                    
+                    
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-4 pt-40">
-                <div className="footer-widget-item">
-                  <h3 className="footer-widget-title">Our Service</h3>
-                  <ul className="footer-widget-list-item">
-                    <li>
-                      <a href="#">Payment Methods</a>
-                    </li>
-                    <li>
-                      <a href="#">Money Guarantee!</a>
-                    </li>
-                    <li>
-                      <a href="#">Returns</a>
-                    </li>
-                    <li>
-                      <a href="#">Shipping</a>
-                    </li>
-                    <li>
-                      <a href="#">Privacy Policy</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
+              
               
               <div className="col-lg-3 pt-40">
                 <div className="footer-contact-info">

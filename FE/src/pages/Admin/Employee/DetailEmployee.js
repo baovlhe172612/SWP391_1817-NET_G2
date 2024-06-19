@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Table, Tag, message } from "antd";
-import { LIST_ACCOUNT } from "../../../helpers/APILinks";
+import { LIST_ACCOUNT, LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import UpdateIsDelete from "../ManagerStore/UpdateIsDelete";
 import { useParams } from 'react-router-dom';
 
 function DetailEmployee() {
   const { id } = useParams();
+  console.log("id: ",id)
   const [accountEmployee, setAccountEmployee] = useState(null);
 
   const fetchApi = async () => {
     try {
-      const data = await get(`${LIST_ACCOUNT}/${id}`);
+      const data = await get(`${LIST_Employee}/${id}`);
       console.log("Data fetched:", data);
       setAccountEmployee(data);
     } catch (error) {
@@ -76,16 +77,9 @@ function DetailEmployee() {
       key: "dateStartWork",
     },
     {
-      title: "Date End Work",
+      title: "Date Inactivity",
       dataIndex: "statusDate",
       key: "statusDate",
-      render: (statusDate) => {
-        // Handle cases where statusDate is null or undefined
-        if (!statusDate) {
-          return <span>-</span>; // Display a placeholder if no deletion date exists
-        }
-        return statusDate;
-      },
     },
     {
       title: "Status",

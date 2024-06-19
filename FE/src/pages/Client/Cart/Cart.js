@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
 import CheckoutModal from "./CheckoutModal.js";
+import { API_ORDER } from "../../../helpers/APILinks.js";
 
 function Cart() {
   const cart = useSelector(state => state.cart);
@@ -39,15 +40,20 @@ function Cart() {
       }));
 
 
-    //console.log(dataToSend);
+    console.log("dataToSend",dataToSend);
     setCartDataModal(dataToSend);
   };
 
   const handleOk = async (formValues) => {
     setIsModalVisible(false);
-
-    //console.log(formValues.paymentMethod);
-    //handleCheckout(formValues.paymentMethod);
+    
+    var note = formValues.notes;
+    
+    if(note === undefined){
+      note = null;
+    }
+    
+    handleCheckout(formValues.paymentMethod, note);
   };
 
   const handleCancel = () => {
@@ -69,7 +75,7 @@ function Cart() {
 
 
   //checkout
-  const handleCheckout = async (value) => {
+  const handleCheckout = async (value, note) => {
     const dataToSend = cartData
       .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
       .map(item => ({
@@ -78,14 +84,14 @@ function Cart() {
         price: item.price,
       }));
 
-    console.log(value);
+
 
     // console.log("dataToSend: ", dataToSend)
-    //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
+    // console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
 
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
-        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail?payMentID=${value}`, dataToSend);
+        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}`, dataToSend);
 
         const responseData = response;
         //console.log('Response:', responseData);

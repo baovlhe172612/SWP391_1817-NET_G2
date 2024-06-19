@@ -15,13 +15,11 @@ public partial class Post
 
     public int IsPublished { get; set; }
 
-    public int IsNewFeed { get; set; }
-
     public string? Author { get; set; }
 
-    public string Tags { get; set; } = null!;
+    public int? Status { get; set; }
 
-    public int IsDelete { get; set; }
+    public string Tags { get; set; } = null!;
 
     public DateTime CreatedDate { get; set; }
 

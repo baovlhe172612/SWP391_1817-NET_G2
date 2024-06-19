@@ -1,11 +1,11 @@
-/* Container Styling */
+
 .container1 {
     max-width: 600px;
     margin: 0 auto;
     padding: 15px;
   }
   
-  /* Form Styling */
+
   .form {
     background: #fff;
     border: 1px solid #e0e0e0;
@@ -14,12 +14,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Form Group */
+ 
   .form-group {
     margin-bottom: 15px;
   }
-  
-  /* Input and Textarea Styling */
+
   .form-control {
     width: 100%;
     padding: 10px;
@@ -36,7 +35,7 @@
     outline: none;
   }
   
-  /* File Input Styling */
+
   .form-control-file {
     display: block;
     font-size: 16px;
@@ -44,7 +43,7 @@
     border: none;
   }
   
-  /* Button Styling */
+  
   .btn-primary {
     background: #007bff;
     border: none;
@@ -60,7 +59,7 @@
     background: #0056b3;
   }
   
-  /* Responsive Design */
+  
   @media (max-width: 576px) {
     .container {
       padding: 10px;

@@ -6,7 +6,7 @@ import UpdateStatus from "./UpdateStatus";
 import { Link } from "react-router-dom";
 import Filter from "./filter";
 import { EditOutlined, FilterOutlined } from "@ant-design/icons";
-
+import { LIST_ACCOUNT_MANAGERS } from "../../../helpers/APILinks";
 function ListStoreManager() {
   const [AccountManager, setAccountManager] = useState([]);
   const [filters, setFilters] = useState({ status: "", isDeleted: "" });
@@ -29,7 +29,7 @@ function ListStoreManager() {
     try {
       const queryString = new URLSearchParams({ ...filters,search:search }).toString();
       console.log("quy:",queryString);
-      const data = await get(`http://localhost:5264/api/Account/manager?${queryString}`);
+      const data = await get(`${LIST_ACCOUNT_MANAGERS}?${queryString}`);
       setAccountManager(data);
     } catch (error) {
       message.error("Error fetching accounts");
