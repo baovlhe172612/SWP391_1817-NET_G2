@@ -290,8 +290,7 @@ namespace Swp391.Repository
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
                                      join s in _context.Stores on a.StoreId equals s.StoreId
-                                     where r.RoleName == "Employee" && a.IsDelete == 0
-
+                                     where r.RoleName == "Employee" 
                                      select new AccountDtos
                                      {
                                          AccountId = a.AccountId,
