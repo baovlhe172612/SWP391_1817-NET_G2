@@ -4,6 +4,7 @@ import { get } from "../../../helpers/API.helper";
 import { Col, Row } from "antd";
 import MenuCategory from "../../../components/Client/Category/MenuCategory";
 import { useLocation } from "react-router-dom";
+import { API_CATEGORY, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks";
 
 function ListProduct() {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ function ListProduct() {
   const [categories, setCategory] = useState([]);
   const [totalProduct, setTotalProduct] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [conditionSort, setCondition] = useState(1);
+  const [conditionSort, setCondition] = useState(null);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -23,7 +24,7 @@ function ListProduct() {
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       const fetchApi = async () => {
         const data = await get(
-          `http://localhost:5264/api/ProductSizes/getProductSizeByCategoryId?categoriesID=${searchByCategoryID}`
+          `${LIST_PRODUCT_SIZE}/getProductSizeByCategoryId?categoriesID=${searchByCategoryID}`
         );
   
         console.log("da ghi de tai day 29");
@@ -43,9 +44,9 @@ function ListProduct() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-        "http://localhost:5264/api/ProductSizes/getProductSizeByPage?page=1"
+        `${LIST_PRODUCT_SIZE}/getProductSizeByPage?page=1`
       );
-      const dataCate = await get("http://localhost:5264/api/Category");
+      const dataCate = await get(`${API_CATEGORY}`);
       
 
       setCategory(dataCate);
@@ -78,7 +79,7 @@ function ListProduct() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-        "http://localhost:5264/api/ProductSizes/getCountPageProductSize"
+        `${LIST_PRODUCT_SIZE}/getCountPageProductSize`
       );
       //
 
@@ -93,7 +94,7 @@ function ListProduct() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-        "http://localhost:5264/api/ProductSizes/getCountProductSize"
+        `${LIST_PRODUCT_SIZE}/getCountProductSize`
       );
       //
 
@@ -109,7 +110,7 @@ function ListProduct() {
 
     try {
       const response = await fetch(
-        `http://localhost:5264/api/ProductSizes/getProductSizeByPage?page=${item}`
+        `${LIST_PRODUCT_SIZE}/getProductSizeByPage?page=${item}`
       );
       if (!response.ok) {
         const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
@@ -135,7 +136,7 @@ function ListProduct() {
       console.log("Inside if condition");
       try {
         const response = await fetch(
-          `http://localhost:5264/api/ProductSizes/getProductByCategoryIDAndCondition?categoriID=${searchByCategoryID}&condition=${selectedSortCondition}`
+          `${LIST_PRODUCT_SIZE}/getProductByCategoryIDAndCondition?categoriID=${searchByCategoryID}&condition=${selectedSortCondition}`
         );
         if (!response.ok) {
           const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
@@ -152,7 +153,7 @@ function ListProduct() {
       console.log("Inside else condition");
       try {
         const response = await fetch(
-         `http://localhost:5264/api/ProductSizes/getProductWithCondition?condition=${selectedSortCondition}`
+         `${LIST_PRODUCT_SIZE}/getProductWithCondition?condition=${selectedSortCondition}`
         );
         if (!response.ok) {
           const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
@@ -250,9 +251,13 @@ function ListProduct() {
               <div class="pagination-area">
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
-                    {totalPages.map((item, index) => (
+
+                     
+
+                    {conditionSort == null && totalPages.map((item, index) => (
                       //<li key={index}>{item.tenTruong}</li> // Thay "tenTruong" bằng trường dữ liệu thực tế từ API
-                      <li class="page-item active">
+                      
+                      <li class="page-item active" key={index}>
                         <li
                           class={`page-item ${
                             item === currentPage ? "active" : ""

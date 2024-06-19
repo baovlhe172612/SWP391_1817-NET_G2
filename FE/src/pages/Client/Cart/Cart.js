@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
 import CheckoutModal from "./CheckoutModal.js";
+import { API_ORDER } from "../../../helpers/APILinks.js";
 
 function Cart() {
   const cart = useSelector(state => state.cart);
@@ -90,7 +91,7 @@ function Cart() {
 
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
-        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail?payMentID=${value}&note=${note}`, dataToSend);
+        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}`, dataToSend);
 
         const responseData = response;
         //console.log('Response:', responseData);

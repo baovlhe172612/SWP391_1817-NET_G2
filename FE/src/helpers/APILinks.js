@@ -24,7 +24,7 @@ export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/Update`;
 export const SEARCH_STORE = `${LOCALHOST_API}/api/stores/search`;
 
 // API Category
-
+export const API_CATEGORY = `${LOCALHOST_API}/api/Category`
 export const CREATE_CATEGORY = `${LOCALHOST_API}/api/Category/add_new`;
 
 
@@ -40,10 +40,12 @@ export const LIST_TABLE = `${LOCALHOST_API}/api/Table`;
 // API PRODUCT CONTROLLERS
 export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 
-// API PRODUCTDTOS
 
 // API PRODUCTSIZES
 export const LIST_PRODUCT_SIZE = `${LOCALHOST_API}/api/ProductSizes`;
+export const LIST_FOUR_PRODUCT_SIZE_MIN = `${LOCALHOST_API}/api/ProductSizes/getFourProductMin`
+export const LIST_FOUR_PRODUCT_SIZE_MAX = `${LOCALHOST_API}/api/ProductSizes/getFourProductMax`
+
 // API TABLE
 
 // API FeedBack <=> messegerbox
@@ -54,3 +56,6 @@ export const LIST_Employee = `${LOCALHOST_API}/employee`;
 
 // LINK SHOP CLIENT
 export const LIST_PRODUCT = `http://localhost:3000/listProduct/`;
+
+//API ORDER
+export const API_ORDER = `${LOCALHOST_API}/api/Order`;

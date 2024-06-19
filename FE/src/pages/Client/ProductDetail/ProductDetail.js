@@ -4,6 +4,7 @@ import { get } from '../../../helpers/API.helper';
 import { Button, Carousel, Col, Divider, Image } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../actions/CartAction';
+import { LIST_PRODUCT_SIZE } from '../../../helpers/APILinks';
 
 
 function ProductDetail(props) {
@@ -23,12 +24,12 @@ function ProductDetail(props) {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${sizeId}`);
+      const data = await get(`${LIST_PRODUCT_SIZE}/productSize?productId=${productId}&sizeId=${sizeId}`);
 
       console.log("data: ",data)
       setProducts(data);
       //Lấy danh sách các sản phẩm tương tự
-      const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
+      const similarProductsData = await get(`${LIST_PRODUCT_SIZE}/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
       // Lọc ra các sản phẩm khác với sản phẩm hiện tại
       // Ensure the response is an array before filtering
       if (Array.isArray(similarProductsData)) {
@@ -49,13 +50,13 @@ function ProductDetail(props) {
     const newSizeId = parseInt(e.target.value);
 
     try {
-      const response = await fetch(`http://localhost:5264/api/ProductSizes/productSize?productId=${productId}&sizeId=${newSizeId}`);
+      const response = await fetch(`${LIST_PRODUCT_SIZE}/productSize?productId=${productId}&sizeId=${newSizeId}`);
       if (!response.ok) {
         const errorText = await response.text(); // Lấy thông tin chi tiết về lỗi
 
       }
       const data = await response.json(); // Giải mã dữ liệu JSON từ phản hồi
-      const similarProductsData = await get(`http://localhost:5264/api/ProductSizes/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
+      const similarProductsData = await get(`${LIST_PRODUCT_SIZE}/getProductSizeSimilarMinToMax?min=${data.price - 5000}&max=${data.price + 5000}&categoriID=${data.category}`);
       // Lọc ra các sản phẩm khác với sản phẩm hiện tại
       // Ensure the response is an array before filtering
       if (Array.isArray(similarProductsData)) {
@@ -92,12 +93,12 @@ function ProductDetail(props) {
                   <div className="row h-100">
                     <div className="col-lg-12">
                       <div className="breadcrumb-item">
-                        <h2 className="breadcrumb-heading">Single Product</h2>
+                        <h2 className="breadcrumb-heading">Drink detail</h2>
                         <ul>
                           <li>
                             <a href="/">Home</a>
                           </li>
-                          <li>Single Product variable</li>
+                          <li>Drink variable</li>
                         </ul>
                       </div>
                     </div>
@@ -116,14 +117,14 @@ function ProductDetail(props) {
                                 <img className="img-full" src={productSize.img} alt="Product Thumbnail" />
                               </a>
                             </div>
-                            <div className="thumbs-button-wrap d-none d-md-block">
+                            {/* <div className="thumbs-button-wrap d-none d-md-block">
                               <div className="thumbs-button-prev">
                                 <i className="pe-7s-angle-left"></i>
                               </div>
                               <div className="thumbs-button-next">
                                 <i className="pe-7s-angle-right"></i>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>

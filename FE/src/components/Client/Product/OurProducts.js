@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import { get } from "../../../helpers/API.helper";
+import { LIST_FOUR_PRODUCT_SIZE_MIN } from "../../../helpers/APILinks";
+
 
 function OurProducts() {
   const [products, setProducts] = useState([]);
@@ -9,7 +11,7 @@ function OurProducts() {
     const fetchApi = async () => {
       try {
         const data = await get(
-          "http://localhost:5264/api/ProductSizes/getFourProductMin"
+            `${LIST_FOUR_PRODUCT_SIZE_MIN}`
         );
         //
         //console.log("data: ",data)
