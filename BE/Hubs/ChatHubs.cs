@@ -34,6 +34,11 @@ namespace BE.Hubs
             }
         }
 
+        public async Task LeaveStore(string ChatRoom)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, ChatRoom);
+            await Clients.Group(ChatRoom).SendAsync("LeaveStore", $"A user has left the store {ChatRoom}");
+        }
         public async Task JoinSpecificChatroom(UserChat userChat, string ChatRoom, int UserChatFirstId, int UserSecondId)
         {
             try

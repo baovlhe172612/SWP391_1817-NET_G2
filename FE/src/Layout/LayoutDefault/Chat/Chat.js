@@ -13,16 +13,8 @@ function Chat({ setCollapsed, connection }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(
-      `store ${storeId}`,
-        message,
-        {
-          userChatFirstId: parseInt(tableIdV2) * 10000, // userID
-          userSecondId: parseInt(storeId), // admin
-        },
-    );
-
     if (connection.state === signalR.HubConnectionState.Connected) {
+      console.log(`store ${storeId} - ${parseInt(tableIdV2) * 10000}`)
       await connection.invoke(
         "SendMessage",
         {

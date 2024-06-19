@@ -10,7 +10,6 @@ function ListChat() {
   const [conversation, setConversation] = useState(null);
   const connection = useSelector((state) => state.ConnectionReducer);
   const account = useSelector((state) => state.AccountReducer);
-  let listMessage = useSelector((state) => state.MessageReducer);
 
   useEffect(() => {
     const storeId = account.storeId;
@@ -43,6 +42,9 @@ function ListChat() {
     setConversation(item);
   };
 
+  console.log(conversation)
+
+
   return (
     <>
       <div className="chat">
@@ -67,9 +69,10 @@ function ListChat() {
               {conversations.length > 0 &&
                 conversations.map((item) => (
                   <div
-                    className="content"
+                    className={`content ${conversation.userChatFirstId == item.userChatFirstId ? `active_mess` : ''}`}
                     key={item.conversationId}
                     onClick={() => handleClick(item)}
+                    style={{cursor: "pointer"}}
                   >
                     <img />
                     <div className="details">
@@ -84,7 +87,7 @@ function ListChat() {
         </div>
         {/*  */}
 
-        {conversation && <Chat conversation={conversation} listMessage={listMessage}/>}
+        {conversation && <Chat conversation={conversation}/>}
       </div>
     </>
   );
