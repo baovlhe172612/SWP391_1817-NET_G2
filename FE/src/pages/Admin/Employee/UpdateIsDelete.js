@@ -3,6 +3,7 @@ import { Button, message } from "antd";
 import { DeleteOutlined } from '@ant-design/icons';
 import { put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
+import { UPDATE_Employee_ID } from "../../../helpers/APILinks";
 
 function UpdateIsDelete({ record, onReload }) {
   // console.log("Record in UpdateIsDelete:", record);
@@ -26,7 +27,7 @@ function UpdateIsDelete({ record, onReload }) {
 
       if (confirm.isConfirmed) {
         // Perform update of IsDelete status in the database
-        const response = await put(`http://localhost:5264/api/Account/${record.accountId}/IsDelete?isdelete=1`, {
+        const response = await put(`${UPDATE_Employee_ID}/${record.accountId}/IsDelete?isdelete=1`, {
           accountId: record.accountId,
         
         });

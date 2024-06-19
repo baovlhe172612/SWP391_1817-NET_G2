@@ -8,6 +8,7 @@ import { UserOutlined, CommentOutlined, CalendarOutlined } from '@ant-design/ico
 import { Steps } from 'antd';
 import { ClockCircleOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Timeline } from 'antd';
+import {LIST_FEEDBACK } from '../../../helpers/APILinks';
 const { RangePicker } = DatePicker;
 
 const { Step } = Steps; // Lấy Step từ Steps
@@ -38,7 +39,7 @@ function Contact() {
 
     const loadFeedbackList = async () => {
         try {
-            const response = await get("http://localhost:5264/api/MessengerBox"); // Điều chỉnh URL theo cấu trúc backend của bạn
+            const response = await get(LIST_FEEDBACK); // Điều chỉnh URL theo cấu trúc backend của bạn
             if (response) {
                 const filteredFeedbacks = response.filter(feedback => feedback.isDelete === 0); // Lọc feedback có isDelete = 0
                 setFeedbackList(filteredFeedbacks);
@@ -87,7 +88,7 @@ function Contact() {
         try {
             console.log("data in handlesubmit: ", data)
             // Send data to the backend
-            const response = await post("http://localhost:5264/api/MessengerBox", data);
+            const response = await post(LIST_FEEDBACK, data);
             if (response) {
 
                 setShowModal(false);

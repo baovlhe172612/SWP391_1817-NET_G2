@@ -3,14 +3,12 @@ const LOCALHOST_API = "http://localhost:5264"
 
 // API ACCOUNT
 export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account`
+export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
+export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}/api/Account`
 
-
-// API CATEGORY
-
-
-
-// API MESSENGERBOX
-
+// API EMPLOYEE <=> account
+export const LIST_Employee = `${LOCALHOST_API}/employee`;
+export const UPDATE_Employee_ID = `${LOCALHOST_API}/api/Account`
 // API POST
 
 // API STORE
@@ -49,8 +47,7 @@ export const LIST_PRODUCT_SIZE = `${LOCALHOST_API}/api/ProductSizes`;
 // API FeedBack <=> messegerbox
 export const LIST_FEEDBACK = `${LOCALHOST_API}/api/MessengerBox`
 
-// API EMPLOYEE <=> account
-export const LIST_Employee = `${LOCALHOST_API}/employee`;
+
 
 // LINK SHOP CLIENT
 export const LIST_PRODUCT = `http://localhost:3000/listProduct/`;
