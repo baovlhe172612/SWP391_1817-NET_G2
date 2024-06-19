@@ -36,7 +36,8 @@ import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
 import ListChat from "../pages/Admin/Chat/ListChat";
-
+import UpdateEmployee from "../pages/Admin/Employee/UpdateEmployee";
+import DetailEmployee from "../pages/Admin/Employee/DetailEmployee";
 const routes = [
   {
     path: "/",
@@ -180,6 +181,15 @@ const routes = [
                   {
                     path: "create",
                     element: <CreateEmployee />,
+                  },
+
+                  {
+                    path: "edit/:id",
+                    element: <UpdateEmployee />,
+                  },
+                  {
+                    path: "detail/:id",
+                    element: <DetailEmployee />,
                   },
                 ],
               },
