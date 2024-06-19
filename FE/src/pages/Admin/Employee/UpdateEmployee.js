@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { LIST_ACCOUNT } from "../../../helpers/APILinks";
 const { Option } = Select;
 
-function UpdateStoreManager() {
+function UpdateEmployee() {
   const account = useSelector(state => state.AccountReducer);
   console.log("account",account)
   const [accountemployee, setAccountemployee] = useState([]);
@@ -255,4 +255,4 @@ function UpdateStoreManager() {
   );
 }
 
-export default UpdateStoreManager;
+export default UpdateEmployee;

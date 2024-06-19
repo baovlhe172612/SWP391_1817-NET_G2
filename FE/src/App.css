@@ -1836,7 +1836,7 @@ blockquote p {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   position: relative;
 }

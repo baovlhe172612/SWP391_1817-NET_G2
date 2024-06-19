@@ -16,6 +16,7 @@ function ListEmployee() {
   const fetchApi = async () => {
     try {
       const data = await get(LIST_Employee);
+      console.log("accountEmployee",accountEmployee)
       setAccountEmployee(data);
     } catch (error) {
       message.error("Error fetching accounts");
@@ -32,16 +33,16 @@ function ListEmployee() {
   };
 
   const handleFilterChange = (status) => {
-    console.log("status: ",status)
-    
-//  prevStatus.includes(status) kiểm tra xem trạng thái hiện tại có bao gồm status hay không.
-// Nếu có, hàm sẽ trả về một mảng trống [] để loại bỏ bộ lọc.
-// Nếu không, hàm sẽ trả về một mảng chứa trạng thái được chọn [status].
-    setFilterStatus((prevStatus) => 
+    console.log("status: ", status)
+
+    //  prevStatus.includes(status) kiểm tra xem trạng thái hiện tại có bao gồm status hay không.
+    // Nếu có, hàm sẽ trả về một mảng trống [] để loại bỏ bộ lọc.
+    // Nếu không, hàm sẽ trả về một mảng chứa trạng thái được chọn [status].
+    setFilterStatus((prevStatus) =>
       prevStatus.includes(status) ? [] : [status]
-    
+
     );
-    console.log("filterStatus after",filterStatus)
+    console.log("filterStatus after", filterStatus)
   };
 
   const getFilteredData = () => {
@@ -49,21 +50,21 @@ function ListEmployee() {
     // Khởi tạo biến filteredData và gán nó với toàn bộ danh sách nhân viên 
     let filteredData = accountEmployee;
 
-    console.log("filterStatus.length",filterStatus.length)
+    console.log("filterStatus.length", filterStatus.length)
     // Apply status filter
     if (filterStatus.length > 0) {
-     
+
       const statusMap = {
         active: 1,
         inactive: 0,
       };
 
       filteredData = filteredData.filter(
-       
+
         (employee) => employee.status === statusMap[filterStatus[0]]
       );
       // console.log("filterStatus[0]",filterStatus[0]),
-      console.log("filteredData",filteredData)
+      console.log("filteredData", filteredData)
       console.log("----------------------------------------------------------",)
     }
 
@@ -100,6 +101,7 @@ function ListEmployee() {
       dataIndex: "storeName",
       key: "storeName",
     },
+  
     {
       title: "Status",
       dataIndex: "status",
@@ -109,35 +111,49 @@ function ListEmployee() {
           1: { text: "Active", color: "green" },
           0: { text: "Inactive", color: "red" }
         };
+
         const { text, color } = statusMap[status] || {
           text: "Unknown",
           color: "gray"
-        };    
+        };
+
+        // Check if the employee is deleted
+        if (record.isDelete === 1) {
+          return (
+            <Button>
+              <Tag color="gray">Deleted</Tag>
+            </Button>
+
+          );
+        }
+
         return (
-          <Button onClick={() => updateStatus(record, onReload)}>
+          <Button onClick={() => updateStatus(record, onReload)} disabled={record.isDelete === 1}>
             <Tag color={color}>{text}</Tag>
           </Button>
         );
       }
     },
 
+
     {
       title: "isDelete",
       dataIndex: "isDelete",
       key: "isDelete",
-      render: (status) => {
+      render: (isDelete) => {
         const statusMap = {
           0: { text: "Undeleted", color: "green" },
           1: { text: "Deleted", color: "red" },
         };
-        const { text, color } = statusMap[status] || {
+        const { text, color } = statusMap[isDelete] || {
           text: "Unknown",
           color: "gray",
         };
         return <Tag color={color}>{text}</Tag>;
       },
     },
-    
+
+
     {
       title: "Actions",
       key: "actions",
@@ -158,7 +174,7 @@ function ListEmployee() {
   return (
     <>
       <Space style={{ marginBottom: 16 }}>
-   
+
         <Button.Group>
           <Button
             type={filterStatus.includes("active") ? "primary" : ""}
@@ -174,7 +190,7 @@ function ListEmployee() {
           </Button>
         </Button.Group>
 
-      
+
         <Search
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}

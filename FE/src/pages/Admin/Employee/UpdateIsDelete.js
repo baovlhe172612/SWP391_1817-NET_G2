@@ -28,7 +28,7 @@ function UpdateIsDelete({ record, onReload }) {
         // Perform update of IsDelete status in the database
         const response = await put(`http://localhost:5264/api/Account/${record.accountId}/IsDelete?isdelete=1`, {
           accountId: record.accountId,
-          statusDate: formattedDate,
+        
         });
 
         console.log("record.statusDate",record.statusDate)
