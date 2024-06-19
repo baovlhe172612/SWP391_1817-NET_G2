@@ -141,9 +141,31 @@ namespace BE.Hubs
             }
         }
 
-        public async Task GetMessage()
+        public async Task SendMessageGroup(string ChatRoom, string message, Conversation conversation)
         {
+            // gửi tin nhắn đến tất cả người có trong phòng chat
+            await Clients.Group(ChatRoom)
+                .SendAsync("ReceiveMessageInputForStore", ChatRoom, message, conversation);
+        }
 
+        public async Task JoinStore(string ChatRoom)
+        {
+            try
+            {
+                // add người dùng vào ChatRoom
+                await Groups.AddToGroupAsync(Context.ConnectionId, ChatRoom);
+
+                await Clients.Group(ChatRoom)
+                .SendAsync("JoinStore", ChatRoom);
+            }
+            catch (System.Exception ex)
+            {
+                // Ghi nhật ký ngoại lệ chi tiết
+                Console.WriteLine($"Lỗi trong JoinSpecificChatroom: {ex.ToString()}");
+
+                // Gửi thông báo lỗi chi tiết cho client
+                throw new HubException("Failed to invoke 'JoinSpecificChatroom' due to an error on the server.", ex);
+            }
         }
     }
 
