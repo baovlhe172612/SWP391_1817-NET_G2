@@ -40,7 +40,7 @@ function Cart() {
       }));
 
 
-    //console.log(dataToSend);
+    console.log("dataToSend",dataToSend);
     setCartDataModal(dataToSend);
   };
 

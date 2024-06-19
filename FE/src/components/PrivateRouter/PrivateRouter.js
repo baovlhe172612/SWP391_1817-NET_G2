@@ -28,7 +28,7 @@ function PrivateRouter() {
           // không dùng session nữa => gửi lên store 1 thằng account mới luôn 
           dispatch(accountActions(accountByToken));
 
-          console.log(accountByToken)
+          console.log("accountByToken",accountByToken)
 
           if (accountByToken.roleId == 3) {
             navigate("/admin/table");
@@ -54,7 +54,7 @@ function PrivateRouter() {
 
   return (
     <>
-      {checkLogin && <Outlet />}
+     <Outlet />
     </>
   );
 }

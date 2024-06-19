@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
@@ -10,13 +10,11 @@ import {
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
-import Search from "antd/es/input/Search";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
   const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
-  const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
@@ -89,7 +87,7 @@ function ListStore() {
 
   // Nếu có data từ api => tạo data cho Table
   if (stores.length > 0) {
-    data = stores.map((store, index) => {
+    data = stores.map((store) => {
       return {
         StoreID: store.storeId,
         StoreName: store.storeName,
@@ -98,7 +96,7 @@ function ListStore() {
         UserName: store.userName,
         Status: store.status,
         actions: store.storeId,
-        key: index,
+        key: store.storeId,
       };
     });
   }
@@ -157,17 +155,7 @@ function ListStore() {
 
   return (
     <>
-      <Space>
-        <Status handleStatus={handleStatus} />
-
-        <Search
-          placeholder="input search text"
-          allowClear
-          enterButton="Search"
-          size="large"
-          onSearch={onSearch}
-        />
-      </Space>
+      <Status handleStatus={handleStatus}/>
 
       <Table
         columns={columns}

@@ -80,6 +80,16 @@ namespace Swp391.Repository
                 store.DateCreated = null;
                 store.DateCreated = null;
                 _context.Stores.Update(store);
+            {
+                var existingStore = _context.Stores.Local.FirstOrDefault(s => s.StoreId == store.StoreId)
+                ?? _context.Stores.Attach(store).Entity;
+                existingStore.StoreName = store.StoreName;
+                existingStore.Location = store.Location;
+                existingStore.Status = store.Status;
+                existingStore.IsDelete = store.IsDelete;
+                existingStore.DateCreated = null;
+                existingStore.DateDeleted = null;
+                _context.Update(existingStore);
                 _context.SaveChanges();
                 return store;
             }

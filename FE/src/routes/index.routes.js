@@ -35,6 +35,8 @@ import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
+import UpdateEmployee from "../pages/Admin/Employee/UpdateEmployee";
+import DetailEmployee from "../pages/Admin/Employee/DetailEmployee";
 
 const routes = [
   {
@@ -171,6 +173,14 @@ const routes = [
                   {
                     path: "create",
                     element: <CreateEmployee />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateEmployee />,
+                  },
+                  {
+                    path: "detail/:id",
+                    element: <DetailEmployee />,
                   },
                 ],
               },
