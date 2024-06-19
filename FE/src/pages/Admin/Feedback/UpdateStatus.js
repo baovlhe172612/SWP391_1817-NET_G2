@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { put } from "../../../helpers/API.helper";
+import { LIST_FEEDBACK } from "../../../helpers/APILinks";
 
 const updateStatus = async (record, onReload) => {
   console.log("record", record)
@@ -7,7 +8,7 @@ const updateStatus = async (record, onReload) => {
   try {
     const newStatus = record.isDelete === 1 ? 0 : 1;
     console.log("newStatus", newStatus)
-    const response = await put(`http://localhost:5264/api/MessengerBox/${record.messengerBoxId}/${newStatus}`);
+    const response = await put(`${LIST_FEEDBACK}/${record.messengerBoxId}/${newStatus}`);
     console.log("response", response)
       if (response.ok) {
         message.success("Account status updated successfully");       

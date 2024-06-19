@@ -40,8 +40,10 @@ function Contact() {
     const loadFeedbackList = async () => {
         try {
             const response = await get(LIST_FEEDBACK); // Điều chỉnh URL theo cấu trúc backend của bạn
+            console.log("response", response);
             if (response) {
                 const filteredFeedbacks = response.filter(feedback => feedback.isDelete === 0); // Lọc feedback có isDelete = 0
+                console.log("filteredFeedbacks", filteredFeedbacks);
                 setFeedbackList(filteredFeedbacks);
             }
         } catch (error) {
