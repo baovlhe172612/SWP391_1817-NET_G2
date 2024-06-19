@@ -12,6 +12,11 @@ namespace BE.Service
             return _repo.getAllOrder();
         }
 
+        public List<Order> getListOrderServiceByStoreId(int id)
+        {
+            return _repo.getAllOrderByStoreId(id);
+        }
+
         public void addOrderService(Order order)
         {
             _repo.addOrder(order);

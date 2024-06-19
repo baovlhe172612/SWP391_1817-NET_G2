@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
   DELETE_STORE_ID,
   GET_STORES_STATUS,
   LIST_STORES,
+  NEW_STORE,
   SEARCH_STORE,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
+import Search from "antd/es/input/Search";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
   const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
+  const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
@@ -22,9 +25,9 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        //console.log(status);
         const data = await get(`${GET_STORES_STATUS}/${status}`);
 
+        // console.log(data)
         if (data) {
           setStores(data);
         }
@@ -61,6 +64,11 @@ function ListStore() {
         ),
     },
     {
+      title: "Manager",
+      dataIndex: "Manager",
+      key: "Manager",
+    },
+    {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
@@ -87,16 +95,16 @@ function ListStore() {
 
   // Nếu có data từ api => tạo data cho Table
   if (stores.length > 0) {
-    data = stores.map((store) => {
+    data = stores.map((store, index) => {
       return {
         StoreID: store.storeId,
         StoreName: store.storeName,
         Location: store.location,
-        Email: store.email,
-        UserName: store.userName,
+        // Email: store.email,
+        Manager: store.accountName,
         Status: store.status,
         actions: store.storeId,
-        key: store.storeId,
+        key: index,
       };
     });
   }
@@ -153,9 +161,29 @@ function ListStore() {
     }
   };
 
+  const handleNewStore = async () => {
+    const newStore = await get(`${NEW_STORE}`);
+
+    if(newStore) {
+      setStores(newStore)
+    }
+  }
+
   return (
     <>
-      <Status handleStatus={handleStatus}/>
+      <Space>
+        <Status handleStatus={handleStatus} />
+
+        <Button type="primary" onClick={handleNewStore}>New Store</Button>
+
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          onSearch={onSearch}
+        />
+      </Space>
 
       <Table
         columns={columns}

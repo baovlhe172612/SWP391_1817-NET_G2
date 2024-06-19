@@ -1,9 +1,11 @@
 import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
+import {useDispatch} from 'react-redux'
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_STORE, STORES_DTOS } from "../../../helpers/APILinks";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
+import { siderActions } from "../../../actions/Sider.action";
 
 const { Option } = Select;
 
@@ -11,17 +13,17 @@ function CreateStore() {
   const [Accounts, setAccounts] = useState([]);
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     // console.log(values);
     // sửa lại trường cho accountId sang INT
-    values.accountId = parseInt(values.accountId);
+    // values.accountId = parseInt(values.accountId);
 
     // sửa lại trường isDelete => từ true => 1 và ngược lại
     values.status = values.status ? 1 : 0;
 
     values.isDelete = 0;
-
 
     console.log(values);
     const dataUpdate = await post(CREATE_STORE, values);
@@ -34,9 +36,15 @@ function CreateStore() {
 
       form.resetFields();
 
+      // thay đổi thanh sider
+      dispatch(siderActions({
+        selectedKey: ["listStore"],
+        openKey: ["Store"]
+      }))
+
       // chuyển hướng đến listore
-      // navigate(`/admin/store/`)
-      navigate(`/admin/store/create`);
+      navigate(`/admin/store/`)
+      // navigate(`/admin/store/create`);
     }
   };
 

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BE.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly OrderService _service = new OrderService();
@@ -47,6 +47,14 @@ namespace BE.Controllers
             _service.updateOrderService(orderJustAdd);
 
             return Ok(cartItems);
+        }
+    
+        // GET ALL ORDERS
+        [HttpGet("v1/orders/store/{id}")]
+        public IActionResult ListOrder(int id) {
+            var listOrder = _service.getListOrderServiceByStoreId(id);
+
+            return Ok(listOrder);
         }
     }
 }

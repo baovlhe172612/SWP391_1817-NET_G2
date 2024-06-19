@@ -51,7 +51,6 @@ namespace Swp391.Controllers
             {
                 return Ok(new
                 {
-                    id = id,
                     store = store,
                 });
 
@@ -71,8 +70,8 @@ namespace Swp391.Controllers
         {
             try
             {
-                var newStore = storeService.UpdateStore(store);
-                return Ok(newStore);
+                storeService.UpdateStore(store);
+                return Ok(store);
             }
             catch (Exception ex)
             {
@@ -122,21 +121,22 @@ namespace Swp391.Controllers
             if (storeDtos != null)
             {
                 return Ok(storeDtos);
-            }
+            } 
 
             return BadRequest();
         }
 
-        [HttpGet("search")]
-        public IActionResult GetStoreByName([FromQuery]string name)
+        [HttpGet("newStore")]
+        public IActionResult GetNewStore()
         {
-            var listStoreByName = storeService.StoreByNameService(name);
+            var storeDtos = storeService.GetNewStore();
 
-            if(listStoreByName != null) {
-                return Ok(listStoreByName);
-            }
+            if (storeDtos != null)
+            {
+                return Ok(storeDtos);
+            } 
 
-            return NotFound();
+            return BadRequest();
         }
     }
 

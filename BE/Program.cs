@@ -1,30 +1,34 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using BE.Hubs;
 
 namespace Swp391
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            // Configure CORS
+
+            //add cors ?? tránh
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("reactApp", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            // Add services to the container.
+            builder.Services.AddSignalR();
 
             // Add services to the container.
             builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            // Configure CORS
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
-            });
 
             var app = builder.Build();
 
@@ -32,23 +36,20 @@ namespace Swp391
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FieldEngineerApi v1"));
-            }
-            else
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FieldEngineerApi v1"));
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
 
-            app.UseCors(); // Apply the CORS policy
+            app.UseCors("reactApp"); // Áp dụng chính sách CORS cụ thể
 
             app.UseAuthorization();
 
             app.MapControllers();
 
-            app.Run();
+            app.MapHub<ChatHubs>("/Chat");
+
+            app.Run("http://0.0.0.0:5264");
         }
     }
 }

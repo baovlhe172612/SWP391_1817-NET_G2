@@ -63,5 +63,8 @@ namespace Swp391.Service
             return _accountRepo.getAccountEmployeeId(id);
         }
 
+        public Account UpdateAccountV2(Account account) {
+            return _accountRepo.UpdateAccountV2(account);
+        }
     }
 }

@@ -2,7 +2,6 @@ export const LOCALHOST_API = "http://localhost:5264"
 
 
 // API ACCOUNT
-export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account`
 export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
 export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}api/Account/`;
 
@@ -13,6 +12,23 @@ export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}api/Account/`;
 export const LIST_Employee = `${LOCALHOST_API}/employee`;
 export const UPDATE_Employee_ID = `${LOCALHOST_API}/api/Account`
 // API POST
+export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
+ 
+
+// API CATEGORY
+
+// API ORDERS
+export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders/store`
+
+
+// API MESSENGERBOX
+
+// API MESSAGE
+export const GET_MESSAGE = `${LOCALHOST_API}/api/messages`;
+
+// CHAT
+export const CHAT_API = `${LOCALHOST_API}/Chat`;
+
 
 // API STORE
 export const GET_STORES_STATUS = `${LOCALHOST_API}/api/status`;
@@ -23,6 +39,8 @@ export const DELETE_STORE_ID = `${LOCALHOST_API}/api/stores/delete/`;
 export const STORE_DETAIL = `${LOCALHOST_API}/api/stores/`;
 export const UPDATE_STORE = `${LOCALHOST_API}/api/stores/Update`;
 export const SEARCH_STORE = `${LOCALHOST_API}/api/stores/search`;
+export const NEW_STORE = `${LOCALHOST_API}/api/stores/newStore`;
+
 // API Category
 export const API_CATEGORY = `${LOCALHOST_API}/api/Category`
 export const CREATE_CATEGORY = `${LOCALHOST_API}/api/Category/add_new`;
@@ -30,9 +48,10 @@ export const CREATE_CATEGORY = `${LOCALHOST_API}/api/Category/add_new`;
 export const GET_ACCOUNT_BY_AUTH = `${LOCALHOST_API}/api/AccountDtos/GET`
 export const GET_ACCOUNT_BY_TOKEN = `${LOCALHOST_API}/api/AccountDtos/GET`
 // API TABLE
-export const TABLE = `${LOCALHOST_API}/api/Table`;
+export const TABLE = `${LOCALHOST_API}/api/tables`;
 export const LIST_ACCOUNT = `${LOCALHOST_API}/api/Account`;
-export const LIST_TABLE = `${LOCALHOST_API}/api/Table`;
+export const LIST_TABLE = `${LOCALHOST_API}/api/tables/store`;
+
 // API PRODUCT CONTROLLERS
 
 

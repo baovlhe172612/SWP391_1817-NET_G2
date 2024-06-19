@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -32,10 +33,9 @@ public partial class Account
     public string? Cccd { get; set; }
 
     public DateOnly? StatusDate { get; set; }
-
     public DateOnly? DateStartWork { get; set; }
-
+    [JsonIgnore]
     public virtual Role Role { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Store? Store { get; set; }
 }
