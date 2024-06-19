@@ -13,7 +13,7 @@ public partial class Message
 
     public string? ContentChat { get; set; }
 
-    public byte[]? TimeStamp { get; set; }
+    public DateTime? TimeStamp { get; set; }
 
     public virtual Conversation? Cover { get; set; }
 

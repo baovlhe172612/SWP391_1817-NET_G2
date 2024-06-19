@@ -17,6 +17,8 @@ public partial class Order
 
     public int? PaymentId { get; set; }
 
+    public string? Note { get; set; }
+
     public double Total { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

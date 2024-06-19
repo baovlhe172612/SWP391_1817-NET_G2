@@ -24,7 +24,7 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        console.log(status);
+        //console.log(status);
         const data = await get(`${GET_STORES_STATUS}/${status}`);
 
         if (data) {
