@@ -3,6 +3,7 @@ import { Button, message, Popconfirm } from "antd";
 import { DeleteOutlined } from '@ant-design/icons';
 import { put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function UpdateIsDelete({ record, onReload }) {
   console.log("record",record)
@@ -20,9 +21,8 @@ function UpdateIsDelete({ record, onReload }) {
 
       if (confirm.isConfirmed) {
         // Thực hiện cập nhật trạng thái IsDelete trong cơ sở dữ liệu
-        const response = await put(`http://localhost:5264/api/Account/${record.accountId}/IsDelete?isdelete=1`, {
-          accountId: record.accountId,
-          
+        const response = await put(`${LOCALHOST_API}/api/Account/${record.accountId}/IsDelete?isdelete=1`, {
+          accountId: record.accountId,          
         });
        
 

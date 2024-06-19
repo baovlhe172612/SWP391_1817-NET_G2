@@ -1,9 +1,10 @@
-const LOCALHOST_API = "http://localhost:5264"
+export const LOCALHOST_API = "http://localhost:5264"
 
 
 // API ACCOUNT
 export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account`
-
+export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
+export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}api/Account/`;
 
 // API CATEGORY
 
@@ -39,9 +40,13 @@ export const LIST_TABLE = `${LOCALHOST_API}/api/Table`;
 
 // API PRODUCT CONTROLLERS
 export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
+//API ACCOUNT MANAGERS
+export const LIST_ACCOUNT_MANAGERS = `${LOCALHOST_API}/api/Account/manager`;
+export const CREATE_ACCOUNT_MANAGER = `${LOCALHOST_API}/api/Account`;
+export const UPDATE_ACCOUNT_MANAGER= `${LOCALHOST_API}api/Account/`;
 
 // API PRODUCTDTOS
-
+export const CREATE_PRODUCT = `${LOCALHOST_API}/api/ProductSizes/Create`;
 // API PRODUCTSIZES
 export const LIST_PRODUCT_SIZE = `${LOCALHOST_API}/api/ProductSizes`;
 // API TABLE

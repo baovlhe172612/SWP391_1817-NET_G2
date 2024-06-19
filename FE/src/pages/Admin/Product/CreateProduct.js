@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Switch, Modal, InputNumber, message } from "antd";
 import { get, post } from "../../../helpers/API.helper";
+import { CREATE_PRODUCT } from "../../../helpers/APILinks";
 
 const { Option } = Select;
 
@@ -41,7 +42,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
     values.status = values.status ? 1 : 0;
 
     try {
-      const response = await post(`http://localhost:5264/api/ProductSizes/Create`, values);
+      const response = await post(`${CREATE_PRODUCT}`, values);
       if (response) {
         form.resetFields();
         message.success("Product created successfully!");
@@ -109,7 +110,6 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
             style={{ width: "100%" }}
           />
         </Form.Item>
-
         <Form.Item
           name="category"
           label="Category"

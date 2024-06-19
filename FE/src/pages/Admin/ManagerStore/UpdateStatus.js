@@ -1,10 +1,11 @@
 import { message } from "antd";
 import { put } from "../../../helpers/API.helper";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 const updateStatus = async (record, onReload) => {
   try {
     const newStatus = record.status === 1 ? 0 : 1;
-    const response = await put(`http://localhost:5264/api/Account/${record.accountId}/status?newStatus=${newStatus}`);
+    const response = await put(`${LOCALHOST_API}/api/Account/${record.accountId}/status?newStatus=${newStatus}`);
     if (response.ok) {
       message.success("Account status updated successfully");       
       onReload();
