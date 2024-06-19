@@ -2,19 +2,23 @@
 
 
 namespace Swp391.Repository
-{   
+{
 
     public class TableRepo
-    {
+    { 
+        private SwpfinalContext _context = new SwpfinalContext();
+
         /// <summary>
         /// hàm trả về toàn bộ bàn của repository Tables
         /// </summary>
 
         /// <returns>toàn bộ bàn </returns>
-        public List<Table> getAllTable()
+        public List<Table> getAllTableRepo(int storeID)
         {
-            SwpfinalContext _context = new SwpfinalContext();    
-            return _context.Tables.ToList();
+            var listTable = _context.Tables
+                            .Where(o => o.StoreId == storeID && o.IsDelete == 0)
+                            .ToList();
+            return listTable;
         }
     }
 }

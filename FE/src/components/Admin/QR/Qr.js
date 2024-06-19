@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Input, QRCode, Space } from "antd";
 import { LIST_PRODUCT } from "../../../helpers/APILinks";
 
 function Qr({ qr }) {
   //   console.log(qr)
-  const [text, setText] = React.useState(`http://192.168.1.10:3000/listProduct/${qr.tableId}`);
+  const [text, setText] = useState(`http://localhost:3000/listProduct/${qr.tableId}/${qr.storeId}`);
 
   return (
     <>

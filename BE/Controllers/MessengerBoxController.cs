@@ -31,6 +31,7 @@ namespace Swp391.Controllers
                 MessengerBoxId = size + 1,  // Increment ID properly
                 Author = messengerBox.Author,
                 MessengerDescription = messengerBox.MessengerDescription,
+                IsDelete = 1,
                 CreateDate = messengerBox.CreateDate
             };
 
@@ -49,5 +50,38 @@ namespace Swp391.Controllers
         {
             return Ok(_messengerService.getAllMess());
         }
+
+
+        //
+        [HttpGet("{id}")]
+        public IActionResult GetMessengerBoxById(int id)
+        {
+            var messengerBox = _messengerService.GetMessById(id);
+
+            if (messengerBox == null)
+            {
+                return NotFound(new
+                {
+                    err = $"Messenger box with ID {id} not found"
+                });
+            }
+
+            return Ok(messengerBox);
+        }
+
+        [HttpPut("{id}/{isDelete}")]
+        public IActionResult UpdateIsDelete(int id, int isDelete)
+        {
+            try
+            {
+                _messengerService.UpdateIsDelete(id, isDelete);
+                return Ok(new { mess = "Update successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { err = ex.Message });
+            }
+        }
     }
 }
+

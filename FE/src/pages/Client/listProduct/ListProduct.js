@@ -3,7 +3,8 @@ import Product from "../../../components/Client/Product/Product";
 import { get } from "../../../helpers/API.helper";
 import { Col, Row } from "antd";
 import MenuCategory from "../../../components/Client/Category/MenuCategory";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { setCookie } from "../../../helpers/Cookie.helper";
 
 function ListProduct() {
   const [products, setProducts] = useState([]);
@@ -12,6 +13,13 @@ function ListProduct() {
   const [totalProduct, setTotalProduct] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [conditionSort, setCondition] = useState(1);
+
+  const { tableId, storeId } = useParams();
+
+  if(tableId || storeId) {
+    setCookie('tableId', tableId, 1);
+    setCookie('storeId', storeId, 1);
+  }
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);

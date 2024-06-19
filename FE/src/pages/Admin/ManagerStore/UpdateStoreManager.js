@@ -5,6 +5,7 @@ import { useParams,Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
+import { GET_ACCOUNT_BY_ID, GET_ALL_ACCOUNTS, LIST_STORES, UPDATE_ACCOUNT_MANAGER } from "../../../helpers/APILinks";
 const { Option } = Select;
 
 function UpdateStoreManager() {
@@ -15,7 +16,7 @@ function UpdateStoreManager() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://localhost:5264/api/Account/${id}`);
+        const data = await get(`${GET_ACCOUNT_BY_ID}${id}`);
         console.log("data",data)
         // const dataAccount = await get(`${LIST_ACCOUNT}`);
         // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form
@@ -51,7 +52,7 @@ function UpdateStoreManager() {
     values.isDelete =  0;
     
     console.log(values);
-    const data = await put(`http://localhost:5264/api/Account/${id}`, values);   
+    const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
     if(data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
@@ -63,8 +64,8 @@ function UpdateStoreManager() {
   const [Accounts, setAccounts] = useState([]);
   const fetchApi = async () => {
     try {
-      const data = await get("http://localhost:5264/api/stores");  
-      const dataAccount = await get(`http://localhost:5264/api/Account/all`);  
+      const data = await get(`${LIST_STORES}`);  
+      const dataAccount = await get(`${GET_ALL_ACCOUNTS}`);  
       setStores(data);
       setAccounts(dataAccount);
     } catch (error) {

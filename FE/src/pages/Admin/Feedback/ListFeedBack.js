@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { get } from '../../../helpers/API.helper';
-import { Table } from 'antd';
+import { Button, Table, Tag } from 'antd';
 import { LIST_FEEDBACK } from '../../../helpers/APILinks';
+import updateStatus from './UpdateStatus';
 
 function ListFeedBack() {
     const [feedbacks, setFeedbacks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    
         const fetchFeedbacks = async () => {
             try {
                 const response = await get(LIST_FEEDBACK);
@@ -21,9 +22,15 @@ function ListFeedBack() {
             }
         };
 
+        
+    useEffect(() => {
         fetchFeedbacks();
     }, []);
 
+    const onReload = () => {
+        fetchFeedbacks();
+      };
+    
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         // US English uses month-day-year order
@@ -55,6 +62,43 @@ function ListFeedBack() {
             key: "MessengerDescription",
             render: (text) => <a>{text}</a>,
         },
+      
+    {
+        title: "isDelete",
+        dataIndex: "isDelete",
+        key: "isDelete",
+        // render: (isDelete) => {
+        //   const statusMap = {
+        //     0: { text: "Undeleted", color: "green" },
+        //     1: { text: "Deleted", color: "red" },
+        //   };
+        //   const { text, color } = statusMap[isDelete] || {
+        //     text: "Unknown",
+        //     color: "gray",
+        //   };
+        //   return <Tag color={color}>{text}</Tag>;
+        // },
+
+        render: (isDelete,record) => {
+            const isDeleteMap = {
+              0: { text: "Active", color: "green" },
+              1: { text: "Inactive", color: "red" }
+            };
+    
+            const { text, color } = isDeleteMap[isDelete] || {
+              text: "Unknown",
+              color: "gray"
+            };
+    
+           
+    
+            return (
+              <Button onClick={() => updateStatus(record, onReload)} >
+                <Tag color={color}>{text}</Tag>
+              </Button>
+            );
+          }
+      },
 
         {
             title: "CreateDate",

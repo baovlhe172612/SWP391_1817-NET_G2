@@ -6,25 +6,76 @@ import { post } from "../../../helpers/API.helper.js";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
+import CheckoutModal from "./CheckoutModal.js";
+import { API_ORDER } from "../../../helpers/APILinks.js";
+
 function Cart() {
   const cart = useSelector(state => state.cart);
   const [cartData, setCartData] = useState(cart.list || []);
 
+  const [cartDataModal, setCartDataModal] = useState([]);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
   const handleDeleteAll = () => {
 
     dispatch(clearCart());
     setCartData([]);
   }
+
+
+  // show modal
+  const showModal = () => {
+    setIsModalVisible(true);
+
+    //console.log(cartData);
+
+    const dataToSend = cartData
+      .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
+      .map(item => ({
+        productSizeID: item.productSizeID,
+        productName: `${item.productName} - ${item.sizeName}`,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+
+    console.log("dataToSend",dataToSend);
+    setCartDataModal(dataToSend);
+  };
+
+  const handleOk = async (formValues) => {
+    setIsModalVisible(false);
+    
+    var note = formValues.notes;
+    
+    if(note === undefined){
+      note = null;
+    }
+    
+    handleCheckout(formValues.paymentMethod, note);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  //item change
   const handleItemChange = useCallback((productSizeID, newQuantity, newPrice) => {
     setCartData(prevCartData =>
       prevCartData.map(item =>
-        item.productSizeID === productSizeID ? { ...item, quantity: newQuantity, price: newPrice * newQuantity } : item
+        item.productSizeID === productSizeID ? {
+          ...item,
+          quantity: newQuantity, price: newPrice * newQuantity
+        } : item
       )
     );
+
+
   }, []);
 
-  const handleCheckout = async () => {
+
+  //checkout
+  const handleCheckout = async (value, note) => {
     const dataToSend = cartData
       .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
       .map(item => ({
@@ -33,23 +84,20 @@ function Cart() {
         price: item.price,
       }));
 
-    console.log("dataToSend: ", dataToSend)
-    //console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
+
+
+    // console.log("dataToSend: ", dataToSend)
+    // console.log("data 36: " + JSON.stringify(dataToSend, null, 2));
 
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
-        const response = await post(`http://localhost:5264/api/Order/AddOrderDetail`, dataToSend);
+        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}`, dataToSend);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-
-        }
-
-        const responseData = await response.json();
-        console.log('Response:', responseData);
+        const responseData = response;
+        //console.log('Response:', responseData);
         alert('Đã mua hàng thành công!');
       } catch (error) {
-        console.error('Error sending data:', error);
+        console.log('Error sending data:', error);
       }
     } else {
       alert('Mua hàng không thành công!!!!');
@@ -129,7 +177,7 @@ function Cart() {
                                   Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
                                 </li>
                               </ul>
-                              <Link
+                              <Button
                                 to=""
                                 style={{
                                   display: 'flex',
@@ -144,10 +192,11 @@ function Cart() {
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
-                                onClick={handleCheckout}
+                                onClick={showModal}
                               >
                                 Proceed to checkout
-                              </Link>
+                              </Button>
+                              <CheckoutModal isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} cartDataModal={cartDataModal} />
                             </div>
                           </div>
                         </div>

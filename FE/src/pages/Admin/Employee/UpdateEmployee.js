@@ -6,11 +6,12 @@ import Swal from "sweetalert2";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { LIST_ACCOUNT } from "../../../helpers/APILinks";
+import { GET_ACCOUNT_BY_ID, GET_ALL_ACCOUNTS, LIST_ACCOUNT, LIST_STORES } from "../../../helpers/APILinks";
 const { Option } = Select;
 
-function UpdateStoreManager() {
+function UpdateEmployee() {
   const account = useSelector(state => state.AccountReducer);
+  console.log("account",account)
   const [accountemployee, setAccountemployee] = useState([]);
   const [form] = Form.useForm();
   const id = useParams().id;
@@ -53,7 +54,7 @@ function UpdateStoreManager() {
     values.isDelete = 0;
 
     console.log(values);
-    const data = await put(`http://localhost:5264/api/Account/${id}`, values);
+    const data = await put(`${GET_ACCOUNT_BY_ID}/${id}`, values);
     if (data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
@@ -65,9 +66,9 @@ function UpdateStoreManager() {
   const [Accounts, setAccounts] = useState([]);
   const fetchApi = async () => {
     try {
-      const data = await get("http://localhost:5264/api/stores");  
+      const data = await get(LIST_STORES);  
       console.log("data store",data)
-      const dataAccount = await get(`http://localhost:5264/api/Account/all`);  
+      const dataAccount = await get(GET_ALL_ACCOUNTS);  
       setStores(data);
       setAccounts(dataAccount);
     } catch (error) {
@@ -254,4 +255,4 @@ function UpdateStoreManager() {
   );
 }
 
-export default UpdateStoreManager;
+export default UpdateEmployee;

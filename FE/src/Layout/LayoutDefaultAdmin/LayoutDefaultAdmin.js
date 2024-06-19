@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Layout, Button } from "antd";
 
 import "./LayoutDefault.css";
@@ -14,26 +14,58 @@ import {
 } from "@ant-design/icons";
 import MenuSider from "../../components/Admin/Menu/index";
 import { Link, Outlet } from "react-router-dom";
-import { Footer } from "antd/es/layout/layout";
+import Footer from "./Footer/Footer";
 import Notify from "../../components/Admin/Notify";
 import { getSessionItem } from "../../helpers/Session.helper";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { connectActions } from "../../actions/connection.actions";
+import { CHAT_API } from "../../helpers/APILinks";
 
 const { Sider, Content } = Layout;
 
 function LayoutDefaultAdmin() {
   const [collapsed, setCollapsed] = useState(true);
+  const [connection, setConnection] = useState(null)
   // lấy login + account từ redux
   const login = useSelector((state) => state.LoginReducer);
+  const { selectedKey, openKey } = useSelector((state) => state.SiderReducer);
+  const account = useSelector((state) => state.AccountReducer);
+
   //
   const dispatch = useDispatch();
 
+  // kết nối với server
   useEffect(() => {
-    if (!login) {
+    const newConnection = new HubConnectionBuilder()
+      .withUrl(`${CHAT_API}`)
+      .withAutomaticReconnect()
+      .build();
+
+      dispatch(connectActions(newConnection))
+
+    setConnection(newConnection);
+  }, []);
+
+  // lắng nghe sự thay đổi trong server
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start() // bắt đầu kết nối
+        .then((result) => {
+          console.log("Connected!");
+        })
+        .catch((e) => console.log("Connection failed: ", e));
+    }
+  }, [connection]);
+
+  useEffect(() => {
+    if (login == true) {
       setCollapsed(false);
+    } else {
+      setCollapsed(true);
     }
   }, [login]);
 
-  const account = useSelector((state) => state.AccountReducer);
   return (
     <>
       <Layout className="layout-default">
@@ -119,7 +151,13 @@ function LayoutDefaultAdmin() {
           {/* login == true => mới có sider */}
           {login ? (
             <Sider className="slider" collapsed={collapsed} theme="light">
-              {<MenuSider />}
+              {
+                <MenuSider
+                  account={account}
+                  selectedKey={selectedKey}
+                  openKey={openKey}
+                />
+              }
             </Sider>
           ) : (
             <></>

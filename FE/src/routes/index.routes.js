@@ -35,7 +35,9 @@ import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
-
+import ListChat from "../pages/Admin/Chat/ListChat";
+import UpdateEmployee from "../pages/Admin/Employee/UpdateEmployee";
+import DetailEmployee from "../pages/Admin/Employee/DetailEmployee";
 const routes = [
   {
     path: "/",
@@ -66,12 +68,20 @@ const routes = [
         element: <ListProduct />,
       },
       {
-        path: "listproduct/:id",
+        path: "listproduct/:tableId/:storeId",
         element: <ListProduct />,
       },
       {
         path: "productDetail",
         element: <ProductDetail />,
+      },
+      {
+        path: "404err",
+        element: <NotFound />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
@@ -125,7 +135,7 @@ const routes = [
                 ],
               },
               {
-                path: "manager-store",
+                path: "managerStore",
                 children: [
                   {
                     path: "",
@@ -171,6 +181,15 @@ const routes = [
                   {
                     path: "create",
                     element: <CreateEmployee />,
+                  },
+
+                  {
+                    path: "edit/:id",
+                    element: <UpdateEmployee />,
+                  },
+                  {
+                    path: "detail/:id",
+                    element: <DetailEmployee />,
                   },
                 ],
               },
@@ -243,6 +262,15 @@ const routes = [
                   {
                     path: "orderdetails",
                     element: <OrderDetails />,
+                  },
+                ],
+              },
+              {
+                path: "chat",
+                children: [
+                  {
+                    path: "",
+                    element: <ListChat />,
                   },
                 ],
               },
