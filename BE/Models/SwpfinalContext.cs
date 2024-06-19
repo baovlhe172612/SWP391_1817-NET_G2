@@ -19,6 +19,10 @@ public partial class SwpfinalContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<Conversation> Conversations { get; set; }
+
+    public virtual DbSet<Message> Messages { get; set; }
+
     public virtual DbSet<MessengerBox> MessengerBoxes { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -41,9 +45,11 @@ public partial class SwpfinalContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
+    public virtual DbSet<UserChat> UserChats { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(local);Database= swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -83,6 +89,43 @@ public partial class SwpfinalContext : DbContext
             entity.HasOne(d => d.Store).WithMany(p => p.Categories)
                 .HasForeignKey(d => d.StoreId)
                 .HasConstraintName("FK_Category_Store");
+        });
+
+        modelBuilder.Entity<Conversation>(entity =>
+        {
+            entity.ToTable("Conversation");
+
+            entity.Property(e => e.ConversationId).HasColumnName("ConversationID");
+            entity.Property(e => e.UserChatFirstId).HasColumnName("UserChatFirstID");
+            entity.Property(e => e.UserSecondId).HasColumnName("UserSecondID");
+
+            entity.HasOne(d => d.UserChatFirst).WithMany(p => p.ConversationUserChatFirsts)
+                .HasForeignKey(d => d.UserChatFirstId)
+                .HasConstraintName("FK_Conversation_UserChat");
+
+            entity.HasOne(d => d.UserSecond).WithMany(p => p.ConversationUserSeconds)
+                .HasForeignKey(d => d.UserSecondId)
+                .HasConstraintName("FK_Conversation_UserChat1");
+        });
+
+        modelBuilder.Entity<Message>(entity =>
+        {
+            entity.HasKey(e => e.MessId);
+
+            entity.ToTable("Message");
+
+            entity.Property(e => e.MessId).HasColumnName("MessID");
+            entity.Property(e => e.CoverId).HasColumnName("CoverID");
+            entity.Property(e => e.SensiderId).HasColumnName("SensiderID");
+            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Cover).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.CoverId)
+                .HasConstraintName("FK_Message_Conversation");
+
+            entity.HasOne(d => d.Sensider).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.SensiderId)
+                .HasConstraintName("FK_Message_UserChat");
         });
 
         modelBuilder.Entity<MessengerBox>(entity =>
@@ -258,6 +301,17 @@ public partial class SwpfinalContext : DbContext
                 .HasForeignKey(d => d.StoreId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Table_Store");
+        });
+
+        modelBuilder.Entity<UserChat>(entity =>
+        {
+            entity.HasKey(e => e.UserId);
+
+            entity.ToTable("UserChat");
+
+            entity.Property(e => e.UserId)
+                .ValueGeneratedNever()
+                .HasColumnName("UserID");
         });
 
         OnModelCreatingPartial(modelBuilder);
