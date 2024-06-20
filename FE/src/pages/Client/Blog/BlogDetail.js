@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
+  DELETE_BLOG_ID,
   GET_BLOGS_STATUS,
   LIST_BLOGS,
 } from "../../../helpers/APILinks";
