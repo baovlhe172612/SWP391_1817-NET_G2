@@ -384,3 +384,7 @@
     width: 45px;
   }
 }
+
+.active_mess {
+  background-color: #b5b4b4;
+}

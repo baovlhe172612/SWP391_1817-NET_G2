@@ -11,6 +11,7 @@ import {
   ProductOutlined,
   MenuOutlined,
   MessageOutlined,
+  ReadOutlined,
 } from "@ant-design/icons";
 import { getSessionItem } from "../../../helpers/Session.helper";
 import { hasRole } from "../../../helpers/CheckRole";
@@ -163,7 +164,24 @@ const itemsSider = (account) => {
         },
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
-  ];
+
+    hasRole(account.roleName, ["Manager"]) && {
+      key: "manager_blogs",
+      label: "Blogs",
+      icon: <ReadOutlined />,
+      children: [
+        {
+          key: "blogs/list",
+          label: <Link to="/admin/blogs/">List Blogs</Link>,
+        },
+        {
+          key: "blogs/create",
+          label: <Link to="/admin/blogs/create">Create Blogs</Link>,
+        },
+
+      ].filter(Boolean),
+    },
+  ].filter(Boolean);
 
   return items;
 };

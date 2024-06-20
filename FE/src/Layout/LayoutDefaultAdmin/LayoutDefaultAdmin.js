@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { Layout, Button } from "antd";
+import { Layout, Button, message } from "antd";
+import * as signalR from "@microsoft/signalr";
 
 import "./LayoutDefault.css";
 import logo from "../../assets/images/logo/dark.png";
@@ -20,12 +21,13 @@ import { getSessionItem } from "../../helpers/Session.helper";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { connectActions } from "../../actions/connection.actions";
 import { CHAT_API } from "../../helpers/APILinks";
+import NotifyChat from "./NotifyChat/NotifyChat";
 
 const { Sider, Content } = Layout;
 
 function LayoutDefaultAdmin() {
   const [collapsed, setCollapsed] = useState(true);
-  const [connection, setConnection] = useState(null)
+  const [connection, setConnection] = useState(null);
   // lấy login + account từ redux
   const login = useSelector((state) => state.LoginReducer);
   const { selectedKey, openKey } = useSelector((state) => state.SiderReducer);
@@ -41,7 +43,7 @@ function LayoutDefaultAdmin() {
       .withAutomaticReconnect()
       .build();
 
-      dispatch(connectActions(newConnection))
+    dispatch(connectActions(newConnection));
 
     setConnection(newConnection);
   }, []);
@@ -52,7 +54,7 @@ function LayoutDefaultAdmin() {
       connection
         .start() // bắt đầu kết nối
         .then((result) => {
-          console.log("Connected!");
+          console.log("Connected!", result);
         })
         .catch((e) => console.log("Connection failed: ", e));
     }
@@ -164,6 +166,7 @@ function LayoutDefaultAdmin() {
           )}
           <Content className="content">
             <div className="content_header">
+              <NotifyChat account={account}/>
               <Outlet />
             </div>
           </Content>

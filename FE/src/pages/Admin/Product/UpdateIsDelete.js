@@ -5,7 +5,6 @@ import { patch, put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
 
 function UpdateIsDelete({ record, onReload}) {
-  console.log(record.accountId)
   const handleUpdate = async () => {
     try {
       const confirm = await Swal.fire({
