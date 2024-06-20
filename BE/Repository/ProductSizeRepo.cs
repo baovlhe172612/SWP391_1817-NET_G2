@@ -117,7 +117,7 @@ namespace Swp391.Repository
             var productsize = newproduct;
             productsize.DateDeleted = null;
             productsize.DateCreated = DateOnly.FromDateTime(DateTime.Now);
-            _context.ProductSizes.Uo(productsize);
+            _context.ProductSizes.Update(productsize);
             _context.SaveChanges();
         }
     }
