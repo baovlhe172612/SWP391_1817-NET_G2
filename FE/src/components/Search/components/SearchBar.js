@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import "./SearchBar.css";
+import { LIST_PRODUCT_SIZE } from '../../../helpers/APILinks';
 
 export const SearchBar = ({ setResults }) => {
   const [input, setInput] = useState("");
   const [timer, setTimer] = useState(null);
 
   const fetchData = (value) => {
-    fetch("http://localhost:5264/api/ProductSizes")
+    fetch(`${LIST_PRODUCT_SIZE}`)
       .then((response) => response.json())
       .then(json => {
         const results = json.filter((product) => {
