@@ -3,15 +3,15 @@ import { Row, Col, Button } from 'antd';
 import './Table.css';
 import { get } from '../../../helpers/API.helper';
 import { LIST_TABLE } from '../../../helpers/APILinks';
-
+import { useSelector } from 'react-redux';
 function ListTable() {
   const [tables, setTables] = useState([]);
   const [error, setError] = useState(null);
-
+const account = useSelector (state => state.AccountReducer);
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(LIST_TABLE);
+        const data = await get(`${LIST_TABLE}/${account.storeId}`);
         setTables(data);
       } catch (err) {
         console.error('ERR tại ListTable:', err);
