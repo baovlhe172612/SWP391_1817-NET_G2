@@ -20,9 +20,7 @@ function ListOrders() {
       try {
         // Get data orders
         const data = await get(`${LIST_ORDER}/${account.storeId}`);
-
         console.log(data);
-
         if (data) {
           setOrders(data);
           if (data.length === 0) {

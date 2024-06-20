@@ -4,7 +4,6 @@ import { get, put } from "../../../helpers/API.helper";
 import { useParams, useNavigate } from "react-router-dom";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { GET_PRODUCTSIZES_BY_ID, UPDATE_PRODUCT } from "../../../helpers/APILinks";
-
 const { Option } = Select;
 
 function UpdateProduct() {
