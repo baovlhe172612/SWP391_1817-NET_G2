@@ -1,16 +1,17 @@
 ﻿using BE.Hubs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Swp391
 {
     public class Program
     {
-
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            // Configure CORS
 
-            //add cors ?? tránh
+            // Configure CORS
             builder.Services.AddCors(opt =>
             {
                 opt.AddPolicy("reactApp", builder =>
@@ -41,7 +42,8 @@ namespace Swp391
 
             app.UseHttpsRedirection();
 
-            app.UseCors("reactApp"); // Áp dụng chính sách CORS cụ thể
+            // Ensure CORS middleware is used before authorization
+            app.UseCors("reactApp");
 
             app.UseAuthorization();
 
@@ -49,7 +51,7 @@ namespace Swp391
 
             app.MapHub<ChatHubs>("/Chat");
 
-            app.Run("http://0.0.0.0:5264");
+            app.Run("http://localhost:5264"); // Specify the IP address and port
         }
     }
 }
