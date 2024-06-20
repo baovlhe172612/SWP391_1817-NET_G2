@@ -4,6 +4,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import ChatDetail from "./ChatDetail";
 import * as signalR from "@microsoft/signalr";
 import { getCookie } from "../../../helpers/Cookie.helper";
+import { Badge } from "antd";
 
 function Chat({ setCollapsed, connection }) {
   const [message, setMessage] = useState("");
@@ -14,7 +15,7 @@ function Chat({ setCollapsed, connection }) {
     e.preventDefault();
 
     if (connection.state === signalR.HubConnectionState.Connected) {
-      console.log(`store ${storeId} - ${parseInt(tableIdV2) * 10000}`)
+      console.log(`store ${storeId} - ${parseInt(tableIdV2) * 10000}`);
       await connection.invoke(
         "SendMessage",
         {
@@ -35,15 +36,10 @@ function Chat({ setCollapsed, connection }) {
         parseInt(tableIdV2) * 10000
       );
 
-      await connection.invoke(
-        "SendMessageGroup", 
-        `store ${storeId}`,
-        message,
-        {
-          userChatFirstId: parseInt(tableIdV2) * 10000, // userID
-          userSecondId: parseInt(storeId), // admin
-        },
-      )
+      await connection.invoke("SendMessageGroup", `store ${storeId}`, message, {
+        userChatFirstId: parseInt(tableIdV2) * 10000, // userID
+        userSecondId: parseInt(storeId), // admin
+      });
 
       setMessage("");
     }
@@ -51,35 +47,35 @@ function Chat({ setCollapsed, connection }) {
 
   return (
     <>
-      <section class="msger">
-        <header class="msger-header">
-          <div class="msger-header-title">
-            <i class="fas fa-comment-alt"></i> SimpleChat
-          </div>
-          <div class="msger-header-options">
-            <span>
-              <CloseOutlined onClick={() => setCollapsed(false)} />
-            </span>
-          </div>
-        </header>
+        <section class="msger">
+          <header class="msger-header">
+            <div class="msger-header-title">
+              <i class="fas fa-comment-alt"></i> SimpleChat
+            </div>
+            <div class="msger-header-options">
+              <span>
+                <CloseOutlined onClick={() => setCollapsed(false)} />
+              </span>
+            </div>
+          </header>
 
-        {/* Chat Detail */}
-        <ChatDetail connection={connection} />
-        {/* Chat Detail */}
+          {/* Chat Detail */}
+          <ChatDetail connection={connection} />
+          {/* Chat Detail */}
 
-        <form class="msger-inputarea">
-          <input
-            type="text"
-            class="msger-input"
-            placeholder="Enter your message..."
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-          />
-          <button class="msger-send-btn" onClick={handleSubmit}>
-            Send
-          </button>
-        </form>
-      </section>
+          <form class="msger-inputarea">
+            <input
+              type="text"
+              class="msger-input"
+              placeholder="Enter your message..."
+              onChange={(e) => setMessage(e.target.value)}
+              value={message}
+            />
+            <button class="msger-send-btn" onClick={handleSubmit}>
+              Send
+            </button>
+          </form>
+        </section>
     </>
   );
 }

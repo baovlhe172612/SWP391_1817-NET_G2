@@ -7,6 +7,9 @@ import Chat from "./Chat/Chat";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { getCookie } from "../../helpers/Cookie.helper";
 import { CHAT_API } from "../../helpers/APILinks";
+import * as signalR from "@microsoft/signalr";
+import { joinSpecificChatroom } from "../../helpers/Chat.helper";
+import NotifyChat from "./NotifyChat/NotifyChat";
 
 function LayoutDefault() {
   const [collapsed, setCollapsed] = useState(false);
@@ -16,6 +19,9 @@ function LayoutDefault() {
   const searchParams = new URLSearchParams(location.search);
 
   const tableId = searchParams.get("tableId");
+
+  const tableIdV2 = getCookie("tableId");
+  const storeId = getCookie("storeId");
 
   // kết nối với server
   useEffect(() => {
@@ -27,7 +33,7 @@ function LayoutDefault() {
     setConnection(newConnection);
   }, []);
 
-  // lắng nghe sự thay đổi trong server
+  // lắng nghe sự thay đổi trong server khi connect
   useEffect(() => {
     if (connection) {
       connection
@@ -36,6 +42,75 @@ function LayoutDefault() {
           console.log("Connected!");
         })
         .catch((e) => console.log("Connection failed: ", e));
+    }
+  }, [connection]);
+
+  // lắng nghe các sự kiện
+  useEffect(() => {
+    if (connection) {
+      //
+      const handleJoinSpecificChatroom = async (
+        userChat,
+        Store,
+        conversationExist
+      ) => {
+        try {
+          console.log(userChat, Store, conversationExist);
+        } catch (error) {
+          console.error("Error invoking JoinChat:", error);
+        }
+      };
+
+      const receiveMessage = async (
+        userChat,
+        ChatRoom,
+        message,
+        conversationExist,
+        newMessage
+      ) => {
+        console.log(ChatRoom);
+      };
+
+      const joinChatroom = async () => {
+        try {
+          await connection.start();
+          joinSpecificChatroom(
+            connection,
+            {
+              UserId: parseInt(tableIdV2) * 10000,
+              Role: 0,
+              UserName: `table: ${tableIdV2}`,
+            },
+            `store ${storeId} - ${parseInt(tableIdV2) * 10000}`,
+            parseInt(tableIdV2) * 10000,
+            parseInt(storeId)
+          );
+
+          connection.on("JoinSpecificChatroom", handleJoinSpecificChatroom);
+          connection.on("ReceiveMessageInput", receiveMessage);
+        } catch (error) {
+          console.error("Error starting connection:", error);
+        }
+      };
+
+      if (connection.state === signalR.HubConnectionState.Connected) {
+        joinChatroom();
+      } else {
+        connection
+          .start()
+          .then(() => {
+            joinChatroom();
+          })
+          .catch((error) => {
+            console.error("Error reconnecting:", error);
+          });
+      }
+
+      // Hủy đăng ký sự kiện khi component unmount hoặc kết nối thay đổi
+      return () => {
+        connection.off("JoinSpecificChatroom", handleJoinSpecificChatroom);
+        connection.off("ReceiveMessageInput", receiveMessage);
+      };
     }
   }, [connection]);
 
@@ -51,7 +126,10 @@ function LayoutDefault() {
         {/* Button chat */}
         <FloatButtonMess handleOnclick={handleOnclick} />
 
-        {collapsed && <Chat setCollapsed={setCollapsed} connection={connection}/>}
+        {collapsed == false && <NotifyChat connection={connection}/>}
+        {collapsed && (
+          <Chat setCollapsed={setCollapsed} connection={connection} />
+        )}
 
         <Outlet />
       </div>
