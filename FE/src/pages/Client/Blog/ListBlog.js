@@ -106,7 +106,7 @@ function ListBlog() {
       key: "actions",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/Blog/update_post/${record.postId}`}>
+          <Link to={`edit/${record.postId}`}>
             <Button type="primary">Update</Button>
           </Link>
           {record.Status == 1 && record.IsPublished !== 1 && (
