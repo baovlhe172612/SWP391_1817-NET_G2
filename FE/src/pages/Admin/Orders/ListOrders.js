@@ -13,6 +13,7 @@ import {
 function ListOrders() {
   const [orders, setOrders] = useState([]);
   const account = useSelector((state) => state.AccountReducer);
+  console.log("account.storeId",account.storeId)
   // let data = [];
 
   useEffect(() => {
