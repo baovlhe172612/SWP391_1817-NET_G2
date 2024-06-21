@@ -16,7 +16,7 @@ function ListEmployee() {
   const fetchApi = async () => {
     try {
       const data = await get(LIST_Employee);
-      console.log("accountEmployee",accountEmployee)
+      console.log("accountEmployee", accountEmployee)
       setAccountEmployee(data);
     } catch (error) {
       message.error("Error fetching accounts");
@@ -101,7 +101,7 @@ function ListEmployee() {
       dataIndex: "storeName",
       key: "storeName",
     },
-  
+
     {
       title: "Status",
       dataIndex: "status",
@@ -170,9 +170,28 @@ function ListEmployee() {
       ),
     },
   ];
+  useEffect(() => {
+    // Load Dialogflow Messenger script
+    const script = document.createElement("script");
+    script.src = "https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <>
+      {/* <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+      <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+      <df-messenger
+        intent="WELCOME"
+        chat-title="AI-BYAN"
+        agent-id="0ab401ed-4696-442c-80cd-0d5e1b252b36"
+        language-code="en"
+      ></df-messenger> */}
       <Space style={{ marginBottom: 16 }}>
 
         <Button.Group>

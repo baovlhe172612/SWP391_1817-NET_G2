@@ -268,7 +268,7 @@ const routes = [
                     element: <ListOrders />,
                   },
                   {
-                    path: "orderdetails",
+                    path: "orderdetails/:orderId/:storeId",
                     element: <OrderDetails />,
                   },
                 ],

@@ -3,7 +3,7 @@ export const LOCALHOST_API = "http://localhost:5264"
 
 // API ACCOUNT
 export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
-export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}api/Account/`;
+export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}/api/Account`;
 
 // API CATEGORY
 
@@ -20,7 +20,7 @@ export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
 export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders/store`
 
 
-// API MESSENGERBOX
+export const LIST_ORDERDETAILS = `${LOCALHOST_API}/api/Order/OrderDetail`
 
 // API MESSAGE
 export const GET_MESSAGE = `${LOCALHOST_API}/api/messages`;

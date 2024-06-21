@@ -94,6 +94,7 @@ function Header({ tableId }) {
         </div>
       )}
 
+      
       <header className="main-header-area">
         <div className="header-bottom d-none d-lg-block">
           <div className="container">

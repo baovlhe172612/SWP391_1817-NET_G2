@@ -56,5 +56,26 @@ namespace BE.Controllers
 
             return Ok(listOrder);
         }
+
+        //Get all orderdetail theo nhiều yếu tố
+        [HttpGet("OrderDetail/{storeId}/{orderId}")]
+        public IActionResult ListOrderDeatailById(int storeId, int orderId)
+        {
+            try
+            {
+                // Gọi service để lấy danh sách chi tiết đơn hàng
+                var listOrder = _detailService.listOrderDetailByOrderIdService(storeId, orderId);
+
+                // Trả về kết quả với mã trạng thái 200 OK
+                return Ok(listOrder);
+            }
+            catch (Exception ex)
+            {
+                // Ghi log nếu cần, ví dụ:
+                // Log.Error(ex, "An error occurred while fetching order details");
+                // Trả về lỗi với mã trạng thái 500
+                return StatusCode(500, "An error occurred while fetching order details.");
+            }
+        }
     }
 }

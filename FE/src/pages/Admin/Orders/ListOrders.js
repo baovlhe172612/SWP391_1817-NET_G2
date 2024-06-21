@@ -15,13 +15,24 @@ function ListOrders() {
   const account = useSelector((state) => state.AccountReducer);
   console.log("account.storeId",account.storeId)
   // let data = [];
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    // US English uses month-day-year order
+    // console.log(date.toLocaleDateString('en-US'));
+    // → "12/20/2012"
+
+    // British English uses day-month-year order
+    // console.log(date.toLocaleDateString('en-GB'));
+    // → "20/12/2012"
+    return date.toLocaleDateString('en-GB');
+};
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
         // Get data orders
         const data = await get(`${LIST_ORDER}/${account.storeId}`);
-        console.log(data);
+        console.log("data list order",data);
         if (data) {
           setOrders(data);
           if (data.length === 0) {
@@ -62,7 +73,7 @@ function ListOrders() {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      render: (date) => <span>{getDateTime(date)}</span>,
+      render: (date) => <span>{formatDate(getDateTime(date))}</span>,
     },
     {
       title: "Total",
@@ -75,7 +86,7 @@ function ListOrders() {
       dataIndex: "orderId",
       key: "orderIdDetail",
       render: (orderId) => (
-        <Link to={`${1}/${orderId}`}>
+        <Link to={`/admin/orders/orderdetails/${orderId}/${account.storeId}`}>
           <Button type="primary">Detail</Button>
         </Link>
       ),
