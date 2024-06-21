@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Input, Select, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
-import { DELETE_BLOG_ID, GET_BLOGS_STATUS, UP_BLOG_ID } from "../../../helpers/APILinks";
+import {
+  DELETE_BLOG_ID,
+  GET_BLOGS_STATUS,
+  UP_BLOG_ID,
+} from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Status from "../../../components/Mixin/Status/Status";
 import Search from "antd/es/input/Search";
+import { Option } from "antd/es/mentions";
 
 function ListBlog() {
   const [blogs, setBlogs] = useState([]);
   const [searchStatus] = useSearchParams();
+  const [searchText, setSearchText] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [updated, setUpdated] = useState(false);
+
+
   const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
@@ -68,37 +77,45 @@ function ListBlog() {
     },
     {
       title: "IsPublished",
-      dataIndex: "IsPublished",
-      key: "IsPublished",
-      render: (IsPublished) =>
-        IsPublished == 1 ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+      dataIndex: "isPublished",
+      key: "isPublished",
+      render: (isPublished) =>
+        isPublished == 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
     },
     {
       title: "Status",
-      dataIndex: "Status",
-      key: "Status",
-      render: (Status) =>
-        Status == 1 ? <Tag color="green">Existing</Tag> : <Tag color="red">Deleted</Tag>,
+      dataIndex: "status",
+      key: "status",
+      render: (status) =>
+        status == 1 ? (
+          <Tag color="green">Existing</Tag>
+        ) : (
+          <Tag color="red">Deleted</Tag>
+        ),
     },
     {
       title: "Author",
-      dataIndex: "Author",
-      key: "Author",
+      dataIndex: "author",
+      key: "author",
     },
     {
       title: "CreatedDate",
-      dataIndex: "CreatedDate",
-      key: "CreatedDate",
+      dataIndex: "createdDate",
+      key: "createdDate",
     },
     {
       title: "ModifiDate",
-      dataIndex: "ModifiDate",
-      key: "ModifiDate",
+      dataIndex: "modifiDate",
+      key: "modifiDate",
     },
     {
       title: "Tags",
-      dataIndex: "Tags",
-      key: "Tags",
+      dataIndex: "tags",
+      key: "tags",
     },
     {
       title: "Actions",
@@ -109,17 +126,24 @@ function ListBlog() {
           <Link to={`edit/${record.postId}`}>
             <Button type="primary">Update</Button>
           </Link>
-          {record.Status == 1 && record.IsPublished !== 1 && (
+          {record.status == 1 && record.isPublished != 1 && (
             <Button type="primary" onClick={() => handlePost(record.postId)}>
               Post
             </Button>
           )}
-          {record.Status == 1 ? (
-            <Button type="primary" danger onClick={() => handleDelete(record.postId)}>
+          {record.status == 1 ? (
+            <Button
+              type="primary"
+              danger
+              onClick={() => handleDelete(record.postId)}
+            >
               Delete
             </Button>
           ) : (
-            <Button type="primary" onClick={() => handleUndelete(record.postId)}>
+            <Button
+              type="primary"
+              onClick={() => handleUndelete(record.postId)}
+            >
               Undelete
             </Button>
           )}
@@ -157,7 +181,24 @@ function ListBlog() {
       }
     }
   };
-
+  const filterBlogs = async (status) => {
+    try {
+      let data = [];
+      if (status !== "") {
+        data = await get(`${GET_BLOGS_STATUS}/${status}`);
+      } else {
+        data = await get(`http://localhost:5264/api/Post`);
+      }
+      setBlogs(data);
+    } catch (error) {
+      console.log("Error filtering blogs:", error);
+      setBlogs([]);
+    }
+  };
+  const handleStatusChange = (value) => {
+    setSelectedStatus(value); // Lưu trữ giá trị status đã chọn
+    filterBlogs(value); // Gọi hàm lọc bài viết khi status thay đổi
+  };
   // Handle delete action
   const handleDelete = async (postId) => {
     const confirm = await Swal.fire({
@@ -217,7 +258,12 @@ function ListBlog() {
       }
     }
   };
-
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+  const filteredTitle = blogs.filter((blog) =>
+    blog.title.toLowerCase().includes(searchText.toLowerCase())
+  );
   // Handle status change
   const handleStatus = (changeBlogs) => {
     setBlogs(changeBlogs);
@@ -240,27 +286,16 @@ function ListBlog() {
       setBlogs([]);
     }
   };
-
+  
   return (
     <>
-      <Space>
-        <Status handleStatus={handleStatus} />
-
-        <Search
-          placeholder="input search text"
-          allowClear
-          enterButton="Search"
-          size="large"
-          onSearch={onSearch}
-        />
-      </Space>
-
-      <Table
-        columns={columns}
-        dataSource={data}
-        style={{ margin: "20px 0" }}
-        pagination={{ pageSize: 6 }}
+      <Input
+        placeholder="Search Title"
+        value={searchText}
+        onChange={handleSearch}
+        style={{ width: 800, height: 30, marginBottom: 20 }}
       />
+      <Table columns={columns} dataSource={filteredTitle} rowKey="title" />
     </>
   );
 }

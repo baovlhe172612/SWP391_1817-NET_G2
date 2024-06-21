@@ -13,12 +13,12 @@ export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account`
 
 // API POST
 export const GET_BLOGS_STATUS = `${LOCALHOST_API}/api/status`;
-export const LIST_BLOGS = `${LOCALHOST_API}/api/POST`;
-export const CREATE_BLOG = `${LOCALHOST_API}/api/POST/add_new`;
-export const BLOG_DETAIL = `${LOCALHOST_API}/api/POST/`;
-export const DELETE_BLOG_ID = `${LOCALHOST_API}/api/POST/delete_post/`;
-export const UP_BLOG_ID = `${LOCALHOST_API}/api/POST/up_post/`;
-export const UPDATE_BLOG = `${LOCALHOST_API}/api/POST/update_post/`;
+export const LIST_BLOGS = `${LOCALHOST_API}/api/Post`;
+export const CREATE_BLOG = `${LOCALHOST_API}/api/Post/add_new`;
+export const BLOG_DETAIL = `${LOCALHOST_API}/api/Post`;
+export const DELETE_BLOG_ID = `${LOCALHOST_API}/api/Post/delete_post/`;
+export const UP_BLOG_ID = `${LOCALHOST_API}/api/Post/up_post/`;
+export const UPDATE_BLOG = `${LOCALHOST_API}/api/Post/update_post`;
 // API STORE
 export const GET_STORES_STATUS = `${LOCALHOST_API}/api/POST`;
 export const STORES_DTOS = `${LOCALHOST_API}/api/storesDtos`;

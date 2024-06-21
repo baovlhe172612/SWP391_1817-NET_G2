@@ -114,7 +114,8 @@ function ListCategory() {
         placeholder="Search Category"
         value={searchText}
         onChange={handleSearch}
-        style={{ marginBottom: 20 }}
+        style={{ width: 800, height: 30,  marginBottom: 20 }}
+        
       />
       <Table columns={columns} dataSource={filteredCategories} rowKey="categoryId" />
     </>

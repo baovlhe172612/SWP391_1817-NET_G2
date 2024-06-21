@@ -1,18 +1,17 @@
-import { Button, Form, Input, Select, Switch } from "antd";
+import { Button, Form, Input, Select, Switch, message } from "antd";
 import { useEffect, useState } from "react";
 import { get, patch } from "../../../helpers/API.helper";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, json } from "react-router-dom";
 // import Swal from "sweetalert2";
 // import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
-import { UPDATE_BLOG } from "../../../helpers/APILinks";
+import { BLOG_DETAIL, UPDATE_BLOG } from "../../../helpers/APILinks";
 import { useSelector } from "react-redux";
 const { Option } = Select;
 
 function UpdateBlog() {
   const [blog, setBlog] = useState([]);
   const [form] = Form.useForm();
-
   const { id } = useParams();
   const account = useSelector((state) => state.AccountReducer);
 
@@ -20,7 +19,7 @@ function UpdateBlog() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://localhost:5264/api/Post/${id}`);
+        const data = await get(`${BLOG_DETAIL}/${id}`);
 
         console.log(data);
         // const dataAccount = await get(${LIST_ACCOUNT});
@@ -28,16 +27,20 @@ function UpdateBlog() {
         form.setFieldsValue({
           postId: data.postId,
           title: data.title,
-          Contents: data.contents,
-          Img: data.img,
-          IsPublished: data.isPublished,
-          Status: data.status,
-          Author: data.author,
-          Tags: data.tags,
-          CreatedDate: data.createdDate,
-          ModifiDate: data.modifiDate,
+          contents: data.contents,
+          img: data.img,
+          isPublished: data.isPublished,
+          status: data.status,
+          author: account.fullName,
+          tags: data.tags,
+          createdDate: data.createdDate,
+          modifiDate: new Date().toISOString(),
+          storeId: data.storeId,
         });
         setBlog(data);
+
+        console.log(blog);
+
       } catch (error) {
         console.log("err in UpdateBlog", error);
         setBlog([]);
@@ -48,30 +51,35 @@ function UpdateBlog() {
   }, [form]);
 
   const handleSubmit = async (values) => {
-    values.modifiDate = new Date().toISOString();
+    try {
+      console.log("day la blog: "+blog);
 
-    console.log(values);
-    const data = await patch(
-      `${UPDATE_BLOG}/${id}`,
-      values
-    );
-    if (data) {
-      
-      form.resetFields();
+      console.log("day la value: "+values);
+      const data = await patch(`http://localhost:5264/api/Post/update_post/${id}`, { ...blog, ...values });
 
 
+      if (data) {
+        message.success("Blog updated successfully!");
+
+        form.resetFields();
+        navigate("/admin/blogs");
+      }
+    } catch (error) {
+      console.log("Error in handleSubmit", error);
+      message.error("An error occurred while updating the blog.");
     }
   };
 
   return (
     <>
-      <h2>Blog Detail</h2>
+      <h2>Update Blog</h2>
 
       <Form
-        name="create-blog"
-        onFinish={handleSubmit}
+        name="update-blog"
+        onFinish={(values) => {
+          handleSubmit(values);
+        }}
         form={form}
-        initialValues={{ account }}
       >
         {" "}
         {/* Thiết lập giá trị mặc định cho author */}
@@ -114,7 +122,7 @@ function UpdateBlog() {
         <Form.Item
           label="Author"
           name="author"
-          initialValue={account.fullName} 
+          initialValue={account.fullName}
           rules={[
             {
               required: true,
