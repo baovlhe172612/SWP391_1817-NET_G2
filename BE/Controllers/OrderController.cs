@@ -77,5 +77,63 @@ namespace BE.Controllers
                 return StatusCode(500, "An error occurred while fetching order details.");
             }
         }
+
+        // GET DAILY REVENUE
+        [HttpGet("daily-revenue")]
+        public IActionResult GetDailyRevenue()
+        {
+            try
+            {
+                var dailyRevenue = _service.GetDailyRevenueServiceByDay();
+                return Ok(dailyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching daily revenue: " + ex.Message);
+            }
+        }
+
+        // GET Month REVENUE
+        [HttpGet("month-revenue")]
+        public IActionResult GetMonthRevenue()
+        {
+            try
+            {
+                var monthlyRevenue = _service.GetDailyRevenueServiceByMonth();
+
+                // Transform the list to use YearMonthString instead of YearMonth
+                var response = monthlyRevenue.Select(mr => new
+                {
+                    yearMonth = mr.YearMonthString,
+                    storeID = mr.StoreID,
+                    storeName = mr.StoreName,
+                    totalRevenue = mr.TotalRevenue
+                }).ToList();
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching monthly revenue: " + ex.Message);
+            }
+        }
+
+
+        // GET api/order/daily-revenue/{storeId}
+        [HttpGet("daily-revenue/{storeId}")]
+        public IActionResult GetDailyRevenueByStoreId(int storeId)
+        {
+            try
+            {
+                var dailyRevenue = _service.GetDailyRevenueByStoreId(storeId);
+                return Ok(dailyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching daily revenue by store ID: " + ex.Message);
+            }
+        }
+
+
     }
 }
