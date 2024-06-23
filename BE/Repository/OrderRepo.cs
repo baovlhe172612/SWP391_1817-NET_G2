@@ -16,6 +16,8 @@ namespace BE.Repository
         {
             return context.Orders.ToList();
         }
+
+   
         /// <summary>
         /// add order
         /// </summary>
@@ -59,6 +61,27 @@ namespace BE.Repository
 
                 return new List<Order>();
             }
+        }
+
+        public List<OrderDtos> getAllOrderHaveTableNameById(int id)
+        {
+            var query = (from o in context.Orders
+                         join t in context.Tables on o.TableId equals t.TableId
+                         where o.StoreId == id
+                         select new OrderDtos
+                         {
+                             OrderID = o.OrderId,
+                             Date = o.Date,
+                             Status = o.Status,
+                             TableID = o.TableId,
+                             StoreID = o.StoreId,
+                             PaymentID = (int)o.PaymentId,
+                             Note = o.Note,
+                             Total = o.Total,
+                             TableName = t.TableName
+                         }); // Limit the result to the top 1000
+
+            return query.ToList();
         }
 
         public List<DailyRevenueDtos> GetDailyRevenue()

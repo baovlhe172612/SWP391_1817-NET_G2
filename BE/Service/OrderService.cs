@@ -12,6 +12,10 @@ namespace BE.Service
         {
             return _repo.getAllOrder();
         }
+        public List<OrderDtos> getListOrderServiceHaveTableNameById(int id)
+        {
+            return _repo.getAllOrderHaveTableNameById(id);
+        }
 
         public List<Order> getListOrderServiceByStoreId(int id)
         {
@@ -38,6 +42,8 @@ namespace BE.Service
             return _repo.GetMonthlyRevenue();
         }
 
+
+
         public List<DailyRevenueDtos> GetDailyRevenueByStoreId(int storeId)
         {
             var revenueList = _repo.GetDailyRevenue()
@@ -48,5 +54,18 @@ namespace BE.Service
 
             return revenueList;
         }
+
+        public List<MonthlyRevenueDtos> GetMonthlyRevenueByStoreId(int storeId)
+        {
+            var revenueList = _repo.GetMonthlyRevenue()
+                                    .Where(dr => dr.StoreID == storeId)
+                                    .OrderBy(dr => dr.YearMonth)
+                                    .ThenBy(dr => dr.StoreID)
+                                    .ToList();
+
+            return revenueList;
+        }
+
+
     }
 }

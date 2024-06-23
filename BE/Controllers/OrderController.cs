@@ -56,6 +56,13 @@ namespace BE.Controllers
 
             return Ok(listOrder);
         }
+        [HttpGet("/listHaveNameByStoreId/{id}")]
+        public IActionResult ListOrdeHaveNameById(int id)
+        {
+            var listOrder = _service.getListOrderServiceHaveTableNameById(id);
+
+            return Ok(listOrder);
+        }
 
         //Get all orderdetail theo nhiều yếu tố
         [HttpGet("OrderDetail/{storeId}/{orderId}")]
@@ -126,6 +133,20 @@ namespace BE.Controllers
             try
             {
                 var dailyRevenue = _service.GetDailyRevenueByStoreId(storeId);
+                return Ok(dailyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching daily revenue by store ID: " + ex.Message);
+            }
+        }
+
+        [HttpGet("month-revenue/{storeId}")]
+        public IActionResult GetMonthlyRevenueByStoreId(int storeId)
+        {
+            try
+            {
+                var dailyRevenue = _service.GetMonthlyRevenueByStoreId(storeId);
                 return Ok(dailyRevenue);
             }
             catch (Exception ex)

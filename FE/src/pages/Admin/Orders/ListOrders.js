@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Table, Tag, message } from "antd";
 import { get } from "../../../helpers/API.helper";
-import { LIST_ORDER } from "../../../helpers/APILinks";
+import { LIST_ORDER, LIST_ORDERHaveTableName } from "../../../helpers/APILinks";
 import {
   getColorText,
   getDateTime,
@@ -31,8 +31,9 @@ function ListOrders() {
     const fetchApi = async () => {
       try {
         // Get data orders
-        const data = await get(`${LIST_ORDER}/${account.storeId}`);
+        const data = await get(`${LIST_ORDERHaveTableName}/${account.storeId}`);
         console.log("data list order",data);
+        console.log("OrderID",data.orderID);
         if (data) {
           setOrders(data);
           if (data.length === 0) {
@@ -51,15 +52,15 @@ function ListOrders() {
   const columns = [
     {
       title: "Order ID",
-      dataIndex: "orderId",
-      key: "orderId",
+      dataIndex: "orderID",
+      key: "orderID",
       render: (text) => <a>{text}</a>, // custom text
     },
     {
       title: "Table Name",
-      dataIndex: "tableId",
-      key: "tableId",
-      render: (text) => <strong>Table-{text}</strong>, // custom text
+      dataIndex: "tableName",
+      key: "tableName",
+      render: (text) => <strong>{text}</strong>, // custom text
     },
     {
       title: "Status",
@@ -83,10 +84,10 @@ function ListOrders() {
     },
     {
       title: "Detail",
-      dataIndex: "orderId",
-      key: "orderIdDetail",
-      render: (orderId) => (
-        <Link to={`/admin/orders/orderdetails/${orderId}/${account.storeId}`}>
+      dataIndex: "orderID",
+      key: "orderID",
+      render: (orderID) => (
+        <Link to={`/admin/orders/orderdetails/${orderID}/${account.storeId}`}>
           <Button type="primary">Detail</Button>
         </Link>
       ),
