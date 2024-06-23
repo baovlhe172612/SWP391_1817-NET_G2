@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { Col, DatePicker, Input, Row } from 'antd'
-import { post } from '../../../helpers/API.helper';
+import React, { useEffect, useRef, useState } from 'react'
+import { Carousel, Col, DatePicker, Input, Row } from 'antd'
+import { get, post } from '../../../helpers/API.helper';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import './Contact.css'
+import { UserOutlined, CommentOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Steps } from 'antd';
+import { ClockCircleOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Timeline } from 'antd';
+import {LIST_FEEDBACK } from '../../../helpers/APILinks';
 const { RangePicker } = DatePicker;
+
+const { Step } = Steps; // Lấy Step từ Steps
+
 
 
 function Contact() {
@@ -19,9 +28,42 @@ function Contact() {
     //         transform: 'translate(-50%, -50%)',
     //     },
     // };
+    const [feedbackList, setFeedbackList] = useState([]);
+    const [currentFeedbackIndex, setCurrentFeedbackIndex] = useState(0); // Chỉ số của feedback hiện tại
+
+    useEffect(() => {
+        loadFeedbackList();
+    }, []);
+
+
+
+    const loadFeedbackList = async () => {
+        try {
+            const response = await get(LIST_FEEDBACK); // Điều chỉnh URL theo cấu trúc backend của bạn
+            console.log("response", response);
+            if (response) {
+                const filteredFeedbacks = response.filter(feedback => feedback.isDelete === 0); // Lọc feedback có isDelete = 0
+                console.log("filteredFeedbacks", filteredFeedbacks);
+                setFeedbackList(filteredFeedbacks);
+            }
+        } catch (error) {
+            console.error('Failed to load feedback:', error);
+        }
+    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        // US English uses month-day-year order
+        // console.log(date.toLocaleDateString('en-US'));
+        // → "12/20/2012"
+
+        // British English uses day-month-year order
+        // console.log(date.toLocaleDateString('en-GB'));
+        // → "20/12/2012"
+        return date.toLocaleDateString('en-GB');
+    };
 
     const handleChangeInput = (e) => {
-        console.log("e.target.name",e.target.name)
+        console.log("e.target.name", e.target.name)
         console.log(e.target.value)
         const objectNew = {
             ...data,
@@ -48,7 +90,7 @@ function Contact() {
         try {
             console.log("data in handlesubmit: ", data)
             // Send data to the backend
-            const response = await post("http://localhost:5264/api/MessengerBox", data);
+            const response = await post(LIST_FEEDBACK, data);
             if (response) {
 
                 setShowModal(false);
@@ -60,6 +102,7 @@ function Contact() {
                     timer: 1000
                 });
                 setTimeout(() => {
+                    loadFeedbackList();
                     onReload();
                     setData({});
                 }, 1000);
@@ -77,9 +120,95 @@ function Contact() {
     const onReload = () => {
         window.location.reload();
     };
-    console.log("data: ", data)
+    console.log("data: ", data);
+
+    const [currentStep, setCurrentStep] = useState(1); // State to track current step
+
+    const handleStepChange = (step) => {
+        setCurrentStep(step); // Update current step
+    };
+
+    const handleStepClick = (stepNumber) => {
+        setCurrentStep(stepNumber);
+        // Code here to fetch and display corresponding information for the step
+        switch (stepNumber) {
+            case 1:
+                // Fetch and display information for step 1
+                console.log('Đã đặt hàng');
+                break;
+            case 2:
+                // Fetch and display information for step 2
+                console.log('Đang tiến hành');
+                break;
+            case 3:
+                // Fetch and display information for step 3
+                console.log('Hoàn thành');
+                break;
+
+            default:
+                break;
+        }
+    }
     return (
         <>
+            {/* <div className="timeline-container">
+                <Timeline mode="right">
+                    <Timeline.Item
+                        dot={<LoadingOutlined style={{ fontSize: '16px' }} />}
+                        color="red"
+                        label="2015-09-01"
+                        onClick={() => handleStepChange(1)}
+                    >
+                        Đã đặt đồ
+                    </Timeline.Item>
+                    <Timeline.Item
+                        dot={<ClockCircleOutlined style={{ fontSize: '16px' }} />}
+                        color="pink"
+                        label="2015-09-01"
+                        onClick={() => handleStepChange(2)}
+                    >
+                        Đang tiến hành
+                    </Timeline.Item>
+                    <Timeline.Item
+                        dot={<CheckOutlined style={{ fontSize: '16px' }} />}
+                        label="2015-09-01"
+                        color="#52c41a"
+                        onClick={() => handleStepChange(3)}
+                    >
+                        Complete
+                    </Timeline.Item>
+                </Timeline>
+                <div style={{ marginTop: '20px' }}>
+                    <p>Đang ở bước: {currentStep}</p>
+                </div>
+            </div> */}
+    
+            <div className="order-tracking">
+                <div className={`step ${currentStep >= 1 ? 'completed' : ''}`} onClick={() => handleStepClick(1)}>
+                    <div className="circle">1</div>
+                    <div className={`label ${currentStep >= 1 ? 'completed-text' : ''}`}>
+                        <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Đã đặt hàng
+                    </div>
+                </div>
+
+                <div className={`line ${currentStep >= 2 ? 'completed' : ''}`}></div>
+                <div className={`step ${currentStep >= 2 ? 'completed' : ''}`} onClick={() => handleStepClick(2)}>
+                    <div className="circle">2</div>
+                    <div className={`label ${currentStep >= 2 ? 'completed-text' : ''}`}>
+                        <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> Đang tiến hành
+                    </div>
+                </div>
+
+                <div className={`line ${currentStep >= 3 ? 'completed' : ''}`}></div>
+                <div className={`step ${currentStep >= 3 ? 'completed' : ''}`} onClick={() => handleStepClick(3)}>
+                    <div className="circle">3</div>
+                    <div className={`label ${currentStep >= 3 ? 'completed-text' : ''}`}>
+                        <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Hoàn thành
+                    </div>
+                </div>
+            </div>
+
+
             <main className="main-content">
                 <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
                     <div className="container h-100">
@@ -98,10 +227,26 @@ function Contact() {
                         </div>
                     </div>
                 </div>
+
                 <div className="contact-form-area section-space-y-axis-100">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
+                                <div className="feedback-list">
+                                    {feedbackList.length > 0 && (
+                                        <Carousel autoplay effect="scrollx" dotPosition="bottom" autoplaySpeed={3000}>
+                                            {feedbackList.map((feedback, index) => (
+                                                <div key={index} className="feedback-item">
+                                                    <h2>List FeedBack </h2>
+                                                    <h3><UserOutlined /> Author: {feedback.author}</h3>
+                                                    <p><CommentOutlined /> FeedBack: {feedback.messengerDescription}</p>
+                                                    <p><CalendarOutlined /> Date: {formatDate(feedback.createDate)}</p>
+                                                </div>
+                                            ))}
+                                        </Carousel>
+                                    )}
+                                </div>
+
                                 <div className="contact-wrap">
                                     <div className="contact-info text-white"
                                         data-bg-image="assets/images/contact/1-1-370x500.jpg">
@@ -127,21 +272,21 @@ function Contact() {
                                     <form onSubmit={handleSubmit} id="contact-form" className="contact-form">
                                         <Row gutter={[20, 20]}>
 
-                                            <Col style={{marginBottom:'20px'}}  span={24}>
+                                            <Col style={{ marginBottom: '20px' }} span={24}>
                                                 <p>Author:</p>
                                                 <Input required name="Author" placeholder="Enter the name+email+phone" onChange={handleChangeInput} />
                                             </Col>
-                                            <Col style={{marginBottom:'20px'}} span={24}>
-                                                <p style={{marginTop:'20px'}}>Messenger</p>
-                                                <Input  required name="MessengerDescription" placeholder="Enter the MessengerDescription" onChange={handleChangeInput} />
+                                            <Col style={{ marginBottom: '20px' }} span={24}>
+                                                <p style={{ marginTop: '20px' }}>Messenger</p>
+                                                <Input required name="MessengerDescription" placeholder="Enter the MessengerDescription" onChange={handleChangeInput} />
                                             </Col>
-                                            <Col style={{marginTop:'20px'}} span={12}>
-                                                <p style={{marginTop:'20px'}}>Select date</p>
+                                            <Col style={{ marginTop: '20px' }} span={12}>
+                                                <p style={{ marginTop: '20px' }}>Select date</p>
                                                 <DatePicker required onChange={handleChangeDate} />
                                             </Col>
                                             <Col span={24}>
                                                 <div className="contact-button-wrap">
-                                                    <button type="submit" value="submit" className="btn btn-custom-size xl-size btn-pronia-primary" name="submit" style={{border: "1px solid"}}>
+                                                    <button type="submit" value="submit" className="btn btn-custom-size xl-size btn-pronia-primary" name="submit" style={{ border: "1px solid" }}>
                                                         Post FeedBack
                                                     </button>
 
@@ -149,7 +294,6 @@ function Contact() {
                                             </Col>
                                         </Row>
                                     </form>
-
                                 </div>
                             </div>
                         </div>

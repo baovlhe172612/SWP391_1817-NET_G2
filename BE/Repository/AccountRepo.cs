@@ -35,7 +35,7 @@ namespace Swp391.Repository
                                      join r in _context.Roles on a.RoleId equals r.RoleId
                                      join s in _context.Stores on a.StoreId equals s.StoreId
                                      where r.RoleName == "Manager" && (statusFilter == null || a.Status == statusFilter) &&
-                                     (search==null || a.FullName.Contains(search) || a.Phone.Contains(search) || a.Cccd.Contains(search))
+                                     (search == null || a.FullName.Contains(search) || a.Phone.Contains(search) || a.Cccd.Contains(search))
 
                                      select new AccountDtos
                                      {
@@ -63,7 +63,7 @@ namespace Swp391.Repository
                 accountsWithRoles = accountsWithRoles.Where(a => a.IsDelete == isDeletedFilter);
             }
             else
-            {   
+            {
                 accountsWithRoles = accountsWithRoles.Where(a => a.IsDelete == 0); // Chỉ lấy ra những tài khoản có isDelete = 0 nếu isDeleted không được chỉ định.
             }
             return accountsWithRoles.ToList();
@@ -93,7 +93,7 @@ namespace Swp391.Repository
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
                                      join s in _context.Stores on a.StoreId equals s.StoreId
-                                     where a.AccountId == id  
+                                     where a.AccountId == id
                                      select new AccountDtos
                                      {
                                          AccountId = a.AccountId,
@@ -117,7 +117,7 @@ namespace Swp391.Repository
             return accountsWithRoles;
         }
 
-     
+
 
         /// <summary>
         /// UpdateAccountStatus(int accountId, int newStatus): Cập nhật trạng thái của một tài khoản dựa trên ID.
@@ -126,7 +126,7 @@ namespace Swp391.Repository
         public void UpdateAccountStatus(int accountId, int newStatus)
         {
             SwpfinalContext _context = new SwpfinalContext();
-            var account = _context.Accounts.Find(accountId);         
+            var account = _context.Accounts.Find(accountId);
             if (account != null)
             {
                 account.Status = newStatus;
@@ -170,7 +170,7 @@ namespace Swp391.Repository
                         existingAccount.RoleId = newAccount.RoleId;
                         existingAccount.IsDelete = newAccount.IsDelete;
                         existingAccount.StoreId = newAccount.StoreId;
-                        existingAccount.Cccd = newAccount.Cccd;                  
+                        existingAccount.Cccd = newAccount.Cccd;
                         _context.SaveChanges();
                     }
                     else
@@ -228,9 +228,9 @@ namespace Swp391.Repository
                     IsDelete = newAccount.IsDelete,
                     StoreId = newAccount.StoreId,
                     Cccd = newAccount.Cccd,
-                    StatusDate= null,
-                    DateStartWork= DateOnly.FromDateTime(DateTime.Now),
-            };
+                    StatusDate = null,
+                    DateStartWork = DateOnly.FromDateTime(DateTime.Now),
+                };
                 _context.Accounts.Add(account);
                 _context.SaveChanges();
             }
@@ -290,8 +290,7 @@ namespace Swp391.Repository
             var accountsWithRoles = (from a in _context.Accounts
                                      join r in _context.Roles on a.RoleId equals r.RoleId
                                      join s in _context.Stores on a.StoreId equals s.StoreId
-                                     where r.RoleName == "Employee" && a.IsDelete == 0
-                                     
+                                     where r.RoleName == "Employee" 
                                      select new AccountDtos
                                      {
                                          AccountId = a.AccountId,
@@ -303,11 +302,11 @@ namespace Swp391.Repository
                                          Address = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
-                                         StoreName=s.StoreName,
-                                         Cccd=a.Cccd,
+                                         StoreName = s.StoreName,
+                                         Cccd = a.Cccd,
                                          Token = a.Token,
                                          StoreId = (int)a.StoreId,
-                                         RoleName = r.RoleName,                                       
+                                         RoleName = r.RoleName,
                                          IsDelete = (int)a.IsDelete,
                                      }
                                            ).ToList();
@@ -332,8 +331,8 @@ namespace Swp391.Repository
                                          Address = a.Address,
                                          Phone = a.Phone,
                                          RoleId = a.RoleId,
-                                         Cccd=a.Cccd,
-                                         StoreName=s.StoreName,
+                                         Cccd = a.Cccd,
+                                         StoreName = s.StoreName,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
                                          IsDelete = (int)a.IsDelete,
@@ -341,8 +340,36 @@ namespace Swp391.Repository
             return accountsWithRoles;
         }
 
+        public Account UpdateAccountV2(Account newAccount)
+        {
+            using (var _context = new SwpfinalContext())
+            {
+                var existingAccount = _context.Accounts.Find(newAccount.AccountId);
+
+                if (existingAccount != null)
+                {
+                    try
+                    {
+                        // Cập nhật các thuộc tính của đối tượng hiện tại với các giá trị mới
+                        _context.Entry(existingAccount).CurrentValues.SetValues(newAccount);
+
+                        // Lưu các thay đổi vào cơ sở dữ liệu
+                        _context.SaveChanges();
+
+                        // Trả về tài khoản đã được cập nhật
+                        return existingAccount;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Xử lý ngoại lệ nếu cần thiết
+                        throw new InvalidOperationException("An error occurred while updating the account.", ex);
+                    }
+                }
+
+                return null; // Trả về null nếu không tìm thấy tài khoản
+            }
+        }
+
     }
-
-
 
 }

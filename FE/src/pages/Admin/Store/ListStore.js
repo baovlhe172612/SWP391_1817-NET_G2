@@ -6,6 +6,7 @@ import {
   DELETE_STORE_ID,
   GET_STORES_STATUS,
   LIST_STORES,
+  NEW_STORE,
   SEARCH_STORE,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
@@ -26,6 +27,7 @@ function ListStore() {
       try {
         const data = await get(`${GET_STORES_STATUS}/${status}`);
 
+        // console.log(data)
         if (data) {
           setStores(data);
         }
@@ -37,8 +39,6 @@ function ListStore() {
 
     fetchApi();
   }, [updated, searchStatus, status]);
-
-  console.log(data);
 
   // COLUMS
   const columns = [
@@ -62,6 +62,11 @@ function ListStore() {
         ) : (
           <Tag color="red">Inactive</Tag>
         ),
+    },
+    {
+      title: "Manager",
+      dataIndex: "Manager",
+      key: "Manager",
     },
     {
       title: "Actions",
@@ -95,8 +100,8 @@ function ListStore() {
         StoreID: store.storeId,
         StoreName: store.storeName,
         Location: store.location,
-        Email: store.email,
-        UserName: store.userName,
+        // Email: store.email,
+        Manager: store.accountName,
         Status: store.status,
         actions: store.storeId,
         key: index,
@@ -138,11 +143,38 @@ function ListStore() {
   const handleStatus = (changeStores) => {
     setStores(changeStores);
   };
-  const onSearch = () => {};
+
+  // search
+  const onSearch = async (values) => {
+    try {
+      let data = [];
+      if (values) {
+        data = await get(`${SEARCH_STORE}?name=${values}`);
+      } else {
+        data = await get(`${GET_STORES_STATUS}/${status}`);
+      }
+
+      setStores(data);
+    } catch (error) {
+      console.log(error, `ListStore`);
+      setStores([]);
+    }
+  };
+
+  const handleNewStore = async () => {
+    const newStore = await get(`${NEW_STORE}`);
+
+    if(newStore) {
+      setStores(newStore)
+    }
+  }
+
   return (
     <>
       <Space>
         <Status handleStatus={handleStatus} />
+
+        <Button type="primary" onClick={handleNewStore}>New Store</Button>
 
         <Search
           placeholder="input search text"

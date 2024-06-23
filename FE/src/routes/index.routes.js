@@ -17,11 +17,11 @@ import CreateTable from "../pages/Admin/Table/CreateTable";
 import CreateCategory from "../pages/Admin/Category/CreateCategory";
 import ListCategory from "../pages/Admin/Category/ListCategory";
 import ListProductAdmin from "../pages/Admin/Product/ListProductAdmin";
-import CreateProduct from "../pages/Admin/Product/CreateProduct";
 import ListOrders from "../pages/Admin/Orders/ListOrders";
 import CreateEmployee from "../pages/Admin/Employee/CreateEmployee";
 import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
+
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";
 import Login from "../components/Admin/Accounts/Login/Login";
@@ -35,12 +35,13 @@ import NotFound from "../pages/Admin/404NotFound/NotFound";
 import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
+import ListChat from "../pages/Admin/Chat/ListChat";
+import UpdateEmployee from "../pages/Admin/Employee/UpdateEmployee";
+import DetailEmployee from "../pages/Admin/Employee/DetailEmployee";
 import ListBlog from "../pages/Client/Blog/ListBlog";
 import BlogDetail from "../pages/Client/Blog/BlogDetail";
 import CreateBlog from "../pages/Client/Blog/CreateBlog";
-import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
-import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
-
+import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
 const routes = [
   {
     path: "/",
@@ -71,12 +72,20 @@ const routes = [
         element: <ListProduct />,
       },
       {
-        path: "listproduct/:id",
+        path: "listproduct/:tableId/:storeId",
         element: <ListProduct />,
       },
       {
         path: "productDetail",
         element: <ProductDetail />,
+      },
+      {
+        path: "404err",
+        element: <NotFound />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
@@ -130,7 +139,7 @@ const routes = [
                 ],
               },
               {
-                path: "manager-store",
+                path: "managerStore",
                 children: [
                   {
                     path: "",
@@ -177,6 +186,15 @@ const routes = [
                     path: "create",
                     element: <CreateEmployee />,
                   },
+
+                  {
+                    path: "edit/:id",
+                    element: <UpdateEmployee />,
+                  },
+                  {
+                    path: "detail/:id",
+                    element: <DetailEmployee />,
+                  },
                 ],
               },
               {
@@ -202,6 +220,10 @@ const routes = [
                   {
                     path: "",
                     element: <ListProductAdmin />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateProduct />,
                   },               
                 ],
               },
@@ -273,8 +295,30 @@ const routes = [
                   },
                 ],
               },
-              
+              {
+                path: "chat",
+                children: [
+                  {
+                    path: "",
+                    element: <ListChat />,
+                  },
+                ],
+              }, 
+              {
+                path: "blogs",
+                children: [
+                  {
+                    path: "/admin/blogs/",
+                    element: <ListBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/create",
+                    element: <CreateBlog />,
+                  },
+                ],
+              },            
             ],
+
           },
           // END ROLE
           {

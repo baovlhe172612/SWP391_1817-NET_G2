@@ -16,12 +16,11 @@ function ListProductAdmin() {
     pageSize: 5, // Set the default page size to 3
   });
   // lấy qua API
-  useEffect(() => {
+
     const fetchApi = async () => {
       try {
         const data = await get(LIST_PRODUCT_SIZE);
-        if (data) {
-          console.log(data)
+        if (data) {      
           setProducts(data);
         }
       } catch (error) {
@@ -30,8 +29,12 @@ function ListProductAdmin() {
       }
     };
 
+  useEffect(() => {
     fetchApi();
   }, []);
+  const onReload = () => {
+    fetchApi();
+  };
     // divide page
     const handleTableChange = (pagination) => {
       setPagination(pagination);
@@ -96,8 +99,8 @@ function ListProductAdmin() {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <UpdateIsDelete record={record} />
-            <Link to={`/admin/manager-store/edit/${record.productId}`}>
+            <UpdateIsDelete record={record} onReload={onReload}/>
+            <Link to={`/admin/product/edit/${record.productSizeID}`}>
               <Button type="primary" icon={<EditOutlined />} />
             </Link>
           </Space>
@@ -106,23 +109,14 @@ function ListProductAdmin() {
     },
   ];
 
-  // data for table
-  let data = [
-    // {
-    //   name: "Product 1",
-    //   image:
-    //     "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/anh-dep-thien-nhien-2-1.jpg",
-    //   price: "$20",
-    //   size: "M",
-    //   discount: "10%",
-    //   tag: { status: true, name: "hello" },
-    //   action: ["Detail", "Delete", "Update"],
-    // },
+
+  let data = [  
   ];
   // if data exist => give a new data
   if(products.length > 0) {
     data = products.map((product, index) => {
       return {
+        "productSizeID": product.productSizeID,
         "stt": index + 1,
         "productName": product.productName,
         "price" : product.price,
@@ -154,7 +148,7 @@ function ListProductAdmin() {
       <Button icon={<FaPlus />} type="primary" onClick={showModal}>
         New Product
       </Button>
-      <CreateProduct isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} />
+      <CreateProduct isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} onReload={onReload}/>
       <Table columns={columns}
        dataSource={data && data.slice((pagination.current - 1) * pagination.pageSize, pagination.current * pagination.pageSize).map((account) => ({ ...account, key: account.accountId }))}
         pagination={{

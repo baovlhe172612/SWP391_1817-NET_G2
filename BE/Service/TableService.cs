@@ -6,16 +6,16 @@ namespace Swp391.Service
 {
     public class TableService
     {
-        TableRepo _tablerepo = new TableRepo();
+        TableRepo _tableRepo = new TableRepo();
 
         /// <summary>
         /// lấy toàn bộ bàn của Tables
         /// </summary>
 
         /// <returns>toàn bộ bàn </returns>
-        public List<Table> getAllTable()
+        public List<Table> getAllTable(int storeID)
         {
-            return _tablerepo.getAllTable();
+            return _tableRepo.getAllTableRepo(storeID);
         } 
     }
 }

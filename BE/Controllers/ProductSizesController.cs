@@ -19,6 +19,14 @@ namespace Swp391.Controllers
             return Ok(_service.getAllProuctSize());
         }
 
+
+        [HttpGet("id")]
+        public IActionResult getProductSizeById([FromQuery] int id)
+        {
+
+            return Ok(_service.GetProductSizeById(id));
+        }
+
         [HttpGet("productSize")]
         public IActionResult GetProductSizeByIdAndSize([FromQuery] int productId, [FromQuery] int sizeId)
         {
@@ -177,11 +185,11 @@ namespace Swp391.Controllers
 
         // create product
         [HttpPost("Create")]
-        public IActionResult CreateProduct(ProductSizeDtos product)
+        public IActionResult CreateProduct([FromBody] ProductcreateDtos newproduct)
         {
             try
             {
-                _service.CreateProduct(product);
+                _service.CreateProduct(newproduct);
                 return Ok(new { message = "Product created successfully" });
             }
             catch (Exception ex)
@@ -190,5 +198,20 @@ namespace Swp391.Controllers
             }
 
         }
+
+        [HttpPut("Updateproduct")]
+        public IActionResult UpdateProduct([FromBody] ProductSize newproduct)
+        {
+            try
+            {
+                _service.UpdateProduct(newproduct);
+                return Ok(new { message = "Product Update successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
