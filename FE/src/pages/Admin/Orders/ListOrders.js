@@ -202,6 +202,13 @@ function ListOrders() {
       key: "total",
       render: (text) => <strong style={{ fontSize: "1.1rem" }}>{text.toLocaleString('vi-VN')}đ</strong>,
     },
+
+      {
+      title: "Payment Name",
+      dataIndex: "paymentName",
+      key: "paymentName",
+      render: (paymentName) => <span>{(paymentName)}</span>,
+    },
     {
       title: "Detail",
       dataIndex: "orderID",
