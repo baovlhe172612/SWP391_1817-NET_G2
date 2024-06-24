@@ -122,11 +122,23 @@ function UpdateProduct() {
           rules={[
             {
               required: true,
-              message: "Please input the price",
-            },           
+              message: "Please input a price",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                const parsedValue = parseInt(value, 10); // Chuyển đổi giá trị nhập vào thành số nguyên
+                if (isNaN(parsedValue)) {
+                  return Promise.reject("Please input a valid number");
+                }
+                if (parsedValue < 1 || parsedValue > 100000) {
+                  return Promise.reject("Quantity must be at least 1 and maximum 100000");
+                }
+                return Promise.resolve();
+              },
+            }),
           ]}
         >
-          <Input type="number" />
+          <Input />
         </Form.Item>
         <Form.Item label="Size" name="sizeId" key="sizeId"
           rules={[
