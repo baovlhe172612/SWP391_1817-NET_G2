@@ -340,6 +340,8 @@ function UpdateEmployee() {
     return !Accounts.some(account => account[field] === value && account.accountId !== accountemployee.accountId);
   };
 
+  const filteredAccounts = Accounts.filter(account => account.accountId !== accountemployee.accountId);
+  console.log(filteredAccounts); 
   return (
     <>
       <h2>Edit Store's Employee</h2>
@@ -356,35 +358,36 @@ function UpdateEmployee() {
         </Form.Item>
 
         <Form.Item
-          label="Username"
-          name="userName"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your username!',
-            },
-            {
-              validator: (_, value) =>
-                value && !checkUnique('userName', value) ?
-                  Promise.reject('Username already exists') :
-                  Promise.resolve()
-            }
-          ]}
+          label="User Name"
+          name="userName"         
         >
-          <Input />
+          <Input readOnly />
         </Form.Item>
 
         <Form.Item
-          label="Password"
-          name="passWord"
+          label="PassWord"
+          name="passWord" 
           rules={[
             {
-              required: true,
-              message: 'Please input your password!',
+                required: true,
+                message: 'Please input your password!',
             },
-          ]}
+            {
+                validator(_, value) {
+                    // Example regex: minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!passwordRegex.test(value)) {
+                        return Promise.reject('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}        
         >
-          <Input.Password />
+          <Input  />
         </Form.Item>
 
         <Form.Item
@@ -424,14 +427,26 @@ function UpdateEmployee() {
           name="fullName"
           rules={[
             {
-              required: true,
-              message: 'Please input your full name!',
+                required: true,
+                message: 'Please input your full name!',
             },
-          ]}
+            {
+                validator(_, value) {
+                    // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                    const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!fullNameRegex.test(value)) {
+                        return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}        
         >
           <Input />
         </Form.Item>
-
         <Form.Item
           label="Address"
           name="address"
