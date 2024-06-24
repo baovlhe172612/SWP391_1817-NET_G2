@@ -53,7 +53,7 @@ namespace BE.Repository
                              CoverId = me.CoverId,
                              SensiderId = me.SensiderId,
                              ContentChat = me.ContentChat,
-                             TimeStamp = DateTime.Now,
+                             TimeStamp = me.TimeStamp,//DateTime.Now,
                              Role = us.Role,
                              UserName = us.UserName
                          }).ToList();

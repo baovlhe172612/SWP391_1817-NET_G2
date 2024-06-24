@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Chat.css";
+import { getRelativeTime } from "../../../helpers/Time.helper";
 function ChatDetail({ conversation, listMessage }) {
   const lastMessageRef = useRef(null);
 
@@ -35,7 +36,7 @@ function ChatDetail({ conversation, listMessage }) {
                 <div className="msg-bubble">
                   <div className="msg-info">
                     <div className="msg-info-name">{message.userName}</div>
-                    <div className="msg-info-time">{message.timeStamp}</div>
+                    <div className="msg-info-time">{getRelativeTime(message.timeStamp)}</div>
                   </div>
 
                   <div className="msg-text">{message.contentChat}</div>

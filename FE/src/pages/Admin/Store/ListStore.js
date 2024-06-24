@@ -15,17 +15,13 @@ import Search from "antd/es/input/Search";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
-  const [searchStatus] = useSearchParams();
   const [updated, setUpdated] = useState(false);
-  const navigate = useNavigate();
-  let status = searchStatus.get(`status`);
-  status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
 
   // lấy qua API
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`${GET_STORES_STATUS}/${status}`);
+        const data = await get(`${GET_STORES_STATUS}/${1}`);
 
         // console.log(data)
         if (data) {
@@ -38,7 +34,11 @@ function ListStore() {
     };
 
     fetchApi();
-  }, [updated, searchStatus, status]);
+  }, [updated]);
+
+  // Tạo danh sách các bộ lọc từ dữ liệu
+const uniqueStoreNames = [...new Set(stores.map(item => item.storeName))];
+const storeNameFilters = uniqueStoreNames.map(name => ({ text: name, value: name }));
 
   // COLUMS
   const columns = [
@@ -51,13 +51,23 @@ function ListStore() {
       title: "StoreName",
       dataIndex: "StoreName",
       key: "StoreName",
+      filters: storeNameFilters,
+      onFilter: (value, record) => {
+        console.log(value, record)
+        return record.StoreName.includes(value)
+      },
     },
     {
       title: "Status",
       dataIndex: "Status",
       key: "Status",
+      filters: [
+        { text: 'Active', value: 1 },
+        { text: 'Inactive', value: 0 },
+      ],
+      onFilter: (value, record) => record.Status === value,
       render: (status) =>
-        status == 1 ? (
+        status === 1 ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
@@ -151,7 +161,7 @@ function ListStore() {
       if (values) {
         data = await get(`${SEARCH_STORE}?name=${values}`);
       } else {
-        data = await get(`${GET_STORES_STATUS}/${status}`);
+        data = await get(`${GET_STORES_STATUS}/${1}`);
       }
 
       setStores(data);
@@ -172,7 +182,6 @@ function ListStore() {
   return (
     <>
       <Space>
-        <Status handleStatus={handleStatus} />
 
         <Button type="primary" onClick={handleNewStore}>New Store</Button>
 
