@@ -19,6 +19,7 @@
         public string SizeName { get; set; }
         public string Img { get; set; }
         public string ProductName { get; set; }
+
     }
 
 }
