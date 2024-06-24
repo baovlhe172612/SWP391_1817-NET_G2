@@ -41,6 +41,8 @@ import ListBlog from "../pages/Client/Blog/ListBlog";
 import BlogDetail from "../pages/Client/Blog/BlogDetail";
 import CreateBlog from "../pages/Client/Blog/CreateBlog";
 import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
+import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
+import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 const routes = [
   {
     path: "/",
