@@ -179,5 +179,16 @@ namespace Swp391.Service
         {
             _repo.CreateProduct(newproduct);
         }
+
+        // Update Product
+        public void UpdateProduct(ProductSize newproduct, string productName)
+        {
+            _repo.UpdateProduct(newproduct, productName);
+        }
+        //Get Product By ID
+        public ProductSizeDtos GetProductSizeById(int id)
+        {
+             return _repo.GetProductSizeById(id);
+        }
     }
 }

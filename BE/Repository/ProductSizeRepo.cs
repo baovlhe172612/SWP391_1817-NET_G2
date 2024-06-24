@@ -38,6 +38,36 @@ namespace Swp391.Repository
             return ProductSize;
         }
 
+        // GetProductByID
+
+        public ProductSizeDtos GetProductSizeById(int id)
+        {
+            SwpfinalContext _context = new SwpfinalContext();
+            var ProductSize = (from p in _context.Products
+                               join ps in _context.ProductSizes on p.ProductId equals ps.ProductId
+                               join s in _context.Sizes on ps.SizeId equals s.SizeId
+                               join c in _context.Categories on p.CategoryId equals c.CategoryId
+                               /*join st in _context.Stores on p.StoreId equals st.StoreId*/
+                               where ps.ProductSizeId == id
+                               select new ProductSizeDtos
+                               {
+                                   ProductSizeID = ps.ProductSizeId,
+                                   ProductId = p.ProductId,
+                                   ProductName = p.ProductName,
+                                   /*StoreId=p.StoreId,*/
+                                   Img = p.Img,
+                                   SizeId = s.SizeId,
+                                   SizeName = s.SizeName,
+                                   Price = (int)(p.Price + s.Price),
+                                   Category = p.CategoryId,
+                                   IsDelete = ps.IsDelete,
+                                   CategoryName = c.CategoryName,
+                                   Quantity = ps.Quanity,
+                                   /*StoreName=st.StoreName,*/
+                               }).FirstOrDefault();
+            return ProductSize;
+        }
+
         public void CreateProduct(ProductcreateDtos newproduct)
         {
             SwpfinalContext _context = new SwpfinalContext();
@@ -81,12 +111,20 @@ namespace Swp391.Repository
             }
             _context.SaveChanges();
         }
-        public void UpdateProduct(ProductSize newproduct)
+        public void UpdateProduct(ProductSize newProduct,string productName)
         {
-            SwpfinalContext _context = new SwpfinalContext();
-            var productsize = newproduct;
+            SwpfinalContext _context = new SwpfinalContext();          
+            var productsize = newProduct;
             productsize.DateDeleted = null;
-            _context.ProductSizes.Add(productsize);
+            productsize.DateCreated = DateOnly.FromDateTime(DateTime.Now);           
+            _context.ProductSizes.Update(productsize);
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == newProduct.ProductId);
+            if (product != null)
+            {
+                product.ProductName = productName;
+                _context.Products.Update(product);
+            }
+            _context.SaveChanges();
         }
     }
 }

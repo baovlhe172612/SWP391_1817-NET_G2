@@ -32,5 +32,34 @@ namespace Swp391.Repository
             SwpfinalContext _context = new SwpfinalContext();
             return _context.MessengerBoxes.ToList();
         }
+
+        public MessengerBox GetMessById(int id)
+        {
+            using (SwpfinalContext _context = new SwpfinalContext())
+            {
+                return _context.MessengerBoxes.FirstOrDefault(m => m.MessengerBoxId == id);
+            }
+        }
+
+
+        public void UpdateIsDelete(int id, int isDelete)
+        {
+            using (SwpfinalContext _context = new SwpfinalContext())
+            {
+                var messengerBox = _context.MessengerBoxes.Find(id);
+
+                if (messengerBox != null)
+                {
+                    messengerBox.IsDelete = isDelete;
+                    messengerBox.DateDeleted = DateOnly.FromDateTime(DateTime.Now); // DateOnly.FromDateTime
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception($"Update Fail! Messenger box with ID {id} does not exist");
+                }
+            }
+        }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using BE.Models;
+﻿using BE.Dtos;
+using BE.Models;
 using BE.Repository;
 
 namespace BE.Service
@@ -10,6 +11,10 @@ namespace BE.Service
         public List<Order> getListOrderService()
         {
             return _repo.getAllOrder();
+        }
+        public List<OrderDtos> getListOrderServiceHaveTableNameById(int id)
+        {
+            return _repo.getAllOrderHaveTableNameById(id);
         }
 
         public List<Order> getListOrderServiceByStoreId(int id)
@@ -26,5 +31,41 @@ namespace BE.Service
         {
             _repo.updateOreder(order);
         }
+
+        public List<DailyRevenueDtos> GetDailyRevenueServiceByDay()
+        {
+            return _repo.GetDailyRevenue();
+        }
+
+        public List<MonthlyRevenueDtos> GetDailyRevenueServiceByMonth()
+        {
+            return _repo.GetMonthlyRevenue();
+        }
+
+
+
+        public List<DailyRevenueDtos> GetDailyRevenueByStoreId(int storeId)
+        {
+            var revenueList = _repo.GetDailyRevenue()
+                                    .Where(dr => dr.StoreID == storeId)
+                                    .OrderBy(dr => dr.Date)
+                                    .ThenBy(dr => dr.StoreID)
+                                    .ToList();
+
+            return revenueList;
+        }
+
+        public List<MonthlyRevenueDtos> GetMonthlyRevenueByStoreId(int storeId)
+        {
+            var revenueList = _repo.GetMonthlyRevenue()
+                                    .Where(dr => dr.StoreID == storeId)
+                                    .OrderBy(dr => dr.YearMonth)
+                                    .ThenBy(dr => dr.StoreID)
+                                    .ToList();
+
+            return revenueList;
+        }
+
+
     }
 }

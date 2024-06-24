@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import { get } from "../../../helpers/API.helper";
+import { LIST_FOUR_PRODUCT_SIZE_MAX } from "../../../helpers/APILinks";
 
 function NewProduct() {
   const [products, setProducts] = useState([]);
@@ -9,7 +10,7 @@ function NewProduct() {
     const fetchApi = async () => {
       try {
         const data = await get(
-          "http://localhost:5264/api/ProductSizes/getFourProductMax"
+          `${LIST_FOUR_PRODUCT_SIZE_MAX}`
         );
         //
         setProducts(data);

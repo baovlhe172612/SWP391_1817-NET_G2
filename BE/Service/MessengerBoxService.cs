@@ -27,5 +27,15 @@ namespace Swp391.Service
         {
             return _repo.getAllMess();
         }
+        public void UpdateIsDelete(int id, int isDelete)
+        {
+            _repo.UpdateIsDelete(id, isDelete);
+        }
+
+        //
+        public MessengerBox GetMessById(int id)
+        {
+            return _repo.GetMessById(id);
+        }
     }
 }

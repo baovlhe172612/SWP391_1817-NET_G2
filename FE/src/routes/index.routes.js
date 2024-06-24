@@ -17,11 +17,10 @@ import CreateTable from "../pages/Admin/Table/CreateTable";
 import CreateCategory from "../pages/Admin/Category/CreateCategory";
 import ListCategory from "../pages/Admin/Category/ListCategory";
 import ListProductAdmin from "../pages/Admin/Product/ListProductAdmin";
-import CreateProduct from "../pages/Admin/Product/CreateProduct";
 import ListOrders from "../pages/Admin/Orders/ListOrders";
 import CreateEmployee from "../pages/Admin/Employee/CreateEmployee";
 import ListEmployee from "../pages/Admin/Employee/ListEmployee";
-import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
+
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
 import Blog from "../pages/Client/Blog/Blog";
 import Login from "../components/Admin/Accounts/Login/Login";
@@ -36,7 +35,14 @@ import UpdateStoreManager from "../pages/Admin/ManagerStore/UpdateStoreManager";
 import Profile from "../pages/Admin/User/Profile";
 import SearchStore from "../pages/Admin/Store/SearchStore";
 import ListChat from "../pages/Admin/Chat/ListChat";
-
+import UpdateEmployee from "../pages/Admin/Employee/UpdateEmployee";
+import DetailEmployee from "../pages/Admin/Employee/DetailEmployee";
+import ListBlog from "../pages/Client/Blog/ListBlog";
+import BlogDetail from "../pages/Client/Blog/BlogDetail";
+import CreateBlog from "../pages/Client/Blog/CreateBlog";
+import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
+import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
+import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 const routes = [
   {
     path: "/",
@@ -181,6 +187,15 @@ const routes = [
                     path: "create",
                     element: <CreateEmployee />,
                   },
+
+                  {
+                    path: "edit/:id",
+                    element: <UpdateEmployee />,
+                  },
+                  {
+                    path: "detail/:id",
+                    element: <DetailEmployee />,
+                  },
                 ],
               },
               {
@@ -191,8 +206,12 @@ const routes = [
                     element: <ListCategory />,
                   },
                   {
-                    path: "create",
+                    path: "/admin/category/create",
                     element: <CreateCategory />,
+                  },
+                  {
+                    path: "/admin/category/edit/:id",
+                    element: <UpdateCategory />,
                   },
                 ],
               },
@@ -202,6 +221,10 @@ const routes = [
                   {
                     path: "",
                     element: <ListProductAdmin />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <UpdateProduct />,
                   },               
                 ],
               },
@@ -221,6 +244,24 @@ const routes = [
                     path: "",
                     element: <ListQr />,
                   },
+                ],
+              },
+              {
+                path: "blogs",
+                children: [
+                  {
+                    path: "/admin/blogs/",
+                    element: <ListBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/create",
+                    element: <CreateBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/edit/:id",
+                    element: <UpdateBlog />,
+                  },
+                  
                 ],
               },
             ],
@@ -249,10 +290,7 @@ const routes = [
                     path: "",
                     element: <ListOrders />,
                   },
-                  {
-                    path: "orderdetails",
-                    element: <OrderDetails />,
-                  },
+                 
                 ],
               },
               {
@@ -263,8 +301,22 @@ const routes = [
                     element: <ListChat />,
                   },
                 ],
-              },
+              }, 
+              {
+                path: "blogs",
+                children: [
+                  {
+                    path: "/admin/blogs/",
+                    element: <ListBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/create",
+                    element: <CreateBlog />,
+                  },
+                ],
+              },            
             ],
+
           },
           // END ROLE
           {

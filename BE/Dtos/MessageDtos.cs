@@ -9,9 +9,9 @@ namespace BE.Dtos
     {
         public int MessId { get; set; }
 
-        public int CoverId { get; set; }
+        public int? CoverId { get; set; }
 
-        public int SensiderId { get; set; }
+        public int? SensiderId { get; set; }
 
         public string ContentChat { get; set; }
 

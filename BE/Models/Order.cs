@@ -18,6 +18,8 @@ public partial class Order
 
     public int? PaymentId { get; set; }
 
+    public string? Note { get; set; }
+
     public double Total { get; set; }
 
     [JsonIgnore]

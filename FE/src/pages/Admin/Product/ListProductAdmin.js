@@ -4,9 +4,8 @@ import { LIST_PRODUCT_DTOS, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks"
 import { get } from "../../../helpers/API.helper";
 import CreateProduct from './CreateProduct';
 import { FaPlus } from 'react-icons/fa';
-import UpdateIsDelete from "./UpdateIsDelete";
 import { Link } from "react-router-dom";
-import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function ListProductAdmin() {
   const [products, setProducts] = useState([]);
@@ -20,8 +19,7 @@ function ListProductAdmin() {
     const fetchApi = async () => {
       try {
         const data = await get(LIST_PRODUCT_SIZE);
-        if (data) {
-          console.log(data)
+        if (data) {      
           setProducts(data);
         }
       } catch (error) {
@@ -99,34 +97,24 @@ function ListProductAdmin() {
       dataIndex: "action",
       render: (_, record) => {
         return (
-          <Space size="middle">
-            <UpdateIsDelete record={record} />
-            <Link to={`/admin/manager-store/edit/${record.productId}`}>
+          <Space size="middle">           
+            <Link to={`/admin/product/edit/${record.productSizeID}`} state={record}>
               <Button type="primary" icon={<EditOutlined />} />
-            </Link>
+            </Link>         
           </Space>
         );
       },
     },
   ];
 
-  // data for table
-  let data = [
-    // {
-    //   name: "Product 1",
-    //   image:
-    //     "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/anh-dep-thien-nhien-2-1.jpg",
-    //   price: "$20",
-    //   size: "M",
-    //   discount: "10%",
-    //   tag: { status: true, name: "hello" },
-    //   action: ["Detail", "Delete", "Update"],
-    // },
+
+  let data = [  
   ];
   // if data exist => give a new data
   if(products.length > 0) {
     data = products.map((product, index) => {
       return {
+        "productSizeID": product.productSizeID,
         "stt": index + 1,
         "productName": product.productName,
         "price" : product.price,

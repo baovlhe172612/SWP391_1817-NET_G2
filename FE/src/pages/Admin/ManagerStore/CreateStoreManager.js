@@ -3,6 +3,7 @@ import { Button, Form, Input, Select, Space, Switch,message } from "antd";
 import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
+import { CREATE_ACCOUNT_MANAGER, GET_ALL_ACCOUNTS, LIST_ACCOUNT_MANAGERS, LIST_STORES } from '../../../helpers/APILinks';
 function CreateStoreManager() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function CreateStoreManager() {
         values.status = 0;
       }
       try {
-        const response = await post(`http://localhost:5264/api/Account`, values);      
+        const response = await post(`${CREATE_ACCOUNT_MANAGER}`, values);      
         // Kiểm tra giá trị trả về từ API
         if (response) {
           form.resetFields();
@@ -33,12 +34,15 @@ function CreateStoreManager() {
 
     const [Stores, setStores] = useState([]);
     const [Accounts, setAccounts] = useState([]);
+    const [Accounts_Manager, setAccounts_Manager] = useState([]);
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/stores");  
-        const dataAccount = await get(`http://localhost:5264/api/Account/all`);   
+        const data = await get(`${LIST_STORES}`);  
+        const dataAccount = await get(`${GET_ALL_ACCOUNTS}`);   
+        const dataAccount_Manager = await get(`${LIST_ACCOUNT_MANAGERS}`);
         setStores(data);
         setAccounts(dataAccount);
+        setAccounts_Manager(dataAccount_Manager);
       } catch (error) {
         message.error("Error fetching accounts");
         console.log("Error in ListStoreManager", error);
@@ -50,7 +54,7 @@ function CreateStoreManager() {
       fetchApi();
     }, []);
 
-    
+    const availableStores = Stores.filter(store => !Accounts_Manager.some(account => account.storeId === store.storeId));
   
   return (
       <>
@@ -238,14 +242,13 @@ function CreateStoreManager() {
                    <Select.Option value={2}>Manager</Select.Option>
                  </Select>
               </Form.Item>
-
               <Form.Item
                     label="Store"
                     name="StoreId"
                     key="StoreId"
                 >
                     <Select>
-                        {Stores.map(store => (
+                        {availableStores.map(store => (
                             <Select.Option value={store.storeId}>
                                       {store.storeName}
                             </Select.Option>
