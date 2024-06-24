@@ -199,12 +199,12 @@ namespace Swp391.Controllers
 
         }
 
-        [HttpPut("Updateproduct")]
-        public IActionResult UpdateProduct([FromBody] ProductSize newproduct)
+        [HttpPut("Updateproduct/{productName}")]
+        public IActionResult UpdateProduct( ProductSize newproduct,string productName)
         {
             try
             {
-                _service.UpdateProduct(newproduct);
+                _service.UpdateProduct(newproduct, productName);
                 return Ok(new { message = "Product Update successfully" });
             }
             catch (Exception ex)

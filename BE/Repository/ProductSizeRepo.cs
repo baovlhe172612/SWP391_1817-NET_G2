@@ -111,13 +111,19 @@ namespace Swp391.Repository
             }
             _context.SaveChanges();
         }
-        public void UpdateProduct(ProductSize newproduct)
+        public void UpdateProduct(ProductSize newProduct,string productName)
         {
             SwpfinalContext _context = new SwpfinalContext();          
-            var productsize = newproduct;
+            var productsize = newProduct;
             productsize.DateDeleted = null;
-            productsize.DateCreated = DateOnly.FromDateTime(DateTime.Now);
+            productsize.DateCreated = DateOnly.FromDateTime(DateTime.Now);           
             _context.ProductSizes.Update(productsize);
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == newProduct.ProductId);
+            if (product != null)
+            {
+                product.ProductName = productName;
+                _context.Products.Update(product);
+            }
             _context.SaveChanges();
         }
     }
