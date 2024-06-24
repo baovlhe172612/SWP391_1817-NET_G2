@@ -86,28 +86,56 @@ function ListFeedBack() {
             key: "MessengerDescription",
             render: (text) => <a>{text}</a>,
         },
+        // {
+        //     title: "Status",
+        //     dataIndex: "isDelete",
+        //     key: "isDelete",
+        //     render: (isDelete, record) => {
+        //         const isDeleteMap = {
+        //             0: { text: "Active", color: "green" },
+        //             1: { text: "Inactive", color: "red" }
+        //         };
+
+        //         const { text, color } = isDeleteMap[isDelete] || {
+        //             text: "Unknown",
+        //             color: "gray"
+        //         };
+
+        //         return (
+        //             <Button onClick={() => updateStatus(record, onReload)} >
+        //                 <Tag color={color}>{text}</Tag>
+        //             </Button>
+        //         );
+        //     }
+        // },
         {
             title: "Status",
             dataIndex: "isDelete",
             key: "isDelete",
+            filters: [
+              { text: 'Active', value: 0 },
+              { text: 'Inactive', value: 1 },
+            ],
+            onFilter: (value, record) => record.isDelete === value,
             render: (isDelete, record) => {
-                const isDeleteMap = {
-                    0: { text: "Active", color: "green" },
-                    1: { text: "Inactive", color: "red" }
-                };
-
-                const { text, color } = isDeleteMap[isDelete] || {
-                    text: "Unknown",
-                    color: "gray"
-                };
-
-                return (
-                    <Button onClick={() => updateStatus(record, onReload)} >
-                        <Tag color={color}>{text}</Tag>
-                    </Button>
-                );
+              const isDeleteMap = {
+                0: { text: "Active", color: "green" },
+                1: { text: "Inactive", color: "red" },
+              };
+          
+              const { text, color } = isDeleteMap[isDelete] || {
+                text: "Unknown",
+                color: "gray"
+              };
+          
+              return (
+                <Button onClick={() => updateStatus(record, onReload)}>
+                  <Tag color={color}>{text}</Tag>
+                </Button>
+              );
             }
-        },
+          },
+          
         {
             title: "Create Date",
             dataIndex: "createDate",

@@ -8,6 +8,7 @@ import { Button } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
 import CheckoutModal from "./CheckoutModal.js";
 import { API_ORDER } from "../../../helpers/APILinks.js";
+import { alear_success } from "../../../helpers/Alert.helper.js";
 
 function Cart() {
   const cart = useSelector(state => state.cart);
@@ -95,7 +96,8 @@ function Cart() {
 
         const responseData = response;
         //console.log('Response:', responseData);
-        alert('Đã mua hàng thành công!');
+        // alert('Đã mua hàng thành công!');
+        alear_success("Đã mua hàng thành công!","success")
       } catch (error) {
         console.log('Error sending data:', error);
       }
