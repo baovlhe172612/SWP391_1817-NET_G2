@@ -68,6 +68,7 @@ namespace BE.Repository
             var query = (from o in context.Orders
                          join t in context.Tables on o.TableId equals t.TableId
                          where o.StoreId == id
+                         orderby o.Date descending // Sắp xếp theo ngày giảm dần
                          select new OrderDtos
                          {
                              OrderID = o.OrderId,
@@ -140,26 +141,8 @@ namespace BE.Repository
 
 
 
-        /// <summary>
-        /// Gets daily revenue by storeId
-        /// </summary>
-        /// <returns>A list of daily revenues.</returns>
-        public List<DailyRevenueDtos> GetDailyRevenueByStoreId(int storeId)
-        {
-            var revenueList = context.Orders
-                                     .Where(o => o.Date.HasValue && o.StoreId == storeId) // Filter orders by Date and specific StoreID
-                                     .GroupBy(o => new { Date = o.Date.Value.Date, StoreID = o.StoreId })
-                                     .Select(g => new DailyRevenueDtos
-                                     {
-                                         Date = g.Key.Date,
-                                         StoreID = g.Key.StoreID,
-                                         TotalRevenue = g.Sum(o => o.Total)
-                                     })
-                                     .OrderByDescending(dr => dr.Date) // Order by date in descending order
-                                     .ToList();
-
-            return revenueList;
-        }
+    
+  
 
 
 

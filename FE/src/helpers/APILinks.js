@@ -11,6 +11,7 @@ export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}/api/Account`;
 // API EMPLOYEE <=> account
 export const LIST_Employee = `${LOCALHOST_API}/employee`;
 export const UPDATE_Employee_ID = `${LOCALHOST_API}/api/Account`
+export const CREATE_ACCOUNT_EMPLOYEE = `${LOCALHOST_API}/api/Account`;
 // API POST
 export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
  

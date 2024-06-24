@@ -109,10 +109,12 @@ function ListFeedBack() {
             }
         },
         {
-            title: "CreateDate",
+            title: "Create Date",
             dataIndex: "createDate",
             key: "createDate",
             render: (text) => <a>{formatDate(text)}</a>,
+            sorter: (a, b) => new Date(a.createDate) - new Date(b.createDate), // Sắp xếp bằng đối tượng Date
+            sortDirections: ['descend', 'ascend'],
         },
     ];
 

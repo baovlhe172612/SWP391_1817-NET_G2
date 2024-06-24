@@ -167,7 +167,7 @@ function Header({ tableId }) {
                           <Link to="/blog">Blog</Link>
                         </li>
                         <li>
-                          <Link to="/contact">Contact</Link>
+                          <Link to="/contact">FeedBack</Link>
                         </li>
                       </ul>
                     </nav>
