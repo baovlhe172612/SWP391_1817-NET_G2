@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as signalR from "@microsoft/signalr";
-import { Alert } from "antd";
+import { Alert, Button } from "antd";
 import "./NotifyChat.css"; // Đảm bảo rằng bạn đã nhập tệp CSS
 import { Link } from "react-router-dom";
 import { joinSpecificChatroom } from "../../../helpers/Chat.helper";
@@ -39,7 +39,7 @@ function NotifyChat({ connection }) {
 
             setTimeout(() => {
               setShowAlert(false);
-            }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
+            }, 2500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
             console.log("JoinStore invoked successfully.");
           } catch (error) {
             console.error("Error invoking JoinStore:", error);
@@ -65,7 +65,7 @@ function NotifyChat({ connection }) {
 
         setTimeout(() => {
           setShowAlert(false);
-        }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
+        }, 2500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
         console.log(conversationExist);
       };
 
@@ -99,12 +99,17 @@ function NotifyChat({ connection }) {
             message={alertMessage.header}
             description={alertMessage.title}
             type="success"
+            action={
+              <Button size="small" danger onClick={() => setShowAlert(false)}>
+                Delete 
+              </Button>
+            }
             showIcon
           />
 
-          <div className="progress-bar">
+          {/* <div className="progress-bar">
             <div className="progress-bar-inner"></div>
-          </div>
+          </div> */}
         </div>
       )}
     </>

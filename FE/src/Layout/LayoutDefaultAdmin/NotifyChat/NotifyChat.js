@@ -85,7 +85,7 @@ function NotifyChat() {
   return (
     <>
       {showAlert && (
-        <Link to={conversationId ? (`/admin/chat?conversationId=${conversationId}`) : (`/admin/chat`)}>
+        <Link to={`/admin/chat`} >
           <div className={`alert-container`} key={alertKey}>
             <Alert
               message={alertMessage.header}

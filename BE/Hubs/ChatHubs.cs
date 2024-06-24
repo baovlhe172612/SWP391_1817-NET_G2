@@ -103,7 +103,7 @@ namespace BE.Hubs
                     CoverId = conversationExist.ConversationId,
                     SensiderId = SensiderId,
                     ContentChat = message,
-                    TimeStamp = DateTime.UtcNow,
+                    TimeStamp = DateTime.Now,
                     MessId = 0 // Sửa lại thành tên thuộc tính MessId
                 };
 
