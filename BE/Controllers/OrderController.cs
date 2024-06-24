@@ -56,5 +56,105 @@ namespace BE.Controllers
 
             return Ok(listOrder);
         }
+        [HttpGet("/listHaveNameByStoreId/{id}")]
+        public IActionResult ListOrdeHaveNameById(int id)
+        {
+            var listOrder = _service.getListOrderServiceHaveTableNameById(id);
+
+            return Ok(listOrder);
+        }
+
+        //Get all orderdetail theo nhiều yếu tố
+        [HttpGet("OrderDetail/{storeId}/{orderId}")]
+        public IActionResult ListOrderDeatailById(int storeId, int orderId)
+        {
+            try
+            {
+                // Gọi service để lấy danh sách chi tiết đơn hàng
+                var listOrder = _detailService.listOrderDetailByOrderIdService(storeId, orderId);
+
+                // Trả về kết quả với mã trạng thái 200 OK
+                return Ok(listOrder);
+            }
+            catch (Exception ex)
+            {
+                // Ghi log nếu cần, ví dụ:
+                // Log.Error(ex, "An error occurred while fetching order details");
+                // Trả về lỗi với mã trạng thái 500
+                return StatusCode(500, "An error occurred while fetching order details.");
+            }
+        }
+
+        // GET DAILY REVENUE
+        [HttpGet("daily-revenue")]
+        public IActionResult GetDailyRevenue()
+        {
+            try
+            {
+                var dailyRevenue = _service.GetDailyRevenueServiceByDay();
+                return Ok(dailyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching daily revenue: " + ex.Message);
+            }
+        }
+
+        // GET Month REVENUE
+        [HttpGet("month-revenue")]
+        public IActionResult GetMonthRevenue()
+        {
+            try
+            {
+                var monthlyRevenue = _service.GetDailyRevenueServiceByMonth();
+
+                // Transform the list to use YearMonthString instead of YearMonth
+                var response = monthlyRevenue.Select(mr => new
+                {
+                    yearMonth = mr.YearMonthString,
+                    storeID = mr.StoreID,
+                    storeName = mr.StoreName,
+                    totalRevenue = mr.TotalRevenue
+                }).ToList();
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching monthly revenue: " + ex.Message);
+            }
+        }
+
+
+        // GET api/order/daily-revenue/{storeId}
+        [HttpGet("daily-revenue/{storeId}")]
+        public IActionResult GetDailyRevenueByStoreId(int storeId)
+        {
+            try
+            {
+                var dailyRevenue = _service.GetDailyRevenueByStoreId(storeId);
+                return Ok(dailyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching daily revenue by store ID: " + ex.Message);
+            }
+        }
+
+        [HttpGet("month-revenue/{storeId}")]
+        public IActionResult GetMonthlyRevenueByStoreId(int storeId)
+        {
+            try
+            {
+                var dailyRevenue = _service.GetMonthlyRevenueByStoreId(storeId);
+                return Ok(dailyRevenue);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching daily revenue by store ID: " + ex.Message);
+            }
+        }
+
+
     }
 }

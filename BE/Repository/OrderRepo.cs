@@ -1,5 +1,6 @@
-﻿using BE.Models;
-
+﻿using BE.Dtos;
+using BE.Models;
+using Swp391.Dtos;
 namespace BE.Repository
 {
     public class OrderRepo
@@ -15,6 +16,8 @@ namespace BE.Repository
         {
             return context.Orders.ToList();
         }
+
+   
         /// <summary>
         /// add order
         /// </summary>
@@ -59,6 +62,93 @@ namespace BE.Repository
                 return new List<Order>();
             }
         }
+
+        public List<OrderDtos> getAllOrderHaveTableNameById(int id)
+        {
+            var query = (from o in context.Orders
+                         join t in context.Tables on o.TableId equals t.TableId
+                         where o.StoreId == id
+                         orderby o.Date descending // Sắp xếp theo ngày giảm dần
+                         select new OrderDtos
+                         {
+                             OrderID = o.OrderId,
+                             Date = o.Date,
+                             Status = o.Status,
+                             TableID = o.TableId,
+                             StoreID = o.StoreId,
+                             PaymentID = (int)o.PaymentId,
+                             Note = o.Note,
+                             Total = o.Total,
+                             TableName = t.TableName
+                         }); // Limit the result to the top 1000
+
+            return query.ToList();
+        }
+
+        public List<DailyRevenueDtos> GetDailyRevenue()
+        {
+            var revenueList = context.Orders
+                                     .Where(o => o.Date.HasValue && o.StoreId != null)
+                                     .Join(context.Stores,
+                                           o => o.StoreId,
+                                           s => s.StoreId,
+                                           (o, s) => new
+                                           {
+                                               o.Date,
+                                               o.StoreId,
+                                               s.StoreName,
+                                               o.Total
+                                           })
+                                     .GroupBy(os => new { Date = os.Date.Value.Date, os.StoreId, os.StoreName })
+                                     .Select(g => new DailyRevenueDtos
+                                     {
+                                         Date = g.Key.Date,
+                                         StoreID = g.Key.StoreId,
+                                         StoreName = g.Key.StoreName,
+                                         TotalRevenue = g.Sum(os => os.Total)
+                                     })
+                                     .OrderByDescending(dr => dr.Date)
+                                     .ThenBy(dr => dr.StoreID)
+                                     .ToList();
+
+            return revenueList;
+        }
+
+        /// <summary>
+        /// Gets month revenue.
+        /// </summary>
+        /// <returns>A list of daily revenues.</returns>
+        public List<MonthlyRevenueDtos> GetMonthlyRevenue()
+        {
+            var revenueList = context.Orders
+                .Where(o => o.Date.HasValue && o.StoreId != null)
+                .GroupBy(o => new { Year = o.Date.Value.Year, Month = o.Date.Value.Month, o.StoreId, o.Store.StoreName })
+                .OrderByDescending(g => g.Key.Year)
+                .ThenByDescending(g => g.Key.Month)
+                .ThenBy(g => g.Key.StoreId)
+                .Select(g => new MonthlyRevenueDtos
+                {
+                    YearMonth = new DateTime(g.Key.Year, g.Key.Month, 1),
+                    StoreID = g.Key.StoreId,
+                    StoreName = g.Key.StoreName,
+                    TotalRevenue = g.Sum(o => o.Total)
+                })
+                .ToList();
+
+            return revenueList;
+        }
+
+
+
+
+    
+  
+
+
+
+
+
+
 
     }
 }

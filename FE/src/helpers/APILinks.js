@@ -3,7 +3,7 @@ export const LOCALHOST_API = "http://localhost:5264"
 
 // API ACCOUNT
 export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
-export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}api/Account/`;
+export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}/api/Account`;
 
 // API CATEGORY
 
@@ -11,6 +11,7 @@ export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}api/Account/`;
 // API EMPLOYEE <=> account
 export const LIST_Employee = `${LOCALHOST_API}/employee`;
 export const UPDATE_Employee_ID = `${LOCALHOST_API}/api/Account`
+export const CREATE_ACCOUNT_EMPLOYEE = `${LOCALHOST_API}/api/Account`;
 // API POST
 export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
  
@@ -18,9 +19,9 @@ export const UPDATE_ACCOUNT_ID = `${LOCALHOST_API}/api/Account/UPDATE/V2`
 
 // API ORDERS
 export const LIST_ORDER = `${LOCALHOST_API}/api/Order/v1/orders/store`
+export const LIST_ORDERHaveTableName =`${LOCALHOST_API}/listHaveNameByStoreId`
 
-
-// API MESSENGERBOX
+export const LIST_ORDERDETAILS = `${LOCALHOST_API}/api/Order/OrderDetail`
 
 // API MESSAGE
 export const GET_MESSAGE = `${LOCALHOST_API}/api/messages`;

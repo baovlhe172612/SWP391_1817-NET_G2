@@ -1,6 +1,7 @@
 ﻿using BE.Models;
 using BE.Repository;
 using Microsoft.EntityFrameworkCore;
+using Swp391.Dtos;
 
 namespace BE.Service
 {
@@ -20,6 +21,10 @@ namespace BE.Service
         public void addOrderDetailService(OrderDetail orderDetail)
         {
             _repo.addOrderDetail(orderDetail);
+        }
+        public List<OrderDetailDto> listOrderDetailByOrderIdService(int storeID, int orderId)
+        {
+            return _repo.getOrderDetailByOrderId(storeID, orderId);
         }
     }
 }

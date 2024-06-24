@@ -335,6 +335,8 @@ namespace Swp391.Repository
                                          StoreName = s.StoreName,
                                          Token = a.Token,
                                          RoleName = r.RoleName,
+                                         DateStartWork= a.DateStartWork,
+                                         StatusDate= a.StatusDate,
                                          IsDelete = (int)a.IsDelete,
                                      }).FirstOrDefault();
             return accountsWithRoles;
