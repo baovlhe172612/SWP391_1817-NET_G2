@@ -360,9 +360,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get("http://localhost:5264/api/Order/daily-revenue");
+        data = await get("http://172.20.10.5:5264/api/Order/daily-revenue");
       } else if (isManager) {
-        data = await get(`http://localhost:5264/api/Order/daily-revenue/${account.storeId}`);
+        data = await get(`http://172.20.10.5:5264/api/Order/daily-revenue/${account.storeId}`);
       }
       console.log("data-revenue", data);
       setRevenue(data);
@@ -379,9 +379,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get("http://localhost:5264/api/Order/month-revenue");
+        data = await get("http://172.20.10.5:5264/api/Order/month-revenue");
       } else if (isManager) {
-        data = await get(`http://localhost:5264/api/Order/month-revenue/${account.storeId}`);
+        data = await get(`http://172.20.10.5:5264/api/Order/month-revenue/${account.storeId}`);
       }
       console.log("data-revenue", data);
       setMonthRevenue(data);
