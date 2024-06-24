@@ -14,7 +14,7 @@ function Blog() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/Post");
+      const data = await get("http://172.20.10.5:5264/api/Post");
       setBlogs(data);
     };
     fetchApi();

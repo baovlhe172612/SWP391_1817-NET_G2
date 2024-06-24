@@ -13,6 +13,8 @@ import NotifyChat from "./NotifyChat/NotifyChat";
 
 function LayoutDefault() {
   const [collapsed, setCollapsed] = useState(false);
+  const [collapsedNotify, setCollapsedNotify] = useState(false);
+
   const [connection, setConnection] = useState(null);
 
   const location = useLocation();
@@ -55,7 +57,7 @@ function LayoutDefault() {
         conversationExist
       ) => {
         try {
-          console.log(userChat, Store, conversationExist);
+          console.log(userChat, Store, conversationExist, 'join chat client');
         } catch (error) {
           console.error("Error invoking JoinChat:", error);
         }
@@ -68,7 +70,8 @@ function LayoutDefault() {
         conversationExist,
         newMessage
       ) => {
-        console.log(ChatRoom);
+        setCollapsedNotify(true)
+        console.log('nhận tin nhắn client');
       };
 
       const joinChatroom = async () => {
@@ -118,6 +121,8 @@ function LayoutDefault() {
     setCollapsed(!collapsed);
   };
 
+  console.log(collapsedNotify)
+
   return (
     <>
       <Header tableId={tableId} />
@@ -126,9 +131,9 @@ function LayoutDefault() {
         {/* Button chat */}
         <FloatButtonMess handleOnclick={handleOnclick} />
 
-        {collapsed == false && <NotifyChat connection={connection}/>}
+        {collapsed == false && collapsedNotify == true && <NotifyChat connection={connection} setCollapsedNotify={setCollapsedNotify} collapsedNotify={collapsedNotify}/>}
         {collapsed && (
-          <Chat setCollapsed={setCollapsed} connection={connection} />
+          <Chat setCollapsed={setCollapsed} connection={connection} setCollapsedNotify={setCollapsedNotify} />
         )}
 
         <Outlet />

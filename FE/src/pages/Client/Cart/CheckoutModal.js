@@ -4,7 +4,7 @@ import QRCode from 'qrcode.react';
 
 const { Option } = Select;
 
-function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
+function CheckoutModal({ handleDeleteAll,isVisible, handleOk, handleCancel, cartDataModal }) {
   const [form] = Form.useForm();
   const [qrVisible, setQrVisible] = useState(false);
   const [billVisible, setBillVisible] = useState(false);
@@ -40,7 +40,6 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
     try {
       const values = await form.validateFields();
       const paymentMethod = values.paymentMethod;
-
       if (paymentMethod === '1') {
         // Show the detailed bill
         setBillVisible(true);
@@ -51,6 +50,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
       }
 
       handleOk(values);
+      handleDeleteAll();
     } catch (error) {
       console.error('Validation failed:', error);
     }

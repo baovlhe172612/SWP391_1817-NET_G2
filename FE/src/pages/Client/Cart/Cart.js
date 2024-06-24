@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
 import { post } from "../../../helpers/API.helper.js";
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
 import CheckoutModal from "./CheckoutModal.js";
 import { API_ORDER } from "../../../helpers/APILinks.js";
@@ -92,15 +92,14 @@ function Cart() {
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
         const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}`, dataToSend);
-
         const responseData = response;
         //console.log('Response:', responseData);
-        alert('Đã mua hàng thành công!');
+        message.success('Đã mua hàng thành công!');
       } catch (error) {
         console.log('Error sending data:', error);
       }
     } else {
-      alert('Mua hàng không thành công!!!!');
+      message.error('Mua hàng không thành công!!!!');
     }
 
   };
@@ -192,11 +191,11 @@ function Cart() {
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
-                                onClick={showModal}
+                                onClick={showModal}                             
                               >
                                 Proceed to checkout
                               </Button>
-                              <CheckoutModal isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} cartDataModal={cartDataModal} />
+                              <CheckoutModal handleDeleteAll={handleDeleteAll} isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} cartDataModal={cartDataModal} />
                             </div>
                           </div>
                         </div>
