@@ -93,7 +93,7 @@ function CheckoutModal({ handleDeleteAll,isVisible, handleOk, handleCancel, cart
                   </Select>
                 </Form.Item>
               </div>
-              <div style={{ marginLeft: '10px' }}>
+              <div style={{ marginLeft: '100px' }}>
                 <Form.Item name="notes" label="Notes" style={{ marginBottom: 0 }}>
                   <Input placeholder="Enter notes here" />
                 </Form.Item>
