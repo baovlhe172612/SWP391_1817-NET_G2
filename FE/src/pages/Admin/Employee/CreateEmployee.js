@@ -5,7 +5,7 @@ import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { GET_ALL_ACCOUNTS, LIST_STORES, UPDATE_ACCOUNT_ID } from '../../../helpers/APILinks';
+import { CREATE_ACCOUNT_EMPLOYEE, GET_ALL_ACCOUNTS, LIST_STORES, UPDATE_ACCOUNT_ID } from '../../../helpers/APILinks';
 function CreateEmployee() {
     const [form] = Form.useForm();
     const account = useSelector(state => state.AccountReducer);
@@ -21,7 +21,7 @@ function CreateEmployee() {
             values.status = 0;
         }
         try {
-            const response = await post(UPDATE_ACCOUNT_ID, values);
+            const response = await post(CREATE_ACCOUNT_EMPLOYEE, values);
             console.log("response: ",response)
             // Kiểm tra giá trị trả về từ API
             if (response) {

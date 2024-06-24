@@ -30,15 +30,13 @@
     padding-top: 15px;
     font-size: 15px; /* Cỡ chữ của tiêu đề */
     color: #333; /* Màu chữ của tiêu đề */
-  
 }
 
 .feedback-item p {
     margin: 5px 0; /* Khoảng cách giữa các dòng văn bản */
     padding-top: 15px;
     font-size: 15px; /* Cỡ chữ của văn bản */
-    color: #555; /* Màu chữ của văn bản */
-   
+    color: #555; /* Màu chữ của văn bản */  
 }
 /* .timeline-container {
     margin-top: 20px;

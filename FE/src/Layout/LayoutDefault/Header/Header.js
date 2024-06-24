@@ -94,6 +94,7 @@ function Header({ tableId }) {
         </div>
       )}
 
+      
       <header className="main-header-area">
         <div className="header-bottom d-none d-lg-block">
           <div className="container">
@@ -166,7 +167,7 @@ function Header({ tableId }) {
                           <Link to="/blog">Blog</Link>
                         </li>
                         <li>
-                          <Link to="/contact">Contact</Link>
+                          <Link to="/contact">FeedBack</Link>
                         </li>
                       </ul>
                     </nav>

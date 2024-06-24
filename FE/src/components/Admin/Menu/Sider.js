@@ -114,10 +114,7 @@ const itemsSider = (account) => {
           key: "product/products",
           label: <Link to="/admin/product/">List Product</Link>,
         },
-        {
-          key: "product/create",
-          label: <Link to="/admin/product/create">Create Product</Link>,
-        },
+        
       ].filter(Boolean), // Loại bỏ các mục null hoặc false,,
     },
     hasRole(account.roleName, ["Manager", "Ower"]) && {

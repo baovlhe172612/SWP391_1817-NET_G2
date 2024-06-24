@@ -1,5 +1,5 @@
 import { CommentOutlined } from "@ant-design/icons";
-import { FloatButton } from "antd";
+import { Badge, FloatButton } from "antd";
 import React from "react";
 
 function FloatButtonMess({ handleOnclick }) {
