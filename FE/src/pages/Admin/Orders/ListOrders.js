@@ -1,116 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
-// import { useSelector } from "react-redux";
-// import { Button, Table, Tag, message } from "antd";
-// import { get } from "../../../helpers/API.helper";
-// import { LIST_ORDER, LIST_ORDERHaveTableName } from "../../../helpers/APILinks";
-// import {
-//   getColorText,
-//   getDateTime,
-//   getStatusText,
-// } from "../../../helpers/Text.helper";
-
-// function ListOrders() {
-//   const [orders, setOrders] = useState([]);
-//   const account = useSelector((state) => state.AccountReducer);
-//   console.log("account.storeId",account.storeId)
-//   // let data = [];
-//   const formatDate = (dateString) => {
-//     const date = new Date(dateString);
-//     // US English uses month-day-year order
-//     // console.log(date.toLocaleDateString('en-US'));
-//     // → "12/20/2012"
-
-//     // British English uses day-month-year order
-//     // console.log(date.toLocaleDateString('en-GB'));
-//     // → "20/12/2012"
-//     return date.toLocaleDateString('en-GB');
-// };
-
-//   useEffect(() => {
-//     const fetchApi = async () => {
-//       try {
-//         // Get data orders
-//         const data = await get(`${LIST_ORDERHaveTableName}/${account.storeId}`);
-//         console.log("data list order",data);
-//         console.log("OrderID",data.orderID);
-//         if (data) {
-//           setOrders(data);
-//           if (data.length === 0) {
-//             message.error("No order in store");
-//           }
-//         }
-//       } catch (error) {
-//         // Notification Error
-//         console.log(error, "ListOrders");
-//         message.error("Server error");
-//       }
-//     };
-
-//     fetchApi();
-//   }, []);
-//   const columns = [
-//     {
-//       title: "Order ID",
-//       dataIndex: "orderID",
-//       key: "orderID",
-//       render: (text) => <a>{text}</a>, // custom text
-//     },
-//     {
-//       title: "Table Name",
-//       dataIndex: "tableName",
-//       key: "tableName",
-//       render: (text) => <strong>{text}</strong>, // custom text
-//     },
-//     {
-//       title: "Status",
-//       dataIndex: "status",
-//       key: "status",
-//       render: (status) => (
-//         <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>
-//       ),
-//     },
-//     {
-//       title: "Date",
-//       dataIndex: "date",
-//       key: "date",
-//       render: (date) => <span>{formatDate(getDateTime(date))}</span>,
-//     },
-//     {
-//       title: "Total",
-//       dataIndex: "total",
-//       key: "total",
-//       render: (text) => <strong style={{ fontSize: "1.1rem" }}>${text}</strong>, // custom text
-//     },
-//     {
-//       title: "Detail",
-//       dataIndex: "orderID",
-//       key: "orderID",
-//       render: (orderID) => (
-//         <Link to={`/admin/orders/orderdetails/${orderID}/${account.storeId}`}>
-//           <Button type="primary">Detail</Button>
-//         </Link>
-//       ),
-//     },
-//   ];
-
-//   return (
-//     <>
-//       <Table
-//         columns={columns}
-//         dataSource={orders}
-//         pagination={{ pageSize: 6 }}
-//         rowKey="id"
-//       />
-//     </>
-//   );
-// }
-
-// export default ListOrders;
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -125,6 +12,10 @@ function ListOrders() {
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  console.log(orders)
+  // FILTER
+  const [tableName, setTableName] = useState([]);
   const account = useSelector((state) => state.AccountReducer);
 
   useEffect(() => {
@@ -169,6 +60,19 @@ function ListOrders() {
     setOrderDetails(null);
   };
 
+  // FILTER
+  const tableNameFilters = [...new Set(orders.map((order) => order.tableName))].map((tableName) => ({
+    text: tableName,
+    value: tableName,
+  }));
+
+  const statusFilters = [
+    { text: "Process", value: 0 },
+    { text: "Reject", value: -1 },
+    { text: "Done", value: 1 }
+  ];
+
+
   const columns = [
     {
       title: "Order ID",
@@ -180,12 +84,21 @@ function ListOrders() {
       title: "Table Name",
       dataIndex: "tableName",
       key: "tableName",
+      filters: tableNameFilters,
+      onFilter: (value, record) => {
+        // console.log(value)
+        return record.tableName.includes(value)
+      },
       render: (text) => <strong>{text}</strong>,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      filters: statusFilters,
+      onFilter: (value, record) => {
+        return record.status == value//.status.includes(value);
+      },
       render: (status) => (
         <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>
       ),
@@ -253,11 +166,6 @@ function ListOrders() {
                   dataIndex: "storeName",
                   key: "storeName",
                 },
-                // {
-                //   title: "Table",
-                //   dataIndex: "tableName",
-                //   key: "tableName",
-                // },
                 {
                   title: "Product Name",
                   dataIndex: "productName",
