@@ -204,8 +204,12 @@ const routes = [
                     element: <ListCategory />,
                   },
                   {
-                    path: "create",
+                    path: "/admin/category/create",
                     element: <CreateCategory />,
+                  },
+                  {
+                    path: "/admin/category/edit/:id",
+                    element: <UpdateCategory />,
                   },
                 ],
               },
@@ -238,6 +242,24 @@ const routes = [
                     path: "",
                     element: <ListQr />,
                   },
+                ],
+              },
+              {
+                path: "blogs",
+                children: [
+                  {
+                    path: "/admin/blogs/",
+                    element: <ListBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/create",
+                    element: <CreateBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/edit/:id",
+                    element: <UpdateBlog />,
+                  },
+                  
                 ],
               },
             ],

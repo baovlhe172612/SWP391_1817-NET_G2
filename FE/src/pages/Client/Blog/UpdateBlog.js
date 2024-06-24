@@ -1,100 +1,152 @@
-import { Button, Form, Input, Select, Switch } from "antd";
+import { Button, Form, Input, Select, Switch, message } from "antd";
 import { useEffect, useState } from "react";
-import { get, patch  } from "../../../helpers/API.helper";
-import { useParams,Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import { alear_success } from "../../../helpers/Alert.helper";
+import { get, patch } from "../../../helpers/API.helper";
+import { useParams, Link, json } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
+import { BLOG_DETAIL, UPDATE_BLOG } from "../../../helpers/APILinks";
+import { useSelector } from "react-redux";
 const { Option } = Select;
 
-function UpdateStore() {
-  const [store, setStore] = useState([]);
+function UpdateBlog() {
+  const [blog, setBlog] = useState([]);
   const [form] = Form.useForm();
   const { id } = useParams();
-  const navigate = useNavigate()
+  const account = useSelector((state) => state.AccountReducer);
+
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://localhost:5264/api/stores/${id}`);
-        // const dataAccount = await get(`${LIST_ACCOUNT}`);
+        const data = await get(`${BLOG_DETAIL}/${id}`);
+
+        console.log(data);
+        // const dataAccount = await get(${LIST_ACCOUNT});
         // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form
         form.setFieldsValue({
+          postId: data.postId,
+          title: data.title,
+          contents: data.contents,
+          img: data.img,
+          isPublished: data.isPublished,
+          status: data.status,
+          author: account.fullName,
+          tags: data.tags,
+          createdDate: data.createdDate,
+          modifiDate: new Date().toISOString(),
           storeId: data.storeId,
-          storeName: data.storeName,
-          location: data.location,           
-          isDelete: data.isDelete === 1,
-        });  
-        setStore(data);       
+        });
+        setBlog(data);
+
+        console.log(blog);
+
       } catch (error) {
-        console.log("err in UpdateStore", error);
-        setStore([]);
+        console.log("err in UpdateBlog", error);
+        setBlog([]);
       }
     };
-  
+
     fetchApi();
   }, [form]);
 
-  const handleSubmit = async (values) => {    
-    // sửa lại biến switch cho isDeleted
-    values.isDelete = values.isDelete ? 1 : 0;
-    console.log(values);
-    const data = await patch(`http://localhost:5264/api/stores/Update/${id}`, values);   
-    if(data) {
-      // thông báo ra màn hình
-      alear_success("Update!", "updated");
+  const handleSubmit = async (values) => {
+    try {
+      console.log("day la blog: "+blog);
 
-      navigate(`/admin/store/`)
+      console.log("day la value: "+values);
+      const data = await patch(`http://localhost:5264/api/Post/update_post/${id}`, { ...blog, ...values });
+
+
+      if (data) {
+        message.success("Blog updated successfully!");
+
+        form.resetFields();
+        navigate("/admin/blogs");
+      }
+    } catch (error) {
+      console.log("Error in handleSubmit", error);
+      message.error("An error occurred while updating the blog.");
     }
   };
 
   return (
     <>
-      <h2>Store Detail</h2>
+      <h2>Update Blog</h2>
 
       <Form
-        name="create-room"
+        name="update-blog"
         onFinish={(values) => {
           handleSubmit(values);
         }}
         form={form}
       >
-        <Form.Item label="Strore ID" name="storeId">
-          <Input readOnly />
-        </Form.Item>
-
+        {" "}
+        {/* Thiết lập giá trị mặc định cho author */}
         <Form.Item
-          label="Strore name"
-          name="storeName"
+          label="Title"
+          name="title"
           rules={[
             {
               required: true,
-              message: "Please input your name store!",
+              message: "You forgot input title !!!",
             },
           ]}
         >
           <Input />
         </Form.Item>
-
         <Form.Item
-          label="Location"
-          name="location"
+          label="Content"
+          name="contents"
           rules={[
             {
               required: true,
-              message: "Please input the address store!",
+              message: "The content is necessary !",
             },
           ]}
         >
           <Input />
         </Form.Item>
-      
-        <Form.Item name="isDelete" label="Switch" valuePropName="checked">
-          <Switch checkedChildren="inactive" unCheckedChildren="active"/>
+        <Form.Item
+          label="Image"
+          name="img"
+          rules={[
+            {
+              required: true,
+              message: "Paste the link's image !",
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
-
+        <Form.Item
+          label="Author"
+          name="author"
+          initialValue={account.fullName}
+          rules={[
+            {
+              required: true,
+              message: "Please input your name !",
+            },
+          ]}
+        >
+          <Input value={account.fullName} />
+        </Form.Item>
+        <Form.Item
+          label="Tags"
+          name="tags"
+          rules={[
+            {
+              required: true,
+              message: "Please input tags !",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
         <Form.Item>
-        <Button type="primary" htmlType="submit">     
-            Submit      
+          <Button type="primary" htmlType="submit">
+            Submit
           </Button>
         </Form.Item>
       </Form>
@@ -102,4 +154,4 @@ function UpdateStore() {
   );
 }
 
-export default UpdateStore;
+export default UpdateBlog;

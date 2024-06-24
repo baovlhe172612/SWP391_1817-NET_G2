@@ -20,40 +20,7 @@ function Blog() {
     fetchApi();
   }, []);
 
-  const handleInputChange = (e) => {
-    setNewPost({ ...newPost, [e.target.name]: e.target.value });
-  };
-
-  const handleImageChange = (e) => {
-    setNewPost({ ...newPost, img: e.target.files[0] });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("title", newPost.title);
-    formData.append("contents", newPost.contents);
-    formData.append("img", newPost.img);
-
-    try {
-      const response = await post("http://localhost:5264/api/Post/add_new", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      if (response) {
-        setBlogs([...blogs, response]);
-        setNewPost({
-          title: "",
-          contents: "",
-          img: null,
-        });
-      }
-    } catch (error) {
-      console.log("Error in creating blog post", error);
-    }
-  };
+ 
 
   return (
     <>
