@@ -41,6 +41,8 @@ import ListBlog from "../pages/Client/Blog/ListBlog";
 import BlogDetail from "../pages/Client/Blog/BlogDetail";
 import CreateBlog from "../pages/Client/Blog/CreateBlog";
 import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
+import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
+import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 const routes = [
   {
     path: "/",
@@ -204,8 +206,12 @@ const routes = [
                     element: <ListCategory />,
                   },
                   {
-                    path: "create",
+                    path: "/admin/category/create",
                     element: <CreateCategory />,
+                  },
+                  {
+                    path: "/admin/category/edit/:id",
+                    element: <UpdateCategory />,
                   },
                 ],
               },
@@ -238,6 +244,24 @@ const routes = [
                     path: "",
                     element: <ListQr />,
                   },
+                ],
+              },
+              {
+                path: "blogs",
+                children: [
+                  {
+                    path: "/admin/blogs/",
+                    element: <ListBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/create",
+                    element: <CreateBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/edit/:id",
+                    element: <UpdateBlog />,
+                  },
+                  
                 ],
               },
             ],

@@ -12,7 +12,7 @@ function ListCategory() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/Category");
+        const data = await get("http://172.20.10.5:5264/api/Category");
         console.log(data);
         setCategory(data);
       } catch (error) {
@@ -82,7 +82,7 @@ function ListCategory() {
     if (confirm.isConfirmed) {
       try {
         const dataDelete = await patch(
-          `http://localhost:5264/api/Category/delete/${record.categoryId}`,
+          `http://172.20.10.5:5264/api/Category/delete/${record.categoryId}`,
           {
             isDelete: 1,
           }
@@ -114,7 +114,8 @@ function ListCategory() {
         placeholder="Search Category"
         value={searchText}
         onChange={handleSearch}
-        style={{ marginBottom: 20 }}
+        style={{ width: 800, height: 30,  marginBottom: 20 }}
+        
       />
       <Table columns={columns} dataSource={filteredCategories} rowKey="categoryId" />
     </>

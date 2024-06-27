@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux"
 import CartItem from "../Cart/CartItem.js"
 import { post } from "../../../helpers/API.helper.js";
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { clearCart } from "../../../actions/CartAction.js";
 import CheckoutModal from "./CheckoutModal.js";
 import { API_ORDER } from "../../../helpers/APILinks.js";
+import { getCookie, setCookie } from "../../../helpers/Cookie.helper.js";
 
 function Cart() {
   const cart = useSelector(state => state.cart);
@@ -16,6 +17,21 @@ function Cart() {
   const [cartDataModal, setCartDataModal] = useState([]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  let storeId = getCookie('storeId');
+  let tableId = getCookie('tableId');
+
+
+
+  // Kiểm tra nếu cookie không tồn tại, đặt giá trị mặc định
+  if (!storeId) {
+    storeId = -1;
+  }
+  if (!tableId) {
+    tableId = -1;
+  }
+
+  
   const dispatch = useDispatch();
   const handleDeleteAll = () => {
 
@@ -40,19 +56,19 @@ function Cart() {
       }));
 
 
-    console.log("dataToSend",dataToSend);
+    console.log("dataToSend", dataToSend);
     setCartDataModal(dataToSend);
   };
 
   const handleOk = async (formValues) => {
     setIsModalVisible(false);
-    
+
     var note = formValues.notes;
-    
-    if(note === undefined){
+
+    if (note === undefined) {
       note = null;
     }
-    
+
     handleCheckout(formValues.paymentMethod, note);
   };
 
@@ -76,6 +92,7 @@ function Cart() {
 
   //checkout
   const handleCheckout = async (value, note) => {
+    console.log("OKK handleCheckOut")
     const dataToSend = cartData
       .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
       .map(item => ({
@@ -91,16 +108,17 @@ function Cart() {
 
     if (dataToSend !== null && dataToSend.length > 0) {
       try {
-        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}`, dataToSend);
 
+        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
+ 
         const responseData = response;
         //console.log('Response:', responseData);
-        alert('Đã mua hàng thành công!');
+        message.success('Đã mua hàng thành công!');
       } catch (error) {
         console.log('Error sending data:', error);
       }
     } else {
-      alert('Mua hàng không thành công!!!!');
+      message.error('Mua hàng không thành công!!!!');
     }
 
   };
@@ -174,7 +192,7 @@ function Cart() {
                                   fontWeight: '800',
                                   padding: '15px 0px',
                                 }}>
-                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
+                                  Total  <span>{cart?.total.toLocaleString('vi-VN')}đ</span>
                                 </li>
                               </ul>
                               <Button
@@ -192,11 +210,13 @@ function Cart() {
                                   borderRadius: '5px',
                                   fontWeight: 'bold',
                                 }}
-                                onClick={showModal}
+                                onClick={showModal}                             
                               >
                                 Proceed to checkout
                               </Button>
-                              <CheckoutModal isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} cartDataModal={cartDataModal} />
+                              <CheckoutModal handleDeleteAll={handleDeleteAll} 
+                              isVisible={isModalVisible} handleOk={handleOk} 
+                              handleCancel={handleCancel} cartDataModal={cartDataModal} />
                             </div>
                           </div>
                         </div>

@@ -11,5 +11,6 @@
         public string? Note { get; set; }
         public double Total { get; set; }
         public string TableName { get; set; }
+        public string PaymentName { get; set; }
     }
 }

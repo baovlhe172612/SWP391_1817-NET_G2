@@ -13,7 +13,7 @@ function CreateCategory() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/Category");
+        const data = await get("http://172.20.10.5:5264/api/Category");
 
         if (data) {
           setCategory(data);

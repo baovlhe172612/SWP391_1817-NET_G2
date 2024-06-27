@@ -66,9 +66,10 @@ namespace BE.Repository
         public List<OrderDtos> getAllOrderHaveTableNameById(int id)
         {
             var query = (from o in context.Orders
+                         join p in context.Payments on o.PaymentId equals p.PayId
                          join t in context.Tables on o.TableId equals t.TableId
                          where o.StoreId == id
-                         orderby o.Date descending // Sắp xếp theo ngày giảm dần
+                         orderby o.Date descending
                          select new OrderDtos
                          {
                              OrderID = o.OrderId,
@@ -79,8 +80,11 @@ namespace BE.Repository
                              PaymentID = (int)o.PaymentId,
                              Note = o.Note,
                              Total = o.Total,
+                             PaymentName = p.Payment1,
                              TableName = t.TableName
-                         }); // Limit the result to the top 1000
+                         })
+                    // Limit the result to the top 1000
+                   .ToList();
 
             return query.ToList();
         }

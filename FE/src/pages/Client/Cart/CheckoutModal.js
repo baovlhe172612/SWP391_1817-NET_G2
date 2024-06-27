@@ -26,12 +26,12 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
-      render: (text) => `${text.toLocaleString('vi-VN')} đ`,
+      render: (text) => `${text.toLocaleString('vi-VN')}đ` ,
     },
   ];
 
   // Total amount calculation for display in the main modal
-  console.log("cartDataModal", cartDataModal);
+  //console.log("cartDataModal", cartDataModal);
   const totalAmount = cartDataModal.reduce((acc, item) => acc + item.price, 0);
 
   console.log("Total Amount Calculation:", totalAmount);
@@ -46,7 +46,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
         setBillVisible(true);
       } else if (paymentMethod === '2') {
         // Generate and display QR code for QR payment
-        setQrCodeValue(`Payment of ${totalAmount.toLocaleString('vi-VN')} đ`);
+        setQrCodeValue(`Payment of ${totalAmount.toLocaleString('vi-VN')}đ`);
         setQrVisible(true);
       }
 
@@ -93,7 +93,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
                   </Select>
                 </Form.Item>
               </div>
-              <div style={{ marginLeft: '10px' }}>
+              <div style={{ marginLeft: '100px' }}>
                 <Form.Item name="notes" label="Notes" style={{ marginBottom: 0 }}>
                   <Input placeholder="Enter notes here" />
                 </Form.Item>
