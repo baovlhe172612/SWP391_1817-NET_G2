@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Space, Table, Tag } from "antd";
+import { Link } from "react-router-dom";
+import { Button, Space, Table, Tag, Tooltip, Input } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
   DELETE_STORE_ID,
   GET_STORES_STATUS,
-  LIST_STORES,
   NEW_STORE,
   SEARCH_STORE,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
-import Status from "../../../components/Mixin/Status/Status";
 import Search from "antd/es/input/Search";
+import { DeleteOutlined, EditOutlined, MenuOutlined, SearchOutlined } from "@ant-design/icons";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
+  const [storesFollowName, setStoresFollowName] = useState([]);
   const [updated, setUpdated] = useState(false);
+  const [managerFilter, setManagerFilter] = useState("");
 
-  // lấy qua API
+  // Lấy dữ liệu từ API
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const data = await get(`${GET_STORES_STATUS}/${1}`);
-
-        // console.log(data)
         if (data) {
           setStores(data);
+          setStoresFollowName(data)
         }
       } catch (error) {
         console.log("err in ListStore", error);
@@ -37,46 +37,72 @@ function ListStore() {
   }, [updated]);
 
   // Tạo danh sách các bộ lọc từ dữ liệu
-const uniqueStoreNames = [...new Set(stores.map(item => item.storeName))];
-const storeNameFilters = uniqueStoreNames.map(name => ({ text: name, value: name }));
+  const uniqueStoreNames = [...new Set(storesFollowName.map((item) => item.storeName))];
+  const storeNameFilters = uniqueStoreNames.map((name) => ({
+    text: name,
+    value: name,
+  }));
 
-  // COLUMS
+  // Columns
   const columns = [
     {
       title: "StoreID",
       dataIndex: "StoreID",
-      key: "nStoreIDame",
+      key: "StoreID",
     },
     {
       title: "StoreName",
       dataIndex: "StoreName",
       key: "StoreName",
       filters: storeNameFilters,
-      onFilter: (value, record) => {
-        console.log(value, record)
-        return record.StoreName.includes(value)
-      },
+      onFilter: (value, record) => record.StoreName.includes(value),
     },
     {
       title: "Status",
       dataIndex: "Status",
       key: "Status",
       filters: [
-        { text: 'Active', value: 1 },
-        { text: 'Inactive', value: 0 },
+        { text: "Active", value: 1 },
+        { text: "Inactive", value: 0 },
       ],
       onFilter: (value, record) => record.Status === value,
       render: (status) =>
-        status === 1 ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Inactive</Tag>
-        ),
+        status === 1 ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
     },
     {
       title: "Manager",
       dataIndex: "Manager",
       key: "Manager",
+      filterDropdown: () => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Search Manager"
+            value={managerFilter}
+            onChange={(e) => setManagerFilter(e.target.value)}
+            style={{ width: 188, marginBottom: 8, display: "block" }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleManagerFilter(managerFilter)}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Search
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => handleManagerFilter("")}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Reset
+          </Button>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      ),
+      onFilter: (value, record) => record.Manager.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Actions",
@@ -84,43 +110,49 @@ const storeNameFilters = uniqueStoreNames.map(name => ({ text: name, value: name
       key: "actions",
       render: (storeId) => (
         <Space size="middle">
-          <Link to={`/admin/store/edit/${storeId}`}>
-            <Button type="primary">Edit</Button>
-          </Link>
-          <Link to={`/admin/store/edit/${storeId}`}>
-            <Button type="primary" ghost>
-              Detail
-            </Button>
-          </Link>
-          <Button type="primary" danger onClick={() => handleDelete(storeId)}>
-            Delete
-          </Button>
+          <Tooltip title="edit">
+            <Link to={`/admin/store/edit/${storeId}`}>
+              <Button type="primary" icon={<EditOutlined />} />
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="detail">
+            <Link to={`/admin/store/edit/${storeId}`}>
+              <Button type="primary" icon={<MenuOutlined />} ghost />
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="delete">
+            <Button
+              type="primary"
+              icon={<DeleteOutlined />}
+              danger
+              onClick={() => handleDelete(storeId)}
+            />
+          </Tooltip>
         </Space>
       ),
     },
   ];
 
-  // DATA
+  // Data
   let data = [];
 
-  // Nếu có data từ api => tạo data cho Table
-  if (stores.length > 0) {
-    data = stores.map((store, index) => {
-      return {
-        StoreID: store.storeId,
-        StoreName: store.storeName,
-        Location: store.location,
-        // Email: store.email,
-        Manager: store.accountName,
-        Status: store.status,
-        actions: store.storeId,
-        key: index,
-      };
-    });
+  // Nếu có data từ API, tạo data cho Table
+  if (storesFollowName.length > 0) {
+    data = storesFollowName.map((store, index) => ({
+      StoreID: store.storeId,
+      StoreName: store.storeName,
+      Location: store.location,
+      Manager: store.accountName,
+      Status: store.status,
+      actions: store.storeId,
+      key: index,
+    }));
   }
-  // Handler for deleting a store
+
+  // Handler cho việc xóa cửa hàng
   const handleDelete = async (storeId) => {
-    // bởi vì Swal là file đợi => phải có await mới được
     const confirm = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -132,7 +164,6 @@ const storeNameFilters = uniqueStoreNames.map(name => ({ text: name, value: name
     });
 
     if (confirm.isConfirmed) {
-      console.log(`${DELETE_STORE_ID}${storeId}`);
       const dataDelete = await patch(`${DELETE_STORE_ID}${storeId}`, {
         storeId: storeId,
       });
@@ -144,17 +175,21 @@ const storeNameFilters = uniqueStoreNames.map(name => ({ text: name, value: name
           icon: "success",
         });
 
-        // load lại data
+        // Load lại dữ liệu
         setUpdated(!updated);
       }
     }
   };
 
-  const handleStatus = (changeStores) => {
-    setStores(changeStores);
+  // Handler cho filter Manager
+  const handleManagerFilter = (value) => {
+    const filteredData = stores.filter((store) =>
+      store.accountName.toLowerCase().includes(value.toLowerCase())
+    );
+    setStoresFollowName(filteredData);
   };
 
-  // search
+  // Handler cho tìm kiếm
   const onSearch = async (values) => {
     try {
       let data = [];
@@ -171,22 +206,24 @@ const storeNameFilters = uniqueStoreNames.map(name => ({ text: name, value: name
     }
   };
 
+  // Handler cho tạo store mới
   const handleNewStore = async () => {
     const newStore = await get(`${NEW_STORE}`);
 
-    if(newStore) {
-      setStores(newStore)
+    if (newStore) {
+      setStores(newStore);
     }
-  }
+  };
 
   return (
     <>
       <Space>
-
-        <Button type="primary" onClick={handleNewStore}>New Store</Button>
+        <Button type="primary" onClick={handleNewStore}>
+          New Store
+        </Button>
 
         <Search
-          placeholder="input search text"
+          placeholder="Input search text"
           allowClear
           enterButton="Search"
           size="large"
