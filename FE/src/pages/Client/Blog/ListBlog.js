@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Input, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
-import {
-  DELETE_BLOG_ID,
-  GET_BLOGS_STATUS,
-  UP_BLOG_ID,
-} from "../../../helpers/APILinks";
+import { DELETE_BLOG_ID, GET_BLOGS_STATUS, UP_BLOG_ID } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Search from "antd/es/input/Search";
 
@@ -17,7 +13,7 @@ function ListBlog() {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [updated, setUpdated] = useState(false);
   const [filterStatus, setFilterStatus] = useState([]); // State to store selected status filters
-  const [filterIsDelete, setFilterIsDelete] = useState([]); // State to store selected isDelete filters
+  const [filterIsPublished, setFilterIsPublished] = useState([]); // State to store selected isDelete filters
   const [searchTerm, setSearchTerm] = useState(""); // State to store search term 
 
   const navigate = useNavigate();
@@ -46,48 +42,39 @@ function ListBlog() {
 
   // Prepare data for Table
   if (blogs.length > 0) {
-    data = blogs.map((Blog, index) => {
-      return {
-        postId: Blog.postId,
-        title: Blog.title,
-        Contents: Blog.contents,
-        Img: Blog.img,
-        IsPublished: Blog.isPublished,
-        Status: Blog.status,
-        Author: Blog.author,
-        Tags: Blog.tags,
-        CreatedDate: Blog.createdDate,
-        ModifiDate: Blog.modifiDate,
-        key: index,
-      };
-    });
+    data = blogs.map((Blog, index) => ({
+      postId: Blog.postId,
+      title: Blog.title,
+      Contents: Blog.contents,
+      Img: Blog.img,
+      isPublished: Blog.isPublished,
+      status: Blog.status,
+      author: Blog.author,
+      tags: Blog.tags,
+      createdDate: Blog.createdDate,
+      modifiDate: Blog.modifiDate,
+      key: index,
+    }));
   }
+
   const getFilteredData = () => {
     let filteredData = blogs;
 
     // Apply status filter
     if (filterStatus.length > 0) {
-      const statusMap = {
-        active: 1,
-        inactive: 0,
-      };
-      filteredData = filteredData.filter(
-        (blog) => blog.status === statusMap[filterStatus[0]]
-      );
+      filteredData = filteredData.filter((blog) => filterStatus.includes(blog.status));
     }
 
-    // Apply isDelete filter
-    if (filterIsDelete.length > 0) {
-      filteredData = filteredData.filter(
-        (blog) => blog.isDelete === parseInt(filterIsDelete[0])
-      );
+    // Apply isPublished filter
+    if (filterIsPublished.length > 0) {
+      filteredData = filteredData.filter((blog) => filterIsPublished.includes(blog.isPublished));
     }
 
     // Apply search filter
     if (searchTerm) {
-      filteredData = filteredData.filter((blogs) =>
-        Object.keys(blogs).some((key) =>
-          String(blogs[key]).toLowerCase().includes(searchTerm.toLowerCase())
+      filteredData = filteredData.filter((blog) =>
+        Object.keys(blog).some((key) =>
+          String(blog[key]).toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }
@@ -112,15 +99,14 @@ function ListBlog() {
       dataIndex: "isPublished",
       key: "isPublished",
       render: (isPublished) =>
-        isPublished == 1 ? (
+        isPublished === 1 ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
         ),
-      sorter: (a, b) => a.isPublished - b.isPublished,
       filters: [
-        { text: 'Active', value: 1 },
-        { text: 'Inactive', value: 0 },
+        { text: "Active", value: 1 },
+        { text: "Inactive", value: 0 },
       ],
       onFilter: (value, record) => record.isPublished === value,
     },
@@ -129,17 +115,18 @@ function ListBlog() {
       dataIndex: "status",
       key: "status",
       render: (status) =>
-        status == 1 ? (
+        status === 1 ? (
           <Tag color="green">Existing</Tag>
         ) : (
           <Tag color="red">Deleted</Tag>
         ),
-      sorter: (a, b) => a.Status - b.Status,
       filters: [
-        { text: 'Existing', value: 1 },
-        { text: 'Deleted', value: 0 },
+        { text: "Existing", value: 1 },
+        { text: "Deleted", value: 0 },
       ],
-      onFilter: (value, record) => record.Status === value,
+      onFilter: (value, record) => {
+        return record.status == value
+      },
     },
     {
       title: "Author",
@@ -172,12 +159,12 @@ function ListBlog() {
           <Link to={`edit/${record.postId}`}>
             <Button type="primary">Update</Button>
           </Link>
-          {record.Status == 1 && record.IsPublished != 1 && (
+          {record.status === 1 && record.isPublished !== 1 && (
             <Button type="primary" onClick={() => handlePost(record.postId)}>
               Post
             </Button>
           )}
-          {record.Status == 1 ? (
+          {record.status === 1 ? (
             <Button
               type="primary"
               danger
@@ -227,6 +214,7 @@ function ListBlog() {
       }
     }
   };
+
   const filterBlogs = async (status) => {
     try {
       let data = [];
@@ -241,10 +229,12 @@ function ListBlog() {
       setBlogs([]);
     }
   };
+
   const handleStatusChange = (value) => {
     setSelectedStatus(value); // Lưu trữ giá trị status đã chọn
     filterBlogs(value); // Gọi hàm lọc bài viết khi status thay đổi
   };
+
   // Handle delete action
   const handleDelete = async (postId) => {
     const confirm = await Swal.fire({
@@ -304,33 +294,10 @@ function ListBlog() {
       }
     }
   };
+
   const handleSearch = (e) => {
     setSearchText(e.target.value);
-  };
-  const filteredTitle = blogs.filter((blog) =>
-    blog.title.toLowerCase().includes(searchText.toLowerCase())
-  );
-  // Handle status change
-  const handleStatus = (changeBlogs) => {
-    setBlogs(changeBlogs);
-  };
-
-  // Handle search
-  const onSearch = async (values) => {
-    try {
-      let data = [];
-      if (values) {
-        // Handle search logic
-      } else {
-        // Fetch data by status
-        data = await get(`${GET_BLOGS_STATUS}/${status}`);
-      }
-
-      setBlogs(data);
-    } catch (error) {
-      console.log(error, `ListBlog`);
-      setBlogs([]);
-    }
+    setSearchTerm(e.target.value); // Set search term for filtering
   };
 
   return (
@@ -341,7 +308,12 @@ function ListBlog() {
         onChange={handleSearch}
         style={{ width: 800, height: 30, marginBottom: 20 }}
       />
-      <Table columns={columns} pagination={{ pageSize: 5 }} dataSource={getFilteredData()} rowKey="title" />
+      <Table
+        columns={columns}
+        pagination={{ pageSize: 5 }}
+        dataSource={getFilteredData()}
+        rowKey="title"
+      />
     </>
   );
 }
