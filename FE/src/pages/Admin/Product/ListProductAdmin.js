@@ -4,9 +4,8 @@ import { LIST_PRODUCT_DTOS, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks"
 import { get } from "../../../helpers/API.helper";
 import CreateProduct from './CreateProduct';
 import { FaPlus } from 'react-icons/fa';
-import UpdateIsDelete from "./UpdateIsDelete";
 import { Link } from "react-router-dom";
-import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function ListProductAdmin() {
   const [products, setProducts] = useState([]);
@@ -98,11 +97,10 @@ function ListProductAdmin() {
       dataIndex: "action",
       render: (_, record) => {
         return (
-          <Space size="middle">
-            <UpdateIsDelete record={record} onReload={onReload}/>
-            <Link to={`/admin/product/edit/${record.productSizeID}`}>
+          <Space size="middle">           
+            <Link to={`/admin/product/edit/${record.productSizeID}`} state={record}>
               <Button type="primary" icon={<EditOutlined />} />
-            </Link>
+            </Link>         
           </Space>
         );
       },

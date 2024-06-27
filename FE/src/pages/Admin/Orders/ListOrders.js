@@ -1,26 +1,32 @@
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, Table, Tag, message } from "antd";
+import { Button, Table, Tag, message, Modal, Spin } from "antd";
 import { get } from "../../../helpers/API.helper";
-import { LIST_ORDER } from "../../../helpers/APILinks";
-import {
-  getColorText,
-  getDateTime,
-  getStatusText,
-} from "../../../helpers/Text.helper";
+import { LIST_ORDERHaveTableName, LIST_ORDERDETAILS } from "../../../helpers/APILinks";
+import { getColorText, getDateTime, getStatusText } from "../../../helpers/Text.helper";
 
 function ListOrders() {
   const [orders, setOrders] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  console.log(orders)
+  // FILTER
+  const [tableName, setTableName] = useState([]);
   const account = useSelector((state) => state.AccountReducer);
-  // let data = [];
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        // Get data orders
-        const data = await get(`${LIST_ORDER}/${account.storeId}`);
-        console.log(data);
+        const data = await get(`${LIST_ORDERHaveTableName}/${account.storeId}`);
+        console.log("LIST_ORDERHaveTableName",data)
         if (data) {
           setOrders(data);
           if (data.length === 0) {
@@ -28,31 +34,75 @@ function ListOrders() {
           }
         }
       } catch (error) {
-        // Notification Error
-        console.log(error, "ListOrders");
         message.error("Server error");
       }
     };
-
     fetchApi();
-  }, []);
+  }, [account.storeId]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB');
+  };
+
+  const fetchOrderDetails = async (orderId) => {
+    setLoading(true);
+    try {
+      const data = await get(`${LIST_ORDERDETAILS}/${account.storeId}/${orderId}`);
+      console.log("LIST_ORDERDETAILS",data)
+      setOrderDetails(data);
+      setIsModalVisible(true);
+    } catch (error) {
+      message.error("Error fetching order details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setOrderDetails(null);
+  };
+
+  // FILTER
+  const tableNameFilters = [...new Set(orders.map((order) => order.tableName))].map((tableName) => ({
+    text: tableName,
+    value: tableName,
+  }));
+
+  const statusFilters = [
+    { text: "Process", value: 0 },
+    { text: "Reject", value: -1 },
+    { text: "Done", value: 1 }
+  ];
+
+
   const columns = [
     {
       title: "Order ID",
-      dataIndex: "orderId",
-      key: "orderId",
-      render: (text) => <a>{text}</a>, // custom text
+      dataIndex: "orderID",
+      key: "orderID",
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Table Name",
-      dataIndex: "tableId",
-      key: "tableId",
-      render: (text) => <strong>Table-{text}</strong>, // custom text
+      dataIndex: "tableName",
+      key: "tableName",
+      filters: tableNameFilters,
+      onFilter: (value, record) => {
+        // console.log(value)
+        return record.tableName.includes(value)
+      },
+      render: (text) => <strong>{text}</strong>,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      filters: statusFilters,
+      onFilter: (value, record) => {
+        return record.status == value//.status.includes(value);
+      },
       render: (status) => (
         <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>
       ),
@@ -61,22 +111,29 @@ function ListOrders() {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      render: (date) => <span>{getDateTime(date)}</span>,
+      render: (date) => <span>{formatDate(getDateTime(date))}</span>,
     },
     {
       title: "Total",
       dataIndex: "total",
       key: "total",
-      render: (text) => <strong style={{ fontSize: "1.1rem" }}>${text}</strong>, // custom text
+      render: (text) => <strong style={{ fontSize: "1.1rem" }}>{text.toLocaleString('vi-VN')}đ</strong>,
+    },
+
+      {
+      title: "Payment Name",
+      dataIndex: "paymentName",
+      key: "paymentName",
+      render: (paymentName) => <span>{(paymentName)}</span>,
     },
     {
       title: "Detail",
-      dataIndex: "orderId",
-      key: "orderIdDetail",
-      render: (orderId) => (
-        <Link to={`${1}/${orderId}`}>
-          <Button type="primary">Detail</Button>
-        </Link>
+      dataIndex: "orderID",
+      key: "orderID",
+      render: (orderID) => (
+        <Button type="primary" onClick={() => fetchOrderDetails(orderID)}>
+          Detail
+        </Button>
       ),
     },
   ];
@@ -87,8 +144,61 @@ function ListOrders() {
         columns={columns}
         dataSource={orders}
         pagination={{ pageSize: 6 }}
-        rowKey="id"
+        rowKey="orderID"
       />
+
+      <Modal
+        title="Order Details"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+      >
+        {loading ? (
+          <Spin />
+        ) : (
+          orderDetails && (
+            <Table
+              columns={[
+                {
+                  title: "Order ID",
+                  dataIndex: "orderID",
+                  key: "orderID",
+                },
+                {
+                  title: "Store Name",
+                  dataIndex: "storeName",
+                  key: "storeName",
+                },
+                {
+                  title: "Product Name",
+                  dataIndex: "productName",
+                  key: "productName",
+                },
+                {
+                  title: "Size",
+                  dataIndex: "sizeName",
+                  key: "sizeName",
+                },
+                {
+                  title: "Quantity",
+                  dataIndex: "quantity",
+                  key: "quantity",
+                },
+                {
+                  title: "Price",
+                  dataIndex: "price",
+                  key: "price",
+                  render: (text) => `${text.toLocaleString('vi-VN')} đ`, // Định dạng để thêm chữ "đ" sau giá
+                },
+              ]}
+              dataSource={orderDetails}
+              rowKey="id"
+              pagination={false}
+            />
+          )
+        )}
+      </Modal>
     </>
   );
 }

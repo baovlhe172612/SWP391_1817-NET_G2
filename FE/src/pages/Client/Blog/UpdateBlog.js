@@ -55,7 +55,7 @@ function UpdateBlog() {
       console.log("day la blog: "+blog);
 
       console.log("day la value: "+values);
-      const data = await patch(`http://localhost:5264/api/Post/update_post/${id}`, { ...blog, ...values });
+      const data = await patch(`http://172.20.10.5:5264/api/Post/update_post/${id}`, { ...blog, ...values });
 
 
       if (data) {

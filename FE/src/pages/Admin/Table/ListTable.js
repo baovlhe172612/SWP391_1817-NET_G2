@@ -4,10 +4,12 @@ import './Table.css';
 import { get } from '../../../helpers/API.helper';
 import { LIST_TABLE } from '../../../helpers/APILinks';
 import { useSelector } from 'react-redux';
+
 function ListTable() {
   const [tables, setTables] = useState([]);
   const [error, setError] = useState(null);
-const account = useSelector (state => state.AccountReducer);
+  const account = useSelector(state => state.AccountReducer);
+
   useEffect(() => {
     const fetchApi = async () => {
       try {

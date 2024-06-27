@@ -16,8 +16,8 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const dataStores = await get("http://localhost:5264/api/stores");
-        const dataCategories = await get("http://localhost:5264/api/Category");
+        const dataStores = await get("http://172.20.10.5:5264/api/stores");
+        const dataCategories = await get("http://172.20.10.5:5264/api/Category");
         setStores(dataStores);
         setCategory(dataCategories);
       } catch (error) {

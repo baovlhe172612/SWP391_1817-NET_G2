@@ -4,7 +4,7 @@ import QRCode from 'qrcode.react';
 
 const { Option } = Select;
 
-function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
+function CheckoutModal({ handleDeleteAll,isVisible, handleOk, handleCancel, cartDataModal }) {
   const [form] = Form.useForm();
   const [qrVisible, setQrVisible] = useState(false);
   const [billVisible, setBillVisible] = useState(false);
@@ -31,16 +31,15 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
   ];
 
   // Total amount calculation for display in the main modal
-  console.log("cartDataModal", cartDataModal);
+  
   const totalAmount = cartDataModal.reduce((acc, item) => acc + item.price, 0);
 
-  console.log("Total Amount Calculation:", totalAmount);
+  
 
   const onOk = async () => {
     try {
       const values = await form.validateFields();
       const paymentMethod = values.paymentMethod;
-
       if (paymentMethod === '1') {
         // Show the detailed bill
         setBillVisible(true);
@@ -51,6 +50,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
       }
 
       handleOk(values);
+      handleDeleteAll();
     } catch (error) {
       console.error('Validation failed:', error);
     }
@@ -93,7 +93,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
                   </Select>
                 </Form.Item>
               </div>
-              <div style={{ marginLeft: '10px' }}>
+              <div style={{ marginLeft: '100px' }}>
                 <Form.Item name="notes" label="Notes" style={{ marginBottom: 0 }}>
                   <Input placeholder="Enter notes here" />
                 </Form.Item>
