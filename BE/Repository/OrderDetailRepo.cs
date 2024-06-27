@@ -76,5 +76,43 @@ namespace BE.Repository
             }
         }
 
+        public List<OrderDetailDto> GetOrderDetailSummaryByStoreId(int storeId)
+        {
+            try
+            {
+                var summary = (from od in _context.OrderDetails
+                               join pz in _context.ProductSizes on od.ProductSizeId equals pz.ProductSizeId
+                               join p in _context.Products on pz.ProductId equals p.ProductId
+                               join o in _context.Orders on od.OrderId equals o.OrderId
+                               join s in _context.Stores on o.StoreId equals s.StoreId
+                               where s.StoreId == storeId
+                               group new { od, pz, p, s } by new
+                               {
+                                   od.ProductSizeId,
+                                   pz.ProductId,
+                                   p.ProductName,
+                                   s.StoreName
+                               } into g
+                               orderby g.Sum(x => x.od.Quantity) descending
+                               select new OrderDetailDto
+                               {
+                                   Product_SizeID = g.Key.ProductSizeId,
+                                   ProductID = g.Key.ProductId,
+                                   ProductName = g.Key.ProductName,
+                                   StoreName = g.Key.StoreName,
+                                   TotalQuantity = g.Sum(x => x.od.Quantity??0)  // Calculate total quantity here
+                               }).ToList();
+
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                // Log exception if needed
+                throw new Exception("An error occurred while fetching order detail summary", ex);
+            }
+        }
+
+
+
     }
 }

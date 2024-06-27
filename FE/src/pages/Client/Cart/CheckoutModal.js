@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Form, Table, Button, Select, Input } from 'antd';
+import { ClockCircleOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
 import QRCode from 'qrcode.react';
 
 const { Option } = Select;
@@ -9,6 +10,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
   const [qrVisible, setQrVisible] = useState(false);
   const [billVisible, setBillVisible] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState('');
+  const [currentStep, setCurrentStep] = useState(1);
 
   // Columns for the main table in the checkout modal
   const columns = [
@@ -55,6 +57,27 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
       console.error('Validation failed:', error);
     }
   };
+  const handleStepClick = (stepNumber) => {
+    setCurrentStep(stepNumber);
+    // Code here to fetch and display corresponding information for the step
+    switch (stepNumber) {
+        case 1:
+            // Fetch and display information for step 1
+            console.log('Đã đặt hàng');
+            break;
+        case 2:
+            // Fetch and display information for step 2
+            console.log('Đang tiến hành');
+            break;
+        case 3:
+            // Fetch and display information for step 3
+            console.log('Hoàn thành');
+            break;
+
+        default:
+            break;
+    }
+}
 
   return (
     <>
@@ -74,6 +97,31 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
         style={{ top: 20}} // Adjust top position and maxHeight
       >
         <div style={{ maxHeight: '57vh', overflowY: 'auto' }}>
+          
+        <div className="order-tracking">
+                <div className={`step ${currentStep >= 1 ? 'completed' : ''}`} onClick={() => handleStepClick(1)}>
+                    <div className="circle">1</div>
+                    <div className={`label ${currentStep >= 1 ? 'completed-text' : ''}`}>
+                        <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Đã đặt hàng
+                    </div>
+                </div>
+
+                <div className={`line ${currentStep >= 2 ? 'completed' : ''}`}></div>
+                <div className={`step ${currentStep >= 2 ? 'completed' : ''}`} onClick={() => handleStepClick(2)}>
+                    <div className="circle">2</div>
+                    <div className={`label ${currentStep >= 2 ? 'completed-text' : ''}`}>
+                        <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> Đang tiến hành
+                    </div>
+                </div>
+
+                <div className={`line ${currentStep >= 3 ? 'completed' : ''}`}></div>
+                <div className={`step ${currentStep >= 3 ? 'completed' : ''}`} onClick={() => handleStepClick(3)}>
+                    <div className="circle">3</div>
+                    <div className={`label ${currentStep >= 3 ? 'completed-text' : ''}`}>
+                        <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Hoàn thành
+                    </div>
+                </div>
+            </div>
           <Form
             form={form}
             initialValues={{ paymentMethod: '1' }}

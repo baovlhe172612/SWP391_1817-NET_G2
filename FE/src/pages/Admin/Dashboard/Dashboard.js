@@ -130,6 +130,7 @@ import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { get } from "../../../helpers/API.helper";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const { RangePicker } = DatePicker;
@@ -137,15 +138,15 @@ const { RangePicker } = DatePicker;
 function Dashboard() {
   const account = useSelector((state) => state.AccountReducer);
 
-  console.log("{account",account)
-  console.log("{account.storeId",account.storeId)
-  
-  console.log("{account.accountId",account.accountId)
+  console.log("{account", account)
+  console.log("{account.storeId", account.storeId)
+
+  console.log("{account.accountId", account.accountId)
   // Assuming account object has a role property
   const isOwner = account.roleName === "Owner";
- 
+
   const isManager = account.roleName === "Manager";
-  
+
   const options = {};
   const [revenue, setRevenue] = useState([]);
   const [monthRevenue, setMonthRevenue] = useState([]);
@@ -158,9 +159,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get("http://172.20.10.5:5264/api/Order/daily-revenue");
+        data = await get("http://localhost:5264/api/Order/daily-revenue");
       } else if (isManager) {
-        data = await get(`http://172.20.10.5:5264/api/Order/daily-revenue/${account.storeId}`);
+        data = await get(`http://localhost:5264/api/Order/daily-revenue/${account.storeId}`);
       }
       console.log("data-revenue", data);
       setRevenue(data);
@@ -177,9 +178,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get("http://172.20.10.5:5264/api/Order/month-revenue");
+        data = await get("http://localhost:5264/api/Order/month-revenue");
       } else if (isManager) {
-        data = await get(`http://172.20.10.5:5264/api/Order/month-revenue/${account.storeId}`);
+        data = await get(`http://localhost:5264/api/Order/month-revenue/${account.storeId}`);
       }
       console.log("data-revenue", data);
       setMonthRevenue(data);
@@ -318,8 +319,12 @@ function Dashboard() {
 
   return (
     <>
-        {isOwner || isManager ? (
+      {isOwner || isManager ? (
         <>
+          <div style={{ marginBottom: 16 }}>
+            <Link to="/admin/MostSoldProducts">Xem biểu đồ sản phẩm bán chạy nhất</Link>
+          </div>
+
           <Radio.Group
             onChange={handleRadioChange}
             value={viewBy}
@@ -330,6 +335,7 @@ function Dashboard() {
           </Radio.Group>
           <RangePicker onChange={handleDateChange} style={{ marginBottom: 16 }} />
           <Bar data={data1} options={options} />
+
         </>
       ) : (
         <p>You do not have permission to view this chart.</p>
