@@ -31,7 +31,7 @@ function CheckoutModal({ isVisible, handleOk, handleCancel, cartDataModal }) {
   ];
 
   // Total amount calculation for display in the main modal
-  console.log("cartDataModal", cartDataModal);
+  //console.log("cartDataModal", cartDataModal);
   const totalAmount = cartDataModal.reduce((acc, item) => acc + item.price, 0);
 
   console.log("Total Amount Calculation:", totalAmount);
