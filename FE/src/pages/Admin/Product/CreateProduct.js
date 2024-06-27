@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Switch, Modal, InputNumber, message } from "antd";
+import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button } from "antd";
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_PRODUCT } from "../../../helpers/APILinks";
-
+import { UploadOutlined } from "@ant-design/icons";
 const { Option } = Select;
-
-function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
+function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [form] = Form.useForm();
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [sizeQuantities, setSizeQuantities] = useState({});
   const [sizePrices, setSizePrices] = useState({});
   const [stores, setStores] = useState([]);
   const [category, setCategory] = useState([]);
-
+  const [imageFile, setImageFile] = useState(null);
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const dataStores = await get("http://172.20.10.5:5264/api/stores");
-        const dataCategories = await get("http://172.20.10.5:5264/api/Category");
+        const dataStores = await get("http://localhost:5264/api/stores");
+        const dataCategories = await get("http://localhost:5264/api/Category");
         setStores(dataStores);
         setCategory(dataCategories);
       } catch (error) {
@@ -40,7 +39,9 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
     values.sizes = sizesArray;
     values.isDelete = 0;
     values.status = values.status ? 1 : 0;
-
+    values.img = imageFile; 
+    console.log(values);
+    
     try {
       const response = await post(`${CREATE_PRODUCT}`, values);
       if (response) {
@@ -71,6 +72,10 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
       ...sizePrices,
       [size]: value,
     });
+  };
+
+  const handleImageUpload = (info) => {
+    setImageFile(info.file.originFileObj); // Store the uploaded file object
   };
 
   return (
@@ -110,6 +115,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
             style={{ width: "100%" }}
           />
         </Form.Item>
+        
         <Form.Item
           name="category"
           label="Category"
@@ -168,11 +174,17 @@ function CreateProduct({ isVisible, handleOk, handleCancel ,onReload}) {
         ))}
 
         <Form.Item
-          label="img"
+          label="Image"
           name="img"
-          rules={[{ required: true, message: "Please input image URL!" }]}
+          rules={[{ required: true, message: "Please upload an image!" }]}
         >
-          <Input placeholder="Input image URL" />
+          <Upload
+            beforeUpload={() => false} // Disable default upload behavior
+            onChange={handleImageUpload} // Handle file change
+            maxCount={1} // Allow only one file
+          >
+            <Button icon={<UploadOutlined />}>Upload Image</Button>
+          </Upload>
         </Form.Item>
 
         <Form.Item
