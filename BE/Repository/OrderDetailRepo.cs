@@ -14,6 +14,13 @@ namespace BE.Repository
         {
             return _context.OrderDetails.ToList();
         }
+
+
+
+        public List<OrderDetail> listOrderDetailByStatus()
+        {
+            return _context.OrderDetails.Where(od => od. == status).ToList();
+        }
         /// <summary>
         /// add OrderDetail
         /// </summary>

@@ -70,47 +70,84 @@ namespace Swp391.Repository
 
         public void CreateProduct(ProductcreateDtos newproduct)
         {
-            SwpfinalContext _context = new SwpfinalContext();
-            if (newproduct == null)
+            using (var _context = new SwpfinalContext())
             {
-                throw new ArgumentNullException(nameof(newproduct));
-            }
-            if (newproduct.Sizes == null || newproduct.Sizes.Count == 0)
-            {
-                throw new ArgumentException("Sizes list is null or empty");
-            }
-            var product = new Product
-            {              
-                ProductName = newproduct.ProductName,
-                CategoryId = newproduct.Category,
-                Img = newproduct.Img,
-                Price = newproduct.Price,
-                CreateDate = DateTime.Now,
-                IsDelete = 0,
-                StoreId = newproduct.StoreId,
-                Status = 1,
-                DateDeleted = null,
-                ModifileDate = null
-            };
-            _context.Products.Add(product);
-            _context.SaveChanges();
-            foreach (var size in newproduct.Sizes)
-            {
-                var productSize = new ProductSize
+                if (newproduct == null)
                 {
-                    ProductId = product.ProductId,
-                    SizeId = size.SizeId, // Access SizeId from SizeDtos
-                    Quanity = size.Quantity, // Access Quantity from SizeDtos
-                    Price = newproduct.Price + size.Price, // Calculate Price based on newproduct.Price and SizeDtos.Price
+                    throw new ArgumentNullException(nameof(newproduct));
+                }
+                if (newproduct.Sizes == null || newproduct.Sizes.Count == 0)
+                {
+                    throw new ArgumentException("Sizes list is null or empty");
+                }
+
+                // Save the image file to disk and get its path
+                string imagePath = SaveImageFile(newproduct.Img);
+
+                // Create the main Product entity
+                var product = new Product
+                {
+                    ProductName = newproduct.ProductName,
+                    CategoryId = newproduct.Category,
+                    Img = imagePath, // Save the image path
+                    Price = newproduct.Price,
+                    CreateDate = DateTime.Now,
                     IsDelete = 0,
-                    Status = 1,
-                    DateCreated = DateOnly.FromDateTime(DateTime.Now),
+                    StoreId = newproduct.StoreId,
+                    Status = 1 ,// Convert bool to int
                     DateDeleted = null,
+                    ModifileDate = null
                 };
-                _context.ProductSizes.Add(productSize);                
+
+                // Add product to context and save changes
+                _context.Products.Add(product);
+                _context.SaveChanges();
+
+                // Create ProductSize entities for each size in Sizes list
+                foreach (var size in newproduct.Sizes)
+                {
+                    var productSize = new ProductSize
+                    {
+                        ProductId = product.ProductId, // Use the generated ProductId
+                        SizeId = size.SizeId,
+                        Quanity = size.Quantity,
+                        Price = newproduct.Price + size.Price,
+                        IsDelete = 0,
+                        Status = 1,
+                        DateCreated = DateOnly.FromDateTime(DateTime.Now),
+                        DateDeleted = null,
+                    };
+                    _context.ProductSizes.Add(productSize);
+                }
+
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
         }
+
+        private string SaveImageFile(string base64Image)
+        {
+            // Replace with your logic to save and get image path
+            string fileName = $"{Guid.NewGuid().ToString()}.png"; // Generate unique file name
+            string directoryPath = @"C:\Upload"; // Example: save in uploads folder
+
+            // Save image bytes to disk
+            try
+            {
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string filePath = Path.Combine(directoryPath, fileName);
+                File.WriteAllBytes(filePath, Convert.FromBase64String(base64Image));
+                return filePath; // Return the saved file path
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving image: {ex.Message}");
+                throw; // Throwing the exception to handle it in the calling method
+            }
+        }
+
         public void UpdateProduct(ProductSize newProduct,string productName)
         {
             SwpfinalContext _context = new SwpfinalContext();          
@@ -125,6 +162,16 @@ namespace Swp391.Repository
                 _context.Products.Update(product);
             }
             _context.SaveChanges();
+        }
+        public void DeleteProduct(int id,int isdelete)
+        {
+            SwpfinalContext _context = new SwpfinalContext();
+            var product = _context.ProductSizes.FirstOrDefault(p => p.ProductSizeId == id);
+            product.IsDelete=isdelete;
+            product.DateDeleted = DateOnly.FromDateTime(DateTime.Now);
+            _context.ProductSizes.Update(product);
+            _context.SaveChanges();
+
         }
     }
 }
