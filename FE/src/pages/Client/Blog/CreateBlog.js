@@ -52,6 +52,9 @@ function CreateBlog() {
       navigate(`/admin/blogs/create`);
     }
   };
+
+  const whitespacePattern = /^(?!\s*$).+/;
+
   return (
     <>
       <h2>New Blog</h2>
@@ -62,15 +65,17 @@ function CreateBlog() {
         form={form}
         initialValues={{ account }}
       >
-        {" "}
-        {/* Thiết lập giá trị mặc định cho author */}
         <Form.Item
           label="Title"
           name="title"
           rules={[
             {
               required: true,
-              message: "You forgot input title !!!",
+              message: "You forgot to input the title!",
+            },
+            {
+              pattern: whitespacePattern,
+              message: "Title cannot be just whitespace!",
             },
           ]}
         >
@@ -82,7 +87,11 @@ function CreateBlog() {
           rules={[
             {
               required: true,
-              message: "The content is necessary !",
+              message: "The content is necessary!",
+            },
+            {
+              pattern: whitespacePattern,
+              message: "Content cannot be just whitespace!",
             },
           ]}
         >
@@ -94,7 +103,11 @@ function CreateBlog() {
           rules={[
             {
               required: true,
-              message: "Paste the link's image !",
+              message: "Paste the link's image!",
+            },
+            {
+              pattern: whitespacePattern,
+              message: "Image URL cannot be just whitespace!",
             },
           ]}
         >
@@ -107,7 +120,11 @@ function CreateBlog() {
           rules={[
             {
               required: true,
-              message: "Please input your name !",
+              message: "Please input your name!",
+            },
+            {
+              pattern: whitespacePattern,
+              message: "Author name cannot be just whitespace!",
             },
           ]}
         >
@@ -119,7 +136,11 @@ function CreateBlog() {
           rules={[
             {
               required: true,
-              message: "Please input tags !",
+              message: "Please input tags!",
+            },
+            {
+              pattern: whitespacePattern,
+              message: "Tags cannot be just whitespace!",
             },
           ]}
         >

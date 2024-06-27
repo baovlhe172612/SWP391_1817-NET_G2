@@ -23,6 +23,7 @@ import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 import OrderDetails from "../pages/Admin/Orders/OrdetDetails";
 
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
+import UpdateCategory from "../pages/Admin/Category/UpdateCategory"
 import Blog from "../pages/Client/Blog/Blog";
 import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";
@@ -42,6 +43,8 @@ import ListBlog from "../pages/Client/Blog/ListBlog";
 import BlogDetail from "../pages/Client/Blog/BlogDetail";
 import CreateBlog from "../pages/Client/Blog/CreateBlog";
 import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
+import CreateProduct from "../pages/Admin/Product/CreateProduct";
+import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 const routes = [
   {
     path: "/",
@@ -221,10 +224,7 @@ const routes = [
                     path: "",
                     element: <ListProductAdmin />,
                   },
-                  {
-                    path: "edit/:id",
-                    element: <UpdateProduct />,
-                  },               
+                         
                 ],
               },
               {
@@ -314,6 +314,10 @@ const routes = [
                   {
                     path: "/admin/blogs/create",
                     element: <CreateBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/edit/:id",
+                    element: <UpdateBlog />,
                   },
                 ],
               },            

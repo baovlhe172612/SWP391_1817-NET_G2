@@ -295,7 +295,7 @@ function ListBlog() {
         onChange={handleSearch}
         style={{ width: 800, height: 30, marginBottom: 20 }}
       />
-      <Table columns={columns} dataSource={filteredTitle} rowKey="title" />
+      <Table columns={columns} pagination={{ pageSize: 5 }} dataSource={filteredTitle} rowKey="title" />
     </>
   );
 }
