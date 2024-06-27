@@ -1,39 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Button, Table, Tag, message, Modal, Spin } from "antd";
+import { Button, Table, Tag, message, Modal, Spin, DatePicker, Row, Col, Input } from "antd";
 import { get } from "../../../helpers/API.helper";
 import { LIST_ORDERHaveTableName, LIST_ORDERDETAILS } from "../../../helpers/APILinks";
 import { getColorText, getDateTime, getStatusText } from "../../../helpers/Text.helper";
+import {MenuOutlined} from '@ant-design/icons'
 
-function ListOrders() {
+const { RangePicker } = DatePicker;
+
+const ListOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [selectedDateRange, setSelectedDateRange] = useState([]);
+  const [priceRange, setPriceRange] = useState([null, null]);
+  const [paymentNameFilter, setPaymentNameFilter] = useState("");
 
-  console.log(orders)
-  // FILTER
-  const [tableName, setTableName] = useState([]);
   const account = useSelector((state) => state.AccountReducer);
 
   useEffect(() => {
-    const fetchApi = async () => {
+    const fetchOrders = async () => {
+      setLoading(true);
       try {
         const data = await get(`${LIST_ORDERHaveTableName}/${account.storeId}`);
-        console.log("LIST_ORDERHaveTableName",data)
-        if (data) {
+        if (data && data.length > 0) {
           setOrders(data);
-          if (data.length === 0) {
-            message.error("No order in store");
-          }
+          setFilteredOrders(data);
+        } else {
+          message.error("No orders found in store.");
         }
       } catch (error) {
-        message.error("Server error");
+        message.error("Server error. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
-    fetchApi();
+    fetchOrders();
   }, [account.storeId]);
 
   const formatDate = (dateString) => {
@@ -45,11 +49,10 @@ function ListOrders() {
     setLoading(true);
     try {
       const data = await get(`${LIST_ORDERDETAILS}/${account.storeId}/${orderId}`);
-      console.log("LIST_ORDERDETAILS",data)
       setOrderDetails(data);
       setIsModalVisible(true);
     } catch (error) {
-      message.error("Error fetching order details");
+      message.error("Failed to fetch order details.");
     } finally {
       setLoading(false);
     }
@@ -60,18 +63,54 @@ function ListOrders() {
     setOrderDetails(null);
   };
 
-  // FILTER
-  const tableNameFilters = [...new Set(orders.map((order) => order.tableName))].map((tableName) => ({
-    text: tableName,
-    value: tableName,
-  }));
+  const handleDateRangeChange = (dates) => {
+    setSelectedDateRange(dates);
+    filterOrdersByDate(dates);
+  };
 
-  const statusFilters = [
-    { text: "Process", value: 0 },
-    { text: "Reject", value: -1 },
-    { text: "Done", value: 1 }
-  ];
+  const filterOrdersByDate = (dates) => {
+    if (!dates || dates.length !== 2) {
+      setFilteredOrders(orders);
+    } else {
+      const [start, end] = dates;
+      const filtered = orders.filter((order) => {
+        const orderDate = new Date(order.date);
+        return orderDate >= start && orderDate <= end;
+      });
+      setFilteredOrders(filtered);
+    }
+  };
 
+  const handlePriceRangeChange = (value, index) => {
+    const newPriceRange = [...priceRange];
+    newPriceRange[index] = value ? parseFloat(value) : null;
+    setPriceRange(newPriceRange);
+  };
+
+  const handlePriceFilter = () => {
+    const filtered = orders.filter((order) => {
+      const totalPrice = order.total;
+      const [minPrice, maxPrice] = priceRange;
+      return (minPrice === null || totalPrice >= minPrice) && (maxPrice === null || totalPrice <= maxPrice);
+    });
+    setFilteredOrders(filtered);
+  };
+
+  const handlePaymentNameFilter = (e) => {
+    const { value } = e.target;
+    setPaymentNameFilter(value);
+    const filtered = orders.filter((order) =>
+      order.paymentName.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredOrders(filtered);
+  };
+
+  const clearFilters = () => {
+    setSelectedDateRange([]);
+    setPriceRange([null, null]);
+    setPaymentNameFilter("");
+    setFilteredOrders(orders);
+  };
 
   const columns = [
     {
@@ -84,65 +123,124 @@ function ListOrders() {
       title: "Table Name",
       dataIndex: "tableName",
       key: "tableName",
-      filters: tableNameFilters,
-      onFilter: (value, record) => {
-        // console.log(value)
-        return record.tableName.includes(value)
-      },
+      filters: [...new Set(orders.map(order => order.tableName))].map(tableName => ({ text: tableName, value: tableName })),
+      onFilter: (value, record) => record.tableName.includes(value),
       render: (text) => <strong>{text}</strong>,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      filters: statusFilters,
-      onFilter: (value, record) => {
-        return record.status == value//.status.includes(value);
-      },
-      render: (status) => (
-        <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>
-      ),
+      filters: [
+        { text: "Process", value: 0 },
+        { text: "Reject", value: -1 },
+        { text: "Done", value: 1 },
+      ],
+      onFilter: (value, record) => record.status === value,
+      render: (status) => <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>,
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <RangePicker
+            value={selectedDateRange}
+            onChange={(dates) => setSelectedKeys(dates)}
+            style={{ marginBottom: 8, display: 'block' }}
+          />
+          <Button type="primary" onClick={() => confirm()} icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
+          </Button>
+          <Button onClick={() => clearFilters()} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </div>
+      ),
+      onFilter: (value, record) => {
+        const orderDate = new Date(record.date);
+        const [start, end] = selectedDateRange;
+        return orderDate >= start && orderDate <= end;
+      },
       render: (date) => <span>{formatDate(getDateTime(date))}</span>,
     },
     {
       title: "Total",
       dataIndex: "total",
       key: "total",
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Min Price"
+            value={priceRange[0] === null ? '' : priceRange[0]}
+            onChange={(e) => handlePriceRangeChange(e.target.value, 0)}
+            style={{ marginBottom: 8, display: 'block' }}
+          />
+          <Input
+            placeholder="Max Price"
+            value={priceRange[1] === null ? '' : priceRange[1]}
+            onChange={(e) => handlePriceRangeChange(e.target.value, 1)}
+            style={{ marginBottom: 8, display: 'block' }}
+          />
+          <Button type="primary" onClick={handlePriceFilter} icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
+          </Button>
+          <Button onClick={clearFilters} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </div>
+      ),
+      onFilter: (value, record) => {
+        const totalPrice = record.total;
+        const [minPrice, maxPrice] = priceRange;
+        return (minPrice === null || totalPrice >= minPrice) && (maxPrice === null || totalPrice <= maxPrice);
+      },
       render: (text) => <strong style={{ fontSize: "1.1rem" }}>{text.toLocaleString('vi-VN')}đ</strong>,
     },
-
-      {
+    {
       title: "Payment Name",
       dataIndex: "paymentName",
       key: "paymentName",
-      render: (paymentName) => <span>{(paymentName)}</span>,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Search Payment Name"
+            value={paymentNameFilter}
+            onChange={handlePaymentNameFilter}
+            onPressEnter={() => confirm()}
+            style={{ marginBottom: 8, display: 'block' }}
+          />
+          <Button type="primary" onClick={() => confirm()} icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
+          </Button>
+          <Button onClick={() => clearFilters()} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </div>
+      ),
+      onFilter: (value, record) => record.paymentName.toLowerCase().includes(paymentNameFilter.toLowerCase()),
+      render: (paymentName) => <span>{paymentName}</span>,
     },
     {
       title: "Detail",
-      dataIndex: "orderID",
-      key: "orderID",
-      render: (orderID) => (
-        <Button type="primary" onClick={() => fetchOrderDetails(orderID)}>
-          Detail
-        </Button>
+      key: "action",
+      render: (text, record) => (
+        <Button icon={<MenuOutlined />} type="primary" onClick={() => fetchOrderDetails(record.orderID)} />
       ),
     },
   ];
 
   return (
     <>
+      <Row gutter={16} style={{ marginBottom: 16 }}>
+        <Col>
+          <RangePicker onChange={handleDateRangeChange} />
+        </Col>
+      </Row>
       <Table
         columns={columns}
-        dataSource={orders}
+        dataSource={filteredOrders}
         pagination={{ pageSize: 6 }}
         rowKey="orderID"
       />
-
       <Modal
         title="Order Details"
         visible={isModalVisible}
@@ -185,7 +283,7 @@ function ListOrders() {
                   title: "Price",
                   dataIndex: "price",
                   key: "price",
-                  render: (text) => `${text.toLocaleString('vi-VN')} đ`, // Định dạng để thêm chữ "đ" sau giá
+                  render: (text) => `${text.toLocaleString('vi-VN')} đ`,
                 },
               ]}
               dataSource={orderDetails}
