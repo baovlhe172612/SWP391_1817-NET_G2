@@ -92,6 +92,7 @@ function Cart() {
 
   //checkout
   const handleCheckout = async (value, note) => {
+    console.log("OKK handleCheckOut")
     const dataToSend = cartData
       .filter(item => item.quantity > 0) // Lọc ra những sản phẩm có số lượng lớn hơn 0
       .map(item => ({
@@ -109,7 +110,7 @@ function Cart() {
       try {
 
         const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
-
+ 
         const responseData = response;
         //console.log('Response:', responseData);
         message.success('Đã mua hàng thành công!');
@@ -191,7 +192,7 @@ function Cart() {
                                   fontWeight: '800',
                                   padding: '15px 0px',
                                 }}>
-                                  Total  <span>  Total: {cart?.total.toLocaleString('vi-VN')}đ</span>
+                                  Total  <span>{cart?.total.toLocaleString('vi-VN')}đ</span>
                                 </li>
                               </ul>
                               <Button
@@ -213,7 +214,9 @@ function Cart() {
                               >
                                 Proceed to checkout
                               </Button>
-                              <CheckoutModal handleDeleteAll={handleDeleteAll} isVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} cartDataModal={cartDataModal} />
+                              <CheckoutModal handleDeleteAll={handleDeleteAll} 
+                              isVisible={isModalVisible} handleOk={handleOk} 
+                              handleCancel={handleCancel} cartDataModal={cartDataModal} />
                             </div>
                           </div>
                         </div>
