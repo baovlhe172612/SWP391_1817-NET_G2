@@ -188,24 +188,7 @@ function ListStore() {
     );
     setStoresFollowName(filteredData);
   };
-
-  // Handler cho tìm kiếm
-  const onSearch = async (values) => {
-    try {
-      let data = [];
-      if (values) {
-        data = await get(`${SEARCH_STORE}?name=${values}`);
-      } else {
-        data = await get(`${GET_STORES_STATUS}/${1}`);
-      }
-
-      setStores(data);
-    } catch (error) {
-      console.log(error, `ListStore`);
-      setStores([]);
-    }
-  };
-
+  
   // Handler cho tạo store mới
   const handleNewStore = async () => {
     const newStore = await get(`${NEW_STORE}`);
@@ -221,14 +204,6 @@ function ListStore() {
         <Button type="primary" onClick={handleNewStore}>
           New Store
         </Button>
-
-        <Search
-          placeholder="Input search text"
-          allowClear
-          enterButton="Search"
-          size="large"
-          onSearch={onSearch}
-        />
       </Space>
 
       <Table

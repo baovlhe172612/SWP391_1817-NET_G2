@@ -25,7 +25,8 @@ export const LIST_ORDERDETAILS = `${LOCALHOST_API}/api/Order/OrderDetail`
 
 // API MESSAGE
 export const GET_MESSAGE = `${LOCALHOST_API}/api/messages`;
-
+export const DELETE_MESSAGE = `${LOCALHOST_API}/api/messages/delete`
+export const DELETE_MESSAGE_STORE = `${LOCALHOST_API}/api/messages/deletes`
 // CHAT
 export const CHAT_API = `${LOCALHOST_API}/Chat`;
 
