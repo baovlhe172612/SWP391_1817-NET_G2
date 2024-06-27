@@ -20,6 +20,10 @@
         public string Img { get; set; }
         public string ProductName { get; set; }
 
+        // New property for total quantity
+        public int ProductID { get; set; }
+        public int TotalQuantity { get; set; }
+
     }
 
 }

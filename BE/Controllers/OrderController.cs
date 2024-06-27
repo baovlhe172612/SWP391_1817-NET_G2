@@ -160,6 +160,8 @@ namespace BE.Controllers
         }
 
 
+
+
         // GET api/order/daily-revenue/{storeId}
         [HttpGet("daily-revenue/{storeId}")]
         public IActionResult GetDailyRevenueByStoreId(int storeId)
@@ -190,5 +192,22 @@ namespace BE.Controllers
         }
 
 
-    }
+        // GET api/order/order-detail-summary/{storeId}
+        [HttpGet("order-detail-summary/{storeId}")]
+        public IActionResult GetOrderDetailSummaryByStoreId(int storeId)
+        {
+            try
+            {
+                var summary = _detailService.GetOrderDetailSummaryByStoreId(storeId);
+                return Ok(summary);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while fetching order detail summary: " + ex.Message);
+            }
+        }
+    
+
+
+}
 }
