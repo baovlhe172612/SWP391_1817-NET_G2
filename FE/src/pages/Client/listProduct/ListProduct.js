@@ -218,15 +218,7 @@ function ListProduct() {
                       </option>
                     </select>
 
-                    {/* <select
-                          className="nice-select wide rounded-0"
-                          value={productSize.sizeId}
-                          onChange={handleSizeChange}
-                        >
-                          <option value="1" selected={productSize.sizeId === 1}>X</option>
-                          <option value="2" selected={productSize.sizeId === 2}>L</option>
-                          <option value="3" selected={productSize.sizeId === 3}>M</option>
-                    </select> */}
+               
                   </li>
                  
                 </ul>
@@ -255,7 +247,7 @@ function ListProduct() {
               {/* ================ TAB - CONTENT =================== */}
 
               {/* ================ PAGINATION =================== */}
-              <div class="pagination-area">
+              {/* <div class="pagination-area">
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
 
@@ -280,7 +272,65 @@ function ListProduct() {
                     ))}
                   </ul>
                 </nav>
-              </div>
+              </div> */}
+               <div
+      className="pagination-area"
+      style={{
+        margin: "20px 0",
+      }}
+    >
+      <nav aria-label="Page navigation example">
+        <ul
+          className="pagination justify-content-center"
+          style={{
+            display: "flex",
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          {conditionSort == null &&
+            totalPages.map((item, index) => (
+              <li
+                className={`page-item ${item === currentPage ? "active" : ""}`}
+                key={index}
+                style={{
+                  margin: "0 5px",
+                }}
+              >
+                <a
+                  onClick={() => {
+                    handleDataByPage(item);
+                  }}
+                  style={{
+                    display: "block",
+                    padding: "10px 15px",
+                    color: item === currentPage ? "white" : "#007bff",
+                    backgroundColor: item === currentPage ? "#007bff" : "transparent",
+                    textDecoration: "none",
+                    border: "1px solid #dee2e6",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s, border-color 0.3s",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = item === currentPage ? "#0056b3" : "#007bff";
+                    e.target.style.color = "white";
+                    e.target.style.borderColor = "#007bff";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = item === currentPage ? "#007bff" : "transparent";
+                    e.target.style.color = item === currentPage ? "white" : "#007bff";
+                    e.target.style.borderColor = "#dee2e6";
+                  }}
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
+        </ul>
+      </nav>
+    </div>
               {/* ================ PAGINATION =================== */}
             </div>
           </div>

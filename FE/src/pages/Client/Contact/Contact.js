@@ -6,8 +6,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 import './Contact.css'
 import { UserOutlined, CommentOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Steps } from 'antd';
-import { ClockCircleOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Timeline } from 'antd';
+
 import {LIST_FEEDBACK } from '../../../helpers/APILinks';
 const { RangePicker } = DatePicker;
 
@@ -128,87 +127,9 @@ function Contact() {
         setCurrentStep(step); // Update current step
     };
 
-    const handleStepClick = (stepNumber) => {
-        setCurrentStep(stepNumber);
-        // Code here to fetch and display corresponding information for the step
-        switch (stepNumber) {
-            case 1:
-                // Fetch and display information for step 1
-                console.log('Đã đặt hàng');
-                break;
-            case 2:
-                // Fetch and display information for step 2
-                console.log('Đang tiến hành');
-                break;
-            case 3:
-                // Fetch and display information for step 3
-                console.log('Hoàn thành');
-                break;
-
-            default:
-                break;
-        }
-    }
+  
     return (
-        <>
-            {/* <div className="timeline-container">
-                <Timeline mode="right">
-                    <Timeline.Item
-                        dot={<LoadingOutlined style={{ fontSize: '16px' }} />}
-                        color="red"
-                        label="2015-09-01"
-                        onClick={() => handleStepChange(1)}
-                    >
-                        Đã đặt đồ
-                    </Timeline.Item>
-                    <Timeline.Item
-                        dot={<ClockCircleOutlined style={{ fontSize: '16px' }} />}
-                        color="pink"
-                        label="2015-09-01"
-                        onClick={() => handleStepChange(2)}
-                    >
-                        Đang tiến hành
-                    </Timeline.Item>
-                    <Timeline.Item
-                        dot={<CheckOutlined style={{ fontSize: '16px' }} />}
-                        label="2015-09-01"
-                        color="#52c41a"
-                        onClick={() => handleStepChange(3)}
-                    >
-                        Complete
-                    </Timeline.Item>
-                </Timeline>
-                <div style={{ marginTop: '20px' }}>
-                    <p>Đang ở bước: {currentStep}</p>
-                </div>
-            </div> */}
-    
-            <div className="order-tracking">
-                <div className={`step ${currentStep >= 1 ? 'completed' : ''}`} onClick={() => handleStepClick(1)}>
-                    <div className="circle">1</div>
-                    <div className={`label ${currentStep >= 1 ? 'completed-text' : ''}`}>
-                        <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Đã đặt hàng
-                    </div>
-                </div>
-
-                <div className={`line ${currentStep >= 2 ? 'completed' : ''}`}></div>
-                <div className={`step ${currentStep >= 2 ? 'completed' : ''}`} onClick={() => handleStepClick(2)}>
-                    <div className="circle">2</div>
-                    <div className={`label ${currentStep >= 2 ? 'completed-text' : ''}`}>
-                        <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> Đang tiến hành
-                    </div>
-                </div>
-
-                <div className={`line ${currentStep >= 3 ? 'completed' : ''}`}></div>
-                <div className={`step ${currentStep >= 3 ? 'completed' : ''}`} onClick={() => handleStepClick(3)}>
-                    <div className="circle">3</div>
-                    <div className={`label ${currentStep >= 3 ? 'completed-text' : ''}`}>
-                        <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Hoàn thành
-                    </div>
-                </div>
-            </div>
-
-
+        <>         
             <main className="main-content">
                 <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
                     <div className="container h-100">
