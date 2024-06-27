@@ -1,4 +1,4 @@
-export const LOCALHOST_API = "http://172.20.10.5:5264"
+export const LOCALHOST_API = "http://localhost:5264"
 
 
 // API ACCOUNT

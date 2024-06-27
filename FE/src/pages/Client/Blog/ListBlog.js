@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Input, Select, Space, Table, Tag } from "antd";
+import { Button, Input, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import {
   DELETE_BLOG_ID,
@@ -8,9 +8,7 @@ import {
   UP_BLOG_ID,
 } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
-import Status from "../../../components/Mixin/Status/Status";
 import Search from "antd/es/input/Search";
-import { Option } from "antd/es/mentions";
 
 function ListBlog() {
   const [blogs, setBlogs] = useState([]);
@@ -18,7 +16,9 @@ function ListBlog() {
   const [searchText, setSearchText] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [updated, setUpdated] = useState(false);
-
+  const [filterStatus, setFilterStatus] = useState([]); // State to store selected status filters
+  const [filterIsDelete, setFilterIsDelete] = useState([]); // State to store selected isDelete filters
+  const [searchTerm, setSearchTerm] = useState(""); // State to store search term 
 
   const navigate = useNavigate();
   let status = searchStatus.get(`status`);
@@ -30,7 +30,7 @@ function ListBlog() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://172.20.10.5:5264/api/Post`);
+        const data = await get(`http://localhost:5264/api/Post`);
         console.log(data);
         if (data) {
           setBlogs(data);
@@ -62,6 +62,38 @@ function ListBlog() {
       };
     });
   }
+  const getFilteredData = () => {
+    let filteredData = blogs;
+
+    // Apply status filter
+    if (filterStatus.length > 0) {
+      const statusMap = {
+        active: 1,
+        inactive: 0,
+      };
+      filteredData = filteredData.filter(
+        (blog) => blog.status === statusMap[filterStatus[0]]
+      );
+    }
+
+    // Apply isDelete filter
+    if (filterIsDelete.length > 0) {
+      filteredData = filteredData.filter(
+        (blog) => blog.isDelete === parseInt(filterIsDelete[0])
+      );
+    }
+
+    // Apply search filter
+    if (searchTerm) {
+      filteredData = filteredData.filter((blogs) =>
+        Object.keys(blogs).some((key) =>
+          String(blogs[key]).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+
+    return filteredData;
+  };
 
   // Define Table columns
   const columns = [
@@ -85,6 +117,12 @@ function ListBlog() {
         ) : (
           <Tag color="red">Inactive</Tag>
         ),
+      sorter: (a, b) => a.isPublished - b.isPublished,
+      filters: [
+        { text: 'Active', value: 1 },
+        { text: 'Inactive', value: 0 },
+      ],
+      onFilter: (value, record) => record.isPublished === value,
     },
     {
       title: "Status",
@@ -96,6 +134,12 @@ function ListBlog() {
         ) : (
           <Tag color="red">Deleted</Tag>
         ),
+      sorter: (a, b) => a.Status - b.Status,
+      filters: [
+        { text: 'Existing', value: 1 },
+        { text: 'Deleted', value: 0 },
+      ],
+      onFilter: (value, record) => record.Status === value,
     },
     {
       title: "Author",
@@ -106,11 +150,13 @@ function ListBlog() {
       title: "CreatedDate",
       dataIndex: "createdDate",
       key: "createdDate",
+      sorter: (a, b) => new Date(a.createdDate) - new Date(b.createdDate),
     },
     {
       title: "ModifiDate",
       dataIndex: "modifiDate",
       key: "modifiDate",
+      sorter: (a, b) => new Date(a.modifiDate) - new Date(b.modifiDate),
     },
     {
       title: "Tags",
@@ -126,12 +172,12 @@ function ListBlog() {
           <Link to={`edit/${record.postId}`}>
             <Button type="primary">Update</Button>
           </Link>
-          {record.status == 1 && record.isPublished != 1 && (
+          {record.Status == 1 && record.IsPublished != 1 && (
             <Button type="primary" onClick={() => handlePost(record.postId)}>
               Post
             </Button>
           )}
-          {record.status == 1 ? (
+          {record.Status == 1 ? (
             <Button
               type="primary"
               danger
@@ -286,7 +332,7 @@ function ListBlog() {
       setBlogs([]);
     }
   };
-  
+
   return (
     <>
       <Input
@@ -295,7 +341,7 @@ function ListBlog() {
         onChange={handleSearch}
         style={{ width: 800, height: 30, marginBottom: 20 }}
       />
-      <Table columns={columns} pagination={{ pageSize: 5 }} dataSource={filteredTitle} rowKey="title" />
+      <Table columns={columns} pagination={{ pageSize: 5 }} dataSource={getFilteredData()} rowKey="title" />
     </>
   );
 }

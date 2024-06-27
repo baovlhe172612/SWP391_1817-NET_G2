@@ -22,7 +22,6 @@ import CreateEmployee from "../pages/Admin/Employee/CreateEmployee";
 import ListEmployee from "../pages/Admin/Employee/ListEmployee";
 
 // import QRScanner from "../pages/Client/QRScanner/QRScanner";
-import UpdateCategory from "../pages/Admin/Category/UpdateCategory"
 import Blog from "../pages/Client/Blog/Blog";
 import Login from "../components/Admin/Accounts/Login/Login";
 import Register from "../components/Admin/Accounts/Register/Register";

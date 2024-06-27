@@ -16,7 +16,7 @@ function CreateBlog() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const blogData = await post("http://172.20.10.5:5264/api/Post/add_new");
+        const blogData = await post("http://localhost:5264/api/Post/add_new");
         if (blogData) {
           setBlog(blogData);
         }
