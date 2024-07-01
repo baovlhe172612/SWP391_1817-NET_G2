@@ -81,6 +81,10 @@ const routes = [
         element: <ProductDetail />,
       },
       {
+        path: "/blog/:id",
+        element: <BlogDetail />,
+      },
+      {
         path: "404err",
         element: <NotFound />,
       },

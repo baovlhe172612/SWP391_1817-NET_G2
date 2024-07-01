@@ -69,7 +69,7 @@ function Blog() {
                           </div>
                           <div>
                             <h2 className="title" key={item.postId}>
-                              <Link to={`/blog-detail/${item.postId}`}>
+                              <Link to={`/blog/${item.postId}`}>
                                 {item.title}
                               </Link>
                             </h2>
@@ -85,7 +85,7 @@ function Blog() {
                             />
                           </a>
                           <div className="inner-btn-wrap">
-                            <a className="inner-btn" href="blog-detail.html">
+                            <a className="inner-btn" href="#">
                               <i className="pe-7s-link"></i>
                             </a>
                           </div>
