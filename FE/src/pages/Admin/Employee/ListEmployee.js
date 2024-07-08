@@ -527,40 +527,68 @@ function ListEmployee() {
       
     },
     // {
-    //   title: "Store Name",
-    //   dataIndex: "storeName",
-    //   key: "storeName",
-    //   filters: getStoreFilters(), // Dynamically generated filters
-    //   onFilter: (value, record) => record.storeName === value,
-     
+    //   title: "Status",
+    //   dataIndex: "status",
+    //   key: "status",
+    //   render: (status, record) => {
+    //     const { isDelete } = record; // Assuming isDelete is a property in your record object
+    //     const statusMap = {
+    //       1: { text: "Active", color: "green" },
+    //       0: { text: "Inactive", color: "red" }
+    //     };
+    //     const { text, color } = statusMap[status] || {
+    //       text: "Unknown",
+    //       color: "gray"
+    //     };
+    
+    //     if (isDelete === 1) {
+    //       return (
+    //         <Tag color="default">Deleted</Tag>
+    //       );
+    //     }
+    
+    //     return (
+    //       <Button onClick={() => updateStatus(record, onReload)}>
+    //         <Tag color={color}>{text}</Tag>
+    //       </Button>
+    //     );
+    //   }
     // },
     {
       title: "Status",
-      dataIndex: "isDelete",
-      key: "isDelete",
-      filters: [
-        { text: 'Active', value: 0 },
-        { text: 'Inactive', value: 1 },
-      ],
-      onFilter: (value, record) => record.isDelete === value,
-      render: (isDelete, record) => {
-        const isDeleteMap = {
-          0: { text: "Active", color: "green" },
-          1: { text: "Inactive", color: "red" },
+      dataIndex: "status",
+      key: "status",
+      render: (status, record) => {
+        const { isDelete } = record; // Assuming isDelete is a property in your record object
+        const statusMap = {
+          1: { text: "Active", color: "green" },
+          0: { text: "Inactive", color: "red" }
         };
-    
-        const { text, color } = isDeleteMap[isDelete] || {
+        const { text, color } = statusMap[status] || {
           text: "Unknown",
           color: "gray"
         };
+    
+        if (isDelete === 1) {
+          return (
+            <Tag color="default">Deleted</Tag>
+          );
+        }
     
         return (
           <Button onClick={() => updateStatus(record, onReload)}>
             <Tag color={color}>{text}</Tag>
           </Button>
         );
-      }
+      },
+      filters: [
+        { text: "Active", value: 1 },
+        { text: "Inactive", value: 0 }
+      ],
+      onFilter: (value, record) => record.status === value,
     },
+    
+    
     {
       title: "isDelete",
       dataIndex: "isDelete",
@@ -605,32 +633,6 @@ function ListEmployee() {
   return (
     <>
       <Space style={{ marginBottom: 16 }}>
-        {/* <Button.Group>
-          <Button
-            type={filterStatus.includes("active") ? "primary" : ""}
-            onClick={() => handleFilterChange("status", "active")}
-          >
-            Active
-          </Button>
-          <Button
-            type={filterStatus.includes("inactive") ? "primary" : ""}
-            onClick={() => handleFilterChange("status", "inactive")}
-          >
-            Inactive
-          </Button>
-          <Button
-            type={filterIsDelete.includes("1") ? "primary" : ""}
-            onClick={() => handleFilterChange("isDelete", "1")}
-          >
-            Deleted
-          </Button>
-          <Button
-            type={filterIsDelete.includes("0") ? "primary" : ""}
-            onClick={() => handleFilterChange("isDelete", "0")}
-          >
-            Undeleted
-          </Button>
-        </Button.Group> */}
         <Search
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}

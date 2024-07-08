@@ -1,11 +1,13 @@
 import { message } from "antd";
 import { put } from "../../../helpers/API.helper";
-import { UPDATE_Employee_ID } from "../../../helpers/APILinks";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 const updateStatus = async (record, onReload) => {
+  console.log("record",record)
   try {
     const newStatus = record.status === 1 ? 0 : 1;
-    const response = await put(`${UPDATE_Employee_ID}/${record.accountId}/status?newStatus=${newStatus}`);
+    console.log("newStatus",newStatus)
+    const response = await put(`${LOCALHOST_API}/api/Account/${record.accountId}/status?newStatus=${newStatus}`);
     if (response.ok) {
       message.success("Account status updated successfully");       
       onReload();
