@@ -14,6 +14,7 @@ function ListTable() {
     const fetchApi = async () => {
       try {
         const data = await get(`${LIST_TABLE}/${account.storeId}`);
+        console.log('data', data);
         setTables(data);
       } catch (err) {
         console.error('ERR tại ListTable:', err);
