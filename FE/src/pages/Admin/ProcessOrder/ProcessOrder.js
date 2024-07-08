@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { get, put } from '../../../helpers/API.helper';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import './process.css';
+import soundmessege from "../../../assets/sound/sound.mp3";
 Modal.setAppElement('#root');
 
 const ProcessOrder = () => {
@@ -25,10 +26,12 @@ const ProcessOrder = () => {
         .withAutomaticReconnect()
         .build();
       try {
+        const sound = new Audio(soundmessege);
         await connection.start();
         console.log('SignalR Connected.');
         connection.on('ReceiveOrderNotification', (tableId, cart) => {
           console.log(cart);
+          sound.play();
           fetchApi(); // Update order details on receiving notification
           setModalTableId(tableId); 
           setReceivedCart(cart); // Store received cart for future use

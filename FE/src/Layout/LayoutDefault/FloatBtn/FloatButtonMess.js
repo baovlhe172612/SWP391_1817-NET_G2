@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStatus } from "../../../actions/DataSaveCartAction";
 import { getCookie } from "../../../helpers/Cookie.helper";
-
+import soundmessege from "../../../assets/sound/sound.mp3";
 function FloatButtonMess({ handleOnclick }) {
   const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
   const [showOnlyCompleted, setShowOnlyCompleted] = useState(false);
@@ -38,14 +38,17 @@ function FloatButtonMess({ handleOnclick }) {
             console.log(productsizeId);
             console.log(date);
             console.log(cartSave);
+            const sound = new Audio(soundmessege);
+            
             const updatedProduct = cartSave.find(
               (item) => item.productSizeID == productsizeId
             );
             if (updatedProduct) {
               setProduct([updatedProduct]); // Đảm bảo `product` là mảng
             }
-            if (status == 1) {
+            if (status == 0) {
               setShowCompletionModal(true);
+              sound.play();
             }
           }
         );
@@ -191,7 +194,7 @@ function FloatButtonMess({ handleOnclick }) {
         />
       </Modal>
       <Modal
-        title="Sản phẩm đã được hoàn thành"
+        title="Sản phẩm đã được hoàn thành vui lòng tới quầy để lấy"
         visible={showCompletionModal}
         onCancel={() => setShowCompletionModal(false)}
         footer={[

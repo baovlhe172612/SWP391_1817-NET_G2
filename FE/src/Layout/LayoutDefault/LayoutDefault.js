@@ -137,10 +137,7 @@ function LayoutDefault() {
         )}
         <Outlet />
       </div>
-      <div>
-
-      </div>
-      <Outlet />
+      
       <Footer />
     </>
   );
