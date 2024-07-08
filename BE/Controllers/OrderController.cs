@@ -3,6 +3,8 @@ using BE.Models;
 using BE.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swp391.Controllers;
+using Swp391.Dtos;
 
 namespace BE.Controllers
 {
@@ -14,14 +16,14 @@ namespace BE.Controllers
         private readonly OrderDetailService _detailService = new OrderDetailService();
 
         [HttpPost("AddOrderDetail")]
-        public IActionResult Order( List<CartItemDtos> cartItems, int payMentID, String note, int storeId, int tableId)
+        public IActionResult Order(List<CartItemDtos> cartItems, int payMentID, String note, int storeId, int tableId)
         {
-            if(cartItems == null || cartItems.Count == 0)
+            if (cartItems == null || cartItems.Count == 0)
             {
                 return BadRequest("No data");
             }
 
-            if(storeId == - 1 || tableId == -1)
+            if (storeId == -1 || tableId == -1)
             {
                 //lấy ra orderList 
                 DateTime currentTime = DateTime.Now;
@@ -39,7 +41,7 @@ namespace BE.Controllers
                 foreach (var item in cartItems)
                 {
                     OrderDetail orderDetail = new OrderDetail
-                    { OrderId = orderJustAdd.OrderId, ProductSizeId = item.ProductSizeID, Quantity = item.quantity, Price = item.price };
+                    { Status = -1, OrderId = orderJustAdd.OrderId, ProductSizeId = item.ProductSizeID, Quantity = item.quantity, Price = item.price };
                     _detailService.addOrderDetailService(orderDetail);
                     sumTotalPrice += item.price;
                 }
@@ -68,7 +70,7 @@ namespace BE.Controllers
                 foreach (var item in cartItems)
                 {
                     OrderDetail orderDetail = new OrderDetail
-                    { OrderId = orderJustAdd.OrderId, ProductSizeId = item.ProductSizeID, Quantity = item.quantity, Price = item.price };
+                    { Status = -1, OrderId = orderJustAdd.OrderId, ProductSizeId = item.ProductSizeID, Quantity = item.quantity, Price = item.price };
                     _detailService.addOrderDetailService(orderDetail);
                     sumTotalPrice += item.price;
                 }
@@ -80,9 +82,9 @@ namespace BE.Controllers
                 return Ok(cartItems);
             }
 
-           
+
         }
-    
+
         // GET ALL ORDERS
         [HttpGet("v1/orders/store/{id}")]
         public IActionResult ListOrder(int id) {
@@ -206,7 +208,38 @@ namespace BE.Controllers
                 return StatusCode(500, "An error occurred while fetching order detail summary: " + ex.Message);
             }
         }
-    
+
+
+        [HttpGet("orderdetailbystatus")]
+
+        public IActionResult getOrderDetailByStatus(int storeId)
+        {
+            try
+            {
+                return Ok(_detailService.getOrderDetailByStatus(storeId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        [HttpPut("update")]
+        public IActionResult updateStatus(List<OrderDeltailDtos_UpdateStatus> orderDetails)
+        {
+            try
+            {
+                _detailService.updateStatus(orderDetails);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+
 
 
 }

@@ -190,5 +190,10 @@ namespace Swp391.Service
         {
              return _repo.GetProductSizeById(id);
         }
+
+        public void DeleteProduct(int id, int isdelete)
+        {
+            _repo.DeleteProduct(id, isdelete);
+        }
     }
 }
