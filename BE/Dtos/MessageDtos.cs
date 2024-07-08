@@ -15,7 +15,7 @@ namespace BE.Dtos
 
         public string ContentChat { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime? TimeStamp { get; set; }
 
         public int Role {get; set; }
 

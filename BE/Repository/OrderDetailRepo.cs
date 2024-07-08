@@ -1,5 +1,6 @@
 ﻿using BE.Models;
 using Swp391.Dtos;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BE.Repository
 {
@@ -19,7 +20,7 @@ namespace BE.Repository
 
         public List<OrderDetail> listOrderDetailByStatus()
         {
-            return _context.OrderDetails.Where(od => od. == status).ToList();
+            return _context.OrderDetails.Where(od => od.Status == -1 || od.Status == 0).ToList();
         }
         /// <summary>
         /// add OrderDetail
@@ -43,7 +44,6 @@ namespace BE.Repository
                                         join pz in _context.ProductSizes on od.ProductSizeId equals pz.ProductSizeId
                                         join s in _context.Sizes on pz.SizeId equals s.SizeId
                                         join p in _context.Products on pz.ProductId equals p.ProductId
-
                                         where o.OrderId == orderId && o.StoreId == storeId
                                         select new OrderDetailDto
                                         {
@@ -112,7 +112,81 @@ namespace BE.Repository
             }
         }
 
+        // get orderdetail by status
+
+        public List<OrderDetailDto> getOrderDetailByStatus(int storeId)
+        {
+            try
+            {
+                var listOrderDetails = (from o in _context.Orders
+                                        join st in _context.Stores on o.StoreId equals st.StoreId
+                                        join t in _context.Tables on o.TableId equals t.TableId
+                                        join od in _context.OrderDetails on o.OrderId equals od.OrderId
+                                        join pz in _context.ProductSizes on od.ProductSizeId equals pz.ProductSizeId
+                                        join s in _context.Sizes on pz.SizeId equals s.SizeId
+                                        join p in _context.Products on pz.ProductId equals p.ProductId
+                                        where (od.Status == 0 || od.Status == -1) && o.StoreId == storeId
+                                        select new OrderDetailDto
+                                        {
+                                            OrderID = o.OrderId,
+                                            OrderDetailID = od.OrderDetailId,
+                                            StoreID = o.StoreId,
+                                            StoreName = st.StoreName,
+                                            TableID = o.TableId,
+                                            TableName = t.TableName,
+                                            Price = od.Price,
+                                            Product_SizeID = od.ProductSizeId,
+                                            Quantity = (int)od.Quantity,
+                                            SizeID = s.SizeId,
+                                            SizeName = s.SizeName,
+                                            Img = p.Img,
+                                            Status=od.Status,
+                                            ProductName = p.ProductName,
+                                            Date = o.Date
+                                        }).ToList();
+
+                if (listOrderDetails == null || listOrderDetails.Count == 0)
+                {
+                    // Log thông báo nếu không có chi tiết đơn hàng nào
+                    // Log.Information("No order details found for the given storeId: {storeId}", storeId);
+                    return new List<OrderDetailDto>();
+                }
+
+                return listOrderDetails;
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi chi tiết để dễ dàng kiểm tra
+                // Log.Error(ex, "An error occurred while fetching order details for storeId: {storeId}", storeId);
+                throw new Exception("An error occurred while fetching order details", ex);
+            }
+        }
+        public void UpdateStatus(List<OrderDeltailDtos_UpdateStatus> orderDetails)
+        {
+            if (orderDetails == null || orderDetails.Count == 0)
+            {
+                throw new ArgumentException("Order details list cannot be null or empty.");
+            }
+
+            foreach (var orderDetail in orderDetails)
+            {
+                var existingOrderDetail = _context.OrderDetails.FirstOrDefault(od => od.OrderDetailId == orderDetail.OrderDetailID);
+                if (existingOrderDetail != null)
+                {
+                    existingOrderDetail.Status = orderDetail.Status;
+                    _context.OrderDetails.Update(existingOrderDetail);
+                }
+                else
+                {
+                    throw new Exception($"Order detail with ID {orderDetail.OrderDetailID} not found.");
+                }
+            }
+
+            _context.SaveChanges();
+        }
 
 
     }
+
+    
 }

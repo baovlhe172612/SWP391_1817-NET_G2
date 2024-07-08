@@ -39,5 +39,14 @@ namespace BE.Service
                 throw new Exception("An error occurred while fetching order detail summary", ex);
             }
         }
+        public List<OrderDetailDto> getOrderDetailByStatus(int storeId)
+        {
+            return _repo.getOrderDetailByStatus(storeId);
+        }
+
+        public void updateStatus(List<OrderDeltailDtos_UpdateStatus> orderDetails)
+        {
+            _repo.UpdateStatus(orderDetails);
+        }
     }
 }
