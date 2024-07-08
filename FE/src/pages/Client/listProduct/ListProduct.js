@@ -17,7 +17,7 @@ function ListProduct() {
   const [conditionSort, setCondition] = useState(null);
   const { tableId, storeId } = useParams();
 
-  if(tableId || storeId) {
+  if (tableId || storeId) {
     setCookie('tableId', tableId, 1);
     setCookie('storeId', storeId, 1);
   }
@@ -32,16 +32,16 @@ function ListProduct() {
         const data = await get(`
           ${LIST_PRODUCT_SIZE}/getProductSizeByCategoryId?categoriesID=${searchByCategoryID}`
         );
-  
+
         console.log("da ghi de tai day 29");
         setProducts(data);
       };
-  
+
       fetchApi();
     }
-  }, [searchByCategoryID ]); 
+  }, [searchByCategoryID]);
 
-  
+
 
 
 
@@ -53,7 +53,7 @@ function ListProduct() {
         `${LIST_PRODUCT_SIZE}/getProductSizeByPage?page=1`
       );
       const dataCate = await get(`${API_CATEGORY}`);
-      
+
 
       setCategory(dataCate);
       //
@@ -64,19 +64,19 @@ function ListProduct() {
 
     fetchApi();
   }, []);
-  
+
   // useEffect(() => {
   //   if (searchQuery !== null && parseInt(searchQuery) !== 0) {
   //     const fetchApi = async () => {
   //       const data = await get(
   //         http://localhost:5264/api/ProductControlles/search?search=${searchQuery}
   //       );
-  
+
   //       console.log("da ghi de tai day 117");
   //       console.log(data);
   //       setProducts(data);
   //     };
-  
+
   //     fetchApi();
   //   }
   // }, []); 
@@ -94,13 +94,13 @@ function ListProduct() {
 
     fetchApi();
   }, []);
-  
+
 
   //dùng để đếm số lượng sản phẩm
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
-       ` ${LIST_PRODUCT_SIZE}/getCountProductSize`
+        ` ${LIST_PRODUCT_SIZE}/getCountProductSize`
       );
       //
 
@@ -129,15 +129,15 @@ function ListProduct() {
       console.error("Error updating size:", error);
     }
   };
- 
+
 
   const handleSortCondition = async (event) => {
     const selectedSortCondition = parseInt(event.target.value);
-  
-    setCondition(selectedSortCondition);
-  
 
-  
+    setCondition(selectedSortCondition);
+
+
+
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       console.log("Inside if condition");
       try {
@@ -179,7 +179,7 @@ function ListProduct() {
 
   return (
     <>
-   
+
       <div class="shop-area section-space-y-axis-100">
         <div class="container">
           <div class="row">
@@ -193,7 +193,7 @@ function ListProduct() {
                   <li class="short">
                     <ul class="nav" role="tablist">
                       {/* MENU CATEGORY */}
-                      <MenuCategory categories={categories}/>
+                      <MenuCategory categories={categories} />
                       {/* MENU CATEGORY */}
                     </ul>
                   </li>
@@ -218,9 +218,9 @@ function ListProduct() {
                       </option>
                     </select>
 
-               
+
                   </li>
-                 
+
                 </ul>
               </div>
               {/* ========== UL =============== */}
@@ -247,7 +247,7 @@ function ListProduct() {
               {/* ================ TAB - CONTENT =================== */}
 
               {/* ================ PAGINATION =================== */}
-              {/* <div class="pagination-area">
+              <div class="pagination-area">
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
 
@@ -272,65 +272,65 @@ function ListProduct() {
                     ))}
                   </ul>
                 </nav>
-              </div> */}
-               <div
-      className="pagination-area"
-      style={{
-        margin: "20px 0",
-      }}
-    >
-      <nav aria-label="Page navigation example">
-        <ul
-          className="pagination justify-content-center"
-          style={{
-            display: "flex",
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          {conditionSort == null &&
-            totalPages.map((item, index) => (
-              <li
-                className={`page-item ${item === currentPage ? "active" : ""}`}
-                key={index}
+              </div>
+              {/* <div
+                className="pagination-area"
                 style={{
-                  margin: "0 5px",
+                  margin: "20px 0",
                 }}
               >
-                <a
-                  onClick={() => {
-                    handleDataByPage(item);
-                  }}
-                  style={{
-                    display: "block",
-                    padding: "10px 15px",
-                    color: item === currentPage ? "white" : "#007bff",
-                    backgroundColor: item === currentPage ? "#007bff" : "transparent",
-                    textDecoration: "none",
-                    border: "1px solid #dee2e6",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    transition: "background-color 0.3s, border-color 0.3s",
-                  }}
-                  onMouseOver={(e) => {
-                    e.target.style.backgroundColor = item === currentPage ? "#0056b3" : "#007bff";
-                    e.target.style.color = "white";
-                    e.target.style.borderColor = "#007bff";
-                  }}
-                  onMouseOut={(e) => {
-                    e.target.style.backgroundColor = item === currentPage ? "#007bff" : "transparent";
-                    e.target.style.color = item === currentPage ? "white" : "#007bff";
-                    e.target.style.borderColor = "#dee2e6";
-                  }}
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-        </ul>
-      </nav>
-    </div>
+                <nav aria-label="Page navigation example">
+                  <ul
+                    className="pagination justify-content-center"
+                    style={{
+                      display: "flex",
+                      listStyle: "none",
+                      padding: 0,
+                      margin: 0,
+                    }}
+                  >
+                    {conditionSort == null &&
+                      totalPages.map((item, index) => (
+                        <li
+                          className={`page-item ${item === currentPage ? "active" : ""}`}
+                          key={index}
+                          style={{
+                            margin: "0 5px",
+                          }}
+                        >
+                          <a
+                            onClick={() => {
+                              handleDataByPage(item);
+                            }}
+                            style={{
+                              display: "block",
+                              padding: "10px 15px",
+                              color: item === currentPage ? "white" : "#007bff",
+                              backgroundColor: item === currentPage ? "#007bff" : "transparent",
+                              textDecoration: "none",
+                              border: "1px solid #dee2e6",
+                              borderRadius: "5px",
+                              cursor: "pointer",
+                              transition: "background-color 0.3s, border-color 0.3s",
+                            }}
+                            onMouseOver={(e) => {
+                              e.target.style.backgroundColor = item === currentPage ? "#0056b3" : "#007bff";
+                              e.target.style.color = "white";
+                              e.target.style.borderColor = "#007bff";
+                            }}
+                            onMouseOut={(e) => {
+                              e.target.style.backgroundColor = item === currentPage ? "#007bff" : "transparent";
+                              e.target.style.color = item === currentPage ? "white" : "#007bff";
+                              e.target.style.borderColor = "#dee2e6";
+                            }}
+                          >
+                            {item}
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </nav>
+              </div> */}
               {/* ================ PAGINATION =================== */}
             </div>
           </div>

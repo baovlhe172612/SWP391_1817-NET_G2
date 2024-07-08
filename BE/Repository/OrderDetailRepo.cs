@@ -94,7 +94,7 @@ namespace BE.Repository
                                    ProductName = g.Key.ProductName,
                                    StoreName = g.Key.StoreName,
                                    TotalQuantity = g.Sum(x => x.od.Quantity??0)  // Calculate total quantity here
-                               }).ToList();
+                               }).Take(7).ToList();
 
                 return summary;
             }
