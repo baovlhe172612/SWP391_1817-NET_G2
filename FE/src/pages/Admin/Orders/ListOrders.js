@@ -16,10 +16,6 @@ function ListOrders() {
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-
-  console.log(orders)
-  // FILTER
-  const [tableName, setTableName] = useState([]);
   const account = useSelector((state) => state.AccountReducer);
 
   useEffect(() => {
@@ -64,19 +60,6 @@ function ListOrders() {
     setOrderDetails(null);
   };
 
-  // FILTER
-  const tableNameFilters = [...new Set(orders.map((order) => order.tableName))].map((tableName) => ({
-    text: tableName,
-    value: tableName,
-  }));
-
-  const statusFilters = [
-    { text: "Process", value: 0 },
-    { text: "Reject", value: -1 },
-    { text: "Done", value: 1 }
-  ];
-
-
   const columns = [
     {
       title: "Order ID",
@@ -88,21 +71,12 @@ function ListOrders() {
       title: "Table Name",
       dataIndex: "tableName",
       key: "tableName",
-      filters: tableNameFilters,
-      onFilter: (value, record) => {
-        // console.log(value)
-        return record.tableName.includes(value)
-      },
       render: (text) => <strong>{text}</strong>,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      filters: statusFilters,
-      onFilter: (value, record) => {
-        return record.status == value//.status.includes(value);
-      },
       render: (status) => (
         <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>
       ),
@@ -170,6 +144,11 @@ function ListOrders() {
                   dataIndex: "storeName",
                   key: "storeName",
                 },
+                // {
+                //   title: "Table",
+                //   dataIndex: "tableName",
+                //   key: "tableName",
+                // },
                 {
                   title: "Product Name",
                   dataIndex: "productName",

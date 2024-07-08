@@ -44,6 +44,7 @@ import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
 import MostSoldProducts from "../pages/Admin/Dashboard/MostSoldProducts";
 import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
+import ProcessOrder from "../pages/Admin/ProcessOrder/ProcessOrder";
 const routes = [
   {
     path: "/",
@@ -297,7 +298,10 @@ const routes = [
                     path: "",
                     element: <ListOrders />,
                   },
-                 
+                  {
+                    path: "process",
+                    element: <ProcessOrder />,
+                  },                
                 ],
               },
               {
