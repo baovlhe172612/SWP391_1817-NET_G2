@@ -498,7 +498,7 @@ function Dashboard() {
 
   const getRandomColor = (index) => {
     const colors = [
-      "pink",
+      "#47BFBE",,
       // add more colors as needed
     ];
     return colors[index % colors.length];

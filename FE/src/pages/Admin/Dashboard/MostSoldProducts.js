@@ -139,13 +139,15 @@ function Dashboard() {
         label: 'Total Quantity Sold',
         data: totalQuantity,
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF',
-          '#FF9F40'
+          '#E74C3C', // Red
+          '#3498DB', // Blue
+          '#F1C40F', // Yellow
+          '#FF69B4', // Pink
+          '#9B59B6', // Purple
+          '#E67E22', // Orange
+          '#2ECC71'  // Green
         ],
+        
         borderColor: 'white',
         borderWidth: 1,
       }],
