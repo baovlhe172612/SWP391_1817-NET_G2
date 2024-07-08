@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using BE.Models;
 using Microsoft.EntityFrameworkCore; // Thêm dòng này để sử dụng DbUpdateException
 using BE.Dtos;
+using BE.Repository;
 
 namespace BE.Repository
 {
     public class MessageRepo
     {
         SwpfinalContext _context = new SwpfinalContext();
+        ConversationRepo _conversationRepo = new ConversationRepo();
         // Add tin nhắn vào db
         public Message AddMessage(Message message)
         {
@@ -53,11 +55,54 @@ namespace BE.Repository
                              CoverId = me.CoverId,
                              SensiderId = me.SensiderId,
                              ContentChat = me.ContentChat,
-                             TimeStamp = me.TimeStamp,
+                             TimeStamp = me.TimeStamp,//DateTime.Now,
                              Role = us.Role,
                              UserName = us.UserName
                          }).ToList();
             return query;
         }
+
+        public bool DeleteMessage(int conversationId)
+        {
+            try
+            {
+                var messagesToDelete = _context.Messages
+                    .Where(m => m.CoverId == conversationId);
+
+                _context.Messages.RemoveRange(messagesToDelete);
+                _context.SaveChanges();
+
+                return true; // Nếu xóa thành công, trả về true
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ, ví dụ như log lỗi hoặc thông báo lỗi
+                Console.WriteLine($"Error deleting messages: {ex.Message}");
+                return false; // Trả về false để cho biết xóa không thành công
+            }
+        }
+
+        public bool DeleteAllMessageInStore(List<Conversation> list)
+        {
+            try
+            {
+                var coverIds = list.Select(c => c.ConversationId).ToList();
+
+                var messagesToDelete = _context.Messages
+                    .Where(m => coverIds.Contains(m.CoverId));
+
+                _context.Messages.RemoveRange(messagesToDelete);
+                _context.SaveChanges();
+
+                return true; // Trả về true nếu xóa thành công
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ, ví dụ như log lỗi hoặc thông báo lỗi
+                Console.WriteLine($"Error deleting messages: {ex.Message}");
+                return false; // Trả về false để cho biết xóa không thành công
+            }
+        }
+
     }
 }

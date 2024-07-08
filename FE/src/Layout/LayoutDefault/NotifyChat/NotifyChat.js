@@ -6,8 +6,9 @@ import "./NotifyChat.css"; // Đảm bảo rằng bạn đã nhập tệp CSS
 import { Link } from "react-router-dom";
 import { joinSpecificChatroom } from "../../../helpers/Chat.helper";
 import { getCookie } from "../../../helpers/Cookie.helper";
+import soundmessege from "../../../assets/sound/sound.mp3";
 
-function NotifyChat({ connection }) {
+function NotifyChat({ connection, setCollapsedNotify, collapsedNotify }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertKey, setAlertKey] = useState(0);
   const [alertMessage, setAlertMessage] = useState({
@@ -16,8 +17,18 @@ function NotifyChat({ connection }) {
   });
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
+  const sound = new Audio(soundmessege);
+  sound.play();
+
 
   useEffect(() => {
+    if(collapsedNotify) {
+      setAlertMessage({
+        header: "New Message  ",
+      title: "New Message",
+      })
+    }
+
     if (connection) {
       // join store
       const joinStore = async () => {
@@ -35,11 +46,13 @@ function NotifyChat({ connection }) {
               parseInt(storeId)
             );
             setShowAlert(true);
+            setCollapsedNotify(true);
             setAlertKey((prevKey) => prevKey + 1);
 
             setTimeout(() => {
               setShowAlert(false);
-            }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
+              setCollapsedNotify(false)
+            }, 1500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
             console.log("JoinStore invoked successfully.");
           } catch (error) {
             console.error("Error invoking JoinStore:", error);
@@ -56,6 +69,7 @@ function NotifyChat({ connection }) {
         newMessage
       ) => {
         setShowAlert(true);
+        setCollapsedNotify(true);
         setAlertKey((prevKey) => prevKey + 1);
 
         setAlertMessage({
@@ -65,7 +79,9 @@ function NotifyChat({ connection }) {
 
         setTimeout(() => {
           setShowAlert(false);
-        }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
+          setCollapsedNotify(false)
+
+        }, 1500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
         console.log(conversationExist);
       };
 
@@ -102,9 +118,9 @@ function NotifyChat({ connection }) {
             showIcon
           />
 
-          <div className="progress-bar">
+          {/* <div className="progress-bar">
             <div className="progress-bar-inner"></div>
-          </div>
+          </div> */}
         </div>
       )}
     </>

@@ -22,3 +22,4 @@ export const removeItem = (productSizeID) => ({
 export const clearCart = () => ({
     type: CLEAR_CART
 });
+

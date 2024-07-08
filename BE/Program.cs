@@ -30,6 +30,7 @@ namespace Swp391
             builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddLogging();
 
             var app = builder.Build();
 
@@ -48,8 +49,8 @@ namespace Swp391
             app.UseAuthorization();
 
             app.MapControllers();
-
             app.MapHub<ChatHubs>("/Chat");
+            app.MapHub<OrderHub>("/OrderHub");
 
             app.Run("http://localhost:5264"); // Specify the IP address and port
         }

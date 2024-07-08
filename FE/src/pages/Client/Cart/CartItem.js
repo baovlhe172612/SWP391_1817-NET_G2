@@ -9,7 +9,7 @@ import { removeItem, updateQuantity } from "../../../actions/CartAction";
 
 export default function CartItem({ data, onItemChange }) {
     const dispatch = useDispatch();
-
+    
     const [quantity, setQuantity] = useState(data?.quantity);
     const [totalPrice, setTotalPrice] = useState(data?.price * data?.quantity);
 

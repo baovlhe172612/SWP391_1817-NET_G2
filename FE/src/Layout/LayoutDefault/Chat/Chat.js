@@ -6,7 +6,7 @@ import * as signalR from "@microsoft/signalr";
 import { getCookie } from "../../../helpers/Cookie.helper";
 import { Badge } from "antd";
 
-function Chat({ setCollapsed, connection }) {
+function Chat({ setCollapsed, connection, setCollapsedNotify }) {
   const [message, setMessage] = useState("");
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
@@ -50,7 +50,7 @@ function Chat({ setCollapsed, connection }) {
         <section class="msger">
           <header class="msger-header">
             <div class="msger-header-title">
-              <i class="fas fa-comment-alt"></i> SimpleChat
+              <i class="fas fa-comment-alt"></i> Chat
             </div>
             <div class="msger-header-options">
               <span>
@@ -60,7 +60,7 @@ function Chat({ setCollapsed, connection }) {
           </header>
 
           {/* Chat Detail */}
-          <ChatDetail connection={connection} />
+          <ChatDetail connection={connection} setCollapsedNotify={setCollapsedNotify}/>
           {/* Chat Detail */}
 
           <form class="msger-inputarea">

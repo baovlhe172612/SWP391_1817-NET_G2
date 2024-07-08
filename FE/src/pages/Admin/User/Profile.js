@@ -4,7 +4,10 @@ import { Form, Input, Button, Row, Col, Card } from "antd";
 // import "antd/dist/antd.css";
 import "./Profile.css";
 import { get, put, putV2 } from "../../../helpers/API.helper";
-import { GET_ACCOUNT_BY_TOKEN, UPDATE_ACCOUNT_ID } from "../../../helpers/APILinks";
+import {
+  GET_ACCOUNT_BY_TOKEN,
+  UPDATE_ACCOUNT_ID,
+} from "../../../helpers/APILinks";
 import { alear_false, alear_success } from "../../../helpers/Alert.helper";
 import { accountActions } from "../../../actions/AccountActions";
 
@@ -14,34 +17,81 @@ function Profile() {
   const account = useSelector((state) => state.AccountReducer);
   const dispatch = useDispatch();
 
-  console.log(account)
+  console.log(account);
+
+  // Regex pattern to block whitespace
+  const noWhitespacePattern = /^\S*$/;
+
+  // Regex pattern to allow only numbers
+  const onlyNumbersPattern = /^[0-9]+$/;
+
+  // Common validation rules for input fields
+  const commonRules = (fieldName) => [
+    {
+      required: true,
+      message: `Please input your ${fieldName}!`,
+    },
+    {
+      pattern: noWhitespacePattern,
+      message: "Whitespace is not allowed!",
+    },
+  ];
+
+  // Validation rules for phone field
+  const phoneRules = [
+    {
+      required: true,
+      message: "Please input your phone number!",
+    },
+    {
+      pattern: onlyNumbersPattern,
+      message: "Phone number must contain only numbers!",
+    },
+    {
+      pattern: noWhitespacePattern,
+      message: "Whitespace is not allowed!",
+    },
+  ];
+
+  // Validation rules for email field
+  const emailRules = [
+    {
+      required: true,
+      message: "Please input your email address!",
+    },
+    {
+      type: "email",
+      message: "The input is not a valid email address!",
+    },
+    {
+      pattern: noWhitespacePattern,
+      message: "Whitespace is not allowed!",
+    },
+  ];
 
   // SUBMIT
   const handleSubmit = async (values) => {
-    const profileNewV1 = { ...account, ...values }
+    const profileNewV1 = { ...account, ...values };
 
-    console.log(profileNewV1)
+    console.log(profileNewV1);
 
     try {
-      const dataPatch = await putV2(
-        `${UPDATE_ACCOUNT_ID}`,
-        profileNewV1
-      );
+      const dataPatch = await putV2(`${UPDATE_ACCOUNT_ID}`, profileNewV1);
 
       if (dataPatch) {
         alear_success(`Update Success`, `updated`);
 
-        const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${dataPatch.token}`);
-        console.log(accountByToken)
+        const accountByToken = await get(
+          `${GET_ACCOUNT_BY_TOKEN}/${dataPatch.token}`
+        );
+        console.log(accountByToken);
 
-      dispatch(accountActions(accountByToken));
-
-
+        dispatch(accountActions(accountByToken));
       } else {
-      alear_false(`Update false`, `updated false`);
+        alear_false(`Update false`, `updated false`);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       alear_false(`Update false`, `updated false`);
     }
   };
@@ -53,17 +103,12 @@ function Profile() {
           {/* Account details card */}
           <Card title="Account Details" className="mb-4">
             <Form onFinish={handleSubmit}>
-              {/* Form Group (username) */}
+              {/* Form Group (full name) */}
               <Item
                 label={<span className="fixed-width-label">Full Name</span>}
                 name="fullName"
                 initialValue={account.fullName}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your fullName!",
-                  },
-                ]}
+                rules={commonRules("full name")}
               >
                 <Input placeholder="Enter your full name" />
               </Item>
@@ -75,12 +120,7 @@ function Profile() {
                     label={<span className="fixed-width-label">Username</span>}
                     name="userName"
                     initialValue={account.userName}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your username!",
-                      },
-                    ]}
+                    rules={commonRules("username")}
                   >
                     <Input readOnly className="readonly-input" />
                   </Item>
@@ -91,14 +131,9 @@ function Profile() {
                     label={<span className="fixed-width-label">Phone</span>}
                     name="phone"
                     initialValue={account.phone}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your phone!",
-                      },
-                    ]}
+                    rules={phoneRules}
                   >
-                    <Input placeholder="Enter your phone" />
+                    <Input placeholder="Enter your phone number" />
                   </Item>
                 </Col>
               </Row>
@@ -107,12 +142,7 @@ function Profile() {
                 label={<span className="fixed-width-label">Email Address</span>}
                 name="email"
                 initialValue={account.email}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your email!",
-                  },
-                ]}
+                rules={emailRules}
               >
                 <Input type="email" placeholder="Enter your email address" />
               </Item>
@@ -124,24 +154,20 @@ function Profile() {
                     label={<span className="fixed-width-label">Role Name</span>}
                     name="roleName"
                     initialValue={account.roleName}
+                    rules={commonRules("role name")}
                   >
                     <Input readOnly className="readonly-input" />
                   </Item>
                 </Col>
-                {/* Form Group (location) */}
+                {/* Form Group (address) */}
                 <Col span={12}>
                   <Item
                     label={<span className="fixed-width-label">Address</span>}
                     name="address"
                     initialValue={account.address}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your location!",
-                      },
-                    ]}
+                    rules={commonRules("address")}
                   >
-                    <Input placeholder="Enter your location" />
+                    <Input placeholder="Enter your address" />
                   </Item>
                 </Col>
               </Row>
@@ -157,9 +183,9 @@ function Profile() {
                   <Input readOnly className="readonly-input" />
                 </Item>
               )}
-              {/*  */}
+              {/* Form Row */}
               <Row gutter={16}>
-                {/* Form Group (role name) */}
+                {/* Form Group (store name) */}
                 <Col span={12}>
                   <Item
                     label={
@@ -167,28 +193,23 @@ function Profile() {
                     }
                     name="storeName"
                     initialValue={account.storeName}
+                    rules={commonRules("store name")}
                   >
                     <Input readOnly className="readonly-input" />
                   </Item>
                 </Col>
-                {/* Form Group (location) */}
+                {/* Form Group (cccd) */}
                 <Col span={12}>
                   <Item
-                    label={<span className="fixed-width-label">Cccd</span>}
+                    label={<span className="fixed-width-label">CCCD</span>}
                     name="cccd"
                     initialValue={account.cccd}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your cccd!",
-                      },
-                    ]}
+                    rules={commonRules("CCCD")}
                   >
-                    <Input placeholder="Enter your location" />
+                    <Input placeholder="Enter your CCCD" />
                   </Item>
                 </Col>
               </Row>
-              {/*  */}
               {/* Save changes button */}
               <Item>
                 <Button type="primary" htmlType="submit">

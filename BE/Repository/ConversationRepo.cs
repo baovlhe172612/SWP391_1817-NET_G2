@@ -50,11 +50,29 @@ namespace BE.Repository
             }
         }
 
-        public List<Conversation> GetConversationByStoreId(int id) {
+        public List<Conversation> GetConversationByStoreId(int id)
+        {
             var listConversation = _context.Conversations
-                                .Where( con => con.UserSecondId == id)
+                                .Where(con => con.UserSecondId == id)
                                 .ToList();
             return listConversation;
+        }
+
+        public Conversation GetConverByStoreIdAndTable(int tableId, int storeId)
+        {
+            var conversation = _context.Conversations.FirstOrDefault(c => c.UserChatFirstId == tableId * 10000 && c.UserSecondId == storeId);
+
+            return conversation;
+        }
+
+        public Conversation ExistConversation(int storeId)
+        {
+            var conversation
+            = _context
+            .Conversations
+            .FirstOrDefault(cn => cn.UserSecondId == storeId);
+
+            return conversation;
         }
 
     }

@@ -147,7 +147,7 @@ function ListStoreManager() {
         return (
           <Space size="middle">
             <UpdateIsDelete record={record} onReload={onReload} />
-            <Link to={`/admin/manager-store/edit/${record.accountId}`}>
+            <Link to={`/admin/managerStore/edit/${record.accountId}`}>
               <Button type="primary" icon={<EditOutlined />} />
             </Link>
           </Space>

@@ -16,7 +16,7 @@ function UpdateStoreManager() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`${GET_ACCOUNT_BY_ID}${id}`);
+        const data = await get(`${GET_ACCOUNT_BY_ID}/${id}`);
         console.log("data",data)
         // const dataAccount = await get(`${LIST_ACCOUNT}`);
         // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form

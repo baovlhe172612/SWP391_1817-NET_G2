@@ -121,6 +121,9 @@ function Contact() {
     };
     console.log("data: ", data);
 
+
+
+    //ĐÂY LFA TIẾN TRÌNH
     const [currentStep, setCurrentStep] = useState(1); // State to track current step
 
     const handleStepChange = (step) => {
