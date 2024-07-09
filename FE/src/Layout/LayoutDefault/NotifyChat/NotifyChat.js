@@ -6,6 +6,7 @@ import "./NotifyChat.css"; // Đảm bảo rằng bạn đã nhập tệp CSS
 import { Link } from "react-router-dom";
 import { joinSpecificChatroom } from "../../../helpers/Chat.helper";
 import { getCookie } from "../../../helpers/Cookie.helper";
+import soundmessege from "../../../assets/sound/sound.mp3";
 
 function NotifyChat({ connection, setCollapsedNotify, collapsedNotify }) {
   const [showAlert, setShowAlert] = useState(false);
@@ -16,7 +17,8 @@ function NotifyChat({ connection, setCollapsedNotify, collapsedNotify }) {
   });
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
-
+  const sound = new Audio(soundmessege);
+  sound.play();
 
 
   useEffect(() => {

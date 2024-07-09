@@ -41,8 +41,10 @@ import ListBlog from "../pages/Client/Blog/ListBlog";
 import BlogDetail from "../pages/Client/Blog/BlogDetail";
 import CreateBlog from "../pages/Client/Blog/CreateBlog";
 import UpdateProduct from "../pages/Admin/Product/UpdateProduct";
+import MostSoldProducts from "../pages/Admin/Dashboard/MostSoldProducts";
 import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
+import ProcessOrder from "../pages/Admin/ProcessOrder/ProcessOrder";
 const routes = [
   {
     path: "/",
@@ -172,6 +174,12 @@ const routes = [
                 element: <Dashboard />,
               },
               {
+                path: "/admin/MostSoldProducts",
+                element: <MostSoldProducts />,
+              },
+             
+              
+              {
                 path: "table",
                 children: [
                   {
@@ -291,7 +299,10 @@ const routes = [
                     path: "",
                     element: <ListOrders />,
                   },
-                 
+                  {
+                    path: "process",
+                    element: <ProcessOrder />,
+                  },                
                 ],
               },
               {

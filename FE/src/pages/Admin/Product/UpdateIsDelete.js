@@ -1,14 +1,22 @@
 import React from "react";
-import { Button, message, Popconfirm } from "antd";
+import { Button, message } from "antd";
 import { DeleteOutlined } from '@ant-design/icons';
-import { patch, put } from "../../../helpers/API.helper";
+import { put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
+import { UPDATE_Employee_ID } from "../../../helpers/APILinks";
 
-function UpdateIsDelete({ record, onReload}) {
+function UpdateIsDelete({ record, onReload }) {
+  // console.log("Record in UpdateIsDelete:", record);
+
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('vi-VN'); // Định dạng ngày theo tiếng Việt
+  console.log(`Current date: ${formattedDate}`); 
+
   const handleUpdate = async () => {
+    console.log("record.statusDate before update:", record.statusDate);
     try {
       const confirm = await Swal.fire({
-        title: "Are you want to delete?",
+        title: "Are you sure you want to delete?",
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
@@ -18,18 +26,18 @@ function UpdateIsDelete({ record, onReload}) {
       });
 
       if (confirm.isConfirmed) {
-        const response = await put(`http://localhost:5264/api/Account/${record.productId}/IsDelete?isdelete=1`, {
-          storeId: record.accountId,
-        });
-
-        console.log(response)
+        // Perform update of IsDelete status in the database
+        const response = await put(`http://localhost:5264/api/ProductSizes/delete/${record.productSizeID}?delete=1`);
+        console.log("Response from update API:", response);
         if (response.ok) {
+          // Notify success
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been deleted.",
+            text: "Your account has been deleted.",
             icon: "success",
           });
-          message.success("Account IsDelete updated successfully");
+          console.log("Response from update API khi ok:", response);
+          // Call onReload to refresh data
           onReload();
         } else {
           throw new Error('Failed to update account IsDelete');
@@ -37,17 +45,13 @@ function UpdateIsDelete({ record, onReload}) {
       }
     } catch (error) {
       message.error(`Failed to update account IsDelete: ${error.message}`);
-      console.error("Error in UpdateIsDelete", error);
+      console.error("Error in UpdateIsDelete:", error);
     }
   };
+
   return (
-   
-      <Button danger size='small' onClick={handleUpdate} icon={<DeleteOutlined />}></Button>
-   
+    <Button danger size='small' onClick={handleUpdate} icon={<DeleteOutlined />}></Button>
   );
 }
 
 export default UpdateIsDelete;
-
-
-

@@ -89,7 +89,7 @@ function ListCategory() {
     if (confirm.isConfirmed) {
       try {
         const dataDelete = await patch(
-          `http://172.20.10.5:5264/api/Category/delete/${record.categoryId}`,
+          `http://localhost:5264/api/Category/delete/${record.categoryId}`,
           {
             isDelete: 1,
           }

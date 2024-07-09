@@ -1,4 +1,5 @@
-﻿using BE.Models;
+﻿using BE.Controllers;
+using BE.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swp391.Dtos;
@@ -210,6 +211,21 @@ namespace Swp391.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("delete/{id}")]
+
+        public IActionResult DeleteProduct(int id,int delete)
+        {
+            try
+            {
+                _service.DeleteProduct(id, delete);
+                return Ok(new { message = "Update is delet successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message});
             }
         }
 

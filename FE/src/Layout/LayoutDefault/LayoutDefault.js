@@ -130,15 +130,14 @@ function LayoutDefault() {
       <div>
         {/* Button chat */}
         <FloatButtonMess handleOnclick={handleOnclick} />
-
+       
         {collapsed == false && collapsedNotify == true && <NotifyChat connection={connection} setCollapsedNotify={setCollapsedNotify} collapsedNotify={collapsedNotify}/>}
         {collapsed && (
           <Chat setCollapsed={setCollapsed} connection={connection} setCollapsedNotify={setCollapsedNotify} />
         )}
-
         <Outlet />
       </div>
-
+      
       <Footer />
     </>
   );

@@ -26,3 +26,17 @@ export const alear_success_login = async (title, name) => {
     timer: 1500,
   });
 };
+
+export const confirm = async (title, message) => {
+  const confirmDelete = await Swal.fire({
+    title: title,
+    text: message,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  });
+  
+  return confirmDelete;
+}
