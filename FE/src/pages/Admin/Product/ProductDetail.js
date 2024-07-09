@@ -8,7 +8,9 @@ import UpdateIsDelete from "./UpdateIsDelete";
 import { Link } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 function ListProductAdmin() {
- 
+  const [products, setProducts] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5, // Set the default page size to 3
   });

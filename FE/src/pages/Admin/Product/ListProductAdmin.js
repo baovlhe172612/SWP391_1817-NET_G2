@@ -10,7 +10,11 @@ import Search from "antd/es/transfer/search";
 import UpdateIsDelete from "./UpdateIsDelete";
 
 function ListProductAdmin() {
-  
+  const [filterIsDelete, setFilterIsDelete] = useState([]); // State to store selected status filters
+  const [searchTerm, setSearchTerm] = useState(""); // State to store search term
+  const [products, setProducts] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5, // Set the default page size to 5
   });
