@@ -36,11 +36,11 @@ function UpdateIsDelete({ record, onReload }) {
             text: "Your account has been deleted.",
             icon: "success",
           });
-          console.log("Response from update API khi ok:", response);
           // Call onReload to refresh data
           onReload();
         } else {
-          throw new Error('Failed to update account IsDelete');
+          throw new Error('Failed           console.log("Response from update API khi ok:", response);
+to update account IsDelete');
         }
       }
     } catch (error) {
