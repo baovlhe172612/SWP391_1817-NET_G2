@@ -1,78 +1,37 @@
 import { message } from "antd";
 
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || response.statusText);
+  }
+  return response.json();
+};
+
+const request = async (url, options) => {
+  const response = await fetch(url, options);
+  return handleResponse(response);
+};
+
 export const get = async (url) => {
-  const response = await fetch(url, {
+  const options = {
     method: "GET",
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
-  });
-
-  const data = await response.json();
-  return data;
-};
-
-export const patch = async (url, values) => {
-  const init = {
-    method: "PATCH",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "TOKEN",
-    },
-    body: JSON.stringify(values),
   };
-  const response = await fetch(url, init);
-
-  // check lỗi 
-  if (!response.ok) {
-    // message.error(response.status, response.statusText)
-    console.log(response.status)
-  }
-  const data = await response.json();
-  return data;
+  return request(url, options);
 };
 
 export const post = async (url, values) => {
-  
-
   const options = {
     method: "POST",
     mode: "cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
   };
-  const response = await fetch(url, options);
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || response.statusText);
-  }
-
-  // Trả về đối tượng phản hồi
-  return response;
-};
-
-export const deleteItem = async (url) => {
-  const deleteMethod = {
-    method: "DELETE", // Method itself
-    mode: "cors", // Chế độ CORS
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-  };
-
-  const response = await fetch(url, deleteMethod);
-  const data = await response.json();
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || response.statusText);
-  }
-
-  // Trả về đối tượng phản hồi
-  return response;
+  return request(url, options);
 };
 
 export const put = async (url, values) => {
@@ -82,36 +41,29 @@ export const put = async (url, values) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
   };
-
-  const response = await fetch(url, options);
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || response.statusText);
-  }
-
-  // Trả về đối tượng phản hồi
-  return response;
+  return request(url, options);
 };
 
-export const putV2 = async (url, values) => {
+export const patch = async (url, values) => {
   const options = {
-    method: "PUT",
+    method: "PATCH",
     mode: "cors",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "TOKEN",
+    },
     body: JSON.stringify(values),
   };
-
-  const response = await fetch(url, options);
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || response.statusText);
-  }
-
-  // Trả về đối tượng phản hồi
-  const data = await response.json();
-  return data;
+  return request(url, options);
 };
 
-
+export const deleteItem = async (url) => {
+  const options = {
+    method: "DELETE",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  };
+  return request(url, options);
+};
