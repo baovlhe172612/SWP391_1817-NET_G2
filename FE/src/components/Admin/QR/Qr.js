@@ -4,7 +4,7 @@ import { LIST_PRODUCT } from "../../../helpers/APILinks";
 
 function Qr({ qr }) {
   //   console.log(qr)
-  const [text, setText] = useState(`http://172.20.10.5:3000/listProduct/${qr.tableId}/${qr.storeId}`);
+  const [text, setText] = useState(`http://localhost:3000/listProduct/${qr.tableId}/${qr.storeId}`);
 
   return (
     <>

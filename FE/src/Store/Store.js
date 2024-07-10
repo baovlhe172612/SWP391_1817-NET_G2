@@ -3,8 +3,6 @@
 import { createStore } from 'redux';
 import allReducers from '../reducers';
 
-
-
 // Load state from local storage
 const loadState = () => {
   try {

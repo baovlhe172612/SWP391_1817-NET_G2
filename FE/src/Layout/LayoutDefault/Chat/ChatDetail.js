@@ -10,6 +10,7 @@ import {
   joinSpecificChatroom,
   joinSpecificChatroomV2,
 } from "../../../helpers/Chat.helper";
+import { getRelativeTime } from "../../../helpers/Time.helper";
 
 function ChatDetail({ connection, setCollapsedNotify }) {
   const tableIdV2 = getCookie("tableId");
@@ -130,8 +131,8 @@ function ChatDetail({ connection, setCollapsedNotify }) {
                 <div className="msg-bubble">
                   <div className="msg-info">
                     <div className="msg-info-name">{message.userName}</div>
-                    <div className="msg-info-time">{message.timeStamp}</div>
                   </div>
+                  <div className="msg-info-time">{getRelativeTime(message.timeStamp)}</div>
 
                   <div className="msg-text">{message.contentChat}</div>
                 </div>

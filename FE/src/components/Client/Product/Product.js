@@ -8,24 +8,23 @@ import { addToCart } from "../../../actions/CartAction";
 function Product(props) {
   const { product } = props;
   const dispatch = useDispatch()
-    const handleAddToCart = () => {
-        dispatch(addToCart({
-            ...product,
-            quantity: 1
-        }))       
-    }
+  const handleAddToCart = () => {
+    dispatch(addToCart({
+      ...product,
+      quantity: 1
+    }))
+  }
 
   return (
     <>
       {product ? (
         <>
           <Col span={12}>
-            <div className="product-item" style={{textAlign:"center"}}>
+            <div className="product-item" style={{ textAlign: "center" }}>
               <div className="product-img">
                 <Link
-                  to={`/productDetail?productId=${
-                    product.productId
-                  }&sizeId=${product.sizeId}&categoryId=${product.category}`}
+                  to={`/productDetail?productId=${product.productId
+                    }&sizeId=${product.sizeId}&categoryId=${product.category}`}
                 >
                   <img
                     className="primary-img"
@@ -65,13 +64,20 @@ function Product(props) {
                 </div> */}
               </div>
               <div className="product-content">
-                <a
-                  className="product-name"
-                  href="shop.html"
-                  style={{ fontFamily: "Arial", fontWeight: "bold" }}
+                <Link
+                  to={`/productDetail?productId=${product.productId
+                    }&sizeId=${product.sizeId}&categoryId=${product.category}`}
+
+                  style={{ fontFamily: "Arial", fontWeight: "bold", width: "150px", // Set fixed width
+                    whiteSpace: "nowrap", // Prevent text from wrapping
+                    overflow: "hidden", // Hide overflow text
+                    textOverflow: "ellipsis" }}
                 >
+
                   {product.productName} Size {product.sizeName}
-                </a>
+                </Link>
+
+
                 <div className="price-box pb-1">
                   <span className="new-price" style={{ fontSize: "16px" }}>
                     {product.price}đ

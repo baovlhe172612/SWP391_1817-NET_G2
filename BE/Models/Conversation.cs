@@ -7,9 +7,9 @@ public partial class Conversation
 {
     public int ConversationId { get; set; }
 
-    public int? UserChatFirstId { get; set; }
+    public int UserChatFirstId { get; set; }
 
-    public int? UserSecondId { get; set; }
+    public int UserSecondId { get; set; }
 
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
