@@ -5,7 +5,13 @@ import { CREATE_PRODUCT } from "../../../helpers/APILinks";
 import { UploadOutlined } from "@ant-design/icons";
 const { Option } = Select;
 function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
- 
+  const [form] = Form.useForm();
+  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [sizeQuantities, setSizeQuantities] = useState({});
+  const [sizePrices, setSizePrices] = useState({});
+  const [stores, setStores] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
   useEffect(() => {
     const fetchApi = async () => {
       try {
