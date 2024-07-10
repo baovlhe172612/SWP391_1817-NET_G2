@@ -16,6 +16,11 @@ namespace Swp391.Service
         public List<Table> getAllTable(int storeID)
         {
             return _tableRepo.getAllTableRepo(storeID);
-        } 
+        }
+
+        public void addTable(Table table)
+        {
+            _tableRepo.addTableRepo(table);
+        }
     }
 }
