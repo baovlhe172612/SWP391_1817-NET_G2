@@ -83,6 +83,10 @@ const routes = [
         element: <ProductDetail />,
       },
       {
+        path: "/blog/:id",
+        element: <BlogDetail />,
+      },
+      {
         path: "404err",
         element: <NotFound />,
       },
@@ -230,10 +234,7 @@ const routes = [
                     path: "",
                     element: <ListProductAdmin />,
                   },
-                  {
-                    path: "edit/:id",
-                    element: <UpdateProduct />,
-                  },               
+                         
                 ],
               },
               {
@@ -323,6 +324,10 @@ const routes = [
                   {
                     path: "/admin/blogs/create",
                     element: <CreateBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/edit/:id",
+                    element: <UpdateBlog />,
                   },
                 ],
               },            

@@ -12,7 +12,7 @@ const UpdateCategory = () => {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://172.20.10.5:5264/api/Category/${id}`);
+        const data = await get(`http://localhost:5264/api/Category/${id}`);
         console.log(data);
 
         form.setFieldsValue({
@@ -33,7 +33,7 @@ const UpdateCategory = () => {
   const handleSubmit = async (values) => {
     try {
       // Kiểm tra trùng lặp tên danh mục
-      const existingCategories = await get("http://172.20.10.5:5264/api/Category");
+      const existingCategories = await get("http://localhost:5264/api/Category");
       const isDuplicate = existingCategories.some(
         (category) => category.categoryName === values.categoryName && category.categoryId !== id
       );
@@ -47,7 +47,7 @@ const UpdateCategory = () => {
       values.isDelete = values.isDelete ? 1 : 0;
       console.log(values);
 
-      const data = await patch(`http://172.20.10.5:5264/api/Category/update/${id}`, values);
+      const data = await patch(`http://localhost:5264/api/Category/update/${id}`, values);
       if (data) {
         message.success("Category updated successfully!");
 
