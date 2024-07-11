@@ -33,20 +33,14 @@ function FloatButtonMess({ handleOnclick }) {
           "ReceiveOrderNotification",
           (receivedTableId, productsizeId, status, date) => {
             dispatch(updateStatus(productsizeId, date, status));
-            console.log(tableId);
-            console.log(status);
-            console.log(productsizeId);
-            console.log(date);
-            console.log(cartSave);
             const sound = new Audio(soundmessege);
-            
             const updatedProduct = cartSave.find(
               (item) => item.productSizeID == productsizeId
             );
             if (updatedProduct) {
               setProduct([updatedProduct]); // Đảm bảo `product` là mảng
             }
-            if (status == 0) {
+            if (status == 1) {
               setShowCompletionModal(true);
               sound.play();
             }
