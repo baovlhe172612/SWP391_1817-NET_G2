@@ -43,5 +43,18 @@ namespace Swp391.Service
                 throw;
             }
         }
+        // Hàm này lấy Account dựa trên email
+        public AccountDtos GetAccDtosByEmailSer(string email)
+        {
+            try
+            {
+                var accountDtos = _accountDtosRepo.FindAccountByEmail(email);
+                return accountDtos;
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }
