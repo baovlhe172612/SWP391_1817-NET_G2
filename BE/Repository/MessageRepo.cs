@@ -89,7 +89,7 @@ namespace BE.Repository
                 var coverIds = list.Select(c => c.ConversationId).ToList();
 
                 var messagesToDelete = _context.Messages
-                    .Where(m => coverIds.Contains(m.CoverId.Value));
+                    .Where(m => coverIds.Contains(m.CoverId));
 
                 _context.Messages.RemoveRange(messagesToDelete);
                 _context.SaveChanges();
