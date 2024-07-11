@@ -12,7 +12,7 @@ import {
 } from "../../../helpers/Chat.helper";
 import { getRelativeTime } from "../../../helpers/Time.helper";
 
-function ChatDetail({ connection }) {
+function ChatDetail({ connection, setCollapsedNotify }) {
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
   const listMessage = useSelector((state) => state.MessageReducer);
@@ -69,6 +69,7 @@ function ChatDetail({ connection }) {
             `${GET_MESSAGE}/${conversationExist.conversationId}`
           );
           dispatch(messageActions(data));
+          setCollapsedNotify(true)
           console.log(`nhận tin nhắn oke ${userChat.userId}`);
         } catch (error) {
           console.log(error);

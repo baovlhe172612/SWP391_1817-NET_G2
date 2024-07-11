@@ -1,229 +1,167 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Space, Table, Tag } from "antd";
-import { get, patch } from "../../../helpers/API.helper";
-import {
-  DELETE_BLOG_ID,
-  GET_BLOGS_STATUS,
-  LIST_BLOGS,
-} from "../../../helpers/APILinks";
-import Swal from "sweetalert2";
-import Status from "../../../components/Mixin/Status/Status";
-import Search from "antd/es/input/Search";
+import { useParams, Link } from "react-router-dom";
+import { get } from "../../../helpers/API.helper";
+import { Button, Col, Row, Container } from "react-bootstrap";
+import "./Blog.css";
+import { Badge } from "antd";
 
-function ListBlog() {
-  const [blogs, setBlogs] = useState([]);
-  const [searchStatus] = useSearchParams();
-  const [updated, setUpdated] = useState(false);
-  const navigate = useNavigate();
-  let status = searchStatus.get(`status`);
-  status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
+function BlogDetail() {
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
 
-  let data = [];
-
-  // lấy qua API
   useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const data = await get(`http://localhost:5264/api/Post`);
-        console.log(data);
-        if (data) {
-          setBlogs(data);
-        }
-      } catch (error) {
-        console.log("err in ListBlog", error);
-        setBlogs([]);
-      }
+    const fetchBlogDetail = async () => {
+      const data = await get(`http://localhost:5264/api/Post/${id}`);
+      setBlog(data);
+      console.log(data);
     };
+    fetchBlogDetail();
+  }, [id]);
 
-    fetchApi();
-  }, [updated, searchStatus, status]);
-
-  if (blogs.length > 0) {
-    data = blogs.map((Blog, index) => {
-      return {
-        postId: Blog.postId,
-        title: Blog.title,
-        Contents: Blog.contents,
-        Img: Blog.img,
-        IsPublished: Blog.isPublished,
-        IsNewFeed: Blog.isNewFeed,
-        IsDelete: Blog.isDelete,
-        Author: Blog.author,
-        Tags: Blog.tags,
-        CreatedDate: Blog.createdDate,
-        ModifiDate: Blog.modifiDate,
-        key: index,
-      };
-    });
+  if (!blog) {
+    return <div>Loading...</div>;
   }
 
-  // COLUMS
-  const columns = [
-    {
-      title: "postId",
-      dataIndex: "postId",
-      key: "postId",
-    },
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-    },
-   
-   
-    {
-      title: "IsPublished",
-      dataIndex: "IsPublished",
-      key: "IsPublished",
-      render: (status) =>
-        status == 1 ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Inactive</Tag>
-        ),
-    },
-    {
-      title: "IsNewFeed",
-      dataIndex: "IsNewFeed",
-      key: "IsNewFeed",
-      render: (status) =>
-        status == 1 ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Inactive</Tag>
-        ),
-    },
-    {
-      title: "IsDelete",
-      dataIndex: "IsDelete",
-      key: "IsDelete",
-      render: (status) =>
-        status == 1 ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Inactive</Tag>
-        ),
-    },
-    {
-      title: "Author",
-      dataIndex: "Author",
-      key: "Author",
-    },
-   
-    {
-      title: "CreatedDate",
-      dataIndex: "CreatedDate",
-      key: "CreatedDate",
-    },
-    {
-      title: "ModifiDate",
-      dataIndex: "ModifiDate",
-      key: "ModifiDate",
-    },
-    {
-      title: "Tags",
-      dataIndex: "Tags",
-      key: "Tags",
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      key: "actions",
-      render: (text, record) => (
-        <Space size="middle">
-          <Link to={`/admin/Blog/edit/${record.postId}`}>
-            <Button type="primary">Edit</Button>
-          </Link>
-          <Link to={`/admin/Blog/edit/${record.postId}`}>
-            <Button type="primary" ghost>
-              Detail
-            </Button>
-          </Link>
-          <Button type="primary" danger onClick={() => handleDelete(record.postId)}>
-            Delete
-          </Button>
-        </Space>
-      ),
-    },
-  ];
-
-  // DATA
-
-  // Handler for deleting a Blog
-  const handleDelete = async (postId) => {
-    // bởi vì Swal là file đợi => phải có await mới được
-    const confirm = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    });
-
-    if (confirm.isConfirmed) {
-      console.log(`${DELETE_BLOG_ID}${postId}`);
-      const dataDelete = await patch(`${DELETE_BLOG_ID}${postId}`, {
-        postId: postId,
-      });
-
-      if (dataDelete) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
-
-        // load lại data
-        setUpdated(!updated);
-      }
-    }
-  };
-
-  const handleStatus = (changeBlogs) => {
-    setBlogs(changeBlogs);
-  };
-
-  // search
-  const onSearch = async (values) => {
-    try {
-      let data = [];
-      if (values) {
-      } else {
-        data = await get(`${GET_BLOGS_STATUS}/${status}`);
-      }
-
-      setBlogs(data);
-    } catch (error) {
-      console.log(error, `ListBlog`);
-      setBlogs([]);
-    }
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   return (
     <>
-      <Space>
-        <Status handleStatus={handleStatus} />
+      <div className="main-content">
+        <div className="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
+          <Container className="h-100">
+            <Row className="h-100 align-items-center">
+              <Col>
+                <div className="breadcrumb-item text-center">
+                  <h2 className="breadcrumb-heading">Blog Detail</h2>
+                  <ul className="breadcrumb-list">
+                    <li>
+                      <a href="/">Home</a>
+                    </li>
+                    <li>
+                      <Link to="/blog">Blog</Link>
+                    </li>
+                    <li>{blog.title}</li>
+                  </ul>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
 
-        <Search
-          placeholder="input search text"
-          allowClear
-          enterButton="Search"
-          size="large"
-          onSearch={onSearch}
-        />
-      </Space>
+        <div className="blog-detail-area section-space-y-axis-100">
+          <Container>
+            <Row>
+              <Col md={{ span: 8, offset: 2 }}>
+                <div className="blog-detail-content">
+                  <h1 className="blog-detail-title">{blog.title}</h1>
+                  <div className="blog-detail-meta d-flex justify-content-between">
+                    <span className="author">By: {blog.author}</span>
+                    <span className="date">{formatDate(blog.createdDate)}</span>
+                  </div>
+                  <div className="blog-detail-img">
+                    <img src={blog.img} alt="Blog" className="img-fluid" />
+                  </div>
+                  <div className="blog-detail-text mt-4">{blog.contents}</div>
+                  <div className="blog-detail-tags mt-4">
+                    <h5>Tags:</h5>
+                    <div color="blue">
+                    {blog.tags}
+                    </div>
+                  </div>
+                  <div className="back-to-blog text-center mt-5">
+                    <Button variant="primary">
+                      <Link to="/blog" className="text-white">Back to Blog</Link>
+                    </Button>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
 
-      <Table
-        columns={columns}
-        dataSource={data}
-        style={{ margin: "20px 0" }}
-        pagination={{ pageSize: 6 }}
-      />
+      <style>
+        {`
+          .main-content {
+            padding: 20px;
+          }
+
+          .breadcrumb-area {
+            background-size: cover;
+            background-position: center center;
+            padding: 100px 0;
+            text-align: center;
+          }
+
+          .breadcrumb-heading {
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+          }
+
+          .breadcrumb-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            color: #000;
+          }
+
+          .breadcrumb-list li {
+            display: inline;
+            color: #000;
+            margin: 0 10px;
+          }
+
+          .breadcrumb-list li a {
+            color: #000;
+            text-decoration: none;
+          }
+
+          .blog-detail-area {
+            padding: 50px 0;
+          }
+
+          .blog-detail-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+          }
+
+          .blog-detail-meta {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #888;
+          }
+
+          .blog-detail-img img {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+          }
+
+          .blog-detail-text {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+          }
+
+          .back-to-blog {
+            margin-top: 30px;
+          }
+
+          .back-to-blog .btn {
+            background-color: #007bff;
+            border-color: #007bff;
+          }
+        `}
+      </style>
     </>
   );
 }
 
-export default ListBlog;
+export default BlogDetail;

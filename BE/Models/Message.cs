@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -12,12 +11,11 @@ public partial class Message
 
     public int SensiderId { get; set; }
 
-    public string ContentChat { get; set; }
+    public string? ContentChat { get; set; }
 
     public DateTime TimeStamp { get; set; }
-    
-    [JsonIgnore]
+
     public virtual Conversation? Cover { get; set; }
-    [JsonIgnore]
+
     public virtual UserChat? Sensider { get; set; }
 }

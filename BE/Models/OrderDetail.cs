@@ -14,11 +14,12 @@ public partial class OrderDetail
 
     public double Price { get; set; }
 
+    public int? Status { get; set; }
+
     public int OrderId { get; set; }
 
     public virtual Order Order { get; set; } = null!;
 
-    public int? Status { get; set; }
 
     [JsonIgnore]
     public virtual ProductSize ProductSize { get; set; } = null!;
