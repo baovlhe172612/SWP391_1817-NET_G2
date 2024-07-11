@@ -89,7 +89,7 @@ namespace BE.Hubs
             try
             {
                 // Check Conversation
-                var conversationExist = _conversationService.FindConversation(conversation.UserChatFirstId, conversation.UserSecondId);
+                var conversationExist = _conversationService.FindConversation((int)conversation.UserChatFirstId, (int)conversation.UserSecondId);
 
                 // Tạo Conversation
                 if (conversationExist == null)

@@ -1,6 +1,5 @@
 ﻿using BE.Models;
 
-
 namespace Swp391.Repository
 {
 
@@ -19,6 +18,12 @@ namespace Swp391.Repository
                             .Where(o => o.StoreId == storeID && o.IsDelete == 0)
                             .ToList();
             return listTable;
+        }
+
+        public void addTableRepo(Table table)
+        {
+            _context.Tables.Add(table);
+            _context.SaveChanges();
         }
     }
 }
