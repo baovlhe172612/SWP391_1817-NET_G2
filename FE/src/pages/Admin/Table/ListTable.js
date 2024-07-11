@@ -36,7 +36,7 @@ function ListTable() {
     console.log(id);
     if (status == 1) {
       const confirmReset = await confirm(
-        "Are you sure",
+        "Are you sure want to delete",
         "If you reset, all chat will delete"
       );
 
@@ -85,7 +85,7 @@ function ListTable() {
         if (deleteAll.ok) {
           message.success("Reset success");
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -103,6 +103,7 @@ function ListTable() {
   return (
     <>
       <h1>List table</h1>
+
       <Button
         onClick={resetAllTables}
         type="primary"
@@ -115,22 +116,39 @@ function ListTable() {
         <Row gutter={[20, 20]} key={rowIndex}>
           {tables.slice(rowIndex * 4, rowIndex * 4 + 4).map((table) => (
             <Col key={table.tableId} xxl={6} xl={6} lg={6} md={12} sm={24}>
-              <div
-                className={
-                  table.status == 0
-                    ? "table-item-warning"
-                    : "table-item-success"
-                }
+            <div
+              className={
+                table.status == 0
+                  ? "table-item-warning"
+                  : "table-item-success"
+              }
+             
+              style={{ position: 'relative' }}
+            >
+              <button 
+                style={{
+                  border: 'none', 
+                  background: 'red', 
+                  fontSize: '10px', 
+                  cursor: 'pointer', 
+                  color: 'white', 
+                  fontWeight: 800,
+                  position: 'absolute', 
+                  top: '0', 
+                  right: '0' 
+                }}
                 onClick={() => toggleStatus(table.tableId, table.status)}
               >
-                <div className="status-container">
-                  Bàn {table.tableId}:
-                  <span className={`status ${table.status}`}>
-                    {table.status == 0 ? "Còn trống" : "Đã full"}
-                  </span>
-                </div>
+                X
+              </button>
+              <div className="status-container">
+                Bàn {table.tableName}:
+                <span className={`status ${table.status}`}>
+                  {table.status == 0 ? "Còn trống" : "Đã full"}
+                </span>
               </div>
-            </Col>
+            </div>
+          </Col>
           ))}
         </Row>
       ))}

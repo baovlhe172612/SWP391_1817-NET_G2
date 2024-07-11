@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BE.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swp391.Service;
 
@@ -18,6 +19,14 @@ namespace Swp391.Controllers
             return Ok(_tableService.getAllTable(storeID));
         }
 
-
+        [HttpPost("AddTable")]
+        public IActionResult createTable(Table table)
+        {
+            _tableService.addTable(table);
+            return Ok(new
+            {
+                mess = "Add sucessfully"
+            });
+        }
     }                   
 }

@@ -83,19 +83,20 @@ function Cart() {
         quantity: item.quantity,
         price: item.price,
       }));
+      console.log({dataToSend})
 
-    if (dataToSend.length > 0) {
-      try {
-        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
-        const responseData = response;
-        message.success('Đã mua hàng thành công!');
-      } catch (error) {
-        console.log('Error sending data:', error);
-        message.error('Mua hàng không thành công!!!!');
-      }
-    } else {
-      message.error('Mua hàng không thành công!!!!');
-    }
+  //   if (dataToSend.length > 0) {
+  //     try {
+  //       const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
+  //       const responseData = response;
+  //       message.success('Đã mua hàng thành công!');
+  //     } catch (error) {
+  //       console.log('Error sending data:', error);
+  //       message.error('Mua hàng không thành công!!!!');
+  //     }
+  //   } else {
+  //     message.error('Mua hàng không thành công!!!!');
+  //   }
   };
 
   return (

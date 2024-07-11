@@ -7,6 +7,7 @@ import { Col, Row } from "antd";
 import MenuCategory from "../../../components/Client/Category/MenuCategory";
 import { useLocation, useParams } from "react-router-dom";
 import { API_CATEGORY, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks";
+import { Pagination } from 'antd';
 
 function ListProduct() {
   const [products, setProducts] = useState([]);
@@ -16,6 +17,9 @@ function ListProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const [conditionSort, setCondition] = useState(null);
   const { tableId, storeId } = useParams();
+
+
+
 
   if (tableId || storeId) {
     setCookie('tableId', tableId, 1);
@@ -64,24 +68,6 @@ function ListProduct() {
 
     fetchApi();
   }, []);
-
-  // useEffect(() => {
-  //   if (searchQuery !== null && parseInt(searchQuery) !== 0) {
-  //     const fetchApi = async () => {
-  //       const data = await get(
-  //         http://localhost:5264/api/ProductControlles/search?search=${searchQuery}
-  //       );
-
-  //       console.log("da ghi de tai day 117");
-  //       console.log(data);
-  //       setProducts(data);
-  //     };
-
-  //     fetchApi();
-  //   }
-  // }, []); 
-
-
   useEffect(() => {
     const fetchApi = async () => {
       const data = await get(
@@ -177,6 +163,10 @@ function ListProduct() {
 
   //console.log(conditionSort);
 
+  console.log("totalPages.length", totalPages.length)
+
+  console.log("totalProduct", totalProduct)
+
   return (
     <>
 
@@ -247,90 +237,20 @@ function ListProduct() {
               {/* ================ TAB - CONTENT =================== */}
 
               {/* ================ PAGINATION =================== */}
-              <div class="pagination-area">
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center">
 
-                     
-
-                    {conditionSort == null && totalPages.map((item, index) => (
-                      //<li key={index}>{item.tenTruong}</li> // Thay "tenTruong" bằng trường dữ liệu thực tế từ API
-                      
-                      <li class="page-item active" key={index}>
-                        <li
-                          class={`page-item ${
-                            item === currentPage ? "active" : ""
-                          }`}
-                          onClick={() => {
-                            handleDataByPage(item);
-                          }}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {item}
-                        </li>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
+              <div className="pagination-area" style={{textAlign:'center'}}>
+                {conditionSort == null && (
+                  <Pagination
+                    current={currentPage}
+                    total={totalProduct}
+                    pageSize={4}
+                    onChange={handleDataByPage}
+                    showSizeChanger={false}
+                  />
+                )}
               </div>
-              {/* <div
-                className="pagination-area"
-                style={{
-                  margin: "20px 0",
-                }}
-              >
-                <nav aria-label="Page navigation example">
-                  <ul
-                    className="pagination justify-content-center"
-                    style={{
-                      display: "flex",
-                      listStyle: "none",
-                      padding: 0,
-                      margin: 0,
-                    }}
-                  >
-                    {conditionSort == null &&
-                      totalPages.map((item, index) => (
-                        <li
-                          className={`page-item ${item === currentPage ? "active" : ""}`}
-                          key={index}
-                          style={{
-                            margin: "0 5px",
-                          }}
-                        >
-                          <a
-                            onClick={() => {
-                              handleDataByPage(item);
-                            }}
-                            style={{
-                              display: "block",
-                              padding: "10px 15px",
-                              color: item === currentPage ? "white" : "#007bff",
-                              backgroundColor: item === currentPage ? "#007bff" : "transparent",
-                              textDecoration: "none",
-                              border: "1px solid #dee2e6",
-                              borderRadius: "5px",
-                              cursor: "pointer",
-                              transition: "background-color 0.3s, border-color 0.3s",
-                            }}
-                            onMouseOver={(e) => {
-                              e.target.style.backgroundColor = item === currentPage ? "#0056b3" : "#007bff";
-                              e.target.style.color = "white";
-                              e.target.style.borderColor = "#007bff";
-                            }}
-                            onMouseOut={(e) => {
-                              e.target.style.backgroundColor = item === currentPage ? "#007bff" : "transparent";
-                              e.target.style.color = item === currentPage ? "white" : "#007bff";
-                              e.target.style.borderColor = "#dee2e6";
-                            }}
-                          >
-                            {item}
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </nav>
-              </div> */}
+              <br />
+
               {/* ================ PAGINATION =================== */}
             </div>
           </div>

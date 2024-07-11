@@ -1,43 +1,63 @@
 .feedback-list {
-    overflow: hidden; /* Ẩn nội dung vượt quá */
+    overflow: hidden;
+    /* Ẩn nội dung vượt quá */
     margin-bottom: 20px;
-    border-radius: 10px; /* Bo tròn các góc của danh sách */
+    border-radius: 10px;
+    /* Bo tròn các góc của danh sách */
 }
 
 .feedback-item {
-    max-width: 100%; /* Chiều rộng tối đa của mỗi phần tử feedback */
-  
-    padding: 15px; /* Lề nội dung bên trong mỗi phần tử */
-    background-color: #e6ffe6; /* Màu nền của từng phần tử */
+    max-width: 100%;
+    /* Chiều rộng tối đa của mỗi phần tử feedback */
+
+    padding: 15px;
+    /* Lề nội dung bên trong mỗi phần tử */
+    background-color: #e6ffe6;
+    /* Màu nền của từng phần tử */
     /* background: linear-gradient(145deg, #a5cca7, #c9e0ca); Nền gradient cho từng phần tử */
-    background:rgb(148 255 148);
-    border-radius: 10px; /* Bo tròn các góc của phần tử */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho từng phần tử */
-    transition: transform 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển đổi */
-    position: relative; /* Vị trí tương đối cho phần tử */
+    background: rgb(148 255 148);
+    border-radius: 10px;
+    /* Bo tròn các góc của phần tử */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    /* Đổ bóng cho từng phần tử */
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Hiệu ứng chuyển đổi */
+    position: relative;
+    /* Vị trí tương đối cho phần tử */
 }
 
 .feedback-item h2 {
-  
-    margin: 0 0 5px; /* Khoảng cách dưới của tiêu đề */
-    font-size: 25px; /* Cỡ chữ của tiêu đề */
-    color: #333; /* Màu chữ của tiêu đề */
-    text-align: center; /* Canh giữa */
+
+    margin: 0 0 5px;
+    /* Khoảng cách dưới của tiêu đề */
+    font-size: 25px;
+    /* Cỡ chữ của tiêu đề */
+    color: #333;
+    /* Màu chữ của tiêu đề */
+    text-align: center;
+    /* Canh giữa */
 }
 
 .feedback-item h3 {
-    margin: 0 0 5px; /* Khoảng cách dưới của tiêu đề */
+    margin: 0 0 5px;
+    /* Khoảng cách dưới của tiêu đề */
     padding-top: 15px;
-    font-size: 15px; /* Cỡ chữ của tiêu đề */
-    color: #333; /* Màu chữ của tiêu đề */
+    font-size: 15px;
+    /* Cỡ chữ của tiêu đề */
+    color: #333;
+    /* Màu chữ của tiêu đề */
 }
 
 .feedback-item p {
-    margin: 5px 0; /* Khoảng cách giữa các dòng văn bản */
+    margin: 5px 0;
+    /* Khoảng cách giữa các dòng văn bản */
     padding-top: 15px;
-    font-size: 15px; /* Cỡ chữ của văn bản */
-    color: #555; /* Màu chữ của văn bản */  
+    font-size: 15px;
+    /* Cỡ chữ của văn bản */
+    color: #555;
+    /* Màu chữ của văn bản */
 }
+
 /* .timeline-container {
     margin-top: 20px;
     width: 100%;
@@ -52,8 +72,8 @@
   .custom-timeline .ant-timeline-item-content {
     padding-left: 20px; 
   } */
-  
-  /* src/OrderTracking.css */
+
+/* src/OrderTracking.css */
 .order-tracking {
     display: flex;
     align-items: center;
@@ -80,6 +100,7 @@
     justify-content: center;
     margin-bottom: 8px;
 }
+
 .label {
     font-size: 12px;
     color: #999;
@@ -99,11 +120,17 @@
     color: #fff;
 }
 
-.completed + .line {
+.completed+.line {
     background-color: #00bfa5;
 }
-.completed-text{
+
+.completed-text {
     color: #00bfa5;
 }
-  
-  
+
+.contact-button-wrap button {
+
+
+    font-weight: 700;
+    padding: 0px 20px;
+}

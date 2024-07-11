@@ -73,7 +73,7 @@ export const LIST_FOUR_PRODUCT_SIZE_MAX = `${LOCALHOST_API}/api/ProductSizes/get
 
 export const LIST_PRODUCT_SIZE = `${LOCALHOST_API}/api/ProductSizes`;
 // API TABLE
-
+export const CREATE_TABLE = `${LOCALHOST_API}/api/tables/AddTable`;
 
 // API FeedBack <=> messegerbox
 export const LIST_FEEDBACK = `${LOCALHOST_API}/api/MessengerBox`
