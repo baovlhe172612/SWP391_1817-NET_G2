@@ -27,6 +27,19 @@ namespace BE.Service
             return _repo.getOrderDetailByOrderId(storeID, orderId);
         }
 
+        public List<OrderDetailDto> GetOrderDetailSummary()
+        {
+            try
+            {
+                return _repo.GetOrderDetailSummary();
+            }
+            catch (Exception ex)
+            {
+                // Log exception if needed
+                throw new Exception("An error occurred while fetching order detail summary", ex);
+            }
+        }
+
         public List<OrderDetailDto> GetOrderDetailSummaryByStoreId(int storeId)
         {
             try
@@ -39,6 +52,7 @@ namespace BE.Service
                 throw new Exception("An error occurred while fetching order detail summary", ex);
             }
         }
+
         public List<OrderDetailDto> getOrderDetailByStatus(int storeId)
         {
             return _repo.getOrderDetailByStatus(storeId);
