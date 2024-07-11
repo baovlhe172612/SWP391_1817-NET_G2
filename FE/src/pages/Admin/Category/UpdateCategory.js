@@ -4,35 +4,30 @@ import { get, patch } from "../../../helpers/API.helper";
 import { useParams, useNavigate } from "react-router-dom";
 
 const UpdateCategory = () => {
-  const [store, setStore] = useState([]);
   const [form] = Form.useForm();
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchApi = async () => {
+    const fetchCategory = async () => {
       try {
         const data = await get(`http://localhost:5264/api/Category/${id}`);
-        console.log(data);
-
         form.setFieldsValue({
           categoryId: data.categoryId,
           categoryName: data.categoryName,
           isDelete: data.isDelete,
         });
-        setStore(data);
       } catch (error) {
-        console.log("err in UpdateCategory", error);
-        setStore([]);
+        console.error("Error fetching category:", error);
+        message.error("Failed to fetch category data.");
       }
     };
 
-    fetchApi();
+    fetchCategory();
   }, [form, id]);
 
   const handleSubmit = async (values) => {
     try {
-      // Kiểm tra trùng lặp tên danh mục
       const existingCategories = await get("http://localhost:5264/api/Category");
       const isDuplicate = existingCategories.some(
         (category) => category.categoryName === values.categoryName && category.categoryId !== id
@@ -43,21 +38,16 @@ const UpdateCategory = () => {
         return;
       }
 
-      // Sửa lại biến switch cho isDeleted
       values.isDelete = values.isDelete ? 1 : 0;
-      console.log(values);
 
       const data = await patch(`http://localhost:5264/api/Category/update/${id}`, values);
       if (data) {
         message.success("Category updated successfully!");
-
         form.resetFields();
-
-        // Chuyển hướng về danh sách danh mục
         navigate("/admin/category");
       }
     } catch (error) {
-      console.log("Error in handleSubmit", error);
+      console.error("Error updating category:", error);
       message.error("An error occurred while updating the category.");
     }
   };
@@ -65,12 +55,9 @@ const UpdateCategory = () => {
   return (
     <>
       <h2>Category Detail</h2>
-
       <Form
         name="update-category"
-        onFinish={(values) => {
-          handleSubmit(values);
-        }}
+        onFinish={handleSubmit}
         form={form}
       >
         <Form.Item label="Category ID" name="categoryId">
@@ -81,10 +68,7 @@ const UpdateCategory = () => {
           label="Category name"
           name="categoryName"
           rules={[
-            {
-              required: true,
-              message: "Please input your category name!",
-            },
+            { required: true, message: "Please input your category name!" }
           ]}
         >
           <Input />
