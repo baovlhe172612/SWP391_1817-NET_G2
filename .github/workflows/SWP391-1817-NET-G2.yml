@@ -8,7 +8,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: .\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
-  SOLUTION_FILE_PATH: BE/SWP391_1817-NET_G2.sln
+  SOLUTION_FILE_PATH: BE/BE.sln
 jobs:
   build:
     runs-on: windows-latest
