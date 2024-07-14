@@ -120,8 +120,32 @@ namespace Swp391.Controllers
 
             return Ok(accountDto); // Trả về account thông qua đối tượng DTO
         }
+        [HttpDelete("{id}/password")]
+        public IActionResult DeletePassword(int id)
+        {
+            try
+            {
+                _service.DeletePassword(id);
+                return Ok(); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message }); //nếu có lỗi xảy ra
+            }
+        }
 
-        
-
+        [HttpPut("{id}/password")]
+        public IActionResult UpdatePassword(int id, [FromQuery] string newPassword)
+        {
+            try
+            {
+                _service.UpdatePassword(id, newPassword);
+                return Ok(); // Trả về mã trạng thái 200 OK sau khi cập nhật mật khẩu thành công
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message }); // Trả về mã trạng thái 400 Bad Request nếu có lỗi xảy ra
+            }
+        }
     }
 }
