@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import './ConfirmOTP.css'; // Import file CSS
 
 const ConfirmOTP = () => {
     const [otp, setOtp] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (values) => {
         const storedOtp = localStorage.getItem('otp');
 
         if (otp === storedOtp) {
             message.success('OTP verified successfully!');
-            // Redirect to reset password or other action
+            // Redirect to the Change Password page
+            navigate('/admin/change-password');
         } else {
             message.error('Invalid OTP!');
         }
@@ -17,14 +21,14 @@ const ConfirmOTP = () => {
 
     return (
         <div className="container">
-            <div className="signin-content">
+            <div className="confirm-otp-content">
                 {/* FORM */}
-                <div className="signin-form">
+                <div className="confirm-otp-form">
                     <h2 className="form-title">Confirm OTP</h2>
                     <Form
                         name="otp"
                         onFinish={handleSubmit}
-                        className="register-form"
+                        className="otp-form"
                         id="otp-form"
                     >
                         <Form.Item

@@ -47,6 +47,7 @@ import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 import ProcessOrder from "../pages/Admin/ProcessOrder/ProcessOrder";
 import ForgotPassword from "../components/Admin/Accounts/ForgotPassword/ForgotPassword";
 import ConfirmOTP from "../components/Admin/Accounts/ForgotPassword/ConfirmOTP";
+import ChangePassword from "../components/Admin/Accounts/ForgotPassword/ChangePassword";
 const routes = [
   {
     path: "/",
@@ -113,6 +114,10 @@ const routes = [
       {
         path: "/admin/confirm-otp",
         element: <ConfirmOTP />,
+      },
+      {
+        path: "/admin/change-password",
+        element: <ChangePassword />,
       },
       {
         path: "/admin/register",
