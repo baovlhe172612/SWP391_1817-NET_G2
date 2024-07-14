@@ -8,7 +8,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: .\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
-  WORKING_DIRECTORY: .
+  SOLUTION_FILE_PATH: BE/SWP391_1817-NET_G2.sln  # Đường dẫn đầy đủ đến file giải pháp
 jobs:
   build:
     runs-on: windows-latest
