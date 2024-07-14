@@ -122,12 +122,13 @@ function ListTable() {
                   ? "table-item-warning"
                   : "table-item-success"
               }
-             
+              onClick={() => toggleStatus(table.tableId, table.status)}
               style={{ position: 'relative' }}
             >
               <button 
                 style={{
                   border: 'none', 
+                  borderRadius: "0 6px 0 0",
                   background: 'red', 
                   fontSize: '10px', 
                   cursor: 'pointer', 
@@ -137,7 +138,7 @@ function ListTable() {
                   top: '0', 
                   right: '0' 
                 }}
-                onClick={() => toggleStatus(table.tableId, table.status)}
+                
               >
                 X
               </button>
