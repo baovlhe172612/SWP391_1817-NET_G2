@@ -342,6 +342,37 @@ namespace Swp391.Repository
             return accountsWithRoles;
         }
 
+        public void DeletePassword(int accountId)
+        {
+            SwpfinalContext _context = new SwpfinalContext();
+            var account = _context.Accounts.Find(accountId);
+            if (account != null)
+            {
+                account.PassWord = ""; // Hoặc một chuỗi đặc biệt nếu muốn
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Account not found.");
+            }
+        }
+
+        public void UpdatePassword(int accountId, string newPassword)
+        {
+            SwpfinalContext _context = new SwpfinalContext();
+            var account = _context.Accounts.Find(accountId);
+            if (account != null)
+            {
+                account.PassWord = newPassword;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Account not found"); // Ném một exception để thông báo lỗi
+            }
+        }
+
+
         public Account UpdateAccountV2(Account newAccount)
         {
             using (var _context = new SwpfinalContext())
