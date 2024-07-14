@@ -60,6 +60,14 @@ namespace Swp391.Controllers
                 return BadRequest(accountDtosByEmail);
             }
         }
+
+       /* [HttpGet("forget_password")]
+        public async Task<IActionResult> forgetPassword(CancellationToken cancellationToken, string email)
+        {
+            var user =  _accountDtosService.GetAccDtosByEmailSer(email);  
+
+
+        }*/
     }
 }
   

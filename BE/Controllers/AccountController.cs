@@ -120,12 +120,8 @@ namespace Swp391.Controllers
 
             return Ok(accountDto); // Trả về account thông qua đối tượng DTO
         }
-/*
-        [HttpGet("forget_password")]
-        public async Task<IActionResult> forgetPassword(CancellationToken cancellationToken, string email)
-        {
-            var user = await _service.getAccountById
-        }*/
+
+        
 
     }
 }
