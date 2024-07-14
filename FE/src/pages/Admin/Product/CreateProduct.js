@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button } from "antd";
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_PRODUCT } from "../../../helpers/APILinks";
 import { UploadOutlined } from "@ant-design/icons";
-
 const { Option } = Select;
-
 function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [form] = Form.useForm();
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -13,20 +11,18 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [sizePrices, setSizePrices] = useState({});
   const [stores, setStores] = useState([]);
   const [category, setCategory] = useState([]);
-  const [imageFile, setImageFile] = useState(null);
-
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const [dataStores, dataCategories] = await Promise.all([
-          get("http://localhost:5264/api/stores"),
-          get("http://localhost:5264/api/Category"),
-        ]);
+        const dataStores = await get("http://localhost:5264/api/stores");
+        const dataCategories = await get("http://localhost:5264/api/Category");
         setStores(dataStores);
         setCategory(dataCategories);
       } catch (error) {
         message.error("Error fetching stores or categories");
-        console.error("Error in fetchApi", error);
+        console.log("Error in fetchApi", error);
+        setStores([]);
+        setCategory([]);
       }
     };
     fetchApi();
@@ -38,21 +34,17 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
       quantity: sizeQuantities[size] || 0,
       price: sizePrices[size] || 0,
     }));
-
-    const payload = {
-      ...values,
-      sizes: sizesArray,
-      isDelete: 0,
-      status: values.status ? 1 : 0,
-      img: imageFile,
-    };
-
+    values.sizes = sizesArray;
+    values.isDelete = 0;
+    values.status = values.status ? 1 : 0;
+    console.log(values);
+    
     try {
-      const response = await post(CREATE_PRODUCT, payload);
+      const response = await post(`${CREATE_PRODUCT}`, values);
       if (response) {
         form.resetFields();
         message.success("Product created successfully!");
-        handleOk();
+        handleOk(); // Call parent component's handleOk to close modal and refresh list
         onReload();
       }
     } catch (error) {
@@ -61,65 +53,152 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
     }
   };
 
-  const handleSizeChange = useCallback((values) => setSelectedSizes(values), []);
-  const handleQuantityChange = useCallback((size, value) => setSizeQuantities((prev) => ({ ...prev, [size]: value })), []);
-  const handlePriceChange = useCallback((size, value) => setSizePrices((prev) => ({ ...prev, [size]: value })), []);
-  const handleImageUpload = useCallback((info) => setImageFile(info.file.originFileObj), []);
+  const handleSizeChange = (values) => {
+    setSelectedSizes(values);
+  };
 
-  const SizeInput = ({ size }) => (
-    <div key={size}>
-      <Form.Item label={`Quantity for Size ${size}`} rules={[{ required: true, message: "Please input quantity!" }]}>
-        <InputNumber min={0} placeholder="Input quantity" onChange={(value) => handleQuantityChange(size, value)} style={{ width: "100%" }} />
-      </Form.Item>
-      <Form.Item label={`Price for Size ${size}`} rules={[{ required: true, message: "Please input price!" }]}>
-        <InputNumber min={0} placeholder="Input price" onChange={(value) => handlePriceChange(size, value)} style={{ width: "100%" }} />
-      </Form.Item>
-    </div>
-  );
+  const handleQuantityChange = (size, value) => {
+    setSizeQuantities({
+      ...sizeQuantities,
+      [size]: 50,
+    });
+  };
+
+  const handlePriceChange = (size, value) => {
+    setSizePrices({
+      ...sizePrices,
+      [size]: 10000,
+    });
+  };
+
 
   return (
-    <Modal title="Create New Product" visible={isVisible} onOk={form.submit} onCancel={handleCancel}>
+    <Modal
+    id="submit"
+      title="Create New Product"
+      visible={isVisible}
+      onOk={form.submit}
+      onCancel={handleCancel}
+    >
       <Form name="create-product" onFinish={handleSubmit} form={form}>
-        <Form.Item label="Product name" name="productName" rules={[{ required: true, message: "Please input product name !!!" }]}>
+        <Form.Item
+          label="Product name"
+          name="productName"
+          rules={[
+            {
+              required: true,
+              message: "Please input product name !!!",
+            },
+          ]}
+        >
           <Input placeholder="Input name" />
         </Form.Item>
-        <Form.Item label="Price" name="price" rules={[{ required: true, message: "Please input price!" }]}>
-          <InputNumber min={0} placeholder="Input price" style={{ width: "100%" }} />
+
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: "Please input price!",
+            },
+          ]}
+        >
+          <InputNumber
+            min={0}
+            placeholder="Input price"
+            style={{ width: "100%" }}
+          />
         </Form.Item>
-        <Form.Item name="category" label="Category" rules={[{ required: true, message: "Please input category!" }]}>
-          <Select placeholder="Select your category">
-            {category.map(({ categoryId, categoryName }) => (
-              <Option key={categoryId} value={categoryId}>
-                {categoryName}
-              </Option>
-            ))}
-          </Select>
+        
+        <Form.Item
+          name="category"
+          label="Category"
+          key="category"
+          rules={[{ required: true, message: "Please input category!" }]}
+        >
+           <InputNumber
+            min={0}
+            placeholder="Input category number"
+            style={{ width: "100%" }}
+          />
         </Form.Item>
-        <Form.Item name="sizes" label="Sizes" rules={[{ required: true, message: "Please select at least one size!" }]}>
-          <Select mode="multiple" placeholder="Select your sizes" onChange={handleSizeChange}>
-            <Option value="1">S</Option>
-            <Option value="2">M</Option>
-            <Option value="3">L</Option>
-          </Select>
+
+        <Form.Item
+          name="sizes"
+          label="Sizes"
+          key="sizes"
+          rules={[{ required: true, message: "Please select at least one size!" }]}
+        >
+           <InputNumber
+            min={0}
+            placeholder="Input category number"
+            style={{ width: "100%" }}
+          />
         </Form.Item>
-        {selectedSizes.map((size) => <SizeInput key={size} size={size} />)}
-        <Form.Item label="Image" name="img" rules={[{ required: true, message: "Please upload an image!" }]}>
-          <Upload beforeUpload={() => false} onChange={handleImageUpload} maxCount={1}>
-            <Button icon={<UploadOutlined />}>Upload Image</Button>
-          </Upload>
+
+        {selectedSizes.map((size) => (
+          <div key={size}>
+            <Form.Item
+              label={`Quantity for Size ${size}`}
+              rules={[{ required: true, message: "Please input quantity!" }]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="Input quantity"
+                onChange={(value) => handleQuantityChange(size, value)}
+                style={{ width: "100%" }}
+              />
+            </Form.Item>
+            <Form.Item
+              label={`Price for Size ${size}`}
+              rules={[{ required: true, message: "Please input price!" }]}
+            >
+              <InputNumber
+                min={0}
+                placeholder="Input price"
+                onChange={(value) => handlePriceChange(size, value)}
+                style={{ width: "100%" }}
+              />
+            </Form.Item>
+          </div>
+        ))}
+
+        <Form.Item
+          label="Image"
+          name="img"
+          rules={[{ required: true, message: "Please upload an image!" }]}
+        >
+          
+            <Input/>
         </Form.Item>
-        <Form.Item label="Store" name="storeId" key="storeId" rules={[{ required: true, message: "Please select a store!" }]}>
-          <Select placeholder="Select a store">
-            {stores.map(({ storeId, storeName }) => (
-              <Option key={storeId} value={storeId}>
-                {storeName}
-              </Option>
-            ))}
-          </Select>
+
+        <Form.Item
+          label="Store"
+          name="storeId"
+          key="storeId"
+          rules={[{ required: true, message: "Please select a store!" }]}
+        >
+          <InputNumber
+            min={0}
+            placeholder="Input store"
+            style={{ width: "100%" }}
+          />
         </Form.Item>
-        <Form.Item name="status" label="Status" valuePropName="checked" initialValue={true}>
-          <Switch checkedChildren="Active" unCheckedChildren="Inactive" defaultChecked />
-        </Form.Item>
+
+        <Form.Item
+          name="status"
+          label="Status"
+          valuePropName="checked"
+          initialValue={true}
+        >
+          <Switch
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
+            defaultChecked
+          />
+        </Form.Item>     
+
       </Form>
     </Modal>
   );
