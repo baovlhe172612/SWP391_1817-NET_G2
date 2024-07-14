@@ -46,6 +46,7 @@ import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 import ProcessOrder from "../pages/Admin/ProcessOrder/ProcessOrder";
 import ForgotPassword from "../components/Admin/Accounts/ForgotPassword/ForgotPassword";
+import ConfirmOTP from "../components/Admin/Accounts/ForgotPassword/ConfirmOTP";
 const routes = [
   {
     path: "/",
@@ -108,6 +109,10 @@ const routes = [
       {
         path: "/admin/forgot-password",
         element: <ForgotPassword />,
+      },
+      {
+        path: "/admin/confirm-otp",
+        element: <ConfirmOTP />,
       },
       {
         path: "/admin/register",
