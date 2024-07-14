@@ -45,6 +45,7 @@ import MostSoldProducts from "../pages/Admin/Dashboard/MostSoldProducts";
 import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 import ProcessOrder from "../pages/Admin/ProcessOrder/ProcessOrder";
+import ForgotPassword from "../components/Admin/Accounts/ForgotPassword/ForgotPassword";
 const routes = [
   {
     path: "/",
@@ -103,6 +104,10 @@ const routes = [
       {
         path: "/admin/login",
         element: <Login />,
+      },
+      {
+        path: "/admin/forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "/admin/register",
