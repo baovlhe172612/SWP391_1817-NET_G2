@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 
 import './ForgotPassword.scss';
+import { setCookie } from '../../../../helpers/Cookie.helper';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -16,12 +17,12 @@ function ForgotPassword() {
         try {
             const response = await axios.get(`http://localhost:5264/api/AccountDtos/GetByEmail?email=${email}`);
             const accountData = response.data;
-
             if (!accountData) {
                 message.error('Account not found with this email!');
                 return;
             }
 
+          
             // Prepare OTP data
             const serviceId = 'service_barainv';
             const templateId = 'template_k3bybh9';
@@ -33,7 +34,7 @@ function ForgotPassword() {
                 template_id: templateId,
                 user_id: publickey,
                 template_params: {
-                    from_name: 'Your Name', // Replace with an actual name
+                    from_name: 'Anh bán trà sữa', // Replace with an actual name
                     from_email: 'datldhe171371@fpt.edu.vn',
                     to_email: email,
                     to_name: accountData.fullName, // Replace with actual full name from accountData
@@ -47,6 +48,7 @@ function ForgotPassword() {
 
             // Store OTP for validation later (or handle OTP logic as needed)
             localStorage.setItem('otp', otp);
+            setCookie('accId', accountData.accountId,1);
 
             // Redirect to OTP confirmation page
             navigate('/admin/confirm-otp');
@@ -84,6 +86,7 @@ function ForgotPassword() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+
                         </Form.Item>
 
                         <Form.Item>

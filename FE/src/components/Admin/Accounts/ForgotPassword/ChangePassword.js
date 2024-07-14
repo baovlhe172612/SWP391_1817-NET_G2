@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import './ChangePassword.scss'; // Import file CSS
+import { getCookie } from '../../../../helpers/Cookie.helper';
 
 const ChangePassword = () => {
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        // Giả lập gửi yêu cầu đổi mật khẩu
         setLoading(true);
 
-        const { oldPassword, newPassword, confirmPassword } = values;
-
+        const { newPassword, confirmPassword } = values;
+        const userId = getCookie('accId');
+        console.log(userId);
         if (newPassword !== confirmPassword) {
             message.error('New password and confirm password do not match!');
             setLoading(false);
@@ -19,10 +22,16 @@ const ChangePassword = () => {
         }
 
         try {
-            // Gửi yêu cầu đổi mật khẩu (API giả lập)
-            // Ví dụ: await axios.post('http://localhost:5264/api/ChangePassword', { oldPassword, newPassword });
+            const response = await fetch(`http://localhost:5264/api/Account/${userId}/password?newPassword=${newPassword}`, {
+                method: 'PUT'
+            });
 
-            message.success('Password changed successfully!');
+            if (response.ok) {
+                message.success('Password changed successfully!');
+                navigate('/admin/login');
+            } else {
+                message.error('Failed to change password!');
+            }
         } catch (error) {
             console.error('Error:', error);
             message.error('Failed to change password!');
@@ -39,23 +48,7 @@ const ChangePassword = () => {
                     name="change-password"
                     onFinish={onFinish}
                     className="form"
-                    initialValues={{ remember: true }}
                 >
-                    <Form.Item
-                        name="oldPassword"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your old password!',
-                            },
-                        ]}
-                    >
-                        <Input.Password
-                            prefix={<LockOutlined />}
-                            placeholder="Old Password"
-                        />
-                    </Form.Item>
-
                     <Form.Item
                         name="newPassword"
                         rules={[

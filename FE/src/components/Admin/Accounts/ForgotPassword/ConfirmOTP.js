@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './ConfirmOTP.css'; // Import file CSS
+import { getCookie } from '../../../../helpers/Cookie.helper';
 
 const ConfirmOTP = () => {
     const [otp, setOtp] = useState('');
@@ -9,11 +10,19 @@ const ConfirmOTP = () => {
 
     const handleSubmit = async (values) => {
         const storedOtp = localStorage.getItem('otp');
-
+        const userId = getCookie('accId');
+        console.log(userId);
         if (otp === storedOtp) {
-            message.success('OTP verified successfully!');
-            // Redirect to the Change Password page
-            navigate('/admin/change-password');
+            // Call API to delete the password (assuming this is the right endpoint)
+            try {
+                await fetch(`http://localhost:5264/api/Account/${userId}/password`, {
+                    method: 'DELETE'
+                });
+                message.success('OTP verified successfully! Please set your new password.');
+                navigate('/admin/change-password');
+            } catch (error) {
+                message.error('Failed to delete the password. Please try again.');
+            }
         } else {
             message.error('Invalid OTP!');
         }
@@ -22,7 +31,6 @@ const ConfirmOTP = () => {
     return (
         <div className="container">
             <div className="confirm-otp-content">
-                {/* FORM */}
                 <div className="confirm-otp-form">
                     <h2 className="form-title">Confirm OTP</h2>
                     <Form
@@ -46,7 +54,6 @@ const ConfirmOTP = () => {
                                 onChange={(e) => setOtp(e.target.value)}
                             />
                         </Form.Item>
-
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Confirm OTP
