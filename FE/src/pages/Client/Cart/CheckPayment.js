@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart } from '../../../actions/CartAction';
+import Swal from 'sweetalert2';
 
 const CheckPayment = ({ totalMoney, txt }) => {
     console.log({ totalMoney, txt })
@@ -16,7 +17,6 @@ const CheckPayment = ({ totalMoney, txt }) => {
                 );
                 const data = await response.json();
                 // console.log(data);
-
                 data.data.forEach(item => {
                     // console.log({item})
 
@@ -24,7 +24,12 @@ const CheckPayment = ({ totalMoney, txt }) => {
                         console.log("checkkkkkkkkkkkkkkkkkkkkkkkkkkk: " + item["Mô tả"].includes(txt));
                         if (item["Giá trị"] === totalMoney) {
                             setPaidLoad(1);
-                            alert("Thanh toán thành công !!!!")
+                            Swal.fire({
+                                title: "Payment Successful!",
+                                text: "Thank you. Enjoy your meal!",
+                                icon: "success",
+                              });
+                            // alert("Thanh toán thành công !!!!")
                             dispatch(clearCart());
                             clearInterval(interval);
                             console.log(1);
