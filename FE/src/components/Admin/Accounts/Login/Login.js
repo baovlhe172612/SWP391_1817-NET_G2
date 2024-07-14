@@ -156,7 +156,7 @@ function Login() {
             </Link>
 
             <div style={{ marginTop: '10px' }}>
-              <Link to="/forgot-password">Forgot Password?</Link>
+              <Link to="/admin/forgot-password">Forgot Password?</Link>
             </div>
           </div>
         </div>
