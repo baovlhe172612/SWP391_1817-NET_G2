@@ -51,7 +51,7 @@ namespace Swp391
             app.MapHub<ChatHubs>("/Chat");
             app.MapHub<OrderHub>("/OrderHub");
 
-            app.Run("http://localhost:5264"); // Specify the IP address and port
+            app.Run(); // Specify the IP address and port
         }
     }
 }
