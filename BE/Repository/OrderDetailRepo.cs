@@ -1,4 +1,5 @@
 ﻿using BE.Models;
+using Swp391.Controllers;
 using Swp391.Dtos;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -76,6 +77,82 @@ namespace BE.Repository
             }
         }
 
+        public List<OrderDetailDto> GetOrderDetailSummaryByStoreId()
+        {
+            try
+            {
+                var summary = (from od in _context.OrderDetails
+                               join pz in _context.ProductSizes on od.ProductSizeId equals pz.ProductSizeId
+                               join p in _context.Products on pz.ProductId equals p.ProductId
+                               join o in _context.Orders on od.OrderId equals o.OrderId
+                               join s in _context.Stores on o.StoreId equals s.StoreId
+                               group new { od, pz, p, s } by new
+                               {
+                                   od.ProductSizeId,
+                                   pz.ProductId,
+                                   p.ProductName,
+                                   s.StoreId,
+                                   s.StoreName
+                               } into g
+                               orderby g.Sum(x => x.od.Quantity) descending
+                               select new OrderDetailDto
+                               {
+                                   Product_SizeID = g.Key.ProductSizeId,
+                                   ProductID = g.Key.ProductId,
+                                   ProductName = g.Key.ProductName,
+                                   StoreID = g.Key.StoreId,
+                                   StoreName = g.Key.StoreName,
+                                   TotalQuantity = g.Sum(x => x.od.Quantity ?? 0)  // Calculate total quantity here
+                               }).Take(25).ToList();
+
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                // Log exception if needed
+                throw new Exception("An error occurred while fetching order detail summary", ex);
+            }
+        }
+
+        public List<OrderDetailDto> GetOrderDetailSummary()
+        {
+            try
+            {
+                var summary = (from od in _context.OrderDetails
+                               join pz in _context.ProductSizes on od.ProductSizeId equals pz.ProductSizeId
+                               join p in _context.Products on pz.ProductId equals p.ProductId
+                               join o in _context.Orders on od.OrderId equals o.OrderId
+                               join s in _context.Stores on o.StoreId equals s.StoreId
+                               join size in _context.Sizes on pz.SizeId equals size.SizeId
+                             
+                               group new { od, pz, p, s, size } by new
+                               {
+                                   od.ProductSizeId,
+                                   pz.ProductId,
+                                   p.ProductName,
+                                   size.SizeName,
+                                   s.StoreName
+                               } into g
+                               orderby g.Sum(x => x.od.Quantity) descending
+                               select new OrderDetailDto
+                               {
+                                   Product_SizeID = g.Key.ProductSizeId,
+                                   ProductID = g.Key.ProductId,
+                                   ProductName = g.Key.ProductName + " size " + g.Key.SizeName,  // Combine ProductName and SizeName
+                                   StoreName = g.Key.StoreName,
+                                   TotalQuantity = g.Sum(x => x.od.Quantity ?? 0)  // Calculate total quantity here
+                               }).ToList();
+
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                // Log exception if needed
+                throw new Exception("An error occurred while fetching order detail summary", ex);
+            }
+        }
+
+
         public List<OrderDetailDto> GetOrderDetailSummaryByStoreId(int storeId)
         {
             try
@@ -85,12 +162,14 @@ namespace BE.Repository
                                join p in _context.Products on pz.ProductId equals p.ProductId
                                join o in _context.Orders on od.OrderId equals o.OrderId
                                join s in _context.Stores on o.StoreId equals s.StoreId
+                               join size in _context.Sizes on pz.SizeId equals size.SizeId
                                where s.StoreId == storeId
-                               group new { od, pz, p, s } by new
+                               group new { od, pz, p, s, size } by new
                                {
                                    od.ProductSizeId,
                                    pz.ProductId,
                                    p.ProductName,
+                                   size.SizeName,
                                    s.StoreName
                                } into g
                                orderby g.Sum(x => x.od.Quantity) descending
@@ -98,9 +177,9 @@ namespace BE.Repository
                                {
                                    Product_SizeID = g.Key.ProductSizeId,
                                    ProductID = g.Key.ProductId,
-                                   ProductName = g.Key.ProductName,
+                                   ProductName = g.Key.ProductName + " size " + g.Key.SizeName,  // Combine ProductName and SizeName
                                    StoreName = g.Key.StoreName,
-                                   TotalQuantity = g.Sum(x => x.od.Quantity??0)  // Calculate total quantity here
+                                   TotalQuantity = g.Sum(x => x.od.Quantity ?? 0)  // Calculate total quantity here
                                }).Take(7).ToList();
 
                 return summary;
@@ -111,6 +190,9 @@ namespace BE.Repository
                 throw new Exception("An error occurred while fetching order detail summary", ex);
             }
         }
+
+
+
 
         // get orderdetail by status
 

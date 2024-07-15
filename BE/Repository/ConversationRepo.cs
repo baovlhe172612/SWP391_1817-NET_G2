@@ -67,10 +67,7 @@ namespace BE.Repository
 
         public Conversation ExistConversation(int storeId)
         {
-            var conversation
-            = _context
-            .Conversations
-            .FirstOrDefault(cn => cn.UserSecondId == storeId);
+            var conversation= _context.Conversations.FirstOrDefault(cn => cn.UserSecondId == storeId);
 
             return conversation;
         }

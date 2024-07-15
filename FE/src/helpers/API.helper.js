@@ -113,5 +113,3 @@ export const putV2 = async (url, values) => {
   const data = await response.json();
   return data;
 };
-
-
