@@ -28,10 +28,8 @@ function Login() {
       try {
         const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
         if (accountByToken) {
-          // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // không dùng session nữa => gửi lên store 1 thằng account mới luôn
           dispatch(accountActions(accountByToken));
 
           console.log('accountByToken:::', accountByToken)
@@ -71,7 +69,7 @@ function Login() {
       // console.log(dataAuthen);
       if (dataAuthen) {
         // message login success
-        alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
+        alear_success_login("Login Successfully !!!", dataAuthen.fullName);
 
         // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
@@ -88,15 +86,12 @@ function Login() {
           return;
         }
 
-        // sang trang admin
         navigate("/admin");
       } else {
-        // message login false
-        message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
+        message.error(`Login failed. Please check your username or password !!!`);
       }
     } catch (error) {
-      message.error(`Đăng nhập thất bại:  Sai mk hoặc tk`);
-      // alear_false("Đăng nhập thất bại", "False");
+      message.error(`Login failed. Please check your username or password !!!`);
     }
   };
 
@@ -118,7 +113,7 @@ function Login() {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your Name!",
+                    message: "Please input your username!",
                   },
                 ]}
               >
@@ -131,7 +126,7 @@ function Login() {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your Password!",
+                    message: "Please input your password !",
                   },
                 ]}
               >
@@ -155,19 +150,19 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
-            <Link className="signup-image-link" to="/admin/register">
 
-              <Button type="primary" >
+            <Link className="signup-image-link" to="/admin/register">
+              <Button type="primary">
                 Create an account
               </Button>
             </Link>
-          </div>
 
-     
+            <div style={{ marginTop: '10px' }}>
+              <Link to="/admin/forgot-password">Forgot Password?</Link>
+            </div>
+          </div>
         </div>
       </div>
-     
-
     </>
   );
 }
