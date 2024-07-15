@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { Button, Form, Input, Select, Space, Switch,message } from "antd";
+import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
@@ -178,9 +178,29 @@ function CreateStoreManager() {
               <Form.Item
                   label="Address"
                   name="address"
+                  rules={[
+                    {
+                        required: true,
+                        message: 'Please input your address!',
+                    },
+                    {
+                        validator(_, value) {
+                            // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                            const fullNameRegex = /^[0-9a-zA-Z\s'-]{2,}$/;
+                            if (!value) {
+                                return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                            }
+                            if (!fullNameRegex.test(value)) {
+                                return Promise.reject('address must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ]}              
               >
                   <Input />
               </Form.Item>
+
               <Form.Item
                   label="CCCD"
                   name="cccd"
@@ -248,7 +268,7 @@ function CreateStoreManager() {
                     key="StoreId"
                 >
                     <Select>
-                        {availableStores.map(store => (
+                        {Stores.map(store => (
                             <Select.Option value={store.storeId}>
                                       {store.storeName}
                             </Select.Option>

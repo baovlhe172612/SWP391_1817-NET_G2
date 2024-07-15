@@ -113,6 +113,7 @@ function Login() {
               id="login-form"
             >
               <Form.Item
+              id="login"
                 name="username"
                 rules={[
                   {
@@ -125,6 +126,7 @@ function Login() {
               </Form.Item>
 
               <Form.Item
+               id="password"
                 name="password"
                 rules={[
                   {
