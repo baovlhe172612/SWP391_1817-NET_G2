@@ -82,14 +82,13 @@ namespace Swp391.Repository
                 }
 
                 // Save the image file to disk and get its path
-                string imagePath = SaveImageFile(newproduct.Img);
 
                 // Create the main Product entity
                 var product = new Product
                 {
                     ProductName = newproduct.ProductName,
                     CategoryId = newproduct.Category,
-                    Img = imagePath, // Save the image path
+                    Img = newproduct.Img, // Save the image path
                     Price = newproduct.Price,
                     CreateDate = DateTime.Now,
                     IsDelete = 0,
@@ -124,29 +123,7 @@ namespace Swp391.Repository
             }
         }
 
-        private string SaveImageFile(string base64Image)
-        {
-            // Replace with your logic to save and get image path
-            string fileName = $"{Guid.NewGuid().ToString()}.png"; // Generate unique file name
-            string directoryPath = @"C:\Upload"; // Example: save in uploads folder
 
-            // Save image bytes to disk
-            try
-            {
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-                string filePath = Path.Combine(directoryPath, fileName);
-                File.WriteAllBytes(filePath, Convert.FromBase64String(base64Image));
-                return filePath; // Return the saved file path
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving image: {ex.Message}");
-                throw; // Throwing the exception to handle it in the calling method
-            }
-        }
 
         public void UpdateProduct(ProductSize newProduct,string productName)
         {

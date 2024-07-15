@@ -36,7 +36,7 @@ namespace BE.Service
 
         public bool DeleteAllMessageInStore(int storeId)
         {
-            const existConversation = _conversationRepo.ExistConversation(storeId);
+            var existConversation = _conversationRepo.ExistConversation(storeId);
             if (existConversation != null)
             {
                 var listConversation = _conversationRepo.GetConversationByStoreId(storeId);
