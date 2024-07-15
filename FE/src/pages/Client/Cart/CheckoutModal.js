@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Table, Button, Select, Input } from 'antd';
 import { ClockCircleOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -6,9 +8,12 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
 import { getCookie } from '../../../helpers/Cookie.helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToSavedCart } from '../../../actions/DataSaveCartAction';
+import CheckPayment from './CheckPayment';
+
 const { Option } = Select;
 
-function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, cartDataModal, }) {
+function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, cartDataModal }) {
+  console.log({ cartDataModal })
   const [form] = Form.useForm();
   const [qrVisible, setQrVisible] = useState(false);
   const [billVisible, setBillVisible] = useState(false);
@@ -16,27 +21,20 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
   const [currentStep, setCurrentStep] = useState(1);
   const [connection, setConnection] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-
-
+  const [paymentCheckText, setPaymentCheckText] = useState('');
 
   let storeId = parseInt(getCookie('storeId'), 10);
   let tableId = parseInt(getCookie('tableId'), 10);
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
 
-
   const handleSaveCart = () => {
-    // Lấy thời gian hiện tại
     const currentDateTime = new Date();
-
-    // Tạo một mảng mới với các sản phẩm có thêm thuộc tính status và datetime
     const cartWithStatusAndDateTime = cart.list.map(item => ({
       ...item,
       status: -1,
-      datetime: currentDateTime
+      datetime: currentDateTime,
     }));
-
-    // Dispatch action với payload là mảng mới
     dispatch(addToSavedCart(cartWithStatusAndDateTime));
   };
 
@@ -46,6 +44,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
   if (!tableId) {
     tableId = 1;
   }
+
   useEffect(() => {
     const startConnection = async () => {
       const newConnection = new HubConnectionBuilder()
@@ -91,18 +90,33 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
       render: (text) => `${text.toLocaleString('vi-VN')}đ`,
     },
   ];
-  console.log(cartDataModal);
+
   const totalAmount = cartDataModal.reduce((acc, item) => acc + item.price, 0);
 
-  const MY_BANK = ({
-    BANK_ID: "BIDV",
-    ACCOUNT_NO: 4271033212
-  }
+  // const MY_BANK = {
+  //   BANK_ID: "BIDV",
+  //   ACCOUNT_NO: 4271033212,
+  // };
 
+  // const MY_BANK1 = {
+  //   BANK_ID: "MB",
+  //   ACCOUNT_NO: '0948742988',
+  // };
 
-  )
-  let qr = `https://img.vietqr.io/image/${MY_BANK.BANK_ID}-${MY_BANK.ACCOUNT_NO}-qr_only.png?amount=${totalAmount}`
-  
+  const generateRandomText = (length) => {
+    const allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      const randomChar = allowedCharacters.charAt(Math.floor(Math.random() * allowedCharacters.length));
+      result += randomChar;
+    }
+    return result;
+  };
+
+  const generateQRCodeUrl = (amount, message) => {
+    return `https://img.vietqr.io/image/ICB-102874686355-compact2.png?amount=${amount}&addInfo=${message}`;
+  };
+
   const onOk = async () => {
     try {
       const values = await form.validateFields();
@@ -113,30 +127,32 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
         productName: item.productName,
         quantity: item.quantity,
         price: item.price,
-        Status: -1
+        Status: -1,
       }));
-      // Send SignalR notification
+
       if (connection && isConnected) {
         await connection.invoke('SendOrderNotification', tableIdString, cartData);
         console.log('Order notification sent to store:', tableIdString);
       } else {
         console.error('SignalR connection not established or connected.');
-        // Handle when SignalR connection is not ready
       }
 
-      // Handle other actions based on payment method
       if (paymentMethod === '1') {
         setBillVisible(true);
       } else if (paymentMethod === '2') {
-        setQrCodeValue(`Payment of ${totalAmount.toLocaleString('vi-VN')}đ`);
+        const randomText = generateRandomText(10);
+        setPaymentCheckText(randomText);
+        setQrCodeValue(generateQRCodeUrl(totalAmount, randomText));
         setQrVisible(true);
       }
+
       handleSaveCart();
-      handleOk(values); // Close the modal or perform other actions after submission
+      handleOk(values);
     } catch (error) {
       console.error('Validation failed:', error);
     }
   };
+
   const handleStepClick = (stepNumber) => {
     setCurrentStep(stepNumber);
     switch (stepNumber) {
@@ -156,7 +172,6 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
 
   return (
     <>
-
       <Modal
         title="Hóa đơn thanh toán"
         visible={isVisible}
@@ -220,34 +235,27 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
               </div>
             </div>
             <div>
-              <strong>Total: {totalAmount.toLocaleString('vi-VN')} đ</strong>
+              <strong>Total: {totalAmount.toLocaleString('vi-VN')}đ</strong>
             </div>
           </Form>
         </div>
       </Modal>
-
-      <Modal
-        title="QR Code Payment"
-        visible={qrVisible}
-        style={{ top: 20 }}
-        footer={[
-          <Button key="close" onClick={() => { setQrVisible(false); handleDeleteAll(); }}>
-            Close
-          </Button>
-        ]}
-        onCancel={() => setQrVisible(false)}
-      >
-        <div style={{ maxHeight: '55vh', overflowY: 'auto' }}>
-
-
-          <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-            {/* <QRCode value={qrCodeValue} size={256} /> */}
-            <img
-              src={qr}
-              alt="QR Code"
-              style={{ maxWidth: '50%', height: 'auto' }}  // CSS để làm cho hình ảnh nhỏ xuống
-            />
-          </div>
+      {qrVisible && (
+        <Modal
+          title="QR Code"
+          visible={qrVisible}
+          onCancel={() => setQrVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setQrVisible(false)}>
+              Close
+            </Button>,
+          ]}
+        >
+          <img
+            src={qrCodeValue}
+            alt="QR Code"
+            style={{ maxWidth: '100%', height: 'auto' }}  // CSS để làm cho hình ảnh nhỏ xuống
+          />
           <div style={{ overflowX: 'auto' }}>
             <Table
               dataSource={cartDataModal}
@@ -266,12 +274,12 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
                   title: 'Price',
                   dataIndex: 'price',
                   key: 'price',
-                  render: (price) => `${price.toLocaleString('vi-VN')} đ`,
+                  render: (text, record) => `${(record.price/record.quantity).toLocaleString('vi-VN')} đ`,
                 },
                 {
                   title: 'Total',
                   key: 'total',
-                  render: (text, record) => `${(record.price * record.quantity).toLocaleString('vi-VN')} đ`,
+                  render: (text, record) => `${(record.price).toLocaleString('vi-VN')} đ`,
                 },
               ]}
               pagination={false}
@@ -284,9 +292,10 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
               )}
             />
           </div>
-        </div>
-      </Modal>
-
+          {/* <QRCode value={qrCodeValue} size={256} /> */}
+          <CheckPayment totalMoney={totalAmount} txt={paymentCheckText} />
+        </Modal>
+      )}
       <Modal
         title="Payment Bill"
         style={{ textAlign: 'center', top: 20, maxHeight: '60vh' }}
@@ -317,12 +326,12 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
                 title: 'Price',
                 dataIndex: 'price',
                 key: 'price',
-                render: (price) => `${price.toLocaleString('vi-VN')} đ`,
+                render: (text, record) => `${(record.price / record.quantity).toLocaleString('vi-VN')} đ`,
               },
               {
                 title: 'Total',
                 key: 'total',
-                render: (text, record) => `${(record.price * record.quantity).toLocaleString('vi-VN')} đ`,
+                render: (text, record) => `${(record.price).toLocaleString('vi-VN')} đ`,
               },
             ]}
             pagination={false}
@@ -339,9 +348,10 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
 
       </Modal>
 
-
     </>
   );
 }
+
+
 
 export default CheckoutModal;
