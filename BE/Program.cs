@@ -16,10 +16,9 @@ namespace Swp391
             {
                 opt.AddPolicy("reactApp", builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
                 });
             });
 
