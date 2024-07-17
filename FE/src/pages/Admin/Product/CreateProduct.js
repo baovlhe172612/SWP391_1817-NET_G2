@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button } from "antd";
 import { get, post } from "../../../helpers/API.helper";
-import { CREATE_PRODUCT } from "../../../helpers/APILinks";
+import { CREATE_PRODUCT, LOCALHOST_API } from "../../../helpers/APILinks";
 import { UploadOutlined } from "@ant-design/icons";
 const { Option } = Select;
 function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
@@ -14,8 +14,8 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const dataStores = await get("http://localhost:5264/api/stores");
-        const dataCategories = await get("http://localhost:5264/api/Category");
+        const dataStores = await get(`${LOCALHOST_API}/api/stores`);
+        const dataCategories = await get(`${LOCALHOST_API}/api/Category`);
         setStores(dataStores);
         setCategory(dataCategories);
       } catch (error) {

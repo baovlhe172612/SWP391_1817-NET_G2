@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import './ForgotPassword.scss';
 import { setCookie } from '../../../../helpers/Cookie.helper';
+import { LOCALHOST_API } from '../../../../helpers/APILinks';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ function ForgotPassword() {
     const handleSubmit = async (values) => {
         // Fetch account details from the API
         try {
-            const response = await axios.get(`http://localhost:5264/api/AccountDtos/GetByEmail?email=${email}`);
+            const response = await axios.get(`${LOCALHOST_API}/api/AccountDtos/GetByEmail?email=${email}`);
             const accountData = response.data;
             if (!accountData) {
                 message.error('Account not found with this email!');

@@ -2,6 +2,7 @@ import { Button, Form, Input, Switch, message } from "antd";
 import { useEffect, useState } from "react";
 import { get, patch } from "../../../helpers/API.helper";
 import { useParams, useNavigate } from "react-router-dom";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 const UpdateCategory = () => {
   // Khởi tạo form và lấy id từ URL params
@@ -14,7 +15,7 @@ const UpdateCategory = () => {
     const fetchCategory = async () => {
       try {
         // Gọi API để lấy thông tin category theo id
-        const data = await get(`http://localhost:5264/api/Category/${id}`);
+        const data = await get(`${LOCALHOST_API}/api/Category/${id}`);
         // Thiết lập giá trị cho các trường của form với dữ liệu nhận được
         form.setFieldsValue({
           categoryId: data.categoryId,
@@ -51,7 +52,7 @@ const UpdateCategory = () => {
       values.isDelete = values.isDelete ? 1 : 0;
 
       // Gọi API để cập nhật thông tin category
-      const data = await patch(`http://localhost:5264/api/Category/update/${id}`, values);
+      const data = await patch(`${LOCALHOST_API}/api/Category/update/${id}`, values);
       if (data) {
         // Hiển thị thông báo thành công và chuyển hướng đến trang danh sách category
         message.success("Category updated successfully!");
