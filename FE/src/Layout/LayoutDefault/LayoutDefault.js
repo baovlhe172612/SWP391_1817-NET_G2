@@ -25,6 +25,16 @@ function LayoutDefault() {
   const tableIdV2 = getCookie("tableId");
   const storeId = getCookie("storeId");
 
+  const [savedProductFinal, setSavedProductFinal] = useState([]);
+
+  useEffect(() => {
+    const productData = sessionStorage.getItem('productFinal');
+    if (productData) {
+      setSavedProductFinal(JSON.parse(productData));
+    }
+  }, [savedProductFinal]);
+
+  console.log(savedProductFinal);
   // kết nối với server
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
@@ -129,7 +139,7 @@ function LayoutDefault() {
 
       <div>
         {/* Button chat */}
-        <FloatButtonMess handleOnclick={handleOnclick} />
+        <FloatButtonMess savedProductFinal={savedProductFinal} handleOnclick={handleOnclick} />
        
         {collapsed == false && collapsedNotify == true && <NotifyChat connection={connection} setCollapsedNotify={setCollapsedNotify} collapsedNotify={collapsedNotify}/>}
         {collapsed && (

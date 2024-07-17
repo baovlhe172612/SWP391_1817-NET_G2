@@ -9,11 +9,12 @@ import { getCookie } from '../../../helpers/Cookie.helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToSavedCart } from '../../../actions/DataSaveCartAction';
 import CheckPayment from './CheckPayment';
+import { connectOrderHub } from '../../../helpers/APILinks';
 
 const { Option } = Select;
 
 function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, cartDataModal }) {
-  console.log({ cartDataModal })
+  //console.log({ cartDataModal })
   const [form] = Form.useForm();
   const [qrVisible, setQrVisible] = useState(false);
   const [billVisible, setBillVisible] = useState(false);
@@ -22,7 +23,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
   const [connection, setConnection] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [paymentCheckText, setPaymentCheckText] = useState('');
-
+  const [groupedOrders, setGroupedOrders] = useState([]);
   let storeId = parseInt(getCookie('storeId'), 10);
   let tableId = parseInt(getCookie('tableId'), 10);
   const dispatch = useDispatch();
@@ -48,10 +49,9 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
   useEffect(() => {
     const startConnection = async () => {
       const newConnection = new HubConnectionBuilder()
-        .withUrl('http://localhost:5264/OrderHub')
+        .withUrl(`${connectOrderHub}`)
         .withAutomaticReconnect()
         .build();
-
       try {
         await newConnection.start();
         setIsConnected(true);
@@ -132,7 +132,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
 
       if (connection && isConnected) {
         await connection.invoke('SendOrderNotification', tableIdString, cartData);
-        console.log('Order notification sent to store:', tableIdString);
+        //console.log('Order notification sent to store:', tableIdString);
       } else {
         console.error('SignalR connection not established or connected.');
       }
