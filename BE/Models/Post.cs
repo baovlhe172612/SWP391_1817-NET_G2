@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -26,6 +27,6 @@ public partial class Post
     public DateTime ModifiDate { get; set; }
 
     public int? StoreId { get; set; }
-
+    [JsonIgnore]
     public virtual Store? Store { get; set; }
 }
