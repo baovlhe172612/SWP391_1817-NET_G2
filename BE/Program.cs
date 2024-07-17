@@ -16,7 +16,7 @@ namespace Swp391
             {
                 opt.AddPolicy("reactApp", builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
+                    builder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn/")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
