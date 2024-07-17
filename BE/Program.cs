@@ -14,9 +14,9 @@ namespace Swp391
             // Configure CORS
             builder.Services.AddCors(opt =>
             {
-                opt.AddPolicy("reactApp", builder =>
+                opt.AddPolicy("reactApp", policyBuilder =>
                 {
-                    builder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn/")
+                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -26,7 +26,6 @@ namespace Swp391
             // Add services to the container.
             builder.Services.AddSignalR();
 
-            // Add services to the container.
             builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -35,10 +34,8 @@ namespace Swp391
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
 
