@@ -16,9 +16,10 @@ namespace Swp391
             {
                 opt.AddPolicy("reactApp", builder =>
                 {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                    builder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn/")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
 

@@ -45,6 +45,18 @@ public class OrderHub : Hub
             throw; // Throw exception to handle it on the client side
         }
     }
+    public async Task SendSTT(String tableId,List<numericalOrder> listSTT)
+    {
+        try
+        {          
+            await Clients.Group(tableId).SendAsync("ReceiveOrderSTT", listSTT);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error in SendOrderSTToGroup: {ex.Message}");
+            throw; // Throw exception to handle it on the client side
+        }
+    }
 
     // Phương thức để tham gia nhóm dựa trên tableId
     public async Task JoinTableGroup(string tableId)
