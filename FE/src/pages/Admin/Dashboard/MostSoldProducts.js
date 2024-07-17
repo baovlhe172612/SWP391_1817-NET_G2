@@ -11,6 +11,7 @@ import { get } from "../../../helpers/API.helper";
 import { Row, Col, Table } from "antd";
 import { Link } from "react-router-dom";
 import { BackwardOutlined } from "@ant-design/icons";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,9 +31,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get(`http://localhost:5264/api/Order/order-detail-summary`);
+        data = await get(`${LOCALHOST_API}/api/Order/order-detail-summary`);
       } else {
-        data = await get(`http://localhost:5264/api/Order/order-detail-summary/${account.storeId}`);
+        data = await get(`${LOCALHOST_API}/api/Order/order-detail-summary/${account.storeId}`);
       }
       setProductData(data);
     } catch (error) {
