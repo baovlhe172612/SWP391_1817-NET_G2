@@ -3,6 +3,7 @@ import { Form, Input, Button, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './ConfirmOTP.css'; // Import file CSS
 import { getCookie } from '../../../../helpers/Cookie.helper';
+import { LOCALHOST_API } from '../../../../helpers/APILinks';
 
 const ConfirmOTP = () => {
     const [otp, setOtp] = useState('');
@@ -15,7 +16,7 @@ const ConfirmOTP = () => {
         if (otp === storedOtp) {
             // Call API to delete the password (assuming this is the right endpoint)
             try {
-                await fetch(`http://localhost:5264/api/Account/${userId}/password`, {
+                await fetch(`${LOCALHOST_API}/api/Account/${userId}/password`, {
                     method: 'DELETE'
                 });
                 message.success('OTP verified successfully! Please set your new password.');

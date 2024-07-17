@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { get, post } from "../../../helpers/API.helper";
-import { CREATE_BLOG } from "../../../helpers/APILinks";
+import { CREATE_BLOG, LOCALHOST_API } from "../../../helpers/APILinks";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function CreateBlog() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const blogData = await post("http://localhost:5264/api/Post/add_new");
+        const blogData = await post(`${LOCALHOST_API}/api/Post/add_new`);
         if (blogData) {
           setBlog(blogData);
         }

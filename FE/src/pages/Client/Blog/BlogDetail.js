@@ -4,6 +4,7 @@ import { get } from "../../../helpers/API.helper";
 import { Button, Col, Row, Container } from "react-bootstrap";
 import "./Blog.css";
 import { Badge } from "antd";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function BlogDetail() {
   const { id } = useParams();
@@ -11,7 +12,7 @@ function BlogDetail() {
 
   useEffect(() => {
     const fetchBlogDetail = async () => {
-      const data = await get(`http://localhost:5264/api/Post/${id}`);
+      const data = await get(`${LOCALHOST_API}/api/Post/${id}`);
       setBlog(data);
       console.log(data);
     };

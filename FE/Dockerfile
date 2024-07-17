@@ -12,7 +12,6 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 80 to the outside world
 EXPOSE 80
 
 # Start Nginx when the container has started

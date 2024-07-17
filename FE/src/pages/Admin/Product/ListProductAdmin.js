@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Row, Space, Table, Tag, Button, Modal, Input } from "antd";
-import { LIST_PRODUCT_DTOS, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks";
+import { LIST_PRODUCT_DTOS, LIST_PRODUCT_SIZE, LOCALHOST_API } from "../../../helpers/APILinks";
 import { get, put } from "../../../helpers/API.helper";
 import CreateProduct from './CreateProduct';
 import { FaPlus } from 'react-icons/fa';
@@ -44,7 +44,7 @@ function ListProductAdmin() {
 
   const handleDelete = useCallback(async (id) => {
     try {
-      await put(`http://localhost:5264/api/ProductSizes/delete/${id}/1`);
+      await put(`${LOCALHOST_API}/api/ProductSizes/delete/${id}/1`);
       onReload();
     } catch (error) {
       console.error("Failed to delete product:", error);

@@ -1,6 +1,6 @@
-export const LOCALHOST_API = "http://localhost:5264"
+// export const LOCALHOST_API = "http://localhost:5264"
 
-
+export const LOCALHOST_API = "https://swp391-1817-net-g2.techtheworld.id.vn" 
 // API ACCOUNT
 export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
 export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}/api/Account`;
@@ -94,3 +94,6 @@ export const BLOG_DETAIL = `${LOCALHOST_API}/api/Post`;
 export const DELETE_BLOG_ID = `${LOCALHOST_API}/api/Post/delete_post/`;
 export const UP_BLOG_ID = `${LOCALHOST_API}/api/Post/up_post/`;
 export const UPDATE_BLOG = `${LOCALHOST_API}/api/Post/update_post`;
+
+// OrderHub
+export const connectOrderHub = `${LOCALHOST_API}/OrderHub`;

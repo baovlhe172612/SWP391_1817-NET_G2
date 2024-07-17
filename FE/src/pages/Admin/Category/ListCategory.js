@@ -3,6 +3,7 @@ import { Button, Space, Table, Tag, Input } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function ListCategory() {
   const [categories, setCategories] = useState([]);
@@ -12,7 +13,7 @@ function ListCategory() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/Category");
+        const data = await get(`${LOCALHOST_API}/api/Category`);
         console.log(data);
         setCategories(data);
       } catch (error) {

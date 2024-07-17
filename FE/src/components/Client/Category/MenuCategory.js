@@ -3,13 +3,14 @@ import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown } from "antd";
 import { get } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function MenuCategory({categories}) {
 
   const items = categories.map((data, index) => {
     return {
       // thêm logic gì đó ở đây
-      label: <Link to={`http://localhost:3000/listProduct?categoryId=${data.categoryId}`}>{data.categoryName}</Link>,
+      label: <Link to={`${LOCALHOST_API}/listProduct?categoryId=${data.categoryId}`}>{data.categoryName}</Link>,
       key: index,
     };
   });

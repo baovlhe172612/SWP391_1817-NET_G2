@@ -3,6 +3,7 @@ import { get, post } from "../../../helpers/API.helper";
 import "./Blog.css";
 import { Button, Col, Input, Row } from "antd";
 import { Link } from "react-router-dom";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -14,7 +15,7 @@ function Blog() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://localhost:5264/api/Post");
+      const data = await get(`${LOCALHOST_API}/api/Post`);
       setBlogs(data);
     };
     fetchApi();
@@ -36,7 +37,7 @@ function Blog() {
                   <h2 className="breadcrumb-heading">Blog</h2>
                   <ul>
                     <li>
-                      <a href="/">Home</a>
+                      <a href="/">Home11111111111111111111111111</a>
                     </li>
                     <li>Blog Grid View</li>
                   </ul>

@@ -3,9 +3,10 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Button, FloatButton, Modal, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateStatus } from "../../../actions/DataSaveCartAction";
+import {  updateStatus } from "../../../actions/DataSaveCartAction";
 import { getCookie } from "../../../helpers/Cookie.helper";
 import soundmessege from "../../../assets/sound/sound.mp3";
+import { connectOrderHub } from "../../../helpers/APILinks";
 function FloatButtonMess({ handleOnclick }) {
   const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
   const [showOnlyCompleted, setShowOnlyCompleted] = useState(false);
@@ -15,20 +16,20 @@ function FloatButtonMess({ handleOnclick }) {
   const cartSave = useSelector((state) => state.savedCart);
   const tableId = parseInt(getCookie("tableId"), 10);
   const [product, setProduct] = useState([]);
-
+  
   useEffect(() => {
     const startSignalRConnection = async () => {
       const newConnection = new HubConnectionBuilder()
-        .withUrl("http://localhost:5264/OrderHub")
+        .withUrl(`${connectOrderHub}`)
         .withAutomaticReconnect()
         .build();
-
       try {
         await newConnection.start();
         console.log("SignalR Connected.");
         setConnection(newConnection);
-
+        //
         newConnection.invoke("JoinTableGroup", tableId.toString());
+        //
         newConnection.on(
           "ReceiveOrderNotification",
           (receivedTableId, productsizeId, status, date) => {
@@ -50,7 +51,6 @@ function FloatButtonMess({ handleOnclick }) {
         console.error("SignalR Connection Error: ", error);
       }
     };
-
     startSignalRConnection();
 
     return () => {
@@ -60,9 +60,11 @@ function FloatButtonMess({ handleOnclick }) {
     };
   }, [tableId, cartSave, dispatch]);
 
+
   useEffect(() => {
     if (connection) {
       connection.on("ReceiveOrderNotification", (receivedTableId) => {});
+      
       return () => {
         connection.off("ReceiveOrderNotification");
       };
@@ -109,6 +111,7 @@ function FloatButtonMess({ handleOnclick }) {
       key: "datetime",
       render: (createdAt) => new Date(createdAt).toLocaleString(),
     },
+    
     {
       title: "Status",
       dataIndex: "status",
@@ -126,6 +129,11 @@ function FloatButtonMess({ handleOnclick }) {
         return <Tag color={color}>{text}</Tag>;
       },
     },
+    // {
+    //   title: "STT",
+    //   dataIndex: "waitTime",
+    //   key: "waitTime",
+    // },
   ];
 
   return (
@@ -181,7 +189,7 @@ function FloatButtonMess({ handleOnclick }) {
               : cartSave
           }
           columns={columns}
-          pagination={false}
+          pagination={true}
           rowKey={(record) =>
             `${record.productSizeID}_${new Date(record.datetime).getTime()}`
           }
@@ -217,8 +225,9 @@ function FloatButtonMess({ handleOnclick }) {
                 key: "price",
                 render: (price) => `${price.toLocaleString("vi-VN")} đ`,
               },
+             
             ]}
-            pagination={false}
+            pagination={true}
             rowKey="productSizeID"
           />
         )}

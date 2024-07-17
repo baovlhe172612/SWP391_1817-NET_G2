@@ -4,6 +4,7 @@ import { LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './ChangePassword.scss'; // Import file CSS
 import { getCookie } from '../../../../helpers/Cookie.helper';
+import { LOCALHOST_API } from '../../../../helpers/APILinks';
 
 const ChangePassword = () => {
     const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ const ChangePassword = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5264/api/Account/${userId}/password?newPassword=${newPassword}`, {
+            const response = await fetch(`${LOCALHOST_API}/api/Account/${userId}/password?newPassword=${newPassword}`, {
                 method: 'PUT'
             });
 

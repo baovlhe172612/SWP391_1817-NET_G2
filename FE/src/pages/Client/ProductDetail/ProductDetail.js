@@ -165,7 +165,7 @@ function ProductDetail(props) {
                           onClick={() => handleAddToCart(productSize)} // Truyền productSize vào hàm handleAddToCart
                           variant="success"
                         >
-                          Thêm vào giỏ hàng
+                          Add to cart
                         </Button>
 
                       </div>

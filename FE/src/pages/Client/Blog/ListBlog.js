@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Input, Space, Table, Tag } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
-import { DELETE_BLOG_ID, GET_BLOGS_STATUS, UP_BLOG_ID } from "../../../helpers/APILinks";
+import { DELETE_BLOG_ID, GET_BLOGS_STATUS, LOCALHOST_API, UP_BLOG_ID } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Search from "antd/es/input/Search";
 
@@ -26,7 +26,7 @@ function ListBlog() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://localhost:5264/api/Post`);
+        const data = await get(`${LOCALHOST_API}/api/Post`);
         console.log(data);
         if (data) {
           setBlogs(data);
@@ -221,7 +221,7 @@ function ListBlog() {
       if (status !== "") {
         data = await get(`${GET_BLOGS_STATUS}/${status}`);
       } else {
-        data = await get(`http://localhost:5264/api/Post`);
+        data = await get(`${LOCALHOST_API}/api/Post`);
       }
       setBlogs(data);
     } catch (error) {
