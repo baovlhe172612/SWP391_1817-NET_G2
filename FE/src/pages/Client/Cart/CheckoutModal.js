@@ -241,7 +241,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
         </div>
       </Modal>
       {qrVisible && (
-        <Modal
+        <Modal style={{ overflowX: 'auto' }}
           title="QR Code"
           visible={qrVisible}
           onCancel={() => setQrVisible(false)}
@@ -254,7 +254,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
           <img
             src={qrCodeValue}
             alt="QR Code"
-            style={{ maxWidth: '100%', height: 'auto' }}  // CSS để làm cho hình ảnh nhỏ xuống
+            style={{ maxWidth: '100%', height: 'auto' }}  
           />
           <div style={{ overflowX: 'auto' }}>
             <Table

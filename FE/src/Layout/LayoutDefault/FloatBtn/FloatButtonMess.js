@@ -187,7 +187,7 @@ function FloatButtonMess({ handleOnclick }) {
               : cartSave
           }
           columns={columns}
-          pagination={false}
+          pagination={true}
           rowKey={(record) =>
             `${record.productSizeID}_${new Date(record.datetime).getTime()}`
           }
