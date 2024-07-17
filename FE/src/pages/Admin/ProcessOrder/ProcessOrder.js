@@ -193,46 +193,46 @@ const ProcessOrder = () => {
 
   const columns = [
     {
-      title: 'Mã số đơn hàng',
+      title: 'Order Detail ID',
       dataIndex: 'orderDetailID',
       key: 'orderDetailID',
       className: 'ant-table-hidden-column',
     },
     {
-      title: 'Mã sản phẩm',
+      title: 'Product ID',
       dataIndex: 'productID',
       key: 'productID',
       className: 'ant-table-hidden-column',
     },
     {
-      title: 'Ảnh',
+      title: 'Image',
       dataIndex: 'img',
       key: 'img',
       render: (img, record) => <img src={img} alt={record.productName} style={{ width: '50px', height: '50px' }} />,
     },
     {
-      title: 'Tên sản phẩm',
+      title: 'Product Name',
       dataIndex: 'productName',
       key: 'productName',
     },
     {
-      title: 'Số lượng',
+      title: 'Quantity',
       dataIndex: 'quantity',
       key: 'quantity',
     },
     {
-      title: 'Bàn',
+      title: 'Table',
       dataIndex: 'tableID',
       key: 'tableID',
     },
     {
-      title: 'Ngày đặt hàng',
+      title: 'Order date',
       dataIndex: 'date',
       key: 'date',
       render: (createdAt) => new Date(createdAt).toLocaleString(),
     },
     {
-      title: 'Trạng thái',
+      title: 'Status',
       dataIndex: 'status',
       key: 'status',
       render: (status, record) => (
@@ -241,9 +241,9 @@ const ProcessOrder = () => {
           onChange={(value) => handleStatusChange(record.orderDetailID, value)}
           style={{ width: 120 }}
         >
-          <Select.Option value={-1}>Chờ xử lý</Select.Option>
-          <Select.Option value={0}>Đang xử lý</Select.Option>
-          <Select.Option value={1}>Hoàn thành</Select.Option>
+          <Select.Option value={-1}>Wait</Select.Option>
+          <Select.Option value={0}>Process</Select.Option>
+          <Select.Option value={1}>Done</Select.Option>
         </Select>
       ),
     },
@@ -268,10 +268,10 @@ const ProcessOrder = () => {
       {/*  css ở đây */}
       {sortedGroupedOrders.map((group) => (
         <div key={group.productId}>
-          <h3>Tên Sản Phẩm: {group.orders[0].productName} - {group.orders[0].sizeName}</h3>
-          <h4>Số lượng đơn hàng: {group.orders.length}</h4>
+          <h3>Product Name: {group.orders[0].productName} - {group.orders[0].sizeName}</h3>
+          <h4>Quantity: {group.orders.length}</h4>
           <Button onClick={() => openModal(group.productId)}>
-            Xem chi tiết
+            Details
           </Button>
         </div>
       ))}
@@ -285,7 +285,7 @@ const ProcessOrder = () => {
     />
   )}
   <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-    <Button onClick={closeModal} style={{ marginTop: '20px' }}>Đóng</Button>
+    <Button onClick={closeModal} style={{ marginTop: '20px' }}>Close</Button>
   </div>
 </Modal>
 
@@ -306,7 +306,7 @@ const ProcessOrder = () => {
             dataSource={receivedCart}
             columns={[
               {
-                title: 'Product',
+                title: 'Product Name',
                 dataIndex: 'productName',
                 key: 'productName',
               },
@@ -327,7 +327,7 @@ const ProcessOrder = () => {
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <Button onClick={closeModal2} style={{ marginTop: '20px' }}>Đóng</Button>
+          <Button onClick={closeModal2} style={{ marginTop: '20px' }}>Close</Button>
         </div>
       </Modal>
     </div>

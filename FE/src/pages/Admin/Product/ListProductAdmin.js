@@ -74,7 +74,7 @@ function ListProductAdmin() {
 
   const columns = useMemo(() => [
     {
-      title: "STT",
+      title: "Number",
       dataIndex: "stt",
       key: "stt",
       render: (_, __, index) => (state.pagination.current - 1) * state.pagination.pageSize + index + 1,

@@ -249,6 +249,10 @@ const routes = [
                     path: "",
                     element: <ListProductAdmin />,
                   },
+                  {
+                    path: "/admin/product/edit/:id",
+                    element: <UpdateProduct />,
+                  },
                          
                 ],
               },

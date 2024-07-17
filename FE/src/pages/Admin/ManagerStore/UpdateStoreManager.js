@@ -220,7 +220,7 @@ function UpdateStoreManager() {
           <Input />
         </Form.Item>
         <Form.Item
-                  label="CCCD"
+                  label="Citizens ID"
                   name="cccd"
                   rules={[
                     ({ getFieldValue }) => ({
