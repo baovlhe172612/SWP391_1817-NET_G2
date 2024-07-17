@@ -143,7 +143,7 @@ function ListTable() {
                 X
               </button>
               <div className="status-container">
-                Bàn {table.tableName}:
+                {table.tableName}:
                 <span className={`status ${table.status}`}>
                   {table.status == 0 ? "Còn trống" : "Đã full"}
                 </span>

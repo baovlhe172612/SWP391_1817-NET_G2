@@ -182,22 +182,22 @@ function CreateEmployee() {
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    label="CCCD"
+                    label="Citizens ID"
                     name="cccd"
                     rules={[
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value) {
-                                    return Promise.reject('Please input your CCCD number!');
+                                    return Promise.reject('Please input your Citizens ID number!');
                                 }
                                 if (!/^\d{12}$/.test(value)) {
-                                    return Promise.reject('CCCD number must be 12 digits!');
+                                    return Promise.reject('Citizens ID number must be 12 digits!');
                                 }
                                 if (!/^0\d{11}$/.test(value)) {
-                                    return Promise.reject('CCCD number must begin with 0!');
+                                    return Promise.reject('Citizens ID number must begin with 0!');
                                 }
                                 if (Accounts.some((account) => account.cccd === value)) {
-                                    return Promise.reject('CCCD already exists');
+                                    return Promise.reject('Citizens ID already exists');
                                 }
                                 return Promise.resolve();
                             },
