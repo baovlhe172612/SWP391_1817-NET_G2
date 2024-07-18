@@ -268,7 +268,7 @@ function CreateStoreManager() {
                     key="StoreId"
                 >
                     <Select>
-                        {Stores.map(store => (
+                        {availableStores.map(store => (
                             <Select.Option value={store.storeId}>
                                       {store.storeName}
                             </Select.Option>
