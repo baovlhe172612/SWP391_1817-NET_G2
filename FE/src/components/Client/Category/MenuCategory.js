@@ -10,7 +10,7 @@ function MenuCategory({categories}) {
   const items = categories.map((data, index) => {
     return {
       // thêm logic gì đó ở đây
-      label: <Link to={`${LOCALHOST_API}/api/ProductSizes/getProductSizeByCategoryId?categoriesID=${data.categoryId}`}>{data.categoryName}</Link>,
+      label: <Link to={`https://swp391-1817-net-g2-fe.techtheworld.id.vn/listProduct?categoryId=${data.categoryId}`}>{data.categoryName}</Link>,
       key: index,
     };
   });
