@@ -1,4 +1,4 @@
-// export const LOCALHOST_API = "http://localhost:5264"
+//export const LOCALHOST_API = "http://localhost:5264"
 
 export const LOCALHOST_API = "https://swp391-1817-net-g2.techtheworld.id.vn" 
 // API ACCOUNT

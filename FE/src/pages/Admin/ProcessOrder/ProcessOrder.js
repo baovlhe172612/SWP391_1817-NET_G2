@@ -153,7 +153,8 @@ const ProcessOrder = () => {
       }
       // Tham gia nhóm và gửi dữ liệu tới SignalR Hub
       const connection = new HubConnectionBuilder()
-        .withUrl(`${connectOrderHub}}`)
+        .withUrl(`${connectOrderHub}`)
+        .withAutomaticReconnect()
         .build();
       try {
         await connection.start();

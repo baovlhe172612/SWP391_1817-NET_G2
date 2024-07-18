@@ -24,6 +24,7 @@ function UpdateStore() {
           storeName: data.storeName,
           location: data.location,           
           isDelete: data.isDelete === 1,
+          status: data.status,
         });  
         setStore(data);       
       } catch (error) {
@@ -91,7 +92,7 @@ function UpdateStore() {
         </Form.Item>
       
         <Form.Item name="status" label="Switch" valuePropName="checked">
-          <Switch checkedChildren="inactive" unCheckedChildren="active"/>
+          <Switch checkedChildren="active" unCheckedChildren="Inactive"/>
         </Form.Item>
 
         <Form.Item>
