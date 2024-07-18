@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -18,8 +19,8 @@ public partial class Category
     public int? StoreId { get; set; }
 
     public DateOnly? DateCreated { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
-
+    [JsonIgnore]
     public virtual Store? Store { get; set; }
 }

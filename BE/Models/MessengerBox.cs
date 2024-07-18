@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -18,6 +19,6 @@ public partial class MessengerBox
     public int? StoreId { get; set; }
 
     public DateOnly? DateDeleted { get; set; }
-
+    [JsonIgnore]
     public virtual Store? Store { get; set; }
 }

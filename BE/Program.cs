@@ -1,4 +1,6 @@
-﻿using BE.Hubs;
+﻿// sever
+
+using BE.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,3 +54,57 @@ namespace Swp391
         }
     }
 }
+
+
+// localhost
+/*using BE.Hubs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Swp391
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Configure CORS
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("reactApp", policyBuilder =>
+                {
+                    policyBuilder.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            // Add services to the container.
+            builder.Services.AddSignalR();
+            builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddLogging();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            app.UseHttpsRedirection();
+
+            // Ensure CORS middleware is used before authorization
+            app.UseCors("reactApp");
+            app.UseAuthorization();
+            app.MapControllers();
+            app.MapHub<ChatHubs>("/Chat");
+            app.MapHub<OrderHub>("/OrderHub");
+            app.Run();
+        }
+    }
+}
+*/
