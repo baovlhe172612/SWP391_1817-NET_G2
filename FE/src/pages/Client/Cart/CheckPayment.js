@@ -49,7 +49,7 @@ const CheckPayment = ({ totalMoney, txt, dataToSend, value, note }) => {
                 data.data.forEach(item => {
                     console.log({item})
 
-                    if (item["Mô tả"].includes('bMb3tXdJ9T')) {
+                    if (item["Mô tả"].includes(txt)) {
                         console.log("checkkkkkkkkkkkkkkkkkkkkkkkkkkk: " + item["Mô tả"].includes(txt));
                         if (item["Giá trị"] === totalMoney) {
                             setPaidLoad(1);
