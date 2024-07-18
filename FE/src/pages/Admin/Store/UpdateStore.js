@@ -37,7 +37,8 @@ function UpdateStore() {
 
   const handleSubmit = async (values) => {    
     // sửa lại biến switch cho isDeleted
-    values.isDelete = values.isDelete ? 1 : 0;
+    values.isDelete = 0
+    values.status = values.status ? 1 : 0;
     console.log(values);
     const data = await patch(`${LOCALHOST_API}/api/stores/Update/${id}`, values);   
     if(data) {
@@ -89,7 +90,7 @@ function UpdateStore() {
           <Input />
         </Form.Item>
       
-        <Form.Item name="isDelete" label="Switch" valuePropName="checked">
+        <Form.Item name="status" label="Switch" valuePropName="checked">
           <Switch checkedChildren="inactive" unCheckedChildren="active"/>
         </Form.Item>
 

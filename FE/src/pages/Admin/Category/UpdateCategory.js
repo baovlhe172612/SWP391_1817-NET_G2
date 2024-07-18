@@ -36,7 +36,7 @@ const UpdateCategory = () => {
   const handleSubmit = async (values) => {
     try {
       // Gọi API để lấy danh sách các category hiện có
-      const existingCategories = await get("http://localhost:5264/api/Category");
+      const existingCategories = await get(`${LOCALHOST_API}/api/Category`);
       // Kiểm tra xem có category nào khác có cùng tên nhưng không phải category hiện tại
       const isDuplicate = existingCategories.some(
         (category) => category.categoryName === values.categoryName && category.categoryId !== id

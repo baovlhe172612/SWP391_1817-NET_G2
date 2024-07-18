@@ -37,7 +37,7 @@ function Blog() {
                   <h2 className="breadcrumb-heading">Blog</h2>
                   <ul>
                     <li>
-                      <a href="/">Home11111111111111111111111111</a>
+                      <a href="/">Home</a>
                     </li>
                     <li>Blog Grid View</li>
                   </ul>

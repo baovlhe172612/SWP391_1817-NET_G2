@@ -41,18 +41,12 @@ const ProcessOrder = () => {
       }
     };
     startSignalRConnection();
-  }, [productFinal]);
+  }, []);
 
   useEffect(() => {
     fetchApi(); // Initial fetch of order details
   }, []);
   
-  useEffect(() => {
-    if (productFinal.length > 0) {
-      sessionStorage.setItem('productFinal', JSON.stringify(productFinal));
-    }
-  }, [productFinal]);
-
   const fetchApi = async () => {
     try {
       const data = await get(`${LOCALHOST_API}/api/Order/orderdetailbystatus?storeId=1`);
@@ -73,8 +67,6 @@ const ProcessOrder = () => {
       setOrderDetails([]);
     }
   };
-
-
   const groupByProductSizeId = (orderDetails) => {
     const grouped = {};
     orderDetails.forEach(orderDetail => {
