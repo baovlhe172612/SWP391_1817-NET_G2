@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -22,7 +23,7 @@ public partial class ProductSize
     public DateOnly? DateCreated { get; set; }
 
     public DateOnly? DateDeleted { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Product Product { get; set; } = null!;
