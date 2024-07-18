@@ -3,7 +3,6 @@ import axios from 'axios'; // Import Axios
 import { Form, Input, Button, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-
 import './ForgotPassword.scss';
 import { setCookie } from '../../../../helpers/Cookie.helper';
 import { LOCALHOST_API } from '../../../../helpers/APILinks';
