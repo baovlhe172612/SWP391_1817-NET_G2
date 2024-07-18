@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox, message } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, VerticalRightOutlined } from "@ant-design/icons";
 import "./Login.scss";
 import { get } from "../../../../helpers/API.helper";
 import {
@@ -14,6 +14,7 @@ import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
 import { setSessionItem } from "../../../../helpers/Session.helper";
 import { accountActions } from "../../../../actions/AccountActions";
+import CryptoJS from 'crypto-js';
 
 function Login() {
   const navigate = useNavigate();
@@ -61,11 +62,13 @@ function Login() {
 
   // SUBMIT - Đăng nhập
   const onFinish = async (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     try {
+      const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
+      console.log(passwordMd5)
       // call API
       const dataAuthen = await get(
-        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
+        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${passwordMd5}`
       );
       console.log(dataAuthen);
       // console.log(dataAuthen);

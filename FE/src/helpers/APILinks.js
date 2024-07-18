@@ -5,6 +5,7 @@ export const LOCALHOST_API = "http://localhost:5264"
 // API ACCOUNT
 export const GET_ALL_ACCOUNTS = `${LOCALHOST_API}/api/Account/all`
 export const GET_ACCOUNT_BY_ID = `${LOCALHOST_API}/api/Account`;
+export const connectOrderHub = '';
 
 // API CATEGORY
 
