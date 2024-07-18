@@ -256,10 +256,23 @@ namespace BE.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("update-status/{orderId}/{newStatus}")]
+        public IActionResult UpdateOrderStatus(int orderId, int newStatus)
+        {
+            try
+            {
+                _service.UpdateOrderStatusService(orderId, newStatus);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating order {orderId} status: {ex.Message}");
+            }
+        }
 
 
 
 
 
-}
+    }
 }

@@ -5,6 +5,7 @@ import { get } from "../../../helpers/API.helper";
 import { LIST_ORDERHaveTableName, LIST_ORDERDETAILS } from "../../../helpers/APILinks";
 import { getColorText, getDateTime, getStatusText } from "../../../helpers/Text.helper";
 import {MenuOutlined} from '@ant-design/icons'
+import updateStatus from "./UpdateStatus";
 
 const { RangePicker } = DatePicker;
 
@@ -112,6 +113,66 @@ const ListOrders = () => {
     setFilteredOrders(orders);
   };
 
+  // Function to handle accepting an order
+const handleAcceptOrder = async (orderId) => {
+  setLoading(true);
+  try {
+    // Make API call to update the order acceptance status
+    // Assuming there's an API endpoint to update 'accepted' status
+    const updatedOrder = await updateOrderAcceptance(orderId);
+    if (updatedOrder) {
+      message.success("Order accepted successfully.");
+      // Update orders state to reflect the change
+      const updatedOrders = orders.map((order) =>
+        order.orderID === orderId ? { ...order, accepted: true } : order
+      );
+      setOrders(updatedOrders);
+      setFilteredOrders(updatedOrders);
+    } else {
+      message.error("Failed to accept order.");
+    }
+  } catch (error) {
+    message.error("Failed to accept order.");
+  } finally {
+    setLoading(false);
+  }
+};
+const fetchOrders = async () => {
+  setLoading(true);
+  try {
+    const data = await get(`${LIST_ORDERHaveTableName}/${account.storeId}`);
+    if (data && data.length > 0) {
+      setOrders(data);
+      setFilteredOrders(data);
+    } else {
+      message.error("No orders found in store.");
+    }
+  } catch (error) {
+    message.error("Server error. Please try again later.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+const onReload = () => {
+  fetchOrders();
+};
+const handleFilter = (value, record) => {
+  const orderDate = new Date(record.date);
+  const [start, end] = selectedDateRange;
+  return orderDate >= start && orderDate <= end;
+};
+
+// Function to update order acceptance status through API
+const updateOrderAcceptance = async (orderId) => {
+  // try {
+  //   // Assuming there's an API endpoint to update 'accepted' status of an order
+  //   const response = await put(`${UPDATE_ORDER_ACCEPTANCE_ENDPOINT}/${orderId}`, { accepted: true });
+  //   return response.data; // Assuming API returns updated order data
+  // } catch (error) {
+  //   throw new Error("Failed to update order acceptance status.");
+  // }
+};
   const columns = [
     {
       title: "Order ID",
@@ -139,29 +200,57 @@ const ListOrders = () => {
       onFilter: (value, record) => record.status === value,
       render: (status) => <Tag color={getColorText(status)}>{getStatusText(status)}</Tag>,
     },
+    // {
+    //   title: "Date",
+    //   dataIndex: "date",
+    //   key: "date",
+    //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+    //     <div style={{ padding: 8 }}>
+    //       <RangePicker
+    //         value={selectedDateRange}
+    //         onChange={(dates) => setSelectedKeys(dates)}
+    //         style={{ marginBottom: 8, display: 'block' }}
+    //       />
+    //       <Button type="primary" onClick={() => confirm()} icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
+    //       </Button>
+    //       <Button onClick={() => clearFilters()} size="small" style={{ width: 90 }}>
+    //         Reset
+    //       </Button>
+    //     </div>
+    //   ),
+    //   onFilter: (value, record) => {
+    //     const orderDate = new Date(record.date);
+    //     const [start, end] = selectedDateRange;
+    //     return orderDate >= start && orderDate <= end;
+    //   },
+    //   render: (date) => <span>{formatDate(getDateTime(date))}</span>,
+    // },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
         <div style={{ padding: 8 }}>
           <RangePicker
             value={selectedDateRange}
-            onChange={(dates) => setSelectedKeys(dates)}
+            onChange={(dates) => setSelectedDateRange(dates)}
             style={{ marginBottom: 8, display: 'block' }}
           />
-          <Button type="primary" onClick={() => confirm()} icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
+          <Button
+            type="primary"
+            onClick={() => confirm()}
+            icon="search"
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Search
           </Button>
           <Button onClick={() => clearFilters()} size="small" style={{ width: 90 }}>
             Reset
           </Button>
         </div>
       ),
-      onFilter: (value, record) => {
-        const orderDate = new Date(record.date);
-        const [start, end] = selectedDateRange;
-        return orderDate >= start && orderDate <= end;
-      },
+      onFilter: handleFilter,
       render: (date) => <span>{formatDate(getDateTime(date))}</span>,
     },
     {
@@ -226,6 +315,43 @@ const ListOrders = () => {
         <Button icon={<MenuOutlined />} type="primary" onClick={() => fetchOrderDetails(record.orderID)} />
       ),
     },
+
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status, record) => {
+        const { isDelete } = record; // Assuming isDelete is a property in your record object
+        const statusMap = {
+          1: { text: "Accept", color: "green" },
+          0: { text: "InAccept", color: "red" }
+        };
+        const { text, color } = statusMap[status] || {
+          text: "Unknown",
+          color: "gray"
+        };
+    
+        if (status === 1) { // If status is already 1 (Accepted), disable the button
+          return (
+            <Tag color={color}>{text}</Tag>
+          );
+        }
+    
+        return (
+          <Button onClick={() => updateStatus(record, onReload)} disabled={status === 1}>
+            <Tag color={color}>{text}</Tag>
+          </Button>
+        );
+      },
+      filters: [
+        { text: "Accept", value: 1 },
+        { text: "InAccept", value: 0 }
+      ],
+      onFilter: (value, record) => record.status === value,
+    }
+    
+    
+   
   ];
 
   return (

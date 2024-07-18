@@ -1,5 +1,6 @@
 ﻿using BE.Dtos;
 using BE.Models;
+using Microsoft.EntityFrameworkCore;
 using Swp391.Dtos;
 namespace BE.Repository
 {
@@ -142,11 +143,30 @@ namespace BE.Repository
             return revenueList;
         }
 
+        public void UpdateOrderStatus(int orderId, int newStatus)
+        {
+            var order = context.Orders.Find(orderId);
+            if (order != null)
+            {
+                order.Status = newStatus;
+                order.Date = DateTime.Now.Date; // Sử dụng DateTime.Now.Date để lấy ngày hiện tại mà không có phần giờ, phút, giây
+                if (newStatus == 0)
+                {
+                    order.Date = null; // Nếu newStatus là 0, sẽ không cập nhật StatusDate
+                }
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Order not found"); // Ném một exception để thông báo lỗi
+            }
+        }
 
 
 
-    
-  
+
+
+
 
 
 
