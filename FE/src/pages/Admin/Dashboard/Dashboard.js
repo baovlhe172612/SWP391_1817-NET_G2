@@ -14,17 +14,17 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { DoubleRightOutlined } from "@ant-design/icons";
 import { LOCALHOST_API } from "../../../helpers/APILinks";
+
+// Register chart.js components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const { RangePicker } = DatePicker;
 
 function Dashboard() {
-  const account = useSelector((state) => state.AccountReducer);
-
+  const account = useSelector((state) => state.AccountReducer); // Get account information from Redux store
   const isOwner = account.roleName === "Owner";
   const isManager = account.roleName === "Manager";
 
-  const options = {};
   const [revenue, setRevenue] = useState([]);
   const [monthRevenue, setMonthRevenue] = useState([]);
   const [datasets, setDatasets] = useState([]);
@@ -32,14 +32,15 @@ function Dashboard() {
   const [dateRange, setDateRange] = useState([null, null]);
   const [viewBy, setViewBy] = useState("day");
 
+  const options = {}; // Chart options
+
+  // Fetch daily revenue data
   const fetchApi = async () => {
     try {
-      let data;
-      if (isOwner) {
-        data = await get(`${LOCALHOST_API}/api/Order/daily-revenue`);
-      } else if (isManager) {
-        data = await get(`${LOCALHOST_API}/api/Order/daily-revenue/${account.storeId}`);
-      }
+      const endpoint = isOwner 
+        ? `${LOCALHOST_API}/api/Order/daily-revenue` 
+        : `${LOCALHOST_API}/api/Order/daily-revenue/${account.storeId}`;
+      const data = await get(endpoint);
       setRevenue(data);
       if (viewBy === "day") {
         setFilteredData(getRecentData(data, 14)); // Display only the most recent 14 days
@@ -50,14 +51,13 @@ function Dashboard() {
     }
   };
 
+  // Fetch monthly revenue data
   const fetchApiMonthRevenue = async () => {
     try {
-      let data;
-      if (isOwner) {
-        data = await get(`${LOCALHOST_API}/api/Order/month-revenue`);
-      } else if (isManager) {
-        data = await get(`${LOCALHOST_API}/api/Order/month-revenue/${account.storeId}`);
-      }
+      const endpoint = isOwner 
+        ? `${LOCALHOST_API}/api/Order/month-revenue` 
+        : `${LOCALHOST_API}/api/Order/month-revenue/${account.storeId}`;
+      const data = await get(endpoint);
       setMonthRevenue(data);
       if (viewBy === "month") {
         setFilteredData(data); // Display all months
@@ -68,16 +68,19 @@ function Dashboard() {
     }
   };
 
+  // Fetch data on component mount
   useEffect(() => {
     fetchApi();
     fetchApiMonthRevenue();
   }, []);
 
+  // Get recent data (limited by count)
   const getRecentData = (data, count) => {
     const sortedData = [...data].sort((a, b) => new Date(b.date || `${b.yearMonth}-01`) - new Date(a.date || `${a.yearMonth}-01`));
     return sortedData.slice(0, count);
   };
 
+  // Handle radio button change
   const handleRadioChange = (e) => {
     const value = e.target.value;
     setViewBy(value);
@@ -88,6 +91,7 @@ function Dashboard() {
     }
   };
 
+  // Update datasets when filtered data or view mode changes
   useEffect(() => {
     if (filteredData.length > 0) {
       const groupedData = filteredData.reduce((acc, entry) => {
@@ -115,9 +119,7 @@ function Dashboard() {
         const storeData = groupedData[storeName];
         const data = uniqueDates.map((date) => {
           if (viewBy === "day") {
-            const entry = storeData.find(
-              (d) => new Date(d.date).toLocaleDateString() === date
-            );
+            const entry = storeData.find((d) => new Date(d.date).toLocaleDateString() === date);
             return entry ? entry.totalRevenue : 0;
           } else if (viewBy === "month") {
             const entry = storeData.find((d) => formatYearMonth(d.yearMonth) === date);
@@ -137,21 +139,24 @@ function Dashboard() {
     }
   }, [filteredData, viewBy]);
 
+  // Generate random color for chart
   const getRandomColor = (index) => {
     const colors = [
       "#47BFBE",
       "pink",
-      // add more colors as needed
+      // Add more colors as needed
     ];
     return colors[index % colors.length];
   };
 
+  // Format year and month for display
   const formatYearMonth = (yearMonth) => {
     const [year, month] = yearMonth.split("-");
     const date = new Date(year, month - 1);
     return date.toLocaleDateString("default", { month: "long", year: "numeric" });
   };
 
+  // Handle date range change
   const handleDateChange = (dates) => {
     setDateRange(dates);
     if (dates && dates.length === 2) {

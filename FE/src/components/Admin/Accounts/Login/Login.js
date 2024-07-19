@@ -12,86 +12,59 @@ import {
 import { alear_success_login } from "../../../../helpers/Alert.helper";
 import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
-import { setSessionItem } from "../../../../helpers/Session.helper";
 import { accountActions } from "../../../../actions/AccountActions";
 
 function Login() {
   const navigate = useNavigate();
-  // dispatch
   const dispatch = useDispatch();
 
-  // Check token
   const token = getCookie("token");
-  // không được dùng async await trong useEffect
+
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
         if (accountByToken) {
           dispatch(loginActions(true));
-
           dispatch(accountActions(accountByToken));
-
-          console.log('accountByToken:::', accountByToken)
-
-          // nếu Account có role là employee => tự động chuyển đến trang listTable
           if (accountByToken.roleId == 3) {
             navigate("/admin/table");
           } else {
-            // move => admin
             navigate("/admin/dashboard");
           }
         }
       } catch (error) {
-        // console.log("Không có token");
         navigate("/admin/login");
       }
     };
 
-    // có token mới có fetch api
     if (token) {
       fetchApi();
     } else {
-      // không có token(Chưa đăng nhập lần nào) => sang trang login
       navigate("/admin/login");
     }
   }, []);
 
-  // SUBMIT - Đăng nhập
   const onFinish = async (values) => {
-    console.log("Success:", values);
     try {
-      // call API
       const dataAuthen = await get(
         `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
-      console.log(dataAuthen);
-      // console.log(dataAuthen);
       if (dataAuthen) {
-        // message login success
         alear_success_login("Login Successfully !!!", dataAuthen.fullName);
-
-        // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
-
-        // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));
-
-        // không dùng session nữa => gửi lên store 1 thằng account mới luôn
         dispatch(accountActions(dataAuthen));
-
-        // Account Employee => sang trang table
         if (dataAuthen.roleId == 3) {
           navigate("/admin/table");
           return;
         }
-
         navigate("/admin");
       } else {
-        message.error(`Login failed. Please check your username or password !!!`);
+        message.error("Login failed. Please check your username or password !!!");
       }
     } catch (error) {
-      message.error(`Login failed. Please check your username or password !!!`);
+      message.error("Login failed. Please check your username or password !!!");
     }
   };
 
@@ -108,25 +81,32 @@ function Login() {
               id="login-form"
             >
               <Form.Item
-              id="login"
                 name="username"
                 rules={[
                   {
                     required: true,
                     message: "Please input your username!",
                   },
+                  {
+                    validator: (_, value) => {
+                      const usernameRegex = /^[a-zA-Z0-9_]*$/;
+                      if (!usernameRegex.test(value)) {
+                        return Promise.reject("Username can only include letters, numbers, and underscores.");
+                      }
+                      return Promise.resolve();
+                    }
+                  }
                 ]}
               >
                 <Input prefix={<UserOutlined />} placeholder="Your Name" />
               </Form.Item>
 
               <Form.Item
-               id="password"
                 name="password"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your password !",
+                    message: "Please input your password!",
                   },
                 ]}
               >

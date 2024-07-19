@@ -3,32 +3,33 @@ import { Button, Form, Input, Switch } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { alear_success } from '../../../helpers/Alert.helper';
 import { get, post } from '../../../helpers/API.helper';
-import { CREATE_CATEGORY } from '../../../helpers/APILinks';
+import { CREATE_CATEGORY, LOCALHOST_API } from '../../../helpers/APILinks';
 
 function CreateCategory() {
-  const [Category, setCategory] = useState([]);
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const [Category, setCategory] = useState([]); // State to store fetched categories
+  const [form] = Form.useForm(); // Form instance for managing form state and actions
+  const navigate = useNavigate(); // Hook for navigation
 
+  // Fetch categories when component mounts
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://172.20.10.5:5264/api/Category");
-
+        const data = await get(`${LOCALHOST_API}/api/Category`);
         if (data) {
-          setCategory(data);
+          setCategory(data); // Set categories if data is fetched successfully
         }
       } catch (error) {
         console.log("err in CreateCategory", error);
-        setCategory([]);
+        setCategory([]); // Set empty array if there's an error
       }
     };
 
     fetchApi();
   }, []);
 
+  // Handle form submission
   const handleSubmit = async (values) => {
-    // Convert isDelete field
+    // Convert isDelete field to appropriate value
     values.isDelete = values.isDelete ? 0 : 1;
 
     // Remove CategoryId if it exists to let the database handle it
@@ -41,12 +42,13 @@ function CreateCategory() {
     delete values.storeName;
 
     console.log(values);
-    const dataUpdate = await post(CREATE_CATEGORY, values);
+    const dataUpdate = await post(`CREATE_CATEGORY`, values);
 
     if (dataUpdate) {
-      // Alert success
+      // Alert success message
       alear_success("Create!", "create");
 
+      // Reset form fields
       form.resetFields();
 
       // Navigate to store creation page
@@ -54,6 +56,7 @@ function CreateCategory() {
     }
   };
 
+  // Validate category name
   const validateCategoryName = (rule, value) => {
     if (!value) {
       return Promise.reject("Please input your name category!");
@@ -81,7 +84,7 @@ function CreateCategory() {
           rules={[
             {
               required: true,
-              validator: validateCategoryName,
+              validator: validateCategoryName, // Custom validation for category name
             },
           ]}
         >
@@ -92,11 +95,11 @@ function CreateCategory() {
           name="isDelete"
           label="Switch"
           valuePropName="checked"
-          initialValue={true}
+          initialValue={true} // Initial value for switch
         >
           <Switch
-            checkedChildren="active"
-            unCheckedChildren="InActive"
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
             defaultChecked
           />
         </Form.Item>
