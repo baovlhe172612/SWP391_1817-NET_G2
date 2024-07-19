@@ -18,7 +18,7 @@ namespace Swp391.Service
             return _Postrepo.getAllPost();
         }
 
-        public List<Post> getFivePostEarly()
+        public List<Post> getFivePostEarly() // Lấy 5 bài viết có ngày tạo sớm nhất
         {
             return _Postrepo.getEarliestPosts();
         }

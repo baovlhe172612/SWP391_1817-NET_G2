@@ -39,7 +39,7 @@ namespace Swp391.Controllers
             try
             {
                  _categoryService.AddCategory(category);
-            return CreatedAtAction(nameof(GetAllCategory), new { id = category.CategoryId }, category);
+                return CreatedAtAction(nameof(GetAllCategory), new { id = category.CategoryId }, category); // Trả về phản hồi 201 Created với thông tin danh mục vừa thêm, bao gồm cả ID của danh mục mới
             }
             catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace Swp391.Controllers
             }
         }
 
-        [HttpPatch("update/{id}")]
+        [HttpPatch("update/{id}")]// Cập nhật danh mục
         public IActionResult UpdateCategory(int id, Category category)
         {
             if (category!=null && id == category.CategoryId)
@@ -62,7 +62,7 @@ namespace Swp391.Controllers
             
         }
 
-        [HttpPatch("delete/{id}")]
+        [HttpPatch("delete/{id}")]// Xóa danh mục (thay đổi trạng thái)
         public IActionResult DeleteCategory(int id)
         {
             var newCategory = _categoryService.DeleteCategory(id, 1);

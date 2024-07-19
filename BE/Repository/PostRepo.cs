@@ -44,19 +44,19 @@ namespace Swp391.Repository
 
         public void AddPost(Post p)
         {
-            SwpfinalContext _context = new SwpfinalContext();
-            List<Post> posts = new List<Post>();
-            posts = _context.Posts.ToList();
-            p.PostId= posts.Count +1 ;
-            _context.Posts.Add(p);
-            _context.SaveChanges();
+            SwpfinalContext _context = new SwpfinalContext(); // Tạo đối tượng context để làm việc với cơ sở dữ liệu
+            List<Post> posts = new List<Post>(); // Tạo danh sách bài viết
+            posts = _context.Posts.ToList(); // Lấy toàn bộ bài viết từ cơ sở dữ liệu
+            p.PostId = posts.Count + 1; // Thiết lập ID cho bài viết mới
+            _context.Posts.Add(p); // Thêm bài viết mới vào cơ sở dữ liệu
+            _context.SaveChanges(); // Lưu các thay đổi vào cơ sở dữ liệu
         }
 
         public Post GetPostById(int postId)
         {
             SwpfinalContext _context = new SwpfinalContext();
 
-            var postById = _context.Posts.FirstOrDefault(post => post.PostId == postId);
+            var postById = _context.Posts.FirstOrDefault(post => post.PostId == postId); // Tìm bài viết theo ID
 
             if (postById != null)
             {

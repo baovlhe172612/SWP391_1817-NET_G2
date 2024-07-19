@@ -16,8 +16,8 @@ namespace Swp391.Repository
         public List<Store> getAllStore()
         {
             return _context.Stores
-                            .Where(store => store.IsDelete == 0)
-                            .ToList();
+                            .Where(store => store.IsDelete == 0) // Lọc các store không bị xóa
+                            .ToList(); // Trả về danh sách store
         }
         public List<StoreDtos> getAllStoreByStatus(int status)
         {
@@ -75,7 +75,7 @@ namespace Swp391.Repository
                             join a in _context.Accounts
                             on s.StoreId equals a.StoreId into sa
                             from suba in sa.DefaultIfEmpty()
-                            where suba == null & s.IsDelete == 0
+                            where suba == null & s.IsDelete == 0 // Lọc các store mới chưa có account và không bị xóa
                             select s).ToList();
 
             return newStore;
