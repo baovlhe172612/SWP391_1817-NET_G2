@@ -19,7 +19,6 @@ function Login() {
   const navigate = useNavigate();
   // dispatch
   const dispatch = useDispatch();
-
   // Check token
   const token = getCookie("token");
   // không được dùng async await trong useEffect
