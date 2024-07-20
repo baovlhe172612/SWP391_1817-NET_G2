@@ -4,6 +4,7 @@ import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
 import { CREATE_ACCOUNT_MANAGER, GET_ALL_ACCOUNTS, LIST_ACCOUNT_MANAGERS, LIST_STORES } from '../../../helpers/APILinks';
+import CryptoJS from 'crypto-js';
 function CreateStoreManager() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ function CreateStoreManager() {
       } else{   
         values.status = 0;
       }
+      values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
       try {
         const response = await post(`${CREATE_ACCOUNT_MANAGER}`, values);      
         // Kiểm tra giá trị trả về từ API

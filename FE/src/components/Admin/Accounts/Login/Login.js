@@ -14,7 +14,7 @@ import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
 import { setSessionItem } from "../../../../helpers/Session.helper";
 import { accountActions } from "../../../../actions/AccountActions";
-
+import CryptoJS from 'crypto-js';
 function Login() {
   const navigate = useNavigate();
   // dispatch
@@ -61,10 +61,12 @@ function Login() {
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
+      const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
       // call API
       const dataAuthen = await get(
-        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
+        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${passwordMd5}`
       );
+      
       console.log(dataAuthen);
       // console.log(dataAuthen);
       if (dataAuthen) {

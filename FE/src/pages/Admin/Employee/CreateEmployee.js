@@ -6,6 +6,7 @@ import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { CREATE_ACCOUNT_EMPLOYEE, GET_ALL_ACCOUNTS, LIST_STORES, UPDATE_ACCOUNT_ID } from '../../../helpers/APILinks';
+import CryptoJS from 'crypto-js';
 function CreateEmployee() {
     const [form] = Form.useForm();
     const account = useSelector(state => state.AccountReducer);
@@ -20,6 +21,7 @@ function CreateEmployee() {
         } else {
             values.status = 0;
         }
+        values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
         try {
             const response = await post(CREATE_ACCOUNT_EMPLOYEE, values);
             console.log("response: ",response)
