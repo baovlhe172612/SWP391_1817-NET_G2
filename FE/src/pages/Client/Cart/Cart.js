@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../Cart/CartItem";
 import { post } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
-import { Button, message } from "antd";
+import { Button, message, notification } from "antd";
 import { clearCart } from "../../../actions/CartAction";
 import CheckoutModal from "./CheckoutModal";
 import { API_ORDER } from "../../../helpers/APILinks";
@@ -15,6 +15,9 @@ function Cart() {
   const [cartData, setCartData] = useState(cart.list || []);
   const [cartDataModal, setCartDataModal] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [dataToSend, setDataToSend] = useState(null)
+  const [value, setValue] = useState(null)
+  const [note, setNote] = useState(null)
   let storeId = getCookie('storeId');
   let tableId = getCookie('tableId');
 
@@ -86,6 +89,10 @@ function Cart() {
     
       console.log("dataToSendSend",dataToSend)
 
+      setDataToSend(dataToSend)
+      setValue(value)
+      setNote(note)
+
       
     if (dataToSend.length > 0) {
       try {
@@ -100,6 +107,17 @@ function Cart() {
       message.error('Mua hàng không thành công!!!!');
     }
   };
+  // const handleCheckout = (values, isDirectPayment) => {
+  //   console.log({isDirectPayment,values})
+  //   if (isDirectPayment) {
+  //     // Logic để insert vào bảng Order
+  //     console.log('Insert vào bảng Order với phương thức thanh toán trực tiếp');
+  //   } else {
+  //     // Logic cho QR Code Payment
+  //     console.log('Thực hiện thanh toán bằng QR Code');
+  //   }
+  //   setIsModalVisible(false);
+  // };
 
   return (
     <Container>
@@ -191,6 +209,9 @@ function Cart() {
                                 handleOk={handleOk}
                                 handleCancel={handleCancel}
                                 cartDataModal={cartDataModal}
+                                dataToSend={dataToSend}
+                                value={value}
+                                note={note}
                               />
                             </div>
                           </div>
