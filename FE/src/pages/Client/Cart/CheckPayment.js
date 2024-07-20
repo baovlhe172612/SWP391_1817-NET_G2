@@ -61,7 +61,6 @@ const CheckPayment = ({ totalMoney, txt, dataToSend, value, note }) => {
                             // alert("Thanh toán thành công !!!!")
                             if (dataToSend.length > 0) {
                                 let checkPay = getCookie('checkPay');
-
                                 if(checkPay) {
                                     deleteCookie("checkPay")
                                 } else {
