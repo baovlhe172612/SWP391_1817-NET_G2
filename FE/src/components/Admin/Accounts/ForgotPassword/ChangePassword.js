@@ -21,7 +21,7 @@ const ChangePassword = () => {
             setLoading(false);
             return;
         }
-        const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
+        const passwordMd5 = CryptoJS.MD5(newPassword.trim()).toString().trim();
 
         try {
             const response = await fetch(`${LOCALHOST_API}/api/Account/${userId}/password?newPassword=${passwordMd5}`, {
