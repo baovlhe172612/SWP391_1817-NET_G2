@@ -25,5 +25,16 @@ namespace Swp391.Repository
             _context.Tables.Add(table);
             _context.SaveChanges();
         }
+        public void updateIsDelete(int tableId, int isDelete)
+        {
+            _context.Tables.Find(tableId).IsDelete=isDelete;
+            _context.SaveChanges();
+        }
+        public void updateIsStatus(int tableId, int status)
+        {
+            _context.Tables.Find(tableId).Status = status;
+            _context.SaveChanges();
+        }
+
     }
 }

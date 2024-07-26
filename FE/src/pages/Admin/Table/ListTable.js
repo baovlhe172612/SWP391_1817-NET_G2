@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button, message } from "antd";
 import "./Table.css";
-import { deleteItem, get } from "../../../helpers/API.helper";
+import { deleteItem, get, put } from "../../../helpers/API.helper";
 import {
   DELETE_MESSAGE,
   DELETE_MESSAGE_STORE,
@@ -44,6 +44,8 @@ function ListTable() {
         // hiện thị bên FE
         setTableFunction(id);
 
+        UpdateStatusTable(id);
+
         try {
           // xoá tin nhắn
           const data = await deleteItem(
@@ -54,13 +56,47 @@ function ListTable() {
             message.success("Reset success");
           }
         } catch (error) {
-          message.error("Reset success");
+          //message.error("Reset success");
         }
       }
     } else {
       setTableFunction(id);
     }
   };
+
+  const deleteTable = async(id) => {
+    console.log(id)
+    const confirmReset = await confirm(
+      "Are you wwant to delete",
+      "If you reset, all chat will delete"
+    );
+    if (confirmReset.isConfirmed) {
+      const data = await put(`http://localhost:5264/api/tables/updateisDelete/${id}?isDelete=1`);
+      if (data) {
+        message.success("Reset success");
+      }
+      console.log(data);
+    }
+    const fetchApi = async () => {
+      try {
+        const data = await get(`${LIST_TABLE}/${account.storeId}`);
+        console.log('data', data);
+        setTables(data);
+      } catch (err) {
+        console.error("ERR tại ListTable:", err);
+        setTables([]);
+      }
+    };
+    fetchApi();
+  }
+
+  const UpdateStatusTable = async(id) => {
+      const data = await put(`http://localhost:5264/api/tables/updateisStatus/${id}?status=0`);
+      if (data) {
+        message.success("Reset success");
+      }
+      console.log(data);
+  }
 
   // reset all tables => còn trống
   const resetAllTables = async () => {
@@ -116,6 +152,22 @@ function ListTable() {
         <Row gutter={[20, 20]} key={rowIndex}>
           {tables.slice(rowIndex * 4, rowIndex * 4 + 4).map((table) => (
             <Col key={table.tableId} xxl={6} xl={6} lg={6} md={12} sm={24}>
+               <button 
+                style={{
+                  border: 'none', 
+                  background: 'red',
+                borderRadius: "5px",
+                  fontSize: '10px', 
+                  cursor: 'pointer', 
+                  color: 'white', 
+                  fontWeight: 800,
+                 
+                }}
+                
+                onClick={() => deleteTable(table.tableId)}
+              >
+                X
+              </button>
             <div
               className={
                 table.status == 0
@@ -123,25 +175,9 @@ function ListTable() {
                   : "table-item-success"
               }
               onClick={() => toggleStatus(table.tableId, table.status)}
-              style={{ position: 'relative' }}
+             
             >
-              <button 
-                style={{
-                  border: 'none', 
-                  background: 'red',
-                  borderRadius: '0px 5px 0px 0px', 
-                  fontSize: '10px', 
-                  cursor: 'pointer', 
-                  color: 'white', 
-                  fontWeight: 800,
-                  position: 'absolute', 
-                  top: '0', 
-                  right: '0' 
-                }}
-                
-              >
-                X
-              </button>
+             
               <div className="status-container">
                 Bàn {table.tableName}:
                 <span className={`status ${table.status}`}>
