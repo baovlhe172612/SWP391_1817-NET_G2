@@ -150,7 +150,7 @@ function ProductDetail(props) {
                      
                         <hr />
                         <p className="short-desc">
-                          Please place an order at the nearest Mixue store. This website only introduces products and does not allow for orders.
+                          Please place an order at the nearest store. This website only introduces products and does not allow for orders.
                         </p>
                         <Button
                           className="add-to-cart-btn"

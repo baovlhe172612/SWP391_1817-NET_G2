@@ -195,7 +195,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 1 ? 'completed' : ''}`} onClick={() => handleStepClick(1)}>
               <div className="circle">1</div>
               <div className={`label ${currentStep >= 1 ? 'completed-text' : ''}`}>
-                <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Đã đặt hàng
+                <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Ordered
               </div>
             </div>
 
@@ -203,7 +203,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 2 ? 'completed' : ''}`} onClick={() => handleStepClick(2)}>
               <div className="circle">2</div>
               <div className={`label ${currentStep >= 2 ? 'completed-text' : ''}`}>
-                <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> Đang tiến hành
+                <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> In process
               </div>
             </div>
 
@@ -211,7 +211,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 3 ? 'completed' : ''}`} onClick={() => handleStepClick(3)}>
               <div className="circle">3</div>
               <div className={`label ${currentStep >= 3 ? 'completed-text' : ''}`}>
-                <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Hoàn thành
+                <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Complete
               </div>
             </div>
           </div>

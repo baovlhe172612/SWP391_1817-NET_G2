@@ -98,13 +98,13 @@ function Cart() {
       try {
         const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
         const responseData = response;
-        message.success('Đã mua hàng thành công!');
+        message.success('Purchase successful!');
       } catch (error) {
         console.log('Error sending data:', error);
-        message.error('Mua hàng không thành công!!!!');
+        message.error('Purchase failed!!!!');
       }
     } else {
-      message.error('Mua hàng không thành công!!!!');
+      message.error('Purchase failed!!!!');
     }
   };
   // const handleCheckout = (values, isDirectPayment) => {
