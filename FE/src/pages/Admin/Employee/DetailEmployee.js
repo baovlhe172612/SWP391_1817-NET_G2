@@ -50,6 +50,11 @@ function DetailEmployee() {
       title: "Password",
       dataIndex: "passWord",
       key: "passWord",
+      render: (passWord) => (
+        <div style={{ wordBreak: 'break-word' }}>
+          {passWord}
+        </div>
+      ),
     },
     {
       title: "Phone",

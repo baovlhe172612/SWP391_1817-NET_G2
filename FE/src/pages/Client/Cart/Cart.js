@@ -52,12 +52,12 @@ function Cart() {
     setCartDataModal(dataToSend);
   };
 
-  const handleOk = async (formValues) => {
+  const handleOk = async (paymentMethod) => {
     setIsModalVisible(false);
 
-    var note = formValues.notes || null;
+    //var note = formValues.notes || null;
 
-    handleCheckout(formValues.paymentMethod, note);
+    handleCheckout(paymentMethod, note);
   };
 
   const handleCancel = () => {
@@ -93,18 +93,17 @@ function Cart() {
       setValue(value)
       setNote(note)
 
-      
     if (dataToSend.length > 0) {
       try {
         const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
         const responseData = response;
-        message.success('Đã mua hàng thành công!');
+        message.success('Order successfully!');
       } catch (error) {
         console.log('Error sending data:', error);
-        message.error('Mua hàng không thành công!!!!');
+        message.error('Order fail!!');
       }
     } else {
-      message.error('Mua hàng không thành công!!!!');
+      message.error('Order fail!');
     }
   };
 

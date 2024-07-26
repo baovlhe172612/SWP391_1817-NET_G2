@@ -2,12 +2,13 @@
 
 
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message, Input } from "antd";
+import { Button, Space, Table, Tag, message, Input, Tooltip } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import UpdateIsDelete from "./UpdateIsDelete";
 import updateStatus from "./UpdateStatus";
+import { EditOutlined, MenuOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -93,36 +94,9 @@ function ListEmployee() {
       title: "Store Name",
       dataIndex: "storeName",
       key: "storeName",
-      
+
     },
-    // {
-    //   title: "Status",
-    //   dataIndex: "status",
-    //   key: "status",
-    //   render: (status, record) => {
-    //     const { isDelete } = record; // Assuming isDelete is a property in your record object
-    //     const statusMap = {
-    //       1: { text: "Active", color: "green" },
-    //       0: { text: "Inactive", color: "red" }
-    //     };
-    //     const { text, color } = statusMap[status] || {
-    //       text: "Unknown",
-    //       color: "gray"
-    //     };
-    
-    //     if (isDelete === 1) {
-    //       return (
-    //         <Tag color="default">Deleted</Tag>
-    //       );
-    //     }
-    
-    //     return (
-    //       <Button onClick={() => updateStatus(record, onReload)}>
-    //         <Tag color={color}>{text}</Tag>
-    //       </Button>
-    //     );
-    //   }
-    // },
+
     {
       title: "Status",
       dataIndex: "status",
@@ -137,13 +111,13 @@ function ListEmployee() {
           text: "Unknown",
           color: "gray"
         };
-    
+
         if (isDelete === 1) {
           return (
             <Tag color="default">Deleted</Tag>
           );
         }
-    
+
         return (
           <Button onClick={() => updateStatus(record, onReload)}>
             <Tag color={color}>{text}</Tag>
@@ -156,8 +130,8 @@ function ListEmployee() {
       ],
       onFilter: (value, record) => record.status === value,
     },
-    
-    
+
+
     {
       title: "isDelete",
       dataIndex: "isDelete",
@@ -167,13 +141,13 @@ function ListEmployee() {
         { text: 'Deleted', value: 1 },
       ],
       onFilter: (value, record) => record.isDelete === value,
-    
+
       render: (isDelete) => {
         const statusMap = {
           0: { text: "Undeleted", color: "green" },
           1: { text: "Deleted", color: "red" },
         };
-    
+
         const { text, color } = statusMap[isDelete] || {
           text: "Unknown",
           color: "gray",
@@ -181,19 +155,26 @@ function ListEmployee() {
         return <Tag color={color}>{text}</Tag>;
       },
     },
-    
+
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
         <Space size="middle">
           <UpdateIsDelete record={record} onReload={onReload} />
-          <Link to={`/admin/employee/edit/${record.accountId}`}>
-            <Button type="primary">Edit</Button>
-          </Link>
-          <Link to={`/admin/employee/detail/${record.accountId}`}>
-            <Button type="primary">Detail</Button>
-          </Link>
+          <Tooltip title="Edit">
+            <Link to={`/admin/employee/edit/${record.accountId}`}>
+              <Button type="primary" icon={<EditOutlined />} />
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="Detail">
+            <Link to={`/admin/employee/detail/${record.accountId}`}>
+             
+              <Button type="primary" icon={<MenuOutlined />} ghost />
+            </Link>
+          </Tooltip>
+
         </Space>
       ),
     },

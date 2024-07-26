@@ -178,6 +178,7 @@ function FloatButtonMess({ handleOnclick }) {
         >
          History Order
         </Button>
+        
         <Table
           dataSource={
             showOnlyCompleted
@@ -225,6 +226,7 @@ function FloatButtonMess({ handleOnclick }) {
                 key: "price",
                 render: (price) => `${price.toLocaleString("vi-VN")} đ`,
               },
+              
              
             ]}
             pagination={true}

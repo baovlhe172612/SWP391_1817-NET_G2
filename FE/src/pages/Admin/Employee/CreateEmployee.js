@@ -78,6 +78,7 @@ function CreateEmployee() {
                             required: true,
                             message: 'Please input your username!',
                         },
+                       
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
@@ -105,6 +106,10 @@ function CreateEmployee() {
                         {
                             required: true,
                             message: 'Please input your password!',
+                        },
+                        {
+                            pattern: /^[^\s].*[^\s]$/,
+                            message: 'Password cannot start or end with spaces!',
                         },
                         {
                             validator(_, value) {
@@ -135,6 +140,10 @@ function CreateEmployee() {
                             message: 'The input is not valid E-mail!',
                         },
                         {
+                            pattern: /^[^\s].*[^\s]$/,
+                            message: 'Email cannot start or end with spaces!',
+                        },
+                        {
                             required: true,
                             message: 'Please input your E-mail!',
                         },
@@ -160,6 +169,10 @@ function CreateEmployee() {
                             message: 'Please input your full name!',
                         },
                         {
+                            pattern: /^[^\s].*[^\s]$/,
+                            message: 'Full name cannot start or end with spaces!',
+                        },
+                        {
                             validator(_, value) {
                                 // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
                                 const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
@@ -180,6 +193,14 @@ function CreateEmployee() {
                 <Form.Item
                     label="Address"
                     name="address"
+                    rules={
+                        [
+                            {
+                                pattern: /^[^\s].*[^\s]$/,
+                                message: 'Address cannot start or end with spaces!',
+                            },
+                        ]
+                    }
                 >
                     <Input />
                 </Form.Item>
@@ -187,6 +208,10 @@ function CreateEmployee() {
                     label="Citizens ID"
                     name="cccd"
                     rules={[
+                        {
+                            pattern: /^[^\s].*[^\s]$/,
+                            message: 'Cccd cannot start or end with spaces!',
+                        },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value) {
@@ -213,6 +238,10 @@ function CreateEmployee() {
                     label="Phone"
                     name="phone"
                     rules={[
+                        {
+                            pattern: /^[^\s].*[^\s]$/,
+                            message: 'Phone cannot start or end with spaces!',
+                        },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value) {

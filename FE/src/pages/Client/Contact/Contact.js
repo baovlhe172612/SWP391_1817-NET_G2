@@ -8,8 +8,9 @@ import { UserOutlined, CommentOutlined, CalendarOutlined } from '@ant-design/ico
 import { Steps } from 'antd';
 
 import {LIST_FEEDBACK } from '../../../helpers/APILinks';
+import { getCookie } from '../../../helpers/Cookie.helper';
 const { RangePicker } = DatePicker;
-
+let storeId = getCookie('storeId');
 const { Step } = Steps; // Lấy Step từ Steps
 
 
@@ -85,13 +86,12 @@ function Contact() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             console.log("data in handlesubmit: ", data)
+            data.storeId = storeId
             // Send data to the backend
             const response = await post(LIST_FEEDBACK, data);
             if (response) {
-
                 setShowModal(false);
                 await Swal.fire({
                     position: "center",

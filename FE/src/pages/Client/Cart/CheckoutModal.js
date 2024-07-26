@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Table, Button, Select, Input } from 'antd';
+import { Modal, Form, Table, Button, Select, Input, message } from 'antd';
 import { ClockCircleOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
 import QRCode from 'qrcode.react';
 import { HubConnectionBuilder } from '@microsoft/signalr';
@@ -9,8 +9,9 @@ import { getCookie } from '../../../helpers/Cookie.helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToSavedCart } from '../../../actions/DataSaveCartAction';
 import CheckPayment from './CheckPayment';
-import { connectOrderHub } from '../../../helpers/APILinks';
+import { API_ORDER, connectOrderHub } from '../../../helpers/APILinks';
 import { confirm } from '../../../helpers/Alert.helper';
+import { post } from '../../../helpers/API.helper';
 
 const { Option } = Select;
 
@@ -124,14 +125,20 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
 
       if (connection && isConnected) {
         await connection.invoke('SendOrderNotification', tableIdString, cartData);
-        //console.log('Order notification sent to store:', tableIdString);
+       
       } else {
         console.error('SignalR connection not established or connected.');
       }
 
       if (paymentMethod === '1') {
         setBillVisible(true);
-
+        try {
+          handleOk(1);
+       
+        } catch (error) {
+          console.log('Error sending data:', error);
+          message.error('Mua hàng không thành công!!!!');
+        }
       } else if (paymentMethod === '2') {
         const randomText = generateRandomText(10);
         setPaymentCheckText(randomText);
@@ -140,7 +147,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
       }
 
       handleSaveCart();
-      handleOk(values);
+      
     } catch (error) {
       console.error('Validation failed:', error);
     }
@@ -172,8 +179,8 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
       setQrVisible(false);
     }
   }
-  
-  
+
+
 
   return (
     <>
@@ -197,7 +204,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 1 ? 'completed' : ''}`} onClick={() => handleStepClick(1)}>
               <div className="circle">1</div>
               <div className={`label ${currentStep >= 1 ? 'completed-text' : ''}`}>
-                <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Đã đặt hàng
+                <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Wait
               </div>
             </div>
 
@@ -205,7 +212,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 2 ? 'completed' : ''}`} onClick={() => handleStepClick(2)}>
               <div className="circle">2</div>
               <div className={`label ${currentStep >= 2 ? 'completed-text' : ''}`}>
-                <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> Đang tiến hành
+                <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} />Process
               </div>
             </div>
 
@@ -213,7 +220,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 3 ? 'completed' : ''}`} onClick={() => handleStepClick(3)}>
               <div className="circle">3</div>
               <div className={`label ${currentStep >= 3 ? 'completed-text' : ''}`}>
-                <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Hoàn thành
+                <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Done
               </div>
             </div>
           </div>
@@ -300,7 +307,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             />
           </div>
           {/* <QRCode value={qrCodeValue} size={256} /> */}
-          <CheckPayment totalMoney={totalAmount} txt={paymentCheckText} dataToSend={dataToSend} value={value} note={note} />
+          <CheckPayment totalMoney={totalAmount} txt={paymentCheckText} handleOk={handleOk}/>
         </Modal>
       )}
 

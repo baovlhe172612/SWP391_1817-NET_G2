@@ -78,8 +78,9 @@ function LayoutDefaultAdmin() {
               "header__logo " + (collapsed && "header__logo--collapsed")
             }
           >
+            <Link to="http://localhost:3000/admin/dashboard"> <img src={logo} alt="logo" /></Link>
             {/* <img src={collapsed ? logo_fold : logo} alt="logo" /> */}
-            <img src={logo} alt="logo" />
+           
           </div>
 
           <div className="header__nav">
@@ -92,9 +93,9 @@ function LayoutDefaultAdmin() {
                 {/* <MenuFoldOutlined /> */}
               </div>
 
-              <div className="header__search">
+              {/* <div className="header__search">
                 <SearchOutlined />
-              </div>
+              </div> */}
             </div>
 
             <div className="header__nav-right">

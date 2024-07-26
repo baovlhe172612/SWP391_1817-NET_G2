@@ -1,12 +1,14 @@
 import { message } from "antd";
 
 export const get = async (url) => {
+
   const response = await fetch(url, {
     method: "GET",
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
+    
   });
 
   const data = await response.json();
