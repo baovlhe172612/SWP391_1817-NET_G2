@@ -41,9 +41,25 @@ return (
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your name table!',
+                        message: 'Please input your table name!',
                     },
-                ]}
+                    {
+                        validator(_, value) {
+                            // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                            const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
+                            if (!value) {
+                                return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                            }
+                            if (!fullNameRegex.test(value)) {
+                                return Promise.reject('table name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                            }
+                            if(value.trim()===""){
+                              return Promise.reject('table Name needs charaters!');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ]}                
             >
                 <Input />
             </Form.Item>

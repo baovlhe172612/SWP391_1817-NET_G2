@@ -72,7 +72,6 @@ function CreateCategory() {
 
   return (
     <>
-      <h2>Create Category</h2>
 
       <Form name="create-category" onFinish={handleSubmit} form={form}>
         <Form.Item

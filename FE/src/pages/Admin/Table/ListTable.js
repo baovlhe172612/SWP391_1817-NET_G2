@@ -102,8 +102,6 @@ function ListTable() {
 
   return (
     <>
-      <h1>List table</h1>
-
       <Button
         onClick={resetAllTables}
         type="primary"

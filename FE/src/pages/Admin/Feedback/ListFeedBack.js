@@ -148,7 +148,7 @@ function ListFeedBack() {
 
     return (
         <>
-            <h1 style={{ textAlign: 'center' }}>View Feedbacks</h1>
+            
             <Space style={{ marginBottom: 16 }}>
                 <RangePicker onChange={handleSearchDateChange} />
             </Space>

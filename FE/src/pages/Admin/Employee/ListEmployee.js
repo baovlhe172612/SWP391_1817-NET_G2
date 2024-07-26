@@ -2,12 +2,13 @@
 
 
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message, Input } from "antd";
+import { Button, Space, Table, Tag, message, Input, Tooltip } from "antd";
 import { LIST_Employee } from "../../../helpers/APILinks";
 import { get } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import UpdateIsDelete from "./UpdateIsDelete";
 import updateStatus from "./UpdateStatus";
+import { EditOutlined, MenuOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -188,12 +189,19 @@ function ListEmployee() {
       render: (_, record) => (
         <Space size="middle">
           <UpdateIsDelete record={record} onReload={onReload} />
-          <Link to={`/admin/employee/edit/${record.accountId}`}>
-            <Button type="primary">Edit</Button>
-          </Link>
-          <Link to={`/admin/employee/detail/${record.accountId}`}>
-            <Button type="primary">Detail</Button>
-          </Link>
+          <Tooltip title="Edit">
+            <Link to={`/admin/employee/edit/${record.accountId}`}>
+              <Button type="primary" icon={<EditOutlined />} />
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="Detail">
+            <Link to={`/admin/employee/detail/${record.accountId}`}>
+             
+              <Button type="primary" icon={<MenuOutlined />} ghost />
+            </Link>
+          </Tooltip>
+
         </Space>
       ),
     },

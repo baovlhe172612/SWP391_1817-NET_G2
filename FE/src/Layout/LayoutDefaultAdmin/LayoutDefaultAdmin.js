@@ -78,8 +78,12 @@ function LayoutDefaultAdmin() {
               "header__logo " + (collapsed && "header__logo--collapsed")
             }
           >
-            {/* <img src={collapsed ? logo_fold : logo} alt="logo" /> */}
+            <Link to="https://swp391-1817-net-g2-fe.techtheworld.id.vn/admin/dashboard">
             <img src={logo} alt="logo" />
+
+            </Link>
+            {/* <img src={collapsed ? logo_fold : logo} alt="logo" /> */}
+            
           </div>
 
           <div className="header__nav">
@@ -92,9 +96,6 @@ function LayoutDefaultAdmin() {
                 {/* <MenuFoldOutlined /> */}
               </div>
 
-              <div className="header__search">
-                <SearchOutlined />
-              </div>
             </div>
 
             <div className="header__nav-right">
@@ -141,9 +142,9 @@ function LayoutDefaultAdmin() {
                 </Link>
               )}
               {/* NOTIFY */}
-              <span>
+              {/* <span>
                 <Notify />
-              </span>
+              </span> */}
             </div>
           </div>
         </header>

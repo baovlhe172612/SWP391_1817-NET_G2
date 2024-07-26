@@ -57,7 +57,7 @@ function CreateBlog() {
 
   return (
     <>
-      <h2>New Blog</h2>
+     
 
       <Form
         name="create-blog"

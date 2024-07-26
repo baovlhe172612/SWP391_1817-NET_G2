@@ -163,7 +163,7 @@ function FloatButtonMess({ handleOnclick }) {
         visible={isOrderModalVisible}
         onCancel={handleOrderModalClose}
         footer={null}
-        width={800} // Đặt chiều rộng cho modal
+        width={1000} // Đặt chiều rộng cho modal
       >
         {/* <Button
           onClick={handleShowOnlyToday}
@@ -204,7 +204,6 @@ function FloatButtonMess({ handleOnclick }) {
             Close
           </Button>,
         ]}
-        
       >
         {product.length > 0 && ( // Kiểm tra nếu có sản phẩm
           <Table

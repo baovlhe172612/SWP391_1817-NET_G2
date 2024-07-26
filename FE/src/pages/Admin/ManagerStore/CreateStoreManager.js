@@ -171,7 +171,7 @@ function CreateStoreManager() {
                                 return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
                             }
                             if(value.trim()===""){
-                              return Promise.reject('User Name needs charaters!');
+                              return Promise.reject('Full Name needs charaters!');
                             }
                             return Promise.resolve();
                         },
@@ -200,7 +200,7 @@ function CreateStoreManager() {
                                 return Promise.reject('address must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
                             }
                             if(value.trim()===""){
-                              return Promise.reject('User Name needs charaters!');
+                              return Promise.reject('address Name needs charaters!');
                             }
                             return Promise.resolve();
                         },
