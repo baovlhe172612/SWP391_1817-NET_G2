@@ -52,12 +52,12 @@ function Cart() {
     setCartDataModal(dataToSend);
   };
 
-  const handleOk = async (formValues) => {
+  const handleOk = async (paymentMethod) => {
     setIsModalVisible(false);
 
-    var note = formValues.notes || null;
+    //var note = formValues.notes || null;
 
-    handleCheckout(formValues.paymentMethod, note);
+    handleCheckout(paymentMethod, note);
   };
 
   const handleCancel = () => {
@@ -88,36 +88,23 @@ function Cart() {
       }));
     
       console.log("dataToSendSend",dataToSend)
-
       setDataToSend(dataToSend)
       setValue(value)
       setNote(note)
-
-      
     if (dataToSend.length > 0) {
       try {
         const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
         const responseData = response;
-        message.success('Purchase successful!');
+        message.success('Order successfully!');
       } catch (error) {
         console.log('Error sending data:', error);
-        message.error('Purchase failed!!!!');
+        message.error('Order fail!!');
       }
     } else {
-      message.error('Purchase failed!!!!');
+      message.error('Order fail!');
     }
   };
-  // const handleCheckout = (values, isDirectPayment) => {
-  //   console.log({isDirectPayment,values})
-  //   if (isDirectPayment) {
-  //     // Logic để insert vào bảng Order
-  //     console.log('Insert vào bảng Order với phương thức thanh toán trực tiếp');
-  //   } else {
-  //     // Logic cho QR Code Payment
-  //     console.log('Thực hiện thanh toán bằng QR Code');
-  //   }
-  //   setIsModalVisible(false);
-  // };
+
 
   return (
     <Container>
