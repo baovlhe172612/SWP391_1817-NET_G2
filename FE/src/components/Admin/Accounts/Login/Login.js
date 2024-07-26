@@ -117,15 +117,7 @@ function Login() {
                     required: true,
                     message: "Please input your password!",
                   },
-                  {
-                    min: 8,
-                    message: "Password must be at least 8 characters long!",
-                  },
-                  {
-                    pattern: /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).{8,}$/,
-                    message:
-                      "Password must include at least one uppercase letter, one special character, and no spaces!",
-                  },
+  
                 ]}
               >
                 <Input.Password
