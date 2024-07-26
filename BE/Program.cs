@@ -18,7 +18,7 @@ namespace Swp391
             {
                 opt.AddPolicy("reactApp", policyBuilder =>
                 {
-                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn/")
+                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -46,7 +46,6 @@ namespace Swp391
 
             // Ensure CORS middleware is used before authorization
             app.UseCors("reactApp");
-
             app.UseRouting();
             app.UseAuthorization();
             app.MapHub<ChatHubs>("/Chat");
