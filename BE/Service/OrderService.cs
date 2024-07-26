@@ -66,6 +66,11 @@ namespace BE.Service
             return revenueList;
         }
 
+        public void UpdateOrderStatusService(int orderId, int newStatus)
+        {
+            _repo.UpdateOrderStatus(orderId, newStatus);
+        }
+
 
     }
 }

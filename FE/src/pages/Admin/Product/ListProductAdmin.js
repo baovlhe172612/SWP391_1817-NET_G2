@@ -108,12 +108,12 @@ function ListProductAdmin() {
       dataIndex: "sizeName",
       key: "sizeName",
     },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-      sorter: (a, b) => a.quantity - b.quantity,
-    },
+    // {
+    //   title: "Quantity",
+    //   dataIndex: "quantity",
+    //   key: "quantity",
+    //   sorter: (a, b) => a.quantity - b.quantity,
+    // },
     {
       title: "Delete",
       dataIndex: "isDelete",

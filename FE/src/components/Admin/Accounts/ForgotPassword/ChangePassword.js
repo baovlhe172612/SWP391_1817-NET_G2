@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './ChangePassword.scss'; // Import file CSS
 import { getCookie } from '../../../../helpers/Cookie.helper';
 import { LOCALHOST_API } from '../../../../helpers/APILinks';
-
+import CryptoJS from 'crypto-js';
 const ChangePassword = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -21,9 +21,10 @@ const ChangePassword = () => {
             setLoading(false);
             return;
         }
+        const passwordMd5 = CryptoJS.MD5(newPassword.trim()).toString().trim();
 
         try {
-            const response = await fetch(`${LOCALHOST_API}/api/Account/${userId}/password?newPassword=${newPassword}`, {
+            const response = await fetch(`${LOCALHOST_API}/api/Account/${userId}/password?newPassword=${passwordMd5}`, {
                 method: 'PUT'
             });
 

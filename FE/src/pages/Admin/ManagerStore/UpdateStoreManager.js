@@ -116,6 +116,9 @@ function UpdateStoreManager() {
                     if (!fullNameRegex.test(value)) {
                         return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
                     }
+                    if(value.trim()===""){
+                      return Promise.reject('User Name needs charaters!');
+                    }
                     return Promise.resolve();
                 },
             },
@@ -133,6 +136,7 @@ function UpdateStoreManager() {
       
         
         <Form.Item
+          
           label="PassWord"
           name="passWord" 
           rules={[
@@ -153,9 +157,10 @@ function UpdateStoreManager() {
                     return Promise.resolve();
                 },
             },
-        ]}        
+        ]}
+        style={{ display: 'none' }}        
         >
-          <Input  />
+          <Input  hidden/>
         </Form.Item>
         <Form.Item
                   label="Phone"
@@ -212,10 +217,26 @@ function UpdateStoreManager() {
           name="address"
           rules={[
             {
-              required: true,
-              message: "Please input the address !",
+                required: true,
+                message: 'Please input your address!',
             },
-          ]}
+            {
+                validator(_, value) {
+                    // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                    const fullNameRegex = /^[0-9a-zA-Z\s'-]{2,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!fullNameRegex.test(value)) {
+                        return Promise.reject('address must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                    }
+                    if(value.trim()===""){
+                      return Promise.reject('User Name needs charaters!');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}              
         >
           <Input />
         </Form.Item>

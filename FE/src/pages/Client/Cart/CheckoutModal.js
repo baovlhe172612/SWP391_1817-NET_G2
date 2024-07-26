@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToSavedCart } from '../../../actions/DataSaveCartAction';
 import CheckPayment from './CheckPayment';
 import { connectOrderHub } from '../../../helpers/APILinks';
+import { confirm } from '../../../helpers/Alert.helper';
 
 const { Option } = Select;
 
-function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, cartDataModal }) {
-  //console.log({ cartDataModal })
+function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, cartDataModal, dataToSend, value, note }) {
+  console.log({ cartDataModal })
   const [form] = Form.useForm();
   const [qrVisible, setQrVisible] = useState(false);
   const [billVisible, setBillVisible] = useState(false);
@@ -93,15 +94,6 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
 
   const totalAmount = cartDataModal.reduce((acc, item) => acc + item.price, 0);
 
-  // const MY_BANK = {
-  //   BANK_ID: "BIDV",
-  //   ACCOUNT_NO: 4271033212,
-  // };
-
-  // const MY_BANK1 = {
-  //   BANK_ID: "MB",
-  //   ACCOUNT_NO: '0948742988',
-  // };
 
   const generateRandomText = (length) => {
     const allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -139,6 +131,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
 
       if (paymentMethod === '1') {
         setBillVisible(true);
+
       } else if (paymentMethod === '2') {
         const randomText = generateRandomText(10);
         setPaymentCheckText(randomText);
@@ -170,10 +163,20 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
     }
   };
 
+  const handleConfirmClose = async () => {
+    const confirmClose = await confirm("Are you sure to quit", 'If you quit, the system can check your payment')
+    console.log(confirmClose)
+    console.log(confirmClose.isConfirmed)
+    if (confirmClose.isConfirmed == true) {
+      console.log('m ngáo')
+      setQrVisible(false);
+    }
+  }
+
   return (
     <>
       <Modal
-        title="Hóa đơn thanh toán"
+        title="Bill"
         visible={isVisible}
         onOk={onOk}
         onCancel={handleCancel}
@@ -192,7 +195,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 1 ? 'completed' : ''}`} onClick={() => handleStepClick(1)}>
               <div className="circle">1</div>
               <div className={`label ${currentStep >= 1 ? 'completed-text' : ''}`}>
-                <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Đã đặt hàng
+                <LoadingOutlined style={{ fontSize: '16px', color: currentStep >= 1 ? '#4caf50' : '#333' }} /> Ordered
               </div>
             </div>
 
@@ -200,7 +203,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 2 ? 'completed' : ''}`} onClick={() => handleStepClick(2)}>
               <div className="circle">2</div>
               <div className={`label ${currentStep >= 2 ? 'completed-text' : ''}`}>
-                <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> Đang tiến hành
+                <ClockCircleOutlined style={{ fontSize: '16px', color: currentStep >= 2 ? '#4caf50' : '#333' }} /> In process
               </div>
             </div>
 
@@ -208,7 +211,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             <div className={`step ${currentStep >= 3 ? 'completed' : ''}`} onClick={() => handleStepClick(3)}>
               <div className="circle">3</div>
               <div className={`label ${currentStep >= 3 ? 'completed-text' : ''}`}>
-                <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Hoàn thành
+                <CheckOutlined style={{ fontSize: '16px', color: currentStep >= 3 ? '#4caf50' : '#333' }} /> Complete
               </div>
             </div>
           </div>
@@ -239,18 +242,20 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             </div>
           </Form>
         </div>
+
+        {/*  */}
       </Modal>
+
+      {/* QR MODEL */}
       {qrVisible && (
         <Modal
+          style={{ textAlign: 'center' }}
           title="QR Code"
           visible={qrVisible}
-          onCancel={() => setQrVisible(false)}
-          footer={[
-            <Button key="cancel" onClick={() => setQrVisible(false)}>
-              Close
-            </Button>,
-          ]}
+          onCancel={handleConfirmClose}
+          onOk={handleConfirmClose}
         >
+          <h6 style={{ textAlign: 'center' }}>Please transfer the correct amount. Any errors you make will not be supported</h6>
           <img
             src={qrCodeValue}
             alt="QR Code"
@@ -274,7 +279,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
                   title: 'Price',
                   dataIndex: 'price',
                   key: 'price',
-                  render: (text, record) => `${(record.price/record.quantity).toLocaleString('vi-VN')} đ`,
+                  render: (text, record) => `${(record.price / record.quantity).toLocaleString('vi-VN')} đ`,
                 },
                 {
                   title: 'Total',
@@ -293,9 +298,11 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
             />
           </div>
           {/* <QRCode value={qrCodeValue} size={256} /> */}
-          <CheckPayment totalMoney={totalAmount} txt={paymentCheckText} />
+          <CheckPayment totalMoney={totalAmount} txt={paymentCheckText} dataToSend={dataToSend} value={value} note={note} />
         </Modal>
       )}
+
+      {/*  */}
       <Modal
         title="Payment Bill"
         style={{ textAlign: 'center', top: 20, maxHeight: '60vh' }}
@@ -308,6 +315,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
         onCancel={() => setBillVisible(false)}
       >
         <div style={{ maxHeight: '55vh', overflowY: 'auto' }}>
+          <h5 style={{ color: 'red' }}>Please confirm with employee</h5>
           <h3 style={{ textAlign: 'center' }}>Bill Details</h3>
           <Table
             dataSource={cartDataModal}
