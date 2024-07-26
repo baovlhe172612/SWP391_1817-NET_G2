@@ -1,0 +1,19 @@
+.responsive-modal .ant-modal {
+    max-width: 100% !important;
+  }
+  
+  .responsive-modal .ant-modal-body {
+    padding: 0;
+    overflow-x: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .responsive-modal .ant-modal {
+      width: 90% !important;
+    }
+  
+    .responsive-modal .ant-table {
+      font-size: 12px;
+    }
+  }
+  

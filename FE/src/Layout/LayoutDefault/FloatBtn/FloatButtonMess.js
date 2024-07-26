@@ -3,10 +3,12 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Button, FloatButton, Modal, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  updateStatus } from "../../../actions/DataSaveCartAction";
+import { updateStatus } from "../../../actions/DataSaveCartAction";
 import { getCookie } from "../../../helpers/Cookie.helper";
 import soundmessege from "../../../assets/sound/sound.mp3";
 import { connectOrderHub } from "../../../helpers/APILinks";
+import "./FloatButtonMess.css"; // Import CSS file
+
 function FloatButtonMess({ handleOnclick }) {
   const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
   const [showOnlyCompleted, setShowOnlyCompleted] = useState(false);
@@ -16,7 +18,7 @@ function FloatButtonMess({ handleOnclick }) {
   const cartSave = useSelector((state) => state.savedCart);
   const tableId = parseInt(getCookie("tableId"), 10);
   const [product, setProduct] = useState([]);
-  
+
   useEffect(() => {
     const startSignalRConnection = async () => {
       const newConnection = new HubConnectionBuilder()
@@ -60,11 +62,10 @@ function FloatButtonMess({ handleOnclick }) {
     };
   }, [tableId, cartSave, dispatch]);
 
-
   useEffect(() => {
     if (connection) {
       connection.on("ReceiveOrderNotification", (receivedTableId) => {});
-      
+
       return () => {
         connection.off("ReceiveOrderNotification");
       };
@@ -78,14 +79,6 @@ function FloatButtonMess({ handleOnclick }) {
   const handleOrderModalClose = () => {
     setIsOrderModalVisible(false);
   };
-
-  // const handleShowOnlyToday = () => {
-  //   setShowOnlyCompleted(true);
-  // };
-
-  // const handleShowAllOrders = () => {
-  //   setShowOnlyCompleted(false);
-  // };
 
   const today = new Date().toLocaleDateString("en-US");
   const columns = [
@@ -111,7 +104,6 @@ function FloatButtonMess({ handleOnclick }) {
       key: "datetime",
       render: (createdAt) => new Date(createdAt).toLocaleString(),
     },
-    
     {
       title: "Status",
       dataIndex: "status",
@@ -129,11 +121,6 @@ function FloatButtonMess({ handleOnclick }) {
         return <Tag color={color}>{text}</Tag>;
       },
     },
-    // {
-    //   title: "STT",
-    //   dataIndex: "waitTime",
-    //   key: "waitTime",
-    // },
   ];
 
   return (
@@ -164,35 +151,16 @@ function FloatButtonMess({ handleOnclick }) {
         onCancel={handleOrderModalClose}
         footer={null}
         width={1000} // Đặt chiều rộng cho modal
+        className="responsive-modal"
       >
-        {/* <Button
-          onClick={handleShowOnlyToday}
-          style={{ marginRight: "10px" }}
-          type={showOnlyCompleted ? "primary" : "default"}
-        >
-         Order Now
-        </Button> */}
-        {/* <Button
-          onClick={handleShowAllOrders}
-          type={!showOnlyCompleted ? "primary" : "default"}
-        >
-         History Order
-        </Button> */}
         <Table
-          dataSource={
-            // showOnlyCompleted
-            //   ? cartSave.filter(
-            //       (item) =>
-            //         new Date(item.datetime).toLocaleDateString("en-US") ===
-            //         today
-            //     )
-               cartSave
-          }
+          dataSource={cartSave}
           columns={columns}
           pagination={true}
           rowKey={(record) =>
             `${record.productSizeID}_${new Date(record.datetime).getTime()}`
           }
+          scroll={{ x: 600 }} // Thêm scroll ngang
         />
       </Modal>
       <Modal
@@ -204,6 +172,7 @@ function FloatButtonMess({ handleOnclick }) {
             Close
           </Button>,
         ]}
+        className="responsive-modal"
       >
         {product.length > 0 && ( // Kiểm tra nếu có sản phẩm
           <Table
@@ -224,10 +193,11 @@ function FloatButtonMess({ handleOnclick }) {
                 dataIndex: "price",
                 key: "price",
                 render: (price) => `${price.toLocaleString("vi-VN")} đ`,
-              },             
+              },
             ]}
             pagination={true}
             rowKey="productSizeID"
+            scroll={{ x: 600 }} // Thêm scroll ngang
           />
         )}
       </Modal>
