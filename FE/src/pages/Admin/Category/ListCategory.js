@@ -28,7 +28,7 @@ function ListCategory() {
     setSearchText(e.target.value);
   };
 
-  const filteredCategories = categories.filter(category =>
+  const filteredCategories = categories.filter((category) =>
     category.categoryName.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -55,8 +55,8 @@ function ListCategory() {
         </Tag>
       ),
       filters: [
-        { text: "Active", value: false },
-        { text: "Deleted", value: true },
+        { text: "Active", value: 1 },
+        { text: "Deleted", value: 0 },
       ],
       onFilter: (value, record) => record.isDelete === value,
     },
@@ -66,11 +66,13 @@ function ListCategory() {
       render: (record) => (
         <Space size="middle">
           <Link to={`edit/${record.categoryId}`}>
-            <Button type="primary">Update</Button>
+            <Button type="primary" icon={<EditOutlined />} />
           </Link>
-          <Button type="default" onClick={() => handleDelete(record)}>
-            Delete
-          </Button>
+          <Button
+            type="default"
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record)}
+          />
         </Space>
       ),
     },
@@ -124,7 +126,11 @@ function ListCategory() {
         onChange={handleSearch}
         style={{ width: 800, height: 30, marginBottom: 20 }}
       />
-      <Table columns={columns} dataSource={filteredCategories} rowKey="categoryId" />
+      <Table
+        columns={columns}
+        dataSource={filteredCategories}
+        rowKey="categoryId"
+      />
     </>
   );
 }

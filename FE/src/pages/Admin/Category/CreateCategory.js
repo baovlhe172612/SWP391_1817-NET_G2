@@ -13,7 +13,7 @@ function CreateCategory() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://172.20.10.5:5264/api/Category");
+        const data = await get(`${LOCALHOST_API}/api/Category`);
 
         if (data) {
           setCategory(data);
@@ -71,42 +71,39 @@ function CreateCategory() {
   };
 
   return (
-    <>
+    <Form name="create-category" onFinish={handleSubmit} form={form}>
+      <Form.Item
+        label="Category name"
+        name="storeName"
+        rules={[
+          {
+            required: true,
+            validator: validateCategoryName,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-      <Form name="create-category" onFinish={handleSubmit} form={form}>
-        <Form.Item
-          label="Category name"
-          name="storeName"
-          rules={[
-            {
-              required: true,
-              validator: validateCategoryName,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+      <Form.Item
+        name="isDelete"
+        label="Switch"
+        valuePropName="checked"
+        initialValue={true}
+      >
+        <Switch
+          checkedChildren="active"
+          unCheckedChildren="InActive"
+          defaultChecked
+        />
+      </Form.Item>
 
-        <Form.Item
-          name="isDelete"
-          label="Switch"
-          valuePropName="checked"
-          initialValue={true}
-        >
-          <Switch
-            checkedChildren="active"
-            unCheckedChildren="InActive"
-            defaultChecked
-          />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }
 

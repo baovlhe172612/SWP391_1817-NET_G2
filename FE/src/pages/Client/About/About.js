@@ -138,8 +138,8 @@ function About() {
                       />
                     </div>
                     <div className="shipping-content">
-                      <h2 className="title">Miễn Phí Vận Chuyển</h2>
-                      <p className="short-desc mb-0">Giới Hạn 200.000VNĐ</p>
+                      <h2 className="title">Đặt Đồ Nhanh Chóng</h2>
+                      <p className="short-desc mb-0">Nhận Hàng Như Ý</p>
                     </div>
                   </div>
                 </div>
@@ -153,7 +153,7 @@ function About() {
                     </div>
                     <div className="shipping-content">
                       <h2 className="title">Dễ Dàng Thanh Toán</h2>
-                      <p className="short-desc mb-0">Nhận Mọi Phương Thức</p>
+                      <p className="short-desc mb-0">An Toàn Nhanh Gọn</p>
                     </div>
                   </div>
                 </div>
