@@ -180,6 +180,13 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
                 placeholder="Input price"
                 onChange={(value) => handlePriceChange(size, value)}
                 style={{ width: "100%" }}
+                rules={[
+                  {
+                    required: true,
+                    type:"number",
+                    message: 'Please input price!',
+                }          
+                ]}
               />
             </Form.Item>
           </div>
@@ -190,8 +197,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           name="img"
           rules={[{ required: true, message: "Please upload an image!" }]}
           
-        >
-          
+        >        
             <Input/>
         </Form.Item>
 
