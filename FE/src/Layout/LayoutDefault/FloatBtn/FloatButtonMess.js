@@ -79,13 +79,13 @@ function FloatButtonMess({ handleOnclick }) {
     setIsOrderModalVisible(false);
   };
 
-  const handleShowOnlyToday = () => {
-    setShowOnlyCompleted(true);
-  };
+  // const handleShowOnlyToday = () => {
+  //   setShowOnlyCompleted(true);
+  // };
 
-  const handleShowAllOrders = () => {
-    setShowOnlyCompleted(false);
-  };
+  // const handleShowAllOrders = () => {
+  //   setShowOnlyCompleted(false);
+  // };
 
   const today = new Date().toLocaleDateString("en-US");
   const columns = [
@@ -165,28 +165,28 @@ function FloatButtonMess({ handleOnclick }) {
         footer={null}
         width={800} // Đặt chiều rộng cho modal
       >
-        <Button
+        {/* <Button
           onClick={handleShowOnlyToday}
           style={{ marginRight: "10px" }}
           type={showOnlyCompleted ? "primary" : "default"}
         >
          Order Now
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           onClick={handleShowAllOrders}
           type={!showOnlyCompleted ? "primary" : "default"}
         >
          History Order
-        </Button>
+        </Button> */}
         <Table
           dataSource={
-            showOnlyCompleted
-              ? cartSave.filter(
-                  (item) =>
-                    new Date(item.datetime).toLocaleDateString("en-US") ===
-                    today
-                )
-              : cartSave
+            // showOnlyCompleted
+            //   ? cartSave.filter(
+            //       (item) =>
+            //         new Date(item.datetime).toLocaleDateString("en-US") ===
+            //         today
+            //     )
+               cartSave
           }
           columns={columns}
           pagination={true}
@@ -204,6 +204,7 @@ function FloatButtonMess({ handleOnclick }) {
             Close
           </Button>,
         ]}
+        
       >
         {product.length > 0 && ( // Kiểm tra nếu có sản phẩm
           <Table
@@ -224,8 +225,7 @@ function FloatButtonMess({ handleOnclick }) {
                 dataIndex: "price",
                 key: "price",
                 render: (price) => `${price.toLocaleString("vi-VN")} đ`,
-              },
-             
+              },             
             ]}
             pagination={true}
             rowKey="productSizeID"

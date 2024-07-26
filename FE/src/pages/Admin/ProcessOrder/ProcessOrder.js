@@ -294,7 +294,7 @@ const ProcessOrder = () => {
       }}
       >
         <div style={{ maxHeight: '55vh', overflowY: 'auto' }}>
-          <h2 style={{ textAlign: 'center' }}>Bàn số {modalTableId} vừa đặt đồ uống</h2>
+          <h2 style={{ textAlign: 'center' }}>Table {modalTableId} order</h2>
           <Table
             dataSource={receivedCart}
             columns={[

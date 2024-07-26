@@ -49,7 +49,7 @@ function UpdateProduct() {
     values.status = 1;
     values.productSizeId = id;
     values.productId = ProductSize.productId;
-    values.quanity = form.getFieldValue('quantity');
+    values.quanity = 100
     console.log(values);
     const data = await put(`${UPDATE_PRODUCT}/${form.getFieldValue('productName')}`, values);
     if (data) {
@@ -112,6 +112,7 @@ function UpdateProduct() {
       },
     }),
   ]}
+  style={{display:'None'}}
 >
   <Input />
 </Form.Item>

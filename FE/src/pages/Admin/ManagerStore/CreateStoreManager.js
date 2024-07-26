@@ -89,6 +89,7 @@ function CreateStoreManager() {
                             if (Accounts.some((account) => account.userName === value)) {
                                 return Promise.reject('User Name already exists');
                             }
+                            
                             return Promise.resolve();
                         },
                     }),
@@ -169,6 +170,9 @@ function CreateStoreManager() {
                             if (!fullNameRegex.test(value)) {
                                 return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
                             }
+                            if(value.trim()===""){
+                              return Promise.reject('User Name needs charaters!');
+                            }
                             return Promise.resolve();
                         },
                     },
@@ -194,6 +198,9 @@ function CreateStoreManager() {
                             }
                             if (!fullNameRegex.test(value)) {
                                 return Promise.reject('address must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                            }
+                            if(value.trim()===""){
+                              return Promise.reject('User Name needs charaters!');
                             }
                             return Promise.resolve();
                         },

@@ -85,10 +85,26 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           name="productName"
           rules={[
             {
-              required: true,
-              message: "Please input product name !!!",
+                required: true,
+                message: 'Please input your full name!',
             },
-          ]}
+            {
+                validator(_, value) {
+                    // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                    const ProductRegex = /^[a-zA-Z\s'-]{2,}$/;
+                    if (!value) {
+                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                    }
+                    if (!ProductRegex.test(value)) {
+                        return Promise.reject('Product Name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                    }
+                    if(value.trim()===""){
+                      return Promise.reject('Product Name needs charaters!');
+                    }
+                    return Promise.resolve();
+                },
+            },
+        ]}                
         >
           <Input placeholder="Input name" />
         </Form.Item>
@@ -99,8 +115,17 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           rules={[
             {
               required: true,
-              message: "Please input price!",
-            },
+              type:"number",
+              message: 'Please input price!',
+          },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if(value.trim()===""){
+                  return Promise.reject('Product Price needs number!');
+                }                                                
+                return Promise.resolve();
+              },
+            }),
           ]}
         >
           <InputNumber
@@ -145,11 +170,12 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
             <Form.Item
               label={`Quantity for Size ${size}`}
               rules={[{ required: true, message: "Please input quantity!" }]}
+              style={{ display: 'none' }}
             >
               <InputNumber
                 min={0}
                 placeholder="Input quantity"
-                onChange={(value) => handleQuantityChange(size, value)}
+                onChange={(value) => handleQuantityChange(size, 100)}
                 style={{ width: "100%" }}
               />
             </Form.Item>
@@ -171,6 +197,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           label="Image"
           name="img"
           rules={[{ required: true, message: "Please upload an image!" }]}
+          
         >
           
             <Input/>
