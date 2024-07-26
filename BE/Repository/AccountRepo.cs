@@ -196,7 +196,6 @@ namespace Swp391.Repository
         /// </summary>
 
 
-
         public void createrAccount(Account newAccount)
         {
             SwpfinalContext _context = new SwpfinalContext();
