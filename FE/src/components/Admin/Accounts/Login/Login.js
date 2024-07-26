@@ -87,17 +87,27 @@ function Login() {
               id="login-form"
             >
               <Form.Item
-                id="login"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Your Name" />
-              </Form.Item>
+  id="login"
+  name="username"
+  rules={[
+    {
+      required: true,
+      message: "Please input your username!",
+    },
+    {
+      pattern: /^[a-zA-Z0-9_]+$/,
+      message: "Username must be alphanumeric and can include underscores.",
+    },
+  ]}
+>
+  <Input
+    prefix={<UserOutlined />}
+    placeholder="Your Name"
+    // Đảm bảo rằng tên người dùng là không phân biệt chữ hoa chữ thường
+    // Đây là ví dụ cơ bản và có thể không bao quát tất cả các yêu cầu
+    style={{ textTransform: 'none' }}
+  />
+</Form.Item>
 
               <Form.Item
                 id="password"
