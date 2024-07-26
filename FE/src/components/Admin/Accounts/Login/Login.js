@@ -15,79 +15,57 @@ import { loginActions } from "../../../../actions/Login";
 import { setSessionItem } from "../../../../helpers/Session.helper";
 import { accountActions } from "../../../../actions/AccountActions";
 import CryptoJS from 'crypto-js';
+
 function Login() {
   const navigate = useNavigate();
-  // dispatch
   const dispatch = useDispatch();
-  // Check token
   const token = getCookie("token");
-  // không được dùng async await trong useEffect
+
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
         if (accountByToken) {
           dispatch(loginActions(true));
-
           dispatch(accountActions(accountByToken));
 
-          console.log('accountByToken:::', accountByToken)
-
-          // nếu Account có role là employee => tự động chuyển đến trang listTable
-          if (accountByToken.roleId == 3) {
+          if (accountByToken.roleId === 3) {
             navigate("/admin/table");
           } else {
-            // move => admin
             navigate("/admin/dashboard");
           }
         }
       } catch (error) {
-        // console.log("Không có token");
         navigate("/admin/login");
       }
     };
 
-    // có token mới có fetch api
     if (token) {
       fetchApi();
     } else {
-      // không có token(Chưa đăng nhập lần nào) => sang trang login
       navigate("/admin/login");
     }
-  }, []);
+  }, [token, dispatch, navigate]);
 
-  // SUBMIT - Đăng nhập
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
-      const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
-      // call API
+      const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString();
       const dataAuthen = await get(
-        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${passwordMd5}`
+        `${GET_ACCOUNT_BY_AUTH}?username=${encodeURIComponent(values.username.trim())}&password=${passwordMd5}`
       );
-      
-      console.log(dataAuthen);
-      // console.log(dataAuthen);
+
       if (dataAuthen) {
-        // message login success
         alear_success_login("Login Successfully !!!", dataAuthen.fullName);
-
-        // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
-
-        // biến islogin => cập nhật lại trạng thái Store
         dispatch(loginActions(true));
-
-        // không dùng session nữa => gửi lên store 1 thằng account mới luôn
         dispatch(accountActions(dataAuthen));
 
-        // Account Employee => sang trang table
-        if (dataAuthen.roleId == 3) {
+        if (dataAuthen.roleId === 3) {
           navigate("/admin/table");
-          return;
+        } else {
+          navigate("/admin");
         }
-
-        navigate("/admin");
       } else {
         message.error(`Login failed. Please check your username or password !!!`);
       }
@@ -109,7 +87,7 @@ function Login() {
               id="login-form"
             >
               <Form.Item
-              id="login"
+                id="login"
                 name="username"
                 rules={[
                   {
@@ -122,12 +100,21 @@ function Login() {
               </Form.Item>
 
               <Form.Item
-               id="password"
+                id="password"
                 name="password"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your password !",
+                    message: "Please input your password!",
+                  },
+                  {
+                    min: 8,
+                    message: "Password must be at least 8 characters long!",
+                  },
+                  {
+                    pattern: /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).{8,}$/,
+                    message:
+                      "Password must include at least one uppercase letter, one special character, and no spaces!",
                   },
                 ]}
               >
