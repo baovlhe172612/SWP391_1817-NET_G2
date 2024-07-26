@@ -67,7 +67,7 @@ function Product(props) {
             backgroundColor: '#ff9900',
             color: 'white',
             border: 'none',
-            padding: '10px 20px',
+            //padding: '10px 20px',
             cursor: 'pointer',
             borderRadius: '5px'
           }}
