@@ -27,7 +27,7 @@ function CreateTable() {
 
 return (
     <>
-        <h2>Thêm table mới</h2>
+      
 
         <Form
             name="create-table"
@@ -36,7 +36,7 @@ return (
            
         >
             <Form.Item
-                label="Tên bàn"
+                label="Table Name"
                 name="tableName"
                 rules={[
                     {
@@ -49,11 +49,11 @@ return (
             </Form.Item>
             <Form.Item
                 name="isDelete"
-                label="Trạng thái"
+                label="Status"
                 valuePropName="checked"
                 initialValue={true} // Giá trị mặc định là Còn phòng
             >
-                <Switch checkedChildren="Bàn trống" unCheckedChildren="Bàn full" defaultChecked />
+                <Switch checkedChildren="Empty" unCheckedChildren="Full" defaultChecked />
             </Form.Item>
 
           

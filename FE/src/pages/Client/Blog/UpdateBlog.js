@@ -5,7 +5,7 @@ import { useParams, Link, json } from "react-router-dom";
 // import Swal from "sweetalert2";
 // import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
-import { BLOG_DETAIL, UPDATE_BLOG } from "../../../helpers/APILinks";
+import { BLOG_DETAIL, LOCALHOST_API, UPDATE_BLOG } from "../../../helpers/APILinks";
 import { useSelector } from "react-redux";
 const { Option } = Select;
 
@@ -55,7 +55,7 @@ function UpdateBlog() {
       console.log("day la blog: "+blog);
 
       console.log("day la value: "+values);
-      const data = await patch(`http://172.20.10.5:5264/api/Post/update_post/${id}`, { ...blog, ...values });
+      const data = await patch(`${LOCALHOST_API}/Post/update_post/${id}`, { ...blog, ...values }); 
 
 
       if (data) {

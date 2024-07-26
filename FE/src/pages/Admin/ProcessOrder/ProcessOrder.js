@@ -6,6 +6,7 @@ import { get, put } from '../../../helpers/API.helper';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import './process.css';
 import soundmessege from "../../../assets/sound/sound.mp3";
+import { LOCALHOST_API, connectOrderHub } from '../../../helpers/APILinks';
 Modal.setAppElement('#root');
 
 const ProcessOrder = () => {
@@ -15,44 +16,41 @@ const ProcessOrder = () => {
   const [modalTableId, setModalTableId] = useState(null); // State to store tableId
   const [modal2IsOpen, setModal2IsOpen] = useState(false); // State for second modal
   const account = useSelector(state => state.AccountReducer);
-  const [selectedStatus, setSelectedStatus] = useState(-1);
   const [receivedCart, setReceivedCart] = useState([]);
   const [groupedOrders, setGroupedOrders] = useState([]); // State to store grouped orders
-  const [statusChanges, setStatusChanges] = useState([]);
+  const [productFinal, setProductFinal] = useState([]);
   useEffect(() => {
     const startSignalRConnection = async () => {
       const connection = new HubConnectionBuilder()
-        .withUrl('http://localhost:5264/OrderHub')
+        .withUrl(`${connectOrderHub}`)
         .withAutomaticReconnect()
         .build();
       try {
         const sound = new Audio(soundmessege);
         await connection.start();
-        console.log('SignalR Connected.');
-        connection.on('ReceiveOrderNotification', (tableId, cart) => {
-          console.log(cart);
+        // console.log('SignalR Connected.');              
+        await connection.on('ReceiveOrderNotification', (tableId, cart) => {               
           sound.play();
           fetchApi(); // Update order details on receiving notification
           setModalTableId(tableId); 
           setReceivedCart(cart); // Store received cart for future use
           setModal2IsOpen(true); // Open the second modal
-        });
+        });       
       } catch (error) {
         console.error('SignalR Connection Error: ', error);
       }
     };
-  
     startSignalRConnection();
   }, []);
 
   useEffect(() => {
     fetchApi(); // Initial fetch of order details
   }, []);
-
+  
   const fetchApi = async () => {
     try {
-      const data = await get(`http://localhost:5264/api/Order/orderdetailbystatus?storeId=1`);
-      console.log(data);
+      const data = await get(`${LOCALHOST_API}/api/Order/orderdetailbystatus?storeId=1`);
+      // console.log(data);
       if (data) {
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setOrderDetails(data);
@@ -69,14 +67,15 @@ const ProcessOrder = () => {
       setOrderDetails([]);
     }
   };
-
   const groupByProductSizeId = (orderDetails) => {
     const grouped = {};
     orderDetails.forEach(orderDetail => {
       const { product_SizeID } = orderDetail;
+      //
       if (!grouped[product_SizeID]) {
         grouped[product_SizeID] = [[]]; // Initialize with an array of arrays
       }
+      //
       let lastGroup = grouped[product_SizeID][grouped[product_SizeID].length - 1];
       // Check if the last group exceeds the limit of 10 items
       if (lastGroup.length >= 10) {
@@ -91,8 +90,37 @@ const ProcessOrder = () => {
     const flattenedGroups = Object.keys(grouped).reduce((acc, key) => {
       return acc.concat(grouped[key]);
     }, []);
+
+    //
+    flattenedGroups.forEach(it => {
+      const length = it.length;
+      it.map((product, index) => {
+        product.waitTime = `${index + 1}/${length}`;
+      })
+    }
+    )
+
+    const newProductFinal = flattenedGroups.map((product, index) => {
+      const newProduct = product.map(item => {
+        return {
+          productSizeId: item.product_SizeID,
+          date: item.date,
+          waitTime: item.waitTime,
+          tableId: item.tableID
+        }
+      })
+
+      //console.log(newProduct)
+      return newProduct;
+    })
+     const newProduct1 = newProductFinal.flat();
+
+      setProductFinal(newProduct1);
+      
     return flattenedGroups;
   };
+  
+
   
 
   const openModal = (product_SizeID) => {
@@ -119,13 +147,14 @@ const ProcessOrder = () => {
     console.log('value:',updatedStatus);
     try {
       
-      const response = await put(`http://localhost:5264/api/Order/update`,[updatedStatus]);
+      const response = await put(`${LOCALHOST_API}/api/Order/update`,[updatedStatus]);
       if (response) {    
         message.success("successfully!");
       }
       // Tham gia nhóm và gửi dữ liệu tới SignalR Hub
       const connection = new HubConnectionBuilder()
-        .withUrl('http://localhost:5264/OrderHub')
+        .withUrl(`${connectOrderHub}`)
+        .withAutomaticReconnect()
         .build();
       try {
         await connection.start();
@@ -138,7 +167,7 @@ const ProcessOrder = () => {
        const tableId = orderDetail.tableID;
        console.log(tableId);
         await connection.invoke('JoinTableGroup', tableId.toString());
-       await connection.invoke('SendOrderNotificationToGroup',tableId.toString(),orderDetail.product_SizeID.toString()
+        await connection.invoke('SendOrderNotificationToGroup',tableId.toString(),orderDetail.product_SizeID.toString()
        ,updatedStatus.status.toString(),orderDetail.date.toString());
         console.log('SendOrderStatusUpdate:', [updatedStatus]);
       } catch (error) {
@@ -157,41 +186,46 @@ const ProcessOrder = () => {
 
   const columns = [
     {
-      title: 'Mã số đơn hàng',
+      title: 'Order Detail ID',
       dataIndex: 'orderDetailID',
       key: 'orderDetailID',
       className: 'ant-table-hidden-column',
     },
     {
-      title: 'Mã sản phẩm',
+      title: 'Product ID',
       dataIndex: 'productID',
       key: 'productID',
       className: 'ant-table-hidden-column',
     },
     {
-      title: 'Ảnh',
+      title: 'Image',
       dataIndex: 'img',
       key: 'img',
       render: (img, record) => <img src={img} alt={record.productName} style={{ width: '50px', height: '50px' }} />,
     },
     {
-      title: 'Tên sản phẩm',
+      title: 'Product Name',
       dataIndex: 'productName',
       key: 'productName',
     },
     {
-      title: 'Bàn',
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
+    },
+    {
+      title: 'Table',
       dataIndex: 'tableID',
       key: 'tableID',
     },
     {
-      title: 'Ngày đặt hàng',
+      title: 'Order date',
       dataIndex: 'date',
       key: 'date',
       render: (createdAt) => new Date(createdAt).toLocaleString(),
     },
     {
-      title: 'Trạng thái',
+      title: 'Status',
       dataIndex: 'status',
       key: 'status',
       render: (status, record) => (
@@ -200,9 +234,9 @@ const ProcessOrder = () => {
           onChange={(value) => handleStatusChange(record.orderDetailID, value)}
           style={{ width: 120 }}
         >
-          <Select.Option value={-1}>Chờ xử lý</Select.Option>
-          <Select.Option value={0}>Đang xử lý</Select.Option>
-          <Select.Option value={1}>Hoàn thành</Select.Option>
+          <Select.Option value={-1}>Wait</Select.Option>
+          <Select.Option value={0}>Process</Select.Option>
+          <Select.Option value={1}>Done</Select.Option>
         </Select>
       ),
     },
@@ -220,36 +254,31 @@ const ProcessOrder = () => {
       const timeB = new Date(b.orders[0].date);
       return timeA - timeB;
     });
+
     
   return (
     <div>
       {/*  css ở đây */}
       {sortedGroupedOrders.map((group) => (
         <div key={group.productId}>
-          <h3>Tên Sản Phẩm: {group.orders[0].productName} - {group.orders[0].sizeName}</h3>
-          <h4>Số lượng đơn hàng: {group.orders.length}</h4>
+          <h3>Product Name: {group.orders[0].productName} - {group.orders[0].sizeName}</h3>
+          <h4>Quantity: {group.orders.length}</h4>
           <Button onClick={() => openModal(group.productId)}>
-            Xem chi tiết
+            Details
           </Button>
         </div>
       ))}
 
 <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-<div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center' }}>
-    <input type="text" placeholder="Số lượng" style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', marginRight: '8px' }} />
-    <Button type="primary">Lưu</Button>
-  </div>
-  <br/>
-  <br/>
   {selectedProductSizeId && groupedOrders[selectedProductSizeId] && (
     <Table
       columns={columns}
       dataSource={groupedOrders[selectedProductSizeId]}
-      rowKey="OrderDetailID"
+      rowKey="orderDetailID"
     />
   )}
   <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-    <Button onClick={closeModal} style={{ marginTop: '20px' }}>Đóng</Button>
+    <Button onClick={closeModal} style={{ marginTop: '20px' }}>Close</Button>
   </div>
 </Modal>
 
@@ -270,7 +299,7 @@ const ProcessOrder = () => {
             dataSource={receivedCart}
             columns={[
               {
-                title: 'Product',
+                title: 'Product Name',
                 dataIndex: 'productName',
                 key: 'productName',
               },
@@ -291,7 +320,7 @@ const ProcessOrder = () => {
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <Button onClick={closeModal2} style={{ marginTop: '20px' }}>Đóng</Button>
+          <Button onClick={closeModal2} style={{ marginTop: '20px' }}>Close</Button>
         </div>
       </Modal>
     </div>

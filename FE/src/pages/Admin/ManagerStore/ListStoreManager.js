@@ -70,7 +70,7 @@ function ListStoreManager() {
       key: "userName",
     },
     {
-      title: "CCCD",
+      title: "Citizens ID",
       dataIndex: "cccd",
       key: "cccd",
     },

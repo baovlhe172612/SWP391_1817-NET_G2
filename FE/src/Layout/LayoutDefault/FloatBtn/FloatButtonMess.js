@@ -3,9 +3,10 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Button, FloatButton, Modal, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateStatus } from "../../../actions/DataSaveCartAction";
+import {  updateStatus } from "../../../actions/DataSaveCartAction";
 import { getCookie } from "../../../helpers/Cookie.helper";
 import soundmessege from "../../../assets/sound/sound.mp3";
+import { connectOrderHub } from "../../../helpers/APILinks";
 function FloatButtonMess({ handleOnclick }) {
   const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
   const [showOnlyCompleted, setShowOnlyCompleted] = useState(false);
@@ -15,38 +16,32 @@ function FloatButtonMess({ handleOnclick }) {
   const cartSave = useSelector((state) => state.savedCart);
   const tableId = parseInt(getCookie("tableId"), 10);
   const [product, setProduct] = useState([]);
-
+  
   useEffect(() => {
     const startSignalRConnection = async () => {
       const newConnection = new HubConnectionBuilder()
-        .withUrl("http://localhost:5264/OrderHub")
+        .withUrl(`${connectOrderHub}`)
         .withAutomaticReconnect()
         .build();
-
       try {
         await newConnection.start();
         console.log("SignalR Connected.");
         setConnection(newConnection);
-
+        //
         newConnection.invoke("JoinTableGroup", tableId.toString());
+        //
         newConnection.on(
           "ReceiveOrderNotification",
           (receivedTableId, productsizeId, status, date) => {
             dispatch(updateStatus(productsizeId, date, status));
-            console.log(tableId);
-            console.log(status);
-            console.log(productsizeId);
-            console.log(date);
-            console.log(cartSave);
             const sound = new Audio(soundmessege);
-            
             const updatedProduct = cartSave.find(
               (item) => item.productSizeID == productsizeId
             );
             if (updatedProduct) {
               setProduct([updatedProduct]); // Đảm bảo `product` là mảng
             }
-            if (status == 0) {
+            if (status == 1) {
               setShowCompletionModal(true);
               sound.play();
             }
@@ -56,7 +51,6 @@ function FloatButtonMess({ handleOnclick }) {
         console.error("SignalR Connection Error: ", error);
       }
     };
-
     startSignalRConnection();
 
     return () => {
@@ -66,9 +60,11 @@ function FloatButtonMess({ handleOnclick }) {
     };
   }, [tableId, cartSave, dispatch]);
 
+
   useEffect(() => {
     if (connection) {
       connection.on("ReceiveOrderNotification", (receivedTableId) => {});
+      
       return () => {
         connection.off("ReceiveOrderNotification");
       };
@@ -94,7 +90,7 @@ function FloatButtonMess({ handleOnclick }) {
   const today = new Date().toLocaleDateString("en-US");
   const columns = [
     {
-      title: "Product",
+      title: "Product Name",
       dataIndex: "productName",
       key: "productName",
     },
@@ -110,20 +106,21 @@ function FloatButtonMess({ handleOnclick }) {
       render: (price) => `${price.toLocaleString("vi-VN")} đ`,
     },
     {
-      title: "Ngày",
+      title: "Date",
       dataIndex: "datetime",
       key: "datetime",
       render: (createdAt) => new Date(createdAt).toLocaleString(),
     },
+    
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status, record) => {
         const statusMap = {
-          1: { text: "Hoàn Thành", color: "green" },
-          0: { text: "Đang xử lý", color: "yellow" },
-          [-1]: { text: "Chờ xử lý", color: "red" },
+          1: { text: "Done", color: "green" },
+          0: { text: "Process", color: "yellow" },
+          [-1]: { text: "Wait", color: "red" },
         };
         const { text, color } = statusMap[status] || {
           text: "Unknown",
@@ -132,6 +129,11 @@ function FloatButtonMess({ handleOnclick }) {
         return <Tag color={color}>{text}</Tag>;
       },
     },
+    // {
+    //   title: "STT",
+    //   dataIndex: "waitTime",
+    //   key: "waitTime",
+    // },
   ];
 
   return (
@@ -157,7 +159,7 @@ function FloatButtonMess({ handleOnclick }) {
         icon={<ShoppingCartOutlined />}
       />
       <Modal
-        title="Trạng thái đơn hàng"
+        title="Status Order"
         visible={isOrderModalVisible}
         onCancel={handleOrderModalClose}
         footer={null}
@@ -168,13 +170,13 @@ function FloatButtonMess({ handleOnclick }) {
           style={{ marginRight: "10px" }}
           type={showOnlyCompleted ? "primary" : "default"}
         >
-          Đơn hàng hôm nay
+         Order Now
         </Button>
         <Button
           onClick={handleShowAllOrders}
           type={!showOnlyCompleted ? "primary" : "default"}
         >
-          Đơn hàng đã mua
+         History Order
         </Button>
         <Table
           dataSource={
@@ -194,12 +196,12 @@ function FloatButtonMess({ handleOnclick }) {
         />
       </Modal>
       <Modal
-        title="Sản phẩm đã được hoàn thành vui lòng tới quầy để lấy"
+        title="Product Done"
         visible={showCompletionModal}
         onCancel={() => setShowCompletionModal(false)}
         footer={[
           <Button key="close" onClick={() => setShowCompletionModal(false)}>
-            Đóng
+            Close
           </Button>,
         ]}
       >
@@ -208,7 +210,7 @@ function FloatButtonMess({ handleOnclick }) {
             dataSource={product}
             columns={[
               {
-                title: "Product",
+                title: "product Name",
                 dataIndex: "productName",
                 key: "productName",
               },
@@ -223,8 +225,9 @@ function FloatButtonMess({ handleOnclick }) {
                 key: "price",
                 render: (price) => `${price.toLocaleString("vi-VN")} đ`,
               },
+             
             ]}
-            pagination={false}
+            pagination={true}
             rowKey="productSizeID"
           />
         )}

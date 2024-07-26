@@ -128,8 +128,8 @@ function ListTable() {
               <button 
                 style={{
                   border: 'none', 
-                  borderRadius: "0 6px 0 0",
-                  background: 'red', 
+                  background: 'red',
+                  borderRadius: '0px 5px 0px 0px', 
                   fontSize: '10px', 
                   cursor: 'pointer', 
                   color: 'white', 
@@ -143,7 +143,7 @@ function ListTable() {
                 X
               </button>
               <div className="status-container">
-                Bàn {table.tableName}:
+                {table.tableName}:
                 <span className={`status ${table.status}`}>
                   {table.status == 0 ? "Còn trống" : "Đã full"}
                 </span>

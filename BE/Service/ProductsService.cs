@@ -1,8 +1,8 @@
 ﻿using BE.Models;
 using Microsoft.EntityFrameworkCore;
-
 using Swp391.Repository;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Swp391.Service
 {
@@ -11,190 +11,136 @@ namespace Swp391.Service
         ProductRepo _repo = new ProductRepo();
 
         /// <summary>
-        /// lấy toàn bộ sản phẩm bằng service
+        /// Retrieves all products.
         /// </summary>
-
-        /// <returns>trả về toàn bộ sản phẩm</returns>
-        public List<Product> getAllprouct()
+        /// <returns>A list of all products.</returns>
+        public List<Product> GetAllProducts()
         {
             return _repo.getAllProduct();
         }
 
         /// <summary>
-        /// trả về 4 sản phẩm có giá rẻ nhất
+        /// Retrieves the four products with the lowest price.
         /// </summary>
-
-        /// <returns>trả về 4 sản phẩm</returns>
-
-        public List<Product> getFourProductMin()
+        /// <returns>A list of four products with the lowest price.</returns>
+        public List<Product> GetFourCheapestProducts()
         {
-            var listProuctMin = _repo.getAllProduct().OrderBy(product => product.Price).Take(4).ToList();
-            return listProuctMin;
-        }
-
-        public List<Product> getFourProductMax()
-        {
-            var listProuctMin = _repo.getAllProduct().OrderBy(product => product.Price).Take(4).ToList();
-            return listProuctMin;
+            return _repo.getAllProduct()
+                        .OrderBy(product => product.Price)
+                        .Take(4)
+                        .ToList();
         }
 
         /// <summary>
-        /// hàm trả về 4 sản phẩm mới nhất
+        /// Retrieves the four products with the highest price.
         /// </summary>
-
-        /// <returns>trả về 4 sản phẩm mới nhất</returns>
-
-        public List<Product> getFourProductNew()
+        /// <returns>A list of four products with the highest price.</returns>
+        public List<Product> GetFourMostExpensiveProducts()
         {
-            var listProuctMin = _repo.getAllProduct().OrderByDescending(product => product.ProductId).Take(4).ToList();
-            return listProuctMin;
+            return _repo.getAllProduct()
+                        .OrderByDescending(product => product.Price)
+                        .Take(4)
+                        .ToList();
         }
 
+        /// <summary>
+        /// Retrieves the four newest products.
+        /// </summary>
+        /// <returns>A list of four newest products.</returns>
+        public List<Product> GetFourNewestProducts()
+        {
+            return _repo.getAllProduct()
+                        .OrderByDescending(product => product.ProductId)
+                        .Take(4)
+                        .ToList();
+        }
 
         /// <summary>
-        /// trả về tổng số lượng sản phẩm
+        /// Retrieves the total count of products, divided by pages of size 4.
         /// </summary>
-
-        /// <returns>hàm trả về tổng số lượng sản phẩm</returns>
-        public List<int> getSizeCountProduct()
+        /// <returns>A list of integers representing the number of pages.</returns>
+        public List<int> GetSizeCountProduct()
         {
+            int count = (_repo.getAllProduct().Count + 3) / 4;
+            return Enumerable.Range(1, count).ToList();
+        }
 
-            List<int> size = new(); 
+        /// <summary>
+        /// Retrieves products for a specific page.
+        /// </summary>
+        /// <param name="page">The page number to retrieve products for.</param>
+        /// <returns>A list of products for the specified page.</returns>
+        public List<Product> GetProductByPage(int page)
+        {
+            return _repo.getAllProduct()
+                        .OrderBy(p => p.ProductId)
+                        .Skip((page - 1) * 4)
+                        .Take(4)
+                        .ToList();
+        }
 
-            int count = (_repo.getAllProduct().Count % 4 == 0) ? 
-                        (_repo.getAllProduct().Count / 4) : (_repo.getAllProduct().Count / 4 + 1);
-
-            for (int i = 1; i <= count; i++)
+        /// <summary>
+        /// Retrieves products sorted by a specific condition.
+        /// </summary>
+        /// <param name="condition">The sorting condition: 1 for ProductId, 2 for ProductName, 3 for descending Price, 4 for ascending Price.</param>
+        /// <returns>A list of products sorted by the specified condition.</returns>
+        public List<Product> GetProductByPageAndCondition(int condition)
+        {
+            return condition switch
             {
-                size.Add(i);
-            }
-            return size;
+                1 => _repo.getAllProduct().OrderBy(p => p.ProductId).ToList(),
+                2 => _repo.getAllProduct().OrderBy(p => p.ProductName).ToList(),
+                3 => _repo.getAllProduct().OrderByDescending(p => p.Price).ToList(),
+                4 => _repo.getAllProduct().OrderBy(p => p.Price).ToList(),
+                _ => new List<Product>()
+            };
         }
 
         /// <summary>
-        /// hàm trả về 4 sản phẩm liên tiếp theo theo chỉ số phân trang truyền vào
+        /// Searches for products by price range.
         /// </summary>
-
-        /// <returns>hàm trả về 4 sản phẩm liên tiếp theo theo chỉ số truyền vào</returns>
-        public List<Product> getProductByPage(int page)
-        {
-            var products = _repo.getAllProduct()
-                                    .OrderBy(p => p.ProductId) // Sắp xếp theo ProductID
-                                    .Skip((page - 1) * 4)                   // Bỏ qua x hàng đầu tiên
-                                    .Take(4)                   // Lấy 4 hàng kế tiếp
-                                    .ToList();
-            return products;
-        }
-
-        /// <summary>
-        /// hàm sort sản phẩm
-        /// </summary>
-
-        /// <returns>hàm trả về sản phẩm được sort theo tiêu chí</returns>
-        public List<Product> getProductByPageAndCondition(int condition)
-        {
-            List<Product> listProductWithCondition = new();
-
-            switch (condition)
-            {
-                case 1:
-                    {
-                        listProductWithCondition = _repo.getAllProduct()
-                                    .OrderBy(p => p.ProductId) // Sắp xếp theo ProductID
-                                    
-                                    .ToList();
-                        break;
-                    }
-                case 2:
-                    {
-                        listProductWithCondition = _repo.getAllProduct()
-                                    .OrderBy(p => p.ProductName) // Sắp xếp theo ProductID
-                                    
-                                    .ToList();
-                        break;
-                    }
-                case 3:
-                    {
-                        listProductWithCondition = _repo.getAllProduct()
-                                    .OrderByDescending(p => p.Price) // Sắp xếp theo ProductID
-                                    
-                                    .ToList();
-                        break;
-                    }
-                case 4:
-                    {
-                        listProductWithCondition = _repo.getAllProduct()
-                                    .OrderBy(p => p.Price) // Sắp xếp theo ProductID
-                                 
-                                    .ToList();
-                        break;
-                    }
-            }
-            
-            return listProductWithCondition;
-        }
-        /// <summary>
-        /// Tìm kiếm sản phẩm theo tên
-        /// </summary>
-        /// <param name="keyword">Tên sản phẩm hoặc một phần tên sản phẩm</param>
-        /// <returns>Danh sách sản phẩm khớp với từ khóa</returns>
-        
-
+        /// <param name="minPrice">The minimum price.</param>
+        /// <param name="maxPrice">The maximum price.</param>
+        /// <returns>A list of products within the specified price range.</returns>
         public List<Product> SearchProductsByPriceRange(double minPrice, double maxPrice)
         {
             return _repo.SearchProductsByPriceRange(minPrice, maxPrice);
         }
 
-        public List<Product> getProductByCategories(int categoriesID)
+        /// <summary>
+        /// Retrieves products by category ID.
+        /// </summary>
+        /// <param name="categoryID">The category ID to filter products by.</param>
+        /// <returns>A list of products belonging to the specified category.</returns>
+        public List<Product> GetProductByCategory(int categoryID)
         {
-            List<Product> listProductByCategory = _repo.getAllProduct().Where(p => p.CategoryId == categoriesID).ToList();
-            return listProductByCategory;
+            return _repo.getAllProduct().Where(p => p.CategoryId == categoryID).ToList();
         }
 
-        public List<Product> getProductByCategoryIDAndCondition(int categoriID, int condition)
+        /// <summary>
+        /// Retrieves products by category ID and sorted by a specific condition.
+        /// </summary>
+        /// <param name="categoryID">The category ID to filter products by.</param>
+        /// <param name="condition">The sorting condition: 1 for ProductId, 2 for ProductName, 3 for descending Price, 4 for ascending Price.</param>
+        /// <returns>A list of products filtered by category and sorted by the specified condition.</returns>
+        public List<Product> GetProductByCategoryIDAndCondition(int categoryID, int condition)
         {
-            List<Product> listProductByCategoryIDAndCondition = new List<Product>();
-
-            switch (condition)
+            return condition switch
             {
-                case 1:
-                    {
-                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderBy(p => p.ProductId) // Sắp xếp theo id
-
-                                    .ToList();
-                        break;
-                    }
-                case 2:
-                    {
-                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderBy(p => p.ProductName) // Sắp xếp theo name
-
-                                    .ToList();
-                        break;
-                    }
-                case 3:
-                    {
-                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderByDescending(p => p.Price) // Sắp xếp theo price giam dan
-
-                                    .ToList();
-                        break;
-                    }
-                case 4:
-                    {
-                        listProductByCategoryIDAndCondition = _repo.getAllProduct().Where(p => p.CategoryId == categoriID)
-                                    .OrderBy(p => p.Price) // Sắp xếp theo price tang dan
-
-                                    .ToList();
-                        break;
-                    }
-            }
-
-            return listProductByCategoryIDAndCondition;
+                1 => _repo.getAllProduct().Where(p => p.CategoryId == categoryID).OrderBy(p => p.ProductId).ToList(),
+                2 => _repo.getAllProduct().Where(p => p.CategoryId == categoryID).OrderBy(p => p.ProductName).ToList(),
+                3 => _repo.getAllProduct().Where(p => p.CategoryId == categoryID).OrderByDescending(p => p.Price).ToList(),
+                4 => _repo.getAllProduct().Where(p => p.CategoryId == categoryID).OrderBy(p => p.Price).ToList(),
+                _ => new List<Product>()
+            };
         }
 
-        public List<Product> getProductBySearch(string search)
+        /// <summary>
+        /// Searches for products by name.
+        /// </summary>
+        /// <param name="search">The search keyword for product names.</param>
+        /// <returns>A list of products that match the search keyword.</returns>
+        public List<Product> SearchProductsByName(string search)
         {
             return _repo.searchProductsByName(search);
         }

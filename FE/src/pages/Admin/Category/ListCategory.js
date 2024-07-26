@@ -3,18 +3,19 @@ import { Button, Space, Table, Tag, Input } from "antd";
 import { get, patch } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function ListCategory() {
-  const [Category, setCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [updated, setUpdated] = useState(false); // Add a state to trigger re-fetch
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get("http://localhost:5264/api/Category");
+        const data = await get(`${LOCALHOST_API}/api/Category`);
         console.log(data);
-        setCategory(data);
+        setCategories(data);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }
@@ -27,7 +28,7 @@ function ListCategory() {
     setSearchText(e.target.value);
   };
 
-  const filteredCategories = Category.filter(category =>
+  const filteredCategories = categories.filter(category =>
     category.categoryName.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -41,6 +42,8 @@ function ListCategory() {
       title: "Category Name",
       dataIndex: "categoryName",
       key: "categoryName",
+      sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
+      sortDirections: ["ascend", "descend"],
     },
     {
       title: "isDelete",
@@ -51,6 +54,11 @@ function ListCategory() {
           {isDelete ? "Deleted" : "Active"}
         </Tag>
       ),
+      filters: [
+        { text: "Active", value: false },
+        { text: "Deleted", value: true },
+      ],
+      onFilter: (value, record) => record.isDelete === value,
     },
     {
       title: "Actions",
@@ -114,8 +122,7 @@ function ListCategory() {
         placeholder="Search Category"
         value={searchText}
         onChange={handleSearch}
-        style={{ width: 800, height: 30,  marginBottom: 20 }}
-        
+        style={{ width: 800, height: 30, marginBottom: 20 }}
       />
       <Table columns={columns} dataSource={filteredCategories} rowKey="categoryId" />
     </>

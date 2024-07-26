@@ -66,5 +66,15 @@ namespace Swp391.Service
         public Account UpdateAccountV2(Account account) {
             return _accountRepo.UpdateAccountV2(account);
         }
+
+        public void DeletePassword(int accountId)
+        {
+            _accountRepo.DeletePassword(accountId);
+        }
+        public void UpdatePassword(int accountId, string newPassword)
+        {
+            _accountRepo.UpdatePassword(accountId, newPassword);
+        }
+
     }
 }

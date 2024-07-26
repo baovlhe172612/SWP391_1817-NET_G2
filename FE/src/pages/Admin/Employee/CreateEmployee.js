@@ -6,6 +6,7 @@ import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { CREATE_ACCOUNT_EMPLOYEE, GET_ALL_ACCOUNTS, LIST_STORES, UPDATE_ACCOUNT_ID } from '../../../helpers/APILinks';
+import CryptoJS from 'crypto-js';
 function CreateEmployee() {
     const [form] = Form.useForm();
     const account = useSelector(state => state.AccountReducer);
@@ -20,6 +21,7 @@ function CreateEmployee() {
         } else {
             values.status = 0;
         }
+        values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
         try {
             const response = await post(CREATE_ACCOUNT_EMPLOYEE, values);
             console.log("response: ",response)
@@ -182,22 +184,22 @@ function CreateEmployee() {
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    label="CCCD"
+                    label="Citizens ID"
                     name="cccd"
                     rules={[
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value) {
-                                    return Promise.reject('Please input your CCCD number!');
+                                    return Promise.reject('Please input your Citizens ID number!');
                                 }
                                 if (!/^\d{12}$/.test(value)) {
-                                    return Promise.reject('CCCD number must be 12 digits!');
+                                    return Promise.reject('Citizens ID number must be 12 digits!');
                                 }
                                 if (!/^0\d{11}$/.test(value)) {
-                                    return Promise.reject('CCCD number must begin with 0!');
+                                    return Promise.reject('Citizens ID number must begin with 0!');
                                 }
                                 if (Accounts.some((account) => account.cccd === value)) {
-                                    return Promise.reject('CCCD already exists');
+                                    return Promise.reject('Citizens ID already exists');
                                 }
                                 return Promise.resolve();
                             },

@@ -98,7 +98,7 @@ function Cart() {
       try {
         const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
         const responseData = response;
-        message.success('Hãy Tiếp Tục Theo Các Bước!');
+        message.success('Đã mua hàng thành công!');
       } catch (error) {
         console.log('Error sending data:', error);
         message.error('Mua hàng không thành công!!!!');

@@ -20,7 +20,6 @@ public partial class OrderDetail
 
     public virtual Order Order { get; set; } = null!;
 
-
     [JsonIgnore]
     public virtual ProductSize ProductSize { get; set; } = null!;
 }

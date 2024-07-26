@@ -3,7 +3,7 @@ import { Button, message } from "antd";
 import { DeleteOutlined } from '@ant-design/icons';
 import { put } from "../../../helpers/API.helper";
 import Swal from "sweetalert2";
-import { UPDATE_Employee_ID } from "../../../helpers/APILinks";
+import { LOCALHOST_API, UPDATE_Employee_ID } from "../../../helpers/APILinks";
 
 function UpdateIsDelete({ record, onReload }) {
   // console.log("Record in UpdateIsDelete:", record);
@@ -27,24 +27,24 @@ function UpdateIsDelete({ record, onReload }) {
 
       if (confirm.isConfirmed) {
         // Perform update of IsDelete status in the database
-        const response = await put(`http://localhost:5264/api/ProductSizes/delete/${record.productSizeID}?delete=1`);
+        const response = await put(`${LOCALHOST_API}/api/ProductSizes/delete/${record.productSizeID}?delete=1`);
         console.log("Response from update API:", response);
         if (response.ok) {
           // Notify success
           Swal.fire({
             title: "Deleted!",
-            text: "Your account has been deleted.",
+            text: "Your product has been deleted.",
             icon: "success",
           });
           console.log("Response from update API khi ok:", response);
           // Call onReload to refresh data
           onReload();
         } else {
-          throw new Error('Failed to update account IsDelete');
+          throw new Error('Failed to update product IsDelete');
         }
       }
     } catch (error) {
-      message.error(`Failed to update account IsDelete: ${error.message}`);
+      message.error(`Failed to update product IsDelete: ${error.message}`);
       console.error("Error in UpdateIsDelete:", error);
     }
   };

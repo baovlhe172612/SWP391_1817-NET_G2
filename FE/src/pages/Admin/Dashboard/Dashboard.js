@@ -13,6 +13,7 @@ import { get } from "../../../helpers/API.helper";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { DoubleRightOutlined } from "@ant-design/icons";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const { RangePicker } = DatePicker;
@@ -35,9 +36,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get("http://localhost:5264/api/Order/daily-revenue");
+        data = await get(`${LOCALHOST_API}/api/Order/daily-revenue`);
       } else if (isManager) {
-        data = await get(`http://localhost:5264/api/Order/daily-revenue/${account.storeId}`);
+        data = await get(`${LOCALHOST_API}/api/Order/daily-revenue/${account.storeId}`);
       }
       setRevenue(data);
       if (viewBy === "day") {
@@ -53,9 +54,9 @@ function Dashboard() {
     try {
       let data;
       if (isOwner) {
-        data = await get("http://localhost:5264/api/Order/month-revenue");
+        data = await get(`${LOCALHOST_API}/api/Order/month-revenue`);
       } else if (isManager) {
-        data = await get(`http://localhost:5264/api/Order/month-revenue/${account.storeId}`);
+        data = await get(`${LOCALHOST_API}/api/Order/month-revenue/${account.storeId}`);
       }
       setMonthRevenue(data);
       if (viewBy === "month") {

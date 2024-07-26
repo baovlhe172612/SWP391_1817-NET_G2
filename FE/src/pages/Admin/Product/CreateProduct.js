@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button } from "antd";
 import { get, post } from "../../../helpers/API.helper";
-import { CREATE_PRODUCT } from "../../../helpers/APILinks";
+import { CREATE_PRODUCT, LOCALHOST_API } from "../../../helpers/APILinks";
 import { UploadOutlined } from "@ant-design/icons";
 const { Option } = Select;
 function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
@@ -11,12 +11,11 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [sizePrices, setSizePrices] = useState({});
   const [stores, setStores] = useState([]);
   const [category, setCategory] = useState([]);
-  const [imageFile, setImageFile] = useState(null);
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const dataStores = await get("http://localhost:5264/api/stores");
-        const dataCategories = await get("http://localhost:5264/api/Category");
+        const dataStores = await get(`${LOCALHOST_API}/api/stores`);
+        const dataCategories = await get(`${LOCALHOST_API}/api/Category`);
         setStores(dataStores);
         setCategory(dataCategories);
       } catch (error) {
@@ -35,11 +34,9 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
       quantity: sizeQuantities[size] || 0,
       price: sizePrices[size] || 0,
     }));
-
     values.sizes = sizesArray;
     values.isDelete = 0;
     values.status = values.status ? 1 : 0;
-    values.img = imageFile; 
     console.log(values);
     
     try {
@@ -74,9 +71,6 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
     });
   };
 
-  const handleImageUpload = (info) => {
-    setImageFile(info.file.originFileObj); // Store the uploaded file object
-  };
 
   return (
     <Modal
@@ -114,25 +108,25 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
             placeholder="Input price"
             style={{ width: "100%" }}
           />
-        </Form.Item>
-        
+        </Form.Item>       
         <Form.Item
           name="category"
           label="Category"
+          key="category"
           rules={[{ required: true, message: "Please input category!" }]}
         >
           <Select placeholder="Select your category">
             {category.map((category) => (
-              <Option key={category.categoryId} value={category.categoryId}>
+              <Option className="category" id="category" key={category.categoryId} value={category.categoryId}>
                 {category.categoryName}
               </Option>
             ))}
           </Select>
         </Form.Item>
-
         <Form.Item
           name="sizes"
           label="Sizes"
+          key="sizes"
           rules={[{ required: true, message: "Please select at least one size!" }]}
         >
           <Select
@@ -178,13 +172,8 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           name="img"
           rules={[{ required: true, message: "Please upload an image!" }]}
         >
-          <Upload
-            beforeUpload={() => false} // Disable default upload behavior
-            onChange={handleImageUpload} // Handle file change
-            maxCount={1} // Allow only one file
-          >
-            <Button icon={<UploadOutlined />}>Upload Image</Button>
-          </Upload>
+          
+            <Input/>
         </Form.Item>
 
         <Form.Item
@@ -213,8 +202,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
             unCheckedChildren="Inactive"
             defaultChecked
           />
-        </Form.Item>     
-
+        </Form.Item>                
       </Form>
     </Modal>
   );

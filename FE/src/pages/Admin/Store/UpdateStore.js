@@ -5,6 +5,7 @@ import { useParams,Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 const { Option } = Select;
 
 function UpdateStore() {
@@ -15,7 +16,7 @@ function UpdateStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`http://localhost:5264/api/stores/${id}`);
+        const data = await get(`${LOCALHOST_API}/api/stores/${id}`);
         // const dataAccount = await get(`${LIST_ACCOUNT}`);
         // Dùng phương thức setFieldsValue để khởi tạo giá trị ban đầu cho Form
         form.setFieldsValue({
@@ -23,6 +24,7 @@ function UpdateStore() {
           storeName: data.storeName,
           location: data.location,           
           isDelete: data.isDelete === 1,
+          status: data.status,
         });  
         setStore(data);       
       } catch (error) {
@@ -36,9 +38,10 @@ function UpdateStore() {
 
   const handleSubmit = async (values) => {    
     // sửa lại biến switch cho isDeleted
-    values.isDelete = values.isDelete ? 1 : 0;
+    values.isDelete = 0
+    values.status = values.status ? 1 : 0;
     console.log(values);
-    const data = await patch(`http://localhost:5264/api/stores/Update/${id}`, values);   
+    const data = await patch(`${LOCALHOST_API}/api/stores/Update/${id}`, values);   
     if(data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
@@ -88,8 +91,8 @@ function UpdateStore() {
           <Input />
         </Form.Item>
       
-        <Form.Item name="isDelete" label="Switch" valuePropName="checked">
-          <Switch checkedChildren="inactive" unCheckedChildren="active"/>
+        <Form.Item name="status" label="Switch" valuePropName="checked">
+          <Switch checkedChildren="active" unCheckedChildren="Inactive"/>
         </Form.Item>
 
         <Form.Item>

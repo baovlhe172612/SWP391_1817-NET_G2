@@ -1,4 +1,4 @@
-import { ADD_TO_SAVED_CART, CLEAR_SAVED_CART, UPDATE_STATUS } from "../actions/DataSaveCartAction";
+import { ADD_TO_SAVED_CART, CLEAR_SAVED_CART, UPDATE_STATUS ,ADD_STT} from "../actions/DataSaveCartAction";
 
 const getInitialSavedCartState = () => {
     try {
@@ -45,25 +45,51 @@ const dataSaveCartReducer = (state = getInitialSavedCartState(), action) => {
                 // Convert datetime to a comparable format (e.g., ISO 8601)
                 const itemDatetime = formatDateTime(item.datetime);
                 const actionDatetime = formatDateTime(datetime);
-                console.log(itemDatetime)
-                console.log(actionDatetime)
                 // Compare datetime values with millisecond precision
                 if (item.productSizeID == productSizeId && itemDatetime == actionDatetime) {
-                  console.log('update1');
+                  // console.log('update1');
                     return { ...item, status: newStatus };   
                 }
                 return item;
             });
-        
+            
             try {
                 localStorage.setItem('savedCart', JSON.stringify(updatedCart));
-                console.log('Updated cart status in localStorage');
+                // console.log('Updated cart status in localStorage');
             } catch (e) {
-                console.error('Failed to update cart status in localStorage', e);
+            //     console.error('Failed to update cart status in localStorage', e);
             }
             
             return updatedCart;
-        }
+          }
+            case ADD_STT: {
+              const { STT } = action.payload;
+              console.log(state)
+              console.log(STT)
+              const updatedCart = state.map(item => {
+                // Convert datetime to a comparable format (e.g., ISO 8601)
+                const itemDatetime = formatDateTime(item.datetime);           
+                // Check if there's a matching STT and update waitTime if found
+                const matchingSTT = STT.find(stt => {
+                  const actionDatetime = formatDateTime(stt.date);
+                  return item.productSizeID == stt.productSizeId && itemDatetime == actionDatetime;
+                });
+                if (matchingSTT) {                
+                  return { ...item, waitTime: matchingSTT.waitTime };
+                }    
+                return item;
+              });
+            
+              try {
+                localStorage.setItem('savedCart', JSON.stringify(updatedCart));
+                // console.log('Updated cart status in localStorage');
+              } catch (e) {
+                // console.error('Failed to update cart status in localStorage', e);
+              }
+            
+              return updatedCart;
+            }
+            
         
           default:
             return state;

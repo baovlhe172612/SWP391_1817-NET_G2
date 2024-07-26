@@ -28,10 +28,10 @@ const CheckPayment = ({ totalMoney, txt, dataToSend, value, note }) => {
             try {
                 const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
                 const responseData = response;
-                message.success('Đã mua hàng thành công!');
+                // message.success('Đã mua hàng thành công!');
             } catch (error) {
                 // console.log('Error sending data:', error);
-                message.error('Mua hàng không thành công!!!!');
+                // message.error('Mua hàng không thành công!!!!');
             }
         }
 
@@ -50,7 +50,7 @@ const CheckPayment = ({ totalMoney, txt, dataToSend, value, note }) => {
                     console.log({item})
 
                     if (item["Mô tả"].includes(txt)) {
-                        console.log("checkkkkkkkkkkkkkkkkkkkkkkkkkkk: " + item["Mô tả"].includes(txt));
+                        //console.log("checkkkkkkkkkkkkkkkkkkkkkkkkkkk: " + item["Mô tả"].includes(txt));
                         if (item["Giá trị"] === totalMoney) {
                             setPaidLoad(1);
                             Swal.fire({
@@ -61,7 +61,6 @@ const CheckPayment = ({ totalMoney, txt, dataToSend, value, note }) => {
                             // alert("Thanh toán thành công !!!!")
                             if (dataToSend.length > 0) {
                                 let checkPay = getCookie('checkPay');
-
                                 if(checkPay) {
                                     deleteCookie("checkPay")
                                 } else {

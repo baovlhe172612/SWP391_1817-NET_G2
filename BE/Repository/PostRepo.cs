@@ -45,7 +45,9 @@ namespace Swp391.Repository
         public void AddPost(Post p)
         {
             SwpfinalContext _context = new SwpfinalContext();
-
+            List<Post> posts = new List<Post>();
+            posts = _context.Posts.ToList();
+            p.PostId= posts.Count +1 ;
             _context.Posts.Add(p);
             _context.SaveChanges();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BE.Models;
 
@@ -20,7 +21,7 @@ public partial class Order
     public string? Note { get; set; }
 
     public double Total { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Payment? Payment { get; set; }

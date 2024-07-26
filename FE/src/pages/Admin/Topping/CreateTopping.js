@@ -14,7 +14,6 @@ function CreateTopping() {
     };
   return (
     <>
-    <h2>Create Store</h2>
 
     <Form
         name="create-topping"

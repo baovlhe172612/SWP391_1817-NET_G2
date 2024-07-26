@@ -1,11 +1,10 @@
 import React,{ useEffect, useState } from 'react'
-import { Button, Form, Input, Select, Space, Switch,message } from "antd";
+import { Button, Form, Input, Select, Space, Switch, message } from "antd";
 import { post } from '../../../helpers/API.helper';
 import { get } from "../../../helpers/API.helper";
 import { useNavigate } from "react-router-dom";
 import { CREATE_ACCOUNT_MANAGER, GET_ALL_ACCOUNTS, LIST_ACCOUNT_MANAGERS, LIST_STORES } from '../../../helpers/APILinks';
 import CryptoJS from 'crypto-js';
-
 function CreateStoreManager() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -19,17 +18,14 @@ function CreateStoreManager() {
       } else{   
         values.status = 0;
       }
-      // md5
       values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
-
-      console.log(values)
       try {
         const response = await post(`${CREATE_ACCOUNT_MANAGER}`, values);      
         // Kiểm tra giá trị trả về từ API
         if (response) {
           form.resetFields();
           message.success('Account created successfully!');
-          navigate(`/admin/manager-store/`);  
+          navigate(`/admin/managerStore/`);  
           // Thực hiện các hành động khác nếu cần
         }
       } catch (error) {
@@ -184,26 +180,46 @@ function CreateStoreManager() {
               <Form.Item
                   label="Address"
                   name="address"
+                  rules={[
+                    {
+                        required: true,
+                        message: 'Please input your address!',
+                    },
+                    {
+                        validator(_, value) {
+                            // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
+                            const fullNameRegex = /^[0-9a-zA-Z\s'-]{2,}$/;
+                            if (!value) {
+                                return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                            }
+                            if (!fullNameRegex.test(value)) {
+                                return Promise.reject('address must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ]}              
               >
                   <Input />
               </Form.Item>
+
               <Form.Item
-                  label="CCCD"
+                  label="Citizens ID"
                   name="cccd"
                   rules={[
                     ({ getFieldValue }) => ({
                       validator(_, value) {
                         if (!value) {
-                          return Promise.reject('Please input your CCCD number!');
+                          return Promise.reject('Please input your Citizens ID number!');
                         }                           
                         if (!/^\d{12}$/.test(value)) {
-                          return Promise.reject('CCCD number must be 12 digits!');
+                          return Promise.reject('Citizens ID number must be 12 digits!');
                         }
                         if (!/^0\d{11}$/.test(value)) {
-                          return Promise.reject('CCCD number must begin with 0!');
+                          return Promise.reject('Citizens ID number must begin with 0!');
                         }
                         if(Accounts.some((account)=>account.cccd === value)){
-                          return Promise.reject('CCCD already exists');
+                          return Promise.reject('Citizens ID already exists');
                         }                
                         return Promise.resolve();
                       },

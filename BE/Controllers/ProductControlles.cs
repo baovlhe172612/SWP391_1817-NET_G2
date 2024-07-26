@@ -17,7 +17,7 @@ namespace Swp391.Controllers
         [HttpGet]
         public IActionResult getAllProduct()
         {
-            return Ok(_service.getAllprouct());
+            return Ok(_service.GetAllProducts);
         }
 
         
@@ -30,7 +30,7 @@ namespace Swp391.Controllers
         public IActionResult GetListProductByCategoryIDAndCondition(int categoriID, int condition)
         {
             List<Product> listProductByCategoriesAndCondition
-                = _service.getProductByCategoryIDAndCondition(categoriID, condition);
+                = _service.GetProductByCategoryIDAndCondition(categoriID, condition);
 
             if (listProductByCategoriesAndCondition != null 
                     && listProductByCategoriesAndCondition.Count != 0)

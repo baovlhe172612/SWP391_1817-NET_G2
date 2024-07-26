@@ -201,12 +201,12 @@ function Profile() {
                 {/* Form Group (cccd) */}
                 <Col span={12}>
                   <Item
-                    label={<span className="fixed-width-label">CCCD</span>}
+                    label={<span className="fixed-width-label">Citizens ID</span>}
                     name="cccd"
                     initialValue={account.cccd}
                     rules={commonRules("CCCD")}
                   >
-                    <Input placeholder="Enter your CCCD" />
+                    <Input placeholder="Citizens ID" />
                   </Item>
                 </Col>
               </Row>

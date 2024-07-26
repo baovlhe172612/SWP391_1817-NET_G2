@@ -3,6 +3,7 @@ import { get, post } from "../../../helpers/API.helper";
 import "./Blog.css";
 import { Button, Col, Input, Row } from "antd";
 import { Link } from "react-router-dom";
+import { LOCALHOST_API } from "../../../helpers/APILinks";
 
 function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -14,7 +15,7 @@ function Blog() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get("http://172.20.10.5:5264/api/Post");
+      const data = await get(`${LOCALHOST_API}/api/Post`);
       setBlogs(data);
     };
     fetchApi();
@@ -49,176 +50,7 @@ function Blog() {
         <div className="blog-area section-space-y-axis-100">
           <div className="container">
             <div className="row">
-              <div className="col-xl-3 col-lg-4 order-2 pt-5 pt-lg-0">
-                <div className="sidebar-area">
-                  <div className="widgets-searchbox">
-                    <form id="widgets-searchbox">
-                      <input
-                        className="input-field"
-                        type="text"
-                        placeholder="Search"
-                      />
-                      <button className="widgets-searchbox-btn" type="submit">
-                        <i className="fa fa-search"></i>
-                      </button>
-                    </form>
-                  </div>
-                  <div className="widgets-area">
-                    <div className="widgets-item pt-0">
-                      <h2 className="widgets-title mb-4">Categories</h2>
-                      <ul className="widgets-category">
-                        <li>
-                          <a href="#">
-                            <i className="fa fa-chevron-right"></i>
-                            All <span>(65)</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i className="fa fa-chevron-right"></i>
-                            Trà sữa <span>(12)</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i className="fa fa-chevron-right"></i>
-                            Cà Phê <span>(22)</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i className="fa fa-chevron-right"></i>
-                            Nước ép <span>(19)</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="widgets-item">
-                      <h2 className="widgets-title mb-4">Recent Post</h2>
-                      <div className="swiper-container widgets-list-slider">
-                        <div className="swiper-wrapper">
-                          <div className="swiper-slide">
-                            <div className="widgets-list-item">
-                              <div className="widgets-list-img">
-                                <a href="#">
-                                  <img
-                                    className="img-full"
-                                    src="assets/images/blog/small-size/1-1-70x70.png"
-                                    alt="Blog Images"
-                                  />
-                                </a>
-                              </div>
-                              <div className="widgets-list-content">
-                                <div className="widgets-meta">
-                                  <ul>
-                                    <li className="date">24 April 2021</li>
-                                  </ul>
-                                </div>
-                                <h2 className="title mb-0">
-                                  <a href="#">Lorem ipsum dolo conse tetur.</a>
-                                </h2>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="widgets-list-item">
-                              <div className="widgets-list-img">
-                                <a href="#">
-                                  <img
-                                    className="img-full"
-                                    src="assets/images/blog/small-size/1-2-70x70.png"
-                                    alt="Blog Images"
-                                  />
-                                </a>
-                              </div>
-                              <div className="widgets-list-content">
-                                <div className="widgets-meta">
-                                  <ul>
-                                    <li className="date">24 April 2021</li>
-                                  </ul>
-                                </div>
-                                <h2 className="title mb-0">
-                                  <a href="#">Lorem ipsum dolo conse tetur.</a>
-                                </h2>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="widgets-list-item">
-                              <div className="widgets-list-img">
-                                <a href="#">
-                                  <img
-                                    className="img-full"
-                                    src="assets/images/blog/small-size/1-3-70x70.png"
-                                    alt="Blog Images"
-                                  />
-                                </a>
-                              </div>
-                              <div className="widgets-list-content">
-                                <div className="widgets-meta">
-                                  <ul>
-                                    <li className="date">24 April 2021</li>
-                                  </ul>
-                                </div>
-                                <h2 className="title mb-0">
-                                  <a href="#">Lorem ipsum dolo conse tetur.</a>
-                                </h2>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide without-border">
-                            <div className="widgets-list-item">
-                              <div className="widgets-list-img">
-                                <a href="#">
-                                  <img
-                                    className="img-full"
-                                    src="assets/images/blog/small-size/1-1-70x70.png"
-                                    alt="Blog Images"
-                                  />
-                                </a>
-                              </div>
-                              <div className="widgets-list-content">
-                                <div className="widgets-meta">
-                                  <ul>
-                                    <li className="date">24 April 2021</li>
-                                  </ul>
-                                </div>
-                                <h2 className="title mb-0">
-                                  <a href="#">Lorem ipsum dolo conse tetur.</a>
-                                </h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="widgets-item">
-                      <h2 className="widgets-title mb-4">Đồ uống phổ biến</h2>
-                      <ul className="widgets-tag">
-                        <li>
-                          <a href="#">Fashion</a>
-                        </li>
-                        <li>
-                          <a href="#">Organic</a>
-                        </li>
-                        <li>
-                          <a href="#">Old Fashion</a>
-                        </li>
-                        <li>
-                          <a href="#">Men</a>
-                        </li>
-                        <li>
-                          <a href="#">Fashion</a>
-                        </li>
-                        <li>
-                          <a href="#">Dress</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              
               <div className="col-xl-9 col-lg-8 order-1">
                 <div className="blog-item-wrap row g-y-30">
                   {blogs.map((item, index) => (
@@ -238,7 +70,7 @@ function Blog() {
                           </div>
                           <div>
                             <h2 className="title" key={item.postId}>
-                              <Link to={`/blog-detail/${item.postId}`}>
+                              <Link to={`/blog/${item.postId}`}>
                                 {item.title}
                               </Link>
                             </h2>
@@ -254,7 +86,7 @@ function Blog() {
                             />
                           </a>
                           <div className="inner-btn-wrap">
-                            <a className="inner-btn" href="blog-detail.html">
+                            <a className="inner-btn" href="#">
                               <i className="pe-7s-link"></i>
                             </a>
                           </div>

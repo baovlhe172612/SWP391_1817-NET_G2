@@ -54,18 +54,34 @@ function CreateCategory() {
     }
   };
 
+  const validateCategoryName = (rule, value) => {
+    if (!value) {
+      return Promise.reject("Please input your name category!");
+    }
+    if (/^[\s\d~`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(value.charAt(0))) {
+      return Promise.reject("Category name should not start with a space, number, or special character.");
+    }
+    if (/\s{2,}/.test(value)) {
+      return Promise.reject("Category name should not contain multiple spaces.");
+    }
+    if (/[0-9~`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) {
+      return Promise.reject("Category name should not contain special characters or numbers.");
+    }
+    return Promise.resolve();
+  };
+
   return (
     <>
       <h2>Create Category</h2>
 
       <Form name="create-category" onFinish={handleSubmit} form={form}>
         <Form.Item
-          label="Store name"
+          label="Category name"
           name="storeName"
           rules={[
             {
               required: true,
-              message: "Please input your name category!",
+              validator: validateCategoryName,
             },
           ]}
         >

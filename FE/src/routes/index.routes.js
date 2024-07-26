@@ -45,6 +45,9 @@ import MostSoldProducts from "../pages/Admin/Dashboard/MostSoldProducts";
 import UpdateCategory from "../pages/Admin/Category/UpdateCategory";
 import UpdateBlog from "../pages/Client/Blog/UpdateBlog";
 import ProcessOrder from "../pages/Admin/ProcessOrder/ProcessOrder";
+import ForgotPassword from "../components/Admin/Accounts/ForgotPassword/ForgotPassword";
+import ConfirmOTP from "../components/Admin/Accounts/ForgotPassword/ConfirmOTP";
+import ChangePassword from "../components/Admin/Accounts/ForgotPassword/ChangePassword";
 const routes = [
   {
     path: "/",
@@ -83,6 +86,10 @@ const routes = [
         element: <ProductDetail />,
       },
       {
+        path: "/blog/:id",
+        element: <BlogDetail />,
+      },
+      {
         path: "404err",
         element: <NotFound />,
       },
@@ -99,6 +106,18 @@ const routes = [
       {
         path: "/admin/login",
         element: <Login />,
+      },
+      {
+        path: "/admin/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/admin/confirm-otp",
+        element: <ConfirmOTP />,
+      },
+      {
+        path: "/admin/change-password",
+        element: <ChangePassword />,
       },
       {
         path: "/admin/register",
@@ -231,9 +250,10 @@ const routes = [
                     element: <ListProductAdmin />,
                   },
                   {
-                    path: "edit/:id",
+                    path: "/admin/product/edit/:id",
                     element: <UpdateProduct />,
-                  },               
+                  },
+                         
                 ],
               },
               {
@@ -323,6 +343,10 @@ const routes = [
                   {
                     path: "/admin/blogs/create",
                     element: <CreateBlog />,
+                  },
+                  {
+                    path: "/admin/blogs/edit/:id",
+                    element: <UpdateBlog />,
                   },
                 ],
               },            
