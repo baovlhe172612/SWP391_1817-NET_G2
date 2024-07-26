@@ -1,8 +1,8 @@
-import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
+import { Button, Form, Input, Switch, Select } from "antd";
 import { useEffect, useState } from "react";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { get, post } from "../../../helpers/API.helper";
-import { CREATE_STORE, STORES_DTOS } from "../../../helpers/APILinks";
+import { CREATE_STORE } from "../../../helpers/APILinks";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
 import { siderActions } from "../../../actions/Sider.action";
@@ -15,20 +15,24 @@ function CreateStore() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values) => {
-    // console.log(values);
-    // sửa lại trường cho accountId sang INT
-    // values.accountId = parseInt(values.accountId);
+  const handleSubmit = async () => {
+    let values = form.getFieldsValue();
+
+    // Trim tất cả các giá trị đầu vào
+    for (let key in values) {
+      if (typeof values[key] === 'string') {
+        values[key] = values[key].trim();
+      }
+    }
 
     // sửa lại trường isDelete => từ true => 1 và ngược lại
     values.status = values.status ? 1 : 0;
-
     values.isDelete = 0;
 
     console.log(values);
     const dataUpdate = await post(CREATE_STORE, values);
 
-    console.log(dataUpdate)
+    console.log(dataUpdate);
 
     if (dataUpdate) {
       // thông báo ra hoàn thành tạo
@@ -40,18 +44,15 @@ function CreateStore() {
       dispatch(siderActions({
         selectedKey: ["listStore"],
         openKey: ["Store"]
-      }))
+      }));
 
       // chuyển hướng đến listore
-      navigate(`/admin/store/`)
-      // navigate(`/admin/store/create`);
+      navigate(`/admin/store/`);
     }
   };
 
   return (
     <>
-      <h2 style={{ fontWeight: "500", margin: "10px 0 20px 3%" }}>Create Store</h2>
-
       <Form
         layout="horizontal"
         name="create-room"
@@ -61,15 +62,18 @@ function CreateStore() {
         wrapperCol={{ span: 14 }}
       >
         <Form.Item
-          label="Strore name"
+          label="Store name"
           name="storeName"
           rules={[
             {
               required: true,
-              message: "Please input your name store!",
+              message: "Please input your store name!",
             },
+            {
+              validator: (_, value) => 
+                value && value.trim().length > 0 ? Promise.resolve() : Promise.reject('Store name must be at least 1 character long!')
+            }
           ]}
-          // style={{ minWidth: "40px" }}
         >
           <Input />
         </Form.Item>
@@ -80,8 +84,12 @@ function CreateStore() {
           rules={[
             {
               required: true,
-              message: "Please input the address store!",
+              message: "Please input the store address!",
             },
+            {
+              validator: (_, value) => 
+                value && value.trim().length > 0 ? Promise.resolve() : Promise.reject('Store name must be at least 1 character long!')
+            }
           ]}
         >
           <Input />
@@ -94,8 +102,8 @@ function CreateStore() {
           initialValue={true}
         >
           <Switch
-            checkedChildren="active"
-            unCheckedChildren="InActive"
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
             defaultChecked
           />
         </Form.Item>

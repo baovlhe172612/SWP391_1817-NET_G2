@@ -104,7 +104,7 @@ function FloatButtonMess({ handleOnclick }) {
       render: (price) => `${price.toLocaleString("vi-VN")} đ`,
     },
     {
-      title: "Ngày",
+      title: "Date",
       dataIndex: "datetime",
       key: "datetime",
       render: (createdAt) => new Date(createdAt).toLocaleString(),
@@ -115,9 +115,9 @@ function FloatButtonMess({ handleOnclick }) {
       key: "status",
       render: (status, record) => {
         const statusMap = {
-          1: { text: "Hoàn Thành", color: "green" },
-          0: { text: "Đang xử lý", color: "yellow" },
-          [-1]: { text: "Chờ xử lý", color: "red" },
+        1: { text: "Done", color: "green" },
+          0: { text: "Process", color: "yellow" },
+          [-1]: { text: "Pending", color: "red" },
         };
         const { text, color } = statusMap[status] || {
           text: "Unknown",
@@ -151,7 +151,7 @@ function FloatButtonMess({ handleOnclick }) {
         icon={<ShoppingCartOutlined />}
       />
       <Modal
-        title="Trạng thái đơn hàng"
+        title="Orders Status"
         visible={isOrderModalVisible}
         onCancel={handleOrderModalClose}
         footer={null}
@@ -162,13 +162,13 @@ function FloatButtonMess({ handleOnclick }) {
           style={{ marginRight: "10px" }}
           type={showOnlyCompleted ? "primary" : "default"}
         >
-          Đơn hàng hôm nay
+          Orders Today
         </Button>
         <Button
           onClick={handleShowAllOrders}
           type={!showOnlyCompleted ? "primary" : "default"}
         >
-          Đơn hàng đã mua
+          Ordered
         </Button>
         <Table
           dataSource={
@@ -188,7 +188,7 @@ function FloatButtonMess({ handleOnclick }) {
         />
       </Modal>
       <Modal
-        title="Sản phẩm đã được hoàn thành vui lòng tới quầy để lấy"
+        title="The product has been completed, please come to the counter to pick it up"
         visible={showCompletionModal}
         onCancel={() => setShowCompletionModal(false)}
         footer={[

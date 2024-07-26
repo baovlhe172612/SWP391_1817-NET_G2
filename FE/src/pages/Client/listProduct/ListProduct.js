@@ -1,13 +1,13 @@
-
 import React, { useEffect, useState } from "react";
 import Product from "../../../components/Client/Product/Product";
 import { get } from "../../../helpers/API.helper";
-import { setCookie } from '../../../helpers/Cookie.helper';
-import { Col, Row } from "antd";
+import { setCookie } from "../../../helpers/Cookie.helper";
+import { Col, Flex, Row } from "antd";
 import MenuCategory from "../../../components/Client/Category/MenuCategory";
 import { useLocation, useParams } from "react-router-dom";
 import { API_CATEGORY, LIST_PRODUCT_SIZE } from "../../../helpers/APILinks";
-import { Pagination } from 'antd';
+import { Pagination } from "antd";
+import Sort from "./Sort";
 
 function ListProduct() {
   const [products, setProducts] = useState([]);
@@ -18,24 +18,20 @@ function ListProduct() {
   const [conditionSort, setCondition] = useState(null);
   const { tableId, storeId } = useParams();
 
-
-
-
   if (tableId || storeId) {
-    setCookie('tableId', tableId, 1);
-    setCookie('storeId', storeId, 1);
+    setCookie("tableId", tableId, 1);
+    setCookie("storeId", storeId, 1);
   }
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   //const searchQuery = searchParams.get('search');
-  const searchByCategoryID = searchParams.get('categoryId');
+  const searchByCategoryID = searchParams.get("categoryId");
 
   useEffect(() => {
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       const fetchApi = async () => {
         const data = await get(`
-          ${LIST_PRODUCT_SIZE}/getProductSizeByCategoryId?categoriesID=${searchByCategoryID}`
-        );
+          ${LIST_PRODUCT_SIZE}/getProductSizeByCategoryId?categoriesID=${searchByCategoryID}`);
 
         console.log("da ghi de tai day 29");
         setProducts(data);
@@ -45,11 +41,6 @@ function ListProduct() {
     }
   }, [searchByCategoryID]);
 
-
-
-
-
-
   //dùng de loa du lieu luc an vao menu
   useEffect(() => {
     const fetchApi = async () => {
@@ -57,7 +48,6 @@ function ListProduct() {
         `${LIST_PRODUCT_SIZE}/getProductSizeByPage?page=1`
       );
       const dataCate = await get(`${API_CATEGORY}`);
-
 
       setCategory(dataCate);
       //
@@ -70,9 +60,7 @@ function ListProduct() {
   }, []);
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get(
-        `${LIST_PRODUCT_SIZE}/getCountPageProductSize`
-      );
+      const data = await get(`${LIST_PRODUCT_SIZE}/getCountPageProductSize`);
       //
 
       setTotalPages(data);
@@ -81,13 +69,10 @@ function ListProduct() {
     fetchApi();
   }, []);
 
-
   //dùng để đếm số lượng sản phẩm
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await get(
-        ` ${LIST_PRODUCT_SIZE}/getCountProductSize`
-      );
+      const data = await get(` ${LIST_PRODUCT_SIZE}/getCountProductSize`);
       //
 
       setTotalProduct(data);
@@ -116,13 +101,11 @@ function ListProduct() {
     }
   };
 
-
   const handleSortCondition = async (event) => {
-    const selectedSortCondition = parseInt(event.target.value);
+    console.log(event)
+    const selectedSortCondition = parseInt(event);
 
     setCondition(selectedSortCondition);
-
-
 
     if (searchByCategoryID !== null && parseInt(searchByCategoryID) !== 0) {
       console.log("Inside if condition");
@@ -161,35 +144,25 @@ function ListProduct() {
     }
   };
 
-  //console.log(conditionSort);
-
-  console.log("totalPages.length", totalPages.length)
-
-  console.log("totalProduct", totalProduct)
-
   return (
     <>
-
       <div class="shop-area section-space-y-axis-100">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
               {/* ========== UL =============== */}
-              <div class="product-topbar">
-                <ul>
-                  <li class="page-count">
-                    <span>4</span> Product Found of <span>{totalProduct}</span>
-                  </li>
-                  <li class="short">
+              <div >
+              <ul style={{display: 'flex', flexDirection: 'wrap', justifyContent: 'space-around', alignItems: "center"}}>
+              <li>
                     <ul class="nav" role="tablist">
                       {/* MENU CATEGORY */}
-                      <MenuCategory categories={categories} />
+                      <MenuCategory categories={categories} setProducts={setProducts} products={products}/>
                       {/* MENU CATEGORY */}
                     </ul>
                   </li>
 
-                  <li class="short">
-                    <select
+                  <li>
+                    {/* <select
                       className="nice-select"
                       value={conditionSort}
                       onChange={handleSortCondition}
@@ -206,11 +179,9 @@ function ListProduct() {
                       <option value="4" selected={4}>
                         Sort by Low Price
                       </option>
-                    </select>
-
-
+                    </select> */}
+                    <Sort conditionSort={conditionSort} handleSortCondition={handleSortCondition}/>
                   </li>
-
                 </ul>
               </div>
               {/* ========== UL =============== */}
@@ -238,7 +209,7 @@ function ListProduct() {
 
               {/* ================ PAGINATION =================== */}
 
-              <div className="pagination-area" style={{textAlign:'center'}}>
+              <div className="pagination-area" style={{ textAlign: "center" }}>
                 {conditionSort == null && (
                   <Pagination
                     current={currentPage}

@@ -1,33 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown } from "antd";
-import { get } from "../../../helpers/API.helper";
+import React, { useState } from "react";
+import { Select } from "antd";
 import { Link } from "react-router-dom";
 
-function MenuCategory({categories}) {
+const { Option } = Select;
 
-  const items = categories.map((data, index) => {
-    return {
-      // thêm logic gì đó ở đây
-      label: <Link to={`http://localhost:3000/listProduct?categoryId=${data.categoryId}`}>{data.categoryName}</Link>,
-      key: index,
-    };
-  });
+function MenuCategory({ categories }) {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleChange = (value) => {
+    setSelectedCategory(value);
+    // Thực hiện hành động khi giá trị được chọn thay đổi
+  };
 
   return (
-    <>
-      <Dropdown
-        menu={{
-          items,
-        }}
-        trigger={["click"]}
-      >
-        <Button size="large">
-            BROWSE
-          <DownOutlined />
-        </Button>
-      </Dropdown>
-    </>
+    <Select
+      style={{ width: 200 }} // Thêm style để điều chỉnh kích thước dropdown
+      placeholder="Select a category"
+      onChange={handleChange}
+      value={selectedCategory}
+    >
+      <Option key={0}>
+          <Link to={`/listProduct`}>
+            Default
+          </Link>
+        </Option>
+      {categories.map((data, index) => (
+        <Option key={index} value={data.categoryId}>
+          <Link to={`/listProduct?categoryId=${data.categoryId}`}>
+            {data.categoryName}
+          </Link>
+        </Option>
+      ))}
+    </Select>
   );
 }
 

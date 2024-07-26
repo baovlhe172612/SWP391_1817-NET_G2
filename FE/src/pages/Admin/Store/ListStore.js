@@ -11,10 +11,12 @@ import {
 import Swal from "sweetalert2";
 import Search from "antd/es/input/Search";
 import { DeleteOutlined, EditOutlined, MenuOutlined, SearchOutlined } from "@ant-design/icons";
+import CheckableTag from "antd/es/tag/CheckableTag";
 
 function ListStore() {
   const [stores, setStores] = useState([]);
   const [storesFollowName, setStoresFollowName] = useState([]);
+  const [newStore, setNewStore] = useState('New Store')
   const [updated, setUpdated] = useState(false);
   const [managerFilter, setManagerFilter] = useState("");
 
@@ -22,7 +24,13 @@ function ListStore() {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const data = await get(`${GET_STORES_STATUS}/${1}`);
+        let data = []
+        console.log(newStore == 'New Store')
+        if(newStore == 'New Store') {
+          data = await get(`${GET_STORES_STATUS}/${1}`);
+        } else {
+          data = await get(`${NEW_STORE}`); 
+        }
         if (data) {
           setStores(data);
           setStoresFollowName(data)
@@ -191,18 +199,17 @@ function ListStore() {
   
   // Handler cho tạo store mới
   const handleNewStore = async () => {
-    const newStore = await get(`${NEW_STORE}`);
+    setNewStore(newStore == 'New Store' ? "Store By Manager" : "New Store")
 
-    if (newStore) {
-      setStores(newStore);
-    }
+    // Load lại dữ liệu
+    setUpdated(!updated);
   };
 
   return (
     <>
       <Space>
         <Button type="primary" onClick={handleNewStore}>
-          New Store
+          {newStore}
         </Button>
       </Space>
 

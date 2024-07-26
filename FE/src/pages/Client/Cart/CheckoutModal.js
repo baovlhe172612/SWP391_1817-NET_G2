@@ -158,7 +158,7 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
     <>
 
       <Modal
-        title="Hóa đơn thanh toán"
+        title="Bill"
         visible={isVisible}
         onOk={onOk}
         onCancel={handleCancel}

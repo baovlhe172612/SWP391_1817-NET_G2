@@ -73,7 +73,7 @@ function Product(props) {
           }}
           onClick={handleAddToCart}
         >
-          Thêm vào giỏ hàng
+          Add to cart
         </Button>
       </div>
     </div>

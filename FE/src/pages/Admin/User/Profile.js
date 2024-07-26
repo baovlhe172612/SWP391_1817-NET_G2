@@ -20,7 +20,7 @@ function Profile() {
   console.log(account);
 
   // Regex pattern to block whitespace
-  const noWhitespacePattern = /^\S*$/;
+  const noWhitespacePattern = /^(?!\s*$).+/;
 
   // Regex pattern to allow only numbers
   const onlyNumbersPattern = /^[0-9]+$/;
@@ -38,20 +38,22 @@ function Profile() {
   ];
 
   // Validation rules for phone field
-  const phoneRules = [
-    {
-      required: true,
-      message: "Please input your phone number!",
-    },
-    {
-      pattern: onlyNumbersPattern,
-      message: "Phone number must contain only numbers!",
-    },
-    {
-      pattern: noWhitespacePattern,
-      message: "Whitespace is not allowed!",
-    },
-  ];
+  const phoneRules = (fieldName) => {
+    return [
+      {
+        required: true,
+        message: `Please input your ${fieldName} number!`,
+      },
+      {
+        pattern: onlyNumbersPattern,
+        message: `${fieldName} number must contain only numbers!`,
+      },
+      {
+        pattern: noWhitespacePattern,
+        message: "Whitespace is not allowed!",
+      },
+    ];
+  }
 
   // Validation rules for email field
   const emailRules = [
@@ -131,7 +133,7 @@ function Profile() {
                     label={<span className="fixed-width-label">Phone</span>}
                     name="phone"
                     initialValue={account.phone}
-                    rules={phoneRules}
+                    rules={phoneRules(`Phone`)}
                   >
                     <Input placeholder="Enter your phone number" />
                   </Item>
@@ -201,12 +203,12 @@ function Profile() {
                 {/* Form Group (cccd) */}
                 <Col span={12}>
                   <Item
-                    label={<span className="fixed-width-label">CCCD</span>}
+                    label={<span className="fixed-width-label">Card Identity</span>}
                     name="cccd"
                     initialValue={account.cccd}
-                    rules={commonRules("CCCD")}
+                    rules={phoneRules(`Card identity`)}
                   >
-                    <Input placeholder="Enter your CCCD" />
+                    <Input placeholder="Enter your Card identity" />
                   </Item>
                 </Col>
               </Row>

@@ -71,7 +71,7 @@ function Login() {
       // console.log(dataAuthen);
       if (dataAuthen) {
         // message login success
-        alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
+        alear_success_login("Login Success", dataAuthen.fullName);
 
         // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
@@ -92,10 +92,10 @@ function Login() {
         navigate("/admin");
       } else {
         // message login false
-        message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
+        message.error(`Login false: Name or password wrong`);
       }
     } catch (error) {
-      message.error(`Đăng nhập thất bại:  Sai mk hoặc tk`);
+      message.error(`Login false: Name or password wrong`);
       // alear_false("Đăng nhập thất bại", "False");
     }
   };
@@ -153,12 +153,6 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
-            <Link className="signup-image-link" to="/admin/register">
-
-              <Button type="primary" >
-                Create an account
-              </Button>
-            </Link>
           </div>
 
      
