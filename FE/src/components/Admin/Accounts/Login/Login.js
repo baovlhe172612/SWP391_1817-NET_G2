@@ -14,7 +14,7 @@ import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
 import { setSessionItem } from "../../../../helpers/Session.helper";
 import { accountActions } from "../../../../actions/AccountActions";
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 
 function Login() {
   const navigate = useNavigate();
@@ -52,7 +52,9 @@ function Login() {
     try {
       const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString();
       const dataAuthen = await get(
-        `${GET_ACCOUNT_BY_AUTH}?username=${encodeURIComponent(values.username.trim())}&password=${passwordMd5}`
+        `${GET_ACCOUNT_BY_AUTH}?username=${encodeURIComponent(
+          values.username.trim()
+        )}&password=${passwordMd5}`
       );
 
       if (dataAuthen) {
@@ -67,7 +69,9 @@ function Login() {
           navigate("/admin");
         }
       } else {
-        message.error(`Login failed. Please check your username or password !!!`);
+        message.error(
+          `Login failed. Please check your username or password !!!`
+        );
       }
     } catch (error) {
       message.error(`Login failed. Please check your username or password !!!`);
@@ -87,27 +91,23 @@ function Login() {
               id="login-form"
             >
               <Form.Item
-  id="login"
-  name="username"
-  rules={[
-    {
-      required: true,
-      message: "Please input your username!",
-    },
-    {
-      pattern: /^[a-zA-Z0-9_]+$/,
-      message: "Username must be alphanumeric and can include underscores.",
-    },
-  ]}
->
-  <Input
-    prefix={<UserOutlined />}
-    placeholder="Your Name"
-    // Đảm bảo rằng tên người dùng là không phân biệt chữ hoa chữ thường
-    // Đây là ví dụ cơ bản và có thể không bao quát tất cả các yêu cầu
-    style={{ textTransform: 'none' }}
-  />
-</Form.Item>
+                id="login"
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your username!",
+                  },
+                 
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="Your Name"
+           
+                  style={{ textTransform: "none" }}
+                />
+              </Form.Item>
 
               <Form.Item
                 id="password"
@@ -117,7 +117,6 @@ function Login() {
                     required: true,
                     message: "Please input your password!",
                   },
-  
                 ]}
               >
                 <Input.Password
@@ -142,12 +141,10 @@ function Login() {
             </Form>
 
             <Link className="signup-image-link" to="/admin/register">
-              <Button type="primary">
-                Create an account
-              </Button>
+              <Button type="primary">Create an account</Button>
             </Link>
 
-            <div style={{ marginTop: '10px' }}>
+            <div style={{ marginTop: "10px" }}>
               <Link to="/admin/forgot-password">Forgot Password?</Link>
             </div>
           </div>

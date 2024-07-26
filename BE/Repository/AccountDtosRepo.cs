@@ -15,35 +15,41 @@ namespace Swp391.Repository
         private SwpfinalContext _context = new SwpfinalContext();
 
         // Find Account follow UserName + Password
-        public AccountDtos GetAccountByUserPass(string UserName, string PassWord)
+        public AccountDtos GetAccountByUserPass(string username, string password)
         {
-            var accountDtos = (from a in _context.Accounts
-                               join r in _context.Roles on a.RoleId equals r.RoleId
-                               join s in _context.Stores on a.StoreId equals s.StoreId
-                               // Equals: phương thức để so sánh và phân  biệt chữ hoa chữ thường
-                               where a.UserName.Equals(UserName) && a.PassWord.Equals(PassWord)
-                               select new AccountDtos
-                               {
-                                   AccountId = a.AccountId,
-                                   UserName = a.UserName,
-                                   PassWord = a.PassWord,
-                                   Status = a.Status,
-                                   Email = a.Email,
-                                   FullName = a.FullName,
-                                   Address = a.Address,
-                                   Phone = a.Phone,
-                                   RoleId = a.RoleId,
-                                   Token = a.Token,
-                                   StoreId = s.StoreId,
-                                   RoleName = r.RoleName,
-                                   Cccd=a.Cccd,
-                                   StatusDate=a.StatusDate,
-                                   DateStartWork=a.DateStartWork,
-                                   StoreName = s.StoreName,
-                                   IsDelete = (int)a.IsDelete,                                                                                                    
-                               }).FirstOrDefault();
+            List<AccountDtos> list = (from a in _context.Accounts
+                                      join r in _context.Roles on a.RoleId equals r.RoleId
+                                      join s in _context.Stores on a.StoreId equals s.StoreId
+                                      select new AccountDtos
+                                      {
+                                          AccountId = a.AccountId,
+                                          UserName = a.UserName,
+                                          PassWord = a.PassWord,
+                                          Status = a.Status,
+                                          Email = a.Email,
+                                          FullName = a.FullName,
+                                          Address = a.Address,
+                                          Phone = a.Phone,
+                                          RoleId = a.RoleId,
+                                          Token = a.Token,
+                                          StoreId = s.StoreId,
+                                          RoleName = r.RoleName,
+                                          Cccd = a.Cccd,
+                                          StatusDate = a.StatusDate,
+                                          DateStartWork = a.DateStartWork,
+                                          StoreName = s.StoreName,
+                                          IsDelete = (int)a.IsDelete,
+                                      }).ToList();
 
-            return accountDtos;
+            foreach (var item in list)
+            {
+                if(item.UserName.Equals(username) && item.PassWord.Equals(password))
+                {
+                    return item;
+                }
+            }
+
+            return null;
         }
 
         // Hàm tìm Account = TOKEN
