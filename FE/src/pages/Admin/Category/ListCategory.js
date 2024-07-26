@@ -4,6 +4,7 @@ import { get, patch } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { LOCALHOST_API } from "../../../helpers/APILinks";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function ListCategory() {
   const [categories, setCategories] = useState([]);

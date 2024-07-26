@@ -3,7 +3,7 @@ import { Button, Form, Input, Switch } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { alear_success } from '../../../helpers/Alert.helper';
 import { get, post } from '../../../helpers/API.helper';
-import { CREATE_CATEGORY } from '../../../helpers/APILinks';
+import { CREATE_CATEGORY, LOCALHOST_API } from '../../../helpers/APILinks';
 
 function CreateCategory() {
   const [Category, setCategory] = useState([]);
