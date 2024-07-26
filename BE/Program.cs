@@ -18,7 +18,7 @@ namespace Swp391
             {
                 opt.AddPolicy("reactApp", policyBuilder =>
                 {
-                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn")
+                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn/")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -49,14 +49,8 @@ namespace Swp391
 
             app.UseRouting();
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHub<ChatHubs>("/Chat");
-                endpoints.MapHub<OrderHub>("/OrderHub");
-            });
-
+            app.MapHub<ChatHubs>("/Chat");
+            app.MapHub<OrderHub>("/OrderHub");
             app.Run();
         }
     }
