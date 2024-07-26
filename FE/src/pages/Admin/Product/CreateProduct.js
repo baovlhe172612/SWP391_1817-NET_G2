@@ -117,15 +117,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
               required: true,
               type:"number",
               message: 'Please input price!',
-          },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if(value.trim()===""){
-                  return Promise.reject('Product Price needs number!');
-                }                                                
-                return Promise.resolve();
-              },
-            }),
+          }          
           ]}
         >
           <InputNumber
