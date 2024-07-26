@@ -172,6 +172,8 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
       setQrVisible(false);
     }
   }
+  
+  
 
   return (
     <>

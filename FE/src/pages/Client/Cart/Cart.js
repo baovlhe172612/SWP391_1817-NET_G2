@@ -94,30 +94,20 @@ function Cart() {
       setNote(note)
 
       
-    // if (dataToSend.length > 0) {
-    //   try {
-    //     const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
-    //     const responseData = response;
-    //     message.success('Đã mua hàng thành công!');
-    //   } catch (error) {
-    //     console.log('Error sending data:', error);
-    //     message.error('Mua hàng không thành công!!!!');
-    //   }
-    // } else {
-    //   message.error('Mua hàng không thành công!!!!');
-    // }
+    if (dataToSend.length > 0) {
+      try {
+        const response = await post(`${API_ORDER}/AddOrderDetail?payMentID=${value}&note=${note}&storeId=${storeId}&tableId=${tableId}`, dataToSend);
+        const responseData = response;
+        message.success('Hãy Tiếp Tục Theo Các Bước!');
+      } catch (error) {
+        console.log('Error sending data:', error);
+        message.error('Mua hàng không thành công!!!!');
+      }
+    } else {
+      message.error('Mua hàng không thành công!!!!');
+    }
   };
-  // const handleCheckout = (values, isDirectPayment) => {
-  //   console.log({isDirectPayment,values})
-  //   if (isDirectPayment) {
-  //     // Logic để insert vào bảng Order
-  //     console.log('Insert vào bảng Order với phương thức thanh toán trực tiếp');
-  //   } else {
-  //     // Logic cho QR Code Payment
-  //     console.log('Thực hiện thanh toán bằng QR Code');
-  //   }
-  //   setIsModalVisible(false);
-  // };
+
 
   return (
     <Container>

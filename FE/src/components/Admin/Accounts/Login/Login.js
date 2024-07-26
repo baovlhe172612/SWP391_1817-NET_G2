@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox, message } from "antd";
-import { UserOutlined, LockOutlined, VerticalRightOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Login.scss";
 import { get } from "../../../../helpers/API.helper";
 import {
@@ -14,7 +14,6 @@ import { getCookie, setCookie } from "../../../../helpers/Cookie.helper";
 import { loginActions } from "../../../../actions/Login";
 import { setSessionItem } from "../../../../helpers/Session.helper";
 import { accountActions } from "../../../../actions/AccountActions";
-import CryptoJS from 'crypto-js';
 
 function Login() {
   const navigate = useNavigate();
@@ -29,10 +28,8 @@ function Login() {
       try {
         const accountByToken = await get(`${GET_ACCOUNT_BY_TOKEN}/${token}`);
         if (accountByToken) {
-          // nếu có token => tự động đăng nhập
           dispatch(loginActions(true));
 
-          // không dùng session nữa => gửi lên store 1 thằng account mới luôn
           dispatch(accountActions(accountByToken));
 
           console.log('accountByToken:::', accountByToken)
@@ -62,19 +59,17 @@ function Login() {
 
   // SUBMIT - Đăng nhập
   const onFinish = async (values) => {
-    // console.log("Success:", values);
+    console.log("Success:", values);
     try {
-      const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
-      console.log(passwordMd5)
       // call API
       const dataAuthen = await get(
-        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${passwordMd5}`
+        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
       console.log(dataAuthen);
       // console.log(dataAuthen);
       if (dataAuthen) {
         // message login success
-        alear_success_login("Đăng nhập thành công", dataAuthen.fullName);
+        alear_success_login("Login Successfully !!!", dataAuthen.fullName);
 
         // set TOKEN for login again
         setCookie("token", dataAuthen.token, 10);
@@ -91,15 +86,12 @@ function Login() {
           return;
         }
 
-        // sang trang admin
         navigate("/admin");
       } else {
-        // message login false
-        message.error(`Đăng nhập thất bại: Sai mk hoặc tk`);
+        message.error(`Login failed. Please check your username or password !!!`);
       }
     } catch (error) {
-      message.error(`Đăng nhập thất bại:  Sai mk hoặc tk`);
-      // alear_false("Đăng nhập thất bại", "False");
+      message.error(`Login failed. Please check your username or password !!!`);
     }
   };
 
@@ -116,11 +108,12 @@ function Login() {
               id="login-form"
             >
               <Form.Item
+              id="login"
                 name="username"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your Name!",
+                    message: "Please input your username!",
                   },
                 ]}
               >
@@ -128,11 +121,12 @@ function Login() {
               </Form.Item>
 
               <Form.Item
+               id="password"
                 name="password"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your Password!",
+                    message: "Please input your password !",
                   },
                 ]}
               >
@@ -156,19 +150,19 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
-            <Link className="signup-image-link" to="/admin/register">
 
-              <Button type="primary" >
+            <Link className="signup-image-link" to="/admin/register">
+              <Button type="primary">
                 Create an account
               </Button>
             </Link>
-          </div>
 
-     
+            <div style={{ marginTop: '10px' }}>
+              <Link to="/admin/forgot-password">Forgot Password?</Link>
+            </div>
+          </div>
         </div>
       </div>
-     
-
     </>
   );
 }
