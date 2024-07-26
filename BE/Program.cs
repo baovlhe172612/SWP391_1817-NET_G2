@@ -18,7 +18,7 @@ namespace Swp391
             {
                 opt.AddPolicy("reactApp", policyBuilder =>
                 {
-                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn/")
+                    policyBuilder.WithOrigins("https://swp391-1817-net-g2-fe.techtheworld.id.vn")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -27,7 +27,6 @@ namespace Swp391
 
             // Add services to the container.
             builder.Services.AddSignalR();
-
             builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -36,21 +35,29 @@ namespace Swp391
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseSwagger();
             app.UseSwaggerUI();
-
             app.UseHttpsRedirection();
 
             // Ensure CORS middleware is used before authorization
             app.UseCors("reactApp");
 
+            app.UseRouting();
             app.UseAuthorization();
 
-            app.MapControllers();
-            app.MapHub<ChatHubs>("/Chat");
-            app.MapHub<OrderHub>("/OrderHub");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHubs>("/Chat");
+                endpoints.MapHub<OrderHub>("/OrderHub");
+            });
 
-            app.Run(); // Specify the IP address and port
+            app.Run();
         }
     }
 }
