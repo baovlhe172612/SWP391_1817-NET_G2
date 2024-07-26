@@ -20,8 +20,8 @@ namespace Swp391.Repository
             var accountDtos = (from a in _context.Accounts
                                join r in _context.Roles on a.RoleId equals r.RoleId
                                join s in _context.Stores on a.StoreId equals s.StoreId
-                               where a.UserName.Equals(UserName, StringComparison.Ordinal)
-                                   && a.PassWord.Equals(PassWord, StringComparison.Ordinal)
+                               // Equals: phương thức để so sánh và phân  biệt chữ hoa chữ thường
+                               where a.UserName.Equals(UserName) && a.PassWord.Equals(PassWord)
                                select new AccountDtos
                                {
                                    AccountId = a.AccountId,
@@ -36,15 +36,16 @@ namespace Swp391.Repository
                                    Token = a.Token,
                                    StoreId = s.StoreId,
                                    RoleName = r.RoleName,
-                                   Cccd = a.Cccd,
-                                   StatusDate = a.StatusDate,
-                                   DateStartWork = a.DateStartWork,
+                                   Cccd=a.Cccd,
+                                   StatusDate=a.StatusDate,
+                                   DateStartWork=a.DateStartWork,
                                    StoreName = s.StoreName,
-                                   IsDelete = (int)a.IsDelete,
+                                   IsDelete = (int)a.IsDelete,                                                                                                    
                                }).FirstOrDefault();
 
             return accountDtos;
         }
+
         // Hàm tìm Account = TOKEN
         public AccountDtos FindAccountByToken(string Token)
         {
