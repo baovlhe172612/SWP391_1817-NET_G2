@@ -60,10 +60,10 @@ function Login() {
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
-      const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
+     // const passwordMd5 = CryptoJS.MD5(values.password.trim()).toString().trim();
       // call API
       const dataAuthen = await get(
-        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${passwordMd5}`
+        `${GET_ACCOUNT_BY_AUTH}?username=${values.username}&password=${values.password}`
       );
       
       console.log(dataAuthen);

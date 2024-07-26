@@ -63,11 +63,13 @@ function ListStoreManager() {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
+      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
     },
     {
       title: "User Name",
       dataIndex: "userName",
       key: "userName",
+      sorter: (a, b) => a.userName.localeCompare(b.userName),
     },
     {
       title: "Citizens ID",
@@ -78,26 +80,31 @@ function ListStoreManager() {
       title: "Phone",
       dataIndex: "phone",
       key: "phone",
+      sorter: (a, b) => a.phone.localeCompare(b.phone),
     },
     {
       title: "Date Worked",
       dataIndex: "dateStartWork",
       key: "dateStartWork",
+      sorter: (a, b) => a.dateStartWork.localeCompare(b.dateStartWork),
     },
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
+      sorter: (a, b) => a.address.localeCompare(b.address),
     },
     {
       title: "Role Name",
       dataIndex: "roleName",
       key: "roleName",
+      sorter: (a, b) => a.roleName.localeCompare(b.roleName),
     },
     {
       title: "Store Name",
       dataIndex: "storeName",
       key: "storeName",
+      sorter: (a, b) => a.storeName.localeCompare(b.storeName),
     },
     showColumn && {
       title: "Date Inactivity",
