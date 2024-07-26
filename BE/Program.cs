@@ -27,7 +27,6 @@ namespace Swp391
 
             // Add services to the container.
             builder.Services.AddSignalR();
-
             builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -43,14 +42,11 @@ namespace Swp391
 
             // Ensure CORS middleware is used before authorization
             app.UseCors("reactApp");
-
             app.UseAuthorization();
-
             app.MapControllers();
             app.MapHub<ChatHubs>("/Chat");
             app.MapHub<OrderHub>("/OrderHub");
-
-            app.Run(); // Specify the IP address and port
+            app.Run();
         }
     }
 }
