@@ -46,7 +46,7 @@ return (
                     {
                         validator(_, value) {
                             // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
-                            const fullNameRegex = /^[a-zA-Z\s'-]{2,}$/;
+                            const fullNameRegex = /^[a-zA-Z0-9\s'-]{2,}$/;
                             if (!value) {
                                 return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
                             }

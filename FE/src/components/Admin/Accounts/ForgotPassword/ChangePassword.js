@@ -22,7 +22,6 @@ const ChangePassword = () => {
             return;
         }
         const passwordMd5 = CryptoJS.MD5(newPassword.trim()).toString().trim();
-
         try {
             const response = await fetch(`${LOCALHOST_API}/api/Account/${userId}/password?newPassword=${passwordMd5}`, {
                 method: 'PUT'
@@ -56,7 +55,20 @@ const ChangePassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your new password!',
+                                message: 'Please input your password!',
+                            },
+                            {
+                                validator(_, value) {
+                                    // Example regex: minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+                                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                                    if (!value) {
+                                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
+                                    }
+                                    if (!passwordRegex.test(value)) {
+                                        return Promise.reject('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+                                    }
+                                    return Promise.resolve();
+                                },
                             },
                         ]}
                     >
