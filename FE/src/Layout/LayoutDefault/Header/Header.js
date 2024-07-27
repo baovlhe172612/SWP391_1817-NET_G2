@@ -40,7 +40,7 @@ function Header({ tableId }) {
             <div className="col-lg-12">
               <div className="header-middle-wrap position-relative d-flex justify-content-between align-items-center">
                 <Link to="/">
-                  <img style={{ paddingRight: '10px' }} src="assets/images/logo/dark.png" alt="Header Logo" />
+                  <img style={{ paddingRight: '10px' }} src="https://res.cloudinary.com/dbe0xyjvc/image/upload/v1722079169/Cloudinary-React/u054yukevieqjjh9phhf.png" alt="Header Logo" />
                 </Link>
                 <div style={{ paddingTop: '20px' }} className="header-right d-flex align-items-center">
                   <Search />
