@@ -23,7 +23,7 @@ namespace Swp391.Repository
         {
             var storeDtosByStatus = (from s in _context.Stores
                                      join a in _context.Accounts on s.StoreId equals a.StoreId
-                                     where s.IsDelete == 0
+                                     where s.IsDelete == 0 && a.RoleId==2
                                      select new StoreDtos
                                      {
                                          StoreId = s.StoreId,
