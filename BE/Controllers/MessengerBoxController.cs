@@ -32,9 +32,10 @@ namespace Swp391.Controllers
                 Author = messengerBox.Author,
                 MessengerDescription = messengerBox.MessengerDescription,
                 IsDelete = 1,
-                CreateDate = messengerBox.CreateDate
-            };
+                CreateDate = messengerBox.CreateDate,
+                StoreId= messengerBox.StoreId
 
+            };
             _messengerService.PostMessUI(messenger);
 
             return Ok(new
