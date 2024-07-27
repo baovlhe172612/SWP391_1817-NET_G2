@@ -30,13 +30,19 @@ namespace Swp391.Controllers
         }
 
 
+        [HttpGet("{id}")]
+        public IActionResult GetPostByID(int id)
+        {
+
+            return Ok(_PostService.GetPostById(id));
+        }
+
 
         [HttpPost("add_new")]
         public IActionResult AddPost([FromBody] Post post)
         {
             try
             {
-
 
 
                 // Ensure your _PostService.AddPost method is correct
