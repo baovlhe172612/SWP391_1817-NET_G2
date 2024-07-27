@@ -31,8 +31,9 @@ namespace Swp391.Controllers
                 MessengerBoxId = size + 1,  // Increment ID properly
                 Author = messengerBox.Author,
                 MessengerDescription = messengerBox.MessengerDescription,
-                IsDelete = 1,
-                CreateDate = messengerBox.CreateDate
+                IsDelete = 0,
+                CreateDate = messengerBox.CreateDate,
+                StoreId= messengerBox.StoreId,
             };
 
             _messengerService.PostMessUI(messenger);

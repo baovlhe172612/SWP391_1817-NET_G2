@@ -18,6 +18,8 @@ namespace Swp391.Repository
         {
             using (SwpfinalContext _context = new SwpfinalContext())
             {
+                messengerBox.IsDelete = 0;
+                messengerBox.DateDeleted = null;    
                 _context.MessengerBoxes.Add(messengerBox);
                 _context.SaveChanges();
             }

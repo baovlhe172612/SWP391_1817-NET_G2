@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import UpdateIsDelete from "./UpdateIsDelete";
 import updateStatus from "./UpdateStatus";
 import { EditOutlined, MenuOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 const { Search } = Input;
 
@@ -17,11 +18,16 @@ function ListEmployee() {
   const [filterStatus, setFilterStatus] = useState([]); // State to store selected status filters
   const [filterIsDelete, setFilterIsDelete] = useState([]); // State to store selected isDelete filters
   const [searchTerm, setSearchTerm] = useState(""); // State to store search term
+  const account = useSelector(state => state.AccountReducer);
+
+  console.log("account.storeId: ",account.storeId)
+
 
   const fetchApi = async () => {
     try {
       const data = await get(LIST_Employee);
-      setAccountEmployee(data);
+      const dataFilter = data.filter(item => item.storeId == account.storeId)
+      setAccountEmployee(dataFilter);
     } catch (error) {
       message.error("Error fetching accounts");
       setAccountEmployee([]);

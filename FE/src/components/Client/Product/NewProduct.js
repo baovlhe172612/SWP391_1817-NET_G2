@@ -26,7 +26,7 @@ function NewProduct() {
     <>
       <div class="product-area section-space-top-100">
         <div class="container">
-          <div class="row">
+          <div class="">
             <div class="section-title-wrap without-tab">
               <h2 class="section-title">New Drinks</h2>
               <p class="section-desc">
@@ -41,7 +41,7 @@ function NewProduct() {
               </p>
             </div>
 
-            <div class="row">
+            <div class="">
               <div class="col-lg-12 mb-3">
                 <div class="tab-content" id="myTabContent">
                   <div
@@ -50,7 +50,7 @@ function NewProduct() {
                     role="tabpanel"
                     aria-labelledby="featured-tab"
                   >
-                    <div class="product-item-wrap row">
+                    <div class="product-item-wrap row" style={{ "gutter-x": "0rem" }}>
                       {/* <!-- PRODUCT --> */}
                       {products.length > 0 &&
                         products.map((product) => {

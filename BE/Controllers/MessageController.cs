@@ -31,7 +31,7 @@ namespace BE.Controllers
                 return Ok(delete);
             } 
 
-            return BadRequest(delete);
+            return Ok(delete);
         }
 
         [HttpDelete("deletes/{storeId}")]

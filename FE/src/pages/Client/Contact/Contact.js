@@ -82,15 +82,15 @@ function Contact() {
         setData(objectNew);
     }
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const intStoreId = parseInt(storeId);
+            data.storeId = intStoreId;          
             console.log("data in handlesubmit: ", data)
-            data.storeId = storeId
             // Send data to the backend
-            const response = await post(LIST_FEEDBACK, data);
+            const response = await post("http://localhost:5264/api/MessengerBox", data);
+           
             if (response) {
                 setShowModal(false);
                 await Swal.fire({
@@ -117,11 +117,9 @@ function Contact() {
         }
     };
     const onReload = () => {
-        window.location.reload();
+        
     };
     console.log("data: ", data);
-
-
 
     //ĐÂY LFA TIẾN TRÌNH
     const [currentStep, setCurrentStep] = useState(1); // State to track current step

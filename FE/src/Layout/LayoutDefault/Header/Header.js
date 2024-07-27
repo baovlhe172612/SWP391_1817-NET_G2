@@ -12,6 +12,7 @@ function Header({ tableId }) {
     setIsMenuOpen(!isMenuOpen);
   };
 
+
   return (
     <>
       <div className={`header-top bg-pronia-primary ${!isMenuOpen ? 'd-none d-lg-block' : ''}`}>
