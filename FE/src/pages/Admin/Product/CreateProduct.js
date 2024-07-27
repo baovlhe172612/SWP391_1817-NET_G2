@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button } from "antd";
+import {
+  Form,
+  Input,
+  Select,
+  Switch,
+  Modal,
+  InputNumber,
+  message,
+  Upload,
+  Button,
+  Spin,
+} from "antd";
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_PRODUCT } from "../../../helpers/APILinks";
 import { UploadOutlined } from "@ant-design/icons";
+// import './src/assets/css/bootstrap.min.css'
+import { Image } from "cloudinary-react";
+import axios from "axios";
+
+
 const { Option } = Select;
+
 function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [form] = Form.useForm();
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -12,7 +29,20 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [stores, setStores] = useState([]);
   const [category, setCategory] = useState([]);
   const [imageFile, setImageFile] = useState(null);
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState(null);  
+
+  const cloudinaryConfig = {
+    cloudName: 'dbe0xyjvc',
+    apiKey: '659239438524682',
+    apiSecret: 'WDlT8pl5a7mCYclSszx7fYBuKjA',
+    presets: 'r8cndyxy',
+  };
+
   useEffect(() => {
+
     const fetchApi = async () => {
       try {
         const dataStores = await get("http://localhost:5264/api/stores");
@@ -39,9 +69,11 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
     values.sizes = sizesArray;
     values.isDelete = 0;
     values.status = values.status ? 1 : 0;
-    values.img = imageFile; 
+    const urlImage = await uploadImage();
+    values.img = urlImage;
+
     console.log(values);
-    
+
     try {
       const response = await post(`${CREATE_PRODUCT}`, values);
       if (response) {
@@ -54,6 +86,16 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
       message.error("Product creation failed!");
       console.error("Failed to create Product. Please try again later", error);
     }
+  };
+
+  const handleImageChange = ({ file }) => {
+    console.log(file)
+    setImage(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setPreview(reader.result);
+    };
   };
 
   const handleSizeChange = (values) => {
@@ -76,6 +118,33 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
 
   const handleImageUpload = (info) => {
     setImageFile(info.file.originFileObj); // Store the uploaded file object
+  };
+
+  const uploadImage = async () => {
+    let imageUrl = "";
+    setLoading(true);
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", cloudinaryConfig.presets);
+    data.append("cloud_name", cloudinaryConfig.cloudName);
+    data.append("folder", "Cloudinary-React");
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`,
+        data
+      );
+      console.log(response)
+      setUrl(response.data.public_id);
+      imageUrl = response.data.url;
+      message.success("Image uploaded successfully!");
+      setLoading(false);
+    } catch (error) {
+      message.error("Failed to upload image.");
+      setLoading(false);
+    }
+
+    return imageUrl;
   };
 
   return (
@@ -115,7 +184,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
             style={{ width: "100%" }}
           />
         </Form.Item>
-        
+
         <Form.Item
           name="category"
           label="Category"
@@ -133,7 +202,9 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
         <Form.Item
           name="sizes"
           label="Sizes"
-          rules={[{ required: true, message: "Please select at least one size!" }]}
+          rules={[
+            { required: true, message: "Please select at least one size!" },
+          ]}
         >
           <Select
             mode="multiple"
@@ -173,19 +244,39 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           </div>
         ))}
 
-        <Form.Item
-          label="Image"
-          name="img"
-          rules={[{ required: true, message: "Please upload an image!" }]}
-        >
+        {/* IMAGE */}
+        <Form.Item label="Upload a file">
           <Upload
-            beforeUpload={() => false} // Disable default upload behavior
-            onChange={handleImageUpload} // Handle file change
-            maxCount={1} // Allow only one file
+            beforeUpload={(file) => {
+              handleImageChange({ file });
+              return false; // Prevent automatic upload
+            }}
+            showUploadList={false}
+            accept="image/*"
           >
-            <Button icon={<UploadOutlined />}>Upload Image</Button>
+            <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
+
+        <div className="flex justify-center items-center mt-5 mx-3 max-w-xs">
+          {preview && <img src={preview} alt="preview" className="w-full" />}
+        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <Spin />
+            <span>Processing...</span>
+          </div>
+        ) : (
+          // url && (
+          //   <div className="pb-8 pt-4">
+          //     <Image cloudName={cloudinaryConfig.cloudName} publicId={url} />
+          //   </div>
+          // )
+          ""
+        )}
+
+        {/* IMAGE */}
 
         <Form.Item
           label="Store"
@@ -213,8 +304,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
             unCheckedChildren="Inactive"
             defaultChecked
           />
-        </Form.Item>     
-
+        </Form.Item>
       </Form>
     </Modal>
   );
