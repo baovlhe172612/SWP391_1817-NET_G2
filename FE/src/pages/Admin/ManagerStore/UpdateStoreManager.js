@@ -50,7 +50,6 @@ function UpdateStoreManager() {
     values.status = values.status ? 1 : 0;
     values.roleId = 2
     values.isDelete =  0;
-    
     console.log(values);
     const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
     if(data) {
@@ -82,7 +81,6 @@ function UpdateStoreManager() {
   // lọc account hiện tại 
   const filteredAccounts = Accounts.filter(account => account.accountId !== accountmanager.accountId);
   console.log(filteredAccounts); 
-
 
   return (
     <>

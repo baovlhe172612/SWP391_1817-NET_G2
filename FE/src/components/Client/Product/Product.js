@@ -19,8 +19,8 @@ function Product(props) {
       {product ? (
         <>
           <Col
-            xs={{ span: 12 }}
-            sm={{ span: 12 }}
+            xs={{ span: 6 }}
+            sm={{ span: 6 }}
             md={{ span: 6 }}
             lg={{ span: 6 }}
           >
