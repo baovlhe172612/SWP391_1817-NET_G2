@@ -7,7 +7,7 @@ import './Contact.css'
 import { UserOutlined, CommentOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Steps } from 'antd';
 
-import {LIST_FEEDBACK } from '../../../helpers/APILinks';
+import {LIST_FEEDBACK, LOCALHOST_API } from '../../../helpers/APILinks';
 import { getCookie } from '../../../helpers/Cookie.helper';
 const { RangePicker } = DatePicker;
 let storeId = getCookie('storeId');
@@ -89,7 +89,7 @@ function Contact() {
             data.storeId = intStoreId;          
             console.log("data in handlesubmit: ", data)
             // Send data to the backend
-            const response = await post("http://localhost:5264/api/MessengerBox", data);
+            const response = await post(`${LOCALHOST_API}/api/MessengerBox`, data);
            
             if (response) {
                 setShowModal(false);
