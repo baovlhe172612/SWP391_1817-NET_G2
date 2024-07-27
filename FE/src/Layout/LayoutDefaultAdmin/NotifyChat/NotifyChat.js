@@ -28,7 +28,7 @@ function NotifyChat() {
 
             setTimeout(() => {
               setShowAlert(false);
-            }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
+            }, 3500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
             console.log("JoinStore invoked successfully.");
           } catch (error) {
             console.error("Error invoking JoinStore:", error);
@@ -50,7 +50,7 @@ function NotifyChat() {
 
         setTimeout(() => {
           setShowAlert(false);
-        }, 5500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
+        }, 3500); // 0.5s for slideInRight + 5s delay + 0.5s for fadeOut
         // console.log(ChatRoom, message, conversation);
       };
 
@@ -85,20 +85,18 @@ function NotifyChat() {
   return (
     <>
       {showAlert && (
-        <Link to={`/admin/chat`} >
-          <div className={`alert-container`} key={alertKey}>
-            <Alert
-              message={alertMessage.header}
-              description={alertMessage.title}
-              type="success"
-              showIcon
-            />
+        <div className={`alert-container`} key={alertKey}>
+        <Alert
+          message={alertMessage.header}
+          description={alertMessage.title}
+          type="success"
+          showIcon
+        />
 
-            <div className="progress-bar">
-              <div className="progress-bar-inner"></div>
-            </div>
-          </div>
-        </Link>
+        <div className="progress-bar">
+          <div className="progress-bar-inner"></div>
+        </div>
+      </div>
       )}
     </>
   );
