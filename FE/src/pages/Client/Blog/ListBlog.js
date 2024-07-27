@@ -5,6 +5,7 @@ import { get, patch } from "../../../helpers/API.helper";
 import { DELETE_BLOG_ID, GET_BLOGS_STATUS, LOCALHOST_API, UP_BLOG_ID } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Search from "antd/es/input/Search";
+import { useSelector } from "react-redux";
 
 function ListBlog() {
   const [blogs, setBlogs] = useState([]);
@@ -19,7 +20,7 @@ function ListBlog() {
   const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
-
+  const account = useSelector(state => state.AccountReducer);
   let data = [];
 
   // Fetch data from API
@@ -27,9 +28,10 @@ function ListBlog() {
     const fetchApi = async () => {
       try {
         const data = await get(`${LOCALHOST_API}/api/Post`);
-        console.log(data);
-        if (data) {
-          setBlogs(data);
+        const dataFilter = data.filter(item => item.storeId == account.storeId)
+        console.log(dataFilter);
+        if (dataFilter) {
+          setBlogs(dataFilter);
         }
       } catch (error) {
         console.log("err in ListBlog", error);
@@ -302,12 +304,14 @@ function ListBlog() {
 
   return (
     <>
-      <Input
-        placeholder="Search Title"
-        value={searchText}
-        onChange={handleSearch}
-        style={{ width: 800, height: 30, marginBottom: 20 }}
-      />
+     <Space style={{ marginBottom: 16 }}>
+        <Search
+          placeholder="Search"
+          onChange={handleSearch}
+          style={{ width: 200 }}
+        />
+      </Space>
+      
       <Table
         columns={columns}
         pagination={{ pageSize: 5 }}

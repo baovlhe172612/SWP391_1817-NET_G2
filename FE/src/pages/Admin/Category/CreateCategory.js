@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { alear_success } from '../../../helpers/Alert.helper';
 import { get, post } from '../../../helpers/API.helper';
 import { CREATE_CATEGORY, LOCALHOST_API } from '../../../helpers/APILinks';
+import { useSelector } from 'react-redux';
 
 function CreateCategory() {
   const [Category, setCategory] = useState([]);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
+  const account = useSelector(state => state.AccountReducer);
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const data = await get(`${LOCALHOST_API}/api/Category`);
-
         if (data) {
           setCategory(data);
         }
@@ -39,18 +39,14 @@ function CreateCategory() {
     // Rename storeName to CategoryName
     values.CategoryName = values.storeName;
     delete values.storeName;
-
+    values.storeId = account.storeId
     console.log(values);
     const dataUpdate = await post(CREATE_CATEGORY, values);
 
     if (dataUpdate) {
       // Alert success
       alear_success("Create!", "create");
-
       form.resetFields();
-
-      // Navigate to store creation page
-      navigate(`/admin/store/create`);
     }
   };
 

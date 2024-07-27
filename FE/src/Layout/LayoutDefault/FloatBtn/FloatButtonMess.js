@@ -130,6 +130,7 @@ function FloatButtonMess({ handleOnclick }) {
         onClick={handleOnclick}
         type="primary"
         style={{
+          right: 10,
           fontSize: "100px",
         }}
         icon={<CommentOutlined />}
@@ -139,9 +140,9 @@ function FloatButtonMess({ handleOnclick }) {
         onClick={handleOrderClick}
         type="primary"
         style={{
-          right: 50,
+          right: 10,
           bottom: 120,
-          fontSize: "24px",
+          fontSize: "100px",
         }}
         icon={<ShoppingCartOutlined />}
       />

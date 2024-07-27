@@ -8,8 +8,9 @@ import { UserOutlined, CommentOutlined, CalendarOutlined } from '@ant-design/ico
 import { Steps } from 'antd';
 
 import {LIST_FEEDBACK } from '../../../helpers/APILinks';
+import { getCookie } from '../../../helpers/Cookie.helper';
 const { RangePicker } = DatePicker;
-
+let storeId = getCookie('storeId');
 const { Step } = Steps; // Lấy Step từ Steps
 
 
@@ -81,17 +82,16 @@ function Contact() {
         setData(objectNew);
     }
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
+            const intStoreId = parseInt(storeId);
+            data.storeId = intStoreId;          
             console.log("data in handlesubmit: ", data)
             // Send data to the backend
-            const response = await post(LIST_FEEDBACK, data);
+            const response = await post("http://localhost:5264/api/MessengerBox", data);
+           
             if (response) {
-
                 setShowModal(false);
                 await Swal.fire({
                     position: "center",
@@ -117,11 +117,9 @@ function Contact() {
         }
     };
     const onReload = () => {
-        window.location.reload();
+        
     };
     console.log("data: ", data);
-
-
 
     //ĐÂY LFA TIẾN TRÌNH
     const [currentStep, setCurrentStep] = useState(1); // State to track current step
