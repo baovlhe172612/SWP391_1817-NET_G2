@@ -48,6 +48,7 @@ namespace Swp391.Repository
             List<Post> posts = new List<Post>();
             posts = _context.Posts.ToList();
             p.PostId= posts.Count +1 ;
+            p.CreatedDate = DateTime.Now.AddHours(+7);
             _context.Posts.Add(p);
             _context.SaveChanges();
         }
@@ -69,7 +70,7 @@ namespace Swp391.Repository
         public void UpdatePost(Post p)
         {
             SwpfinalContext _context = new SwpfinalContext();
-            p.ModifiDate = DateTime.Now;
+            p.ModifiDate = DateTime.Now.AddHours(+7);
             _context.Posts.Update(p);
             _context.SaveChanges();
         }
