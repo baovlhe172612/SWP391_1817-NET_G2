@@ -22,9 +22,9 @@ public partial class Post
 
     public string Tags { get; set; } = null!;
 
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
-    public DateTime ModifiDate { get; set; }
+    public DateTime? ModifiDate { get; set; }
 
     public int? StoreId { get; set; }
     [JsonIgnore]
