@@ -22,5 +22,17 @@ namespace Swp391.Service
         {
             _tableRepo.addTableRepo(table);
         }
+        public void updateIsDelete(int tableId, int isDelete)
+        {
+            _tableRepo.updateIsDelete(tableId, isDelete);
+        }
+        public void updateIsStatus(int tableId, int status)
+        {
+            _tableRepo.updateIsStatus(tableId, status);
+        }
+        public void updatetable(int tableId, string tableName)
+        {
+            _tableRepo.updateTable(tableId, tableName);
+        }
     }
 }

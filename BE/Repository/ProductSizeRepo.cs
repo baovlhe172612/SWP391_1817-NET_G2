@@ -24,8 +24,8 @@ namespace Swp391.Repository
                                   ProductSizeID = ps.ProductSizeId,
                                   ProductId = p.ProductId,
                                   ProductName = p.ProductName,
-                               /*StoreId=p.StoreId,*/
-                                  Img = p.Img,
+                                   StoreId = p.StoreId,
+                                   Img = p.Img,
                                   SizeId = s.SizeId,
                                   SizeName = s.SizeName,
                                   Price = (int)(p.Price + s.Price),
@@ -47,14 +47,14 @@ namespace Swp391.Repository
                                join ps in _context.ProductSizes on p.ProductId equals ps.ProductId
                                join s in _context.Sizes on ps.SizeId equals s.SizeId
                                join c in _context.Categories on p.CategoryId equals c.CategoryId
-                               /*join st in _context.Stores on p.StoreId equals st.StoreId*/
+                               join st in _context.Stores on p.StoreId equals st.StoreId
                                where ps.ProductSizeId == id
                                select new ProductSizeDtos
                                {
                                    ProductSizeID = ps.ProductSizeId,
                                    ProductId = p.ProductId,
                                    ProductName = p.ProductName,
-                                   /*StoreId=p.StoreId,*/
+                                   StoreId = p.StoreId,
                                    Img = p.Img,
                                    SizeId = s.SizeId,
                                    SizeName = s.SizeName,

@@ -15,7 +15,9 @@ namespace BE.Repository
         /// <returns>toàn bộ hóa đơn</returns>
         public List<Order> getAllOrder()
         {
-            return context.Orders.ToList();
+            return context.Orders.
+                Where(o => o.Status==1)
+                .ToList();
         }
 
    
@@ -42,7 +44,7 @@ namespace BE.Repository
             try
             {
                 var listOrder = context.Orders
-                                .Where(o => o.StoreId == id)
+                                .Where(o => o.StoreId == id && o.Status == 1)
                                 .OrderByDescending(o => o.Date)
                                 .ToList();
 
@@ -69,7 +71,7 @@ namespace BE.Repository
             var query = (from o in context.Orders
                          join p in context.Payments on o.PaymentId equals p.PayId
                          join t in context.Tables on o.TableId equals t.TableId
-                         where o.StoreId == id
+                         where o.StoreId == id 
                          orderby o.Date descending
                          select new OrderDtos
                          {

@@ -50,7 +50,7 @@ public partial class SwpfinalContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         =>  optionsBuilder.UseSqlServer("Server=database.techtheworld.id.vn;Database=swpfinal;UID=swp3911817netg2;PWD=0C542C6E-7D9E-4170-B483-14AB3093E81D;TrustServerCertificate=True");
-   //  optionsBuilder.UseSqlServer("Server=(local);Database= swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");  
+    // optionsBuilder.UseSqlServer("Server=(local);Database= swpfinal;UID=sa;PWD=123456;TrustServerCertificate=True");  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
