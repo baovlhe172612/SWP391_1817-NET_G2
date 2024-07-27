@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { alear_success } from "../../../helpers/Alert.helper";
 import { useNavigate } from "react-router-dom";
 import { GET_ACCOUNT_BY_ID, GET_ALL_ACCOUNTS, LIST_STORES, UPDATE_ACCOUNT_MANAGER } from "../../../helpers/APILinks";
+import CryptoJS from 'crypto-js';
 const { Option } = Select;
 
 function UpdateStoreManager() {
@@ -51,6 +52,7 @@ function UpdateStoreManager() {
     values.roleId = 2
     values.isDelete =  0;
     console.log(values);
+    values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
     const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
     if(data) {
       // thông báo ra màn hình
