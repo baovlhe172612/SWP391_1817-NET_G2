@@ -21,6 +21,8 @@ namespace Swp391.Repository
 
         public void AddCategory(Category category)
         {
+            category.Status = 1;
+            category.DateCreated = DateOnly.FromDateTime(DateTime.Now.AddHours(+7));
             _context.Categories.Add(category);
             _context.SaveChanges();
         }
