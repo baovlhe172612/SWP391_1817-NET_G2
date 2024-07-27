@@ -12,7 +12,7 @@ function BlogDetail() {
 
   useEffect(() => {
     const fetchBlogDetail = async () => {
-      const data = await get(`${LOCALHOST_API}/api/Post/${id}`);
+      const data = await get(`${LOCALHOST_API}/api/Post/${id}`);//api
       setBlog(data);
       console.log(data);
     };
