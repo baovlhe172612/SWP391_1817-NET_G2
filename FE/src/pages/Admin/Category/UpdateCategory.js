@@ -46,6 +46,7 @@ const UpdateCategory = () => {
       // Chuyển đổi giá trị của isDelete thành 1 hoặc 0 để phù hợp với định dạng dữ liệu API
       values.isDelete = values.isDelete ? 1 : 0;
       values.storeId = account.storeId
+      
       // Gọi API để cập nhật thông tin category
       const data = await patch(`${LOCALHOST_API}/api/Category/update/${id}`, values);
       if (data) {

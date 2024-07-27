@@ -20,7 +20,7 @@ function ChatDetail({ conversation, listMessage }) {
             return (
               <div
                 className={
-                  message.role === 1 ? "msg left-msg" : "msg right-msg"
+                  message.role === 1 ? "msg right-msg" : "msg left-msg"
                 }
                 key={index}
                 ref={isLastMessage ? lastMessageRef : null}
