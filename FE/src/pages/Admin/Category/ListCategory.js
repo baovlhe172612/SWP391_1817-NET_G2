@@ -59,8 +59,8 @@ function ListCategory() {
         </Tag>
       ),
       filters: [
-        { text: "Active", value: 1 },
-        { text: "Deleted", value: 0 },
+        { text: "Active", value: 0 },
+        { text: "Deleted", value: 1 },
       ],
       onFilter: (value, record) => record.isDelete === value,
     },
