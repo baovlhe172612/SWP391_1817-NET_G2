@@ -314,7 +314,7 @@ function ListBlog() {
       
       <Table
         columns={columns}
-        pagination={{ pageSize: 5 }}
+        //pagination={{ pageSize: 5 }}
         dataSource={getFilteredData()}
         rowKey="title"
       />
