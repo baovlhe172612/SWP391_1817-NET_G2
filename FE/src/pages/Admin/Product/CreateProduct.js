@@ -119,9 +119,9 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
                 if (!value) {
                     return Promise.reject('Please input your price!');
                 }
-                if (!/^\d$/.test(value)) {
-                    return Promise.reject('price must be digits!');
-                }                   
+                if (!/^\d+(\.\d+)?$/.test(value)) {
+                  return Promise.reject('Price must be a valid number!');
+              }                 
                 return Promise.resolve();
             },
         }),         
