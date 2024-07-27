@@ -42,12 +42,6 @@ const UpdateCategory = () => {
         (category) => category.categoryName === values.categoryName && category.categoryId !== id
       );
 
-      if (isDuplicate) {
-        // Hiển thị thông báo lỗi nếu tên category đã tồn tại
-        message.error("Category name already exists. Please enter a different name.");
-        return;
-      }
-
       // Chuyển đổi giá trị của isDelete thành 1 hoặc 0 để phù hợp với định dạng dữ liệu API
       values.isDelete = values.isDelete ? 1 : 0;
 

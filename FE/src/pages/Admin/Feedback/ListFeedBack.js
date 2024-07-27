@@ -1,10 +1,10 @@
 
-
 import React, { useEffect, useState } from 'react';
 import { get } from '../../../helpers/API.helper';
 import { Button, Table, Tag, Space, DatePicker } from 'antd'; // Thêm DatePicker từ antd
 import { LIST_FEEDBACK } from '../../../helpers/APILinks';
 import updateStatus from './UpdateStatus';
+import { useSelector } from 'react-redux';
 
 const { RangePicker } = DatePicker; // Sử dụng RangePicker cho tìm kiếm ngày tháng
 
@@ -14,11 +14,13 @@ function ListFeedBack() {
     const [error, setError] = useState(null);
     const [searchDate, setSearchDate] = useState(null); // State để lưu ngày tháng tìm kiếm
 
+    const account = useSelector(state => state.AccountReducer);
     const fetchFeedbacks = async () => {
         try {
             const response = await get(LIST_FEEDBACK);
+            const feedBackFilter = response.filter(item => item.storeId == account.storeId)
             console.log("response", response);
-            setFeedbacks(response);
+            setFeedbacks(feedBackFilter);
         } catch (err) {
             setError(err);
         } finally {
@@ -148,7 +150,7 @@ function ListFeedBack() {
 
     return (
         <>
-            
+            <h1 style={{ textAlign: 'center' }}>View Feedbacks</h1>
             <Space style={{ marginBottom: 16 }}>
                 <RangePicker onChange={handleSearchDateChange} />
             </Space>

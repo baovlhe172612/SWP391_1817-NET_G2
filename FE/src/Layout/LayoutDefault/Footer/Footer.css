@@ -1,0 +1,124 @@
+
+
+
+.footer-area {
+    background-color: #f8f9fa;
+    margin-top: 30px;
+  }
+  
+  .footer-top {
+    padding: 30px 0;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .footer-widget-item {
+    flex: 1 1 16%;
+    min-width: 200px;
+    margin-top: 30px;
+  }
+  .footer-widget-logo{
+    text-align: center;
+  }
+  .footer-widget-logo img {
+    width: 50%;
+    margin-top: -28px;
+    text-align: center;
+    align-items: center;
+    justify-self: center
+  }
+  
+  .footer-widget-desc {
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .footer-widget-title {
+    font-size: 18px;
+    margin-bottom: 35px;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  .footer-widget-list-item {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-widget-list-item li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-widget-list-item a {
+    color: #007bff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .footer-widget-list-item a:hover {
+    color: #0056b3;
+  }
+  
+  .footer-contact-info .address ul {
+    font-weight: bold;
+    list-style: none;
+    margin-top: 30px;
+  }
+  
+  .footer-contact-info .address ul li {
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 24px;
+  }
+  
+  .social-link ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .social-link ul li {
+    margin-right: 10px;
+  }
+  
+  .social-link ul li a {
+    color: #6c757d;
+    font-size: 16px;
+    transition: all 0.3s ease;
+     word-break: break-word; /* Add this line */
+  }
+  
+  .social-link ul li a:hover {
+    color: #343a40;
+  }
+  
+  .footer-bottom {
+    background-color: #343a40;
+    padding: 20px 0;
+  }
+  
+  .copyright {
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    justify-self: center;
+  }
+  
+  .copyright a {
+    color: #007bff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .copyright a:hover {
+    color: #0056b3;
+  }
+  

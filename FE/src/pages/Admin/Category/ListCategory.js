@@ -4,18 +4,22 @@ import { get, patch } from "../../../helpers/API.helper";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { LOCALHOST_API } from "../../../helpers/APILinks";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import Search from "antd/es/transfer/search";
+import { useSelector } from "react-redux";
 
 function ListCategory() {
   const [categories, setCategories] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [updated, setUpdated] = useState(false); // Add a state to trigger re-fetch
-
+  const account = useSelector(state => state.AccountReducer);
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const data = await get(`${LOCALHOST_API}/api/Category`);
-        console.log(data);
-        setCategories(data);
+        const dataFilter = data.filter(item => item.storeId == account.storeId)
+        console.log(dataFilter);
+        setCategories(dataFilter);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }
@@ -28,7 +32,7 @@ function ListCategory() {
     setSearchText(e.target.value);
   };
 
-  const filteredCategories = categories.filter(category =>
+  const filteredCategories = categories.filter((category) =>
     category.categoryName.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -55,8 +59,8 @@ function ListCategory() {
         </Tag>
       ),
       filters: [
-        { text: "Active", value: false },
-        { text: "Deleted", value: true },
+        { text: "Active", value: 1 },
+        { text: "Deleted", value: 0 },
       ],
       onFilter: (value, record) => record.isDelete === value,
     },
@@ -66,11 +70,13 @@ function ListCategory() {
       render: (record) => (
         <Space size="middle">
           <Link to={`edit/${record.categoryId}`}>
-            <Button type="primary">Update</Button>
+            <Button type="primary" icon={<EditOutlined />} />
           </Link>
-          <Button type="default" onClick={() => handleDelete(record)}>
-            Delete
-          </Button>
+          <Button
+            type="default"
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record)}
+          />
         </Space>
       ),
     },
@@ -118,13 +124,18 @@ function ListCategory() {
 
   return (
     <>
-      <Input
-        placeholder="Search Category"
-        value={searchText}
-        onChange={handleSearch}
-        style={{ width: 800, height: 30, marginBottom: 20 }}
+     <Space style={{ marginBottom: 16 }}>
+        <Search
+          placeholder="Search"
+          onChange={handleSearch}
+          style={{ width: 200 }}
+        />
+      </Space>
+      <Table
+        columns={columns}
+        dataSource={filteredCategories}
+        rowKey="categoryId"
       />
-      <Table columns={columns} dataSource={filteredCategories} rowKey="categoryId" />
     </>
   );
 }

@@ -97,19 +97,6 @@ function ForgotPassword() {
                     </Form>
                 </div>
 
-                {/* IMAGE */}
-                <div className="signin-image">
-                    <figure>
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/vi/2/2d/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.svg"
-                            alt="sign in"
-                        />
-                    </figure>
-                    {/* LINK */}
-                    <Link className="signup-image-link" to="/admin/login">
-                        Have an account?
-                    </Link>
-                </div>
             </div>
         </div>
     );

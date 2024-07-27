@@ -194,7 +194,7 @@ const updateOrderAcceptance = async (orderId) => {
       key: "status",
       filters: [
         { text: "Process", value: 0 },
-        { text: "Reject", value: -1 },
+        { text: "wait", value: -1 },
         { text: "Done", value: 1 },
       ],
       onFilter: (value, record) => record.status === value,

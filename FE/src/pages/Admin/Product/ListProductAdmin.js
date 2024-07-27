@@ -7,6 +7,7 @@ import { FaPlus } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import UpdateIsDelete from "./UpdateIsDelete";
+import { useSelector } from "react-redux";
 
 const { Search } = Input;
 
@@ -21,12 +22,15 @@ function ListProductAdmin() {
       pageSize: 5,
     },
   });
+  const account = useSelector(state => state.AccountReducer);
 
   const fetchApi = useCallback(async () => {
     try {
       const data = await get(LIST_PRODUCT_SIZE);
-      if (data) {
-        setState((prevState) => ({ ...prevState, products: data }));
+      const dataFilter = data.filter(item => item.storeId == account.storeId)
+      console.log(data);
+      if (dataFilter) {
+        setState((prevState) => ({ ...prevState, products: dataFilter }));
       }
     } catch (error) {
       console.log("Error in ListStore", error);
