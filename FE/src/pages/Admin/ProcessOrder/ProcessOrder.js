@@ -19,6 +19,7 @@ const ProcessOrder = () => {
   const [receivedCart, setReceivedCart] = useState([]);
   const [groupedOrders, setGroupedOrders] = useState([]); // State to store grouped orders
   const [productFinal, setProductFinal] = useState([]);
+  
   useEffect(() => {
     const startSignalRConnection = async () => {
       const connection = new HubConnectionBuilder()
@@ -49,8 +50,8 @@ const ProcessOrder = () => {
   
   const fetchApi = async () => {
     try {
-      const data = await get(`${LOCALHOST_API}/api/Order/orderdetailbystatus?storeId=1`);
-      // console.log(data);
+      const data = await get(`${LOCALHOST_API}/api/Order/orderdetailbystatus?storeId=${account.storeId}`);
+       console.log(data);
       if (data) {
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setOrderDetails(data);
@@ -146,7 +147,6 @@ const ProcessOrder = () => {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
-  
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
@@ -158,7 +158,6 @@ const ProcessOrder = () => {
 
     console.log('value:',updatedStatus);
     try {
-      
       const response = await put(`${LOCALHOST_API}/api/Order/update`,[updatedStatus]);
       if (response) {    
         message.success("successfully!");
@@ -177,11 +176,11 @@ const ProcessOrder = () => {
           throw new Error(`Order detail with ID ${orderDetailId} not found.`);
         }
        const tableId = orderDetail.tableID;
-       console.log(tableId);
+       //console.log(tableId);
         await connection.invoke('JoinTableGroup', tableId.toString());
         await connection.invoke('SendOrderNotificationToGroup',tableId.toString(),orderDetail.product_SizeID.toString()
        ,updatedStatus.status.toString(),orderDetail.date.toString());
-        console.log('SendOrderStatusUpdate:', [updatedStatus]);
+        console.log('SendOrderStatusUpdate:', orderDetail.date);
       } catch (error) {
         console.error('SignalR Error:', error);
       } finally {
@@ -234,7 +233,7 @@ const ProcessOrder = () => {
       title: 'Order date',
       dataIndex: 'date',
       key: 'date',   
-      render: (date) => formatDateTime(date),
+      render: (createdate) => new Date(createdate).toLocaleString(),
     },
     {
       title: 'Status',
