@@ -1,6 +1,3 @@
-
-
-
 import { Button, Form, Input, Select, Switch, message } from "antd";
 import { useEffect, useState } from "react";
 import { get, put } from "../../../helpers/API.helper";
@@ -87,6 +84,7 @@ function UpdateEmployee() {
   console.log(filteredAccounts); 
   return (
     <>
+    
       <Form
         layout="horizontal"
         labelCol={{ span: 3 }}
@@ -127,8 +125,7 @@ function UpdateEmployee() {
                     return Promise.resolve();
                 },
             },
-        ]}   
-        style={{display:'None'}}
+        ]}        
         >
           <Input  />
         </Form.Item>
@@ -182,9 +179,6 @@ function UpdateEmployee() {
                     }
                     if (!fullNameRegex.test(value)) {
                         return Promise.reject('Full name must be at least 2 characters long and can only include letters, spaces, hyphens, and apostrophes.');
-                    }
-                    if(value.trim()===""){
-                      return Promise.reject('Full Name needs charaters!');
                     }
                     return Promise.resolve();
                 },

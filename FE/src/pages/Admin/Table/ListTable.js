@@ -6,6 +6,7 @@ import {
   DELETE_MESSAGE,
   DELETE_MESSAGE_STORE,
   LIST_TABLE,
+  LOCALHOST_API,
 } from "../../../helpers/APILinks";
 import { useSelector } from "react-redux";
 import {
@@ -91,7 +92,7 @@ function ListTable() {
       "If you delete, all chat will delete"
     );
     if (confirmReset.isConfirmed) {
-      const data = await put(`http://localhost:5264/api/tables/updateisDelete/${id}?isDelete=1`);
+      const data = await put(`${LOCALHOST_API}/api/tables/updateisDelete/${id}?isDelete=1`);
       if (data) {
         message.success("Reset success", 2);
       }
@@ -113,7 +114,7 @@ function ListTable() {
   const UpdateStatusTable = async (id, status) => {
     // console.log(id, status)
 
-    const data = await put(`http://localhost:5264/api/tables/updateisStatus/${id}?status=${status}`);
+    const data = await put(`${LOCALHOST_API}/api/tables/updateisStatus/${id}?status=${status}`);
     if (data) {
       message.success("Reset success");
     }
@@ -166,7 +167,7 @@ function ListTable() {
   const handlesubmit = async () => {
     // console.log("tableName", tableName)
     try {
-      const response = await put(`http://localhost:5264/api/tables/updatetable/${tableId}?tableName=${tableName}`, {
+      const response = await put(`${LOCALHOST_API}/api/tables/updatetable/${tableId}?tableName=${tableName}`, {
         name: tableName
       });
       if (response) {
