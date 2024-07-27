@@ -53,7 +53,7 @@ namespace Swp391
 
 
 // localhost
-/*using BE.Hubs;
+using BE.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -103,4 +103,3 @@ namespace Swp391
         }
     }
 }
-*/

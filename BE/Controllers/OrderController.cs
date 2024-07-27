@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swp391.Controllers;
 using Swp391.Dtos;
+using System;
 
 namespace BE.Controllers
 {
@@ -26,7 +27,7 @@ namespace BE.Controllers
             if (storeId == -1 || tableId == -1)
             {
                 //lấy ra orderList 
-                DateTime currentTime = DateTime.Now;
+                DateTime currentTime = DateTime.Now.AddHours(-7);
 
                 Order order = new Order { Status = 0, StoreId = 1, TableId = 1, PaymentId = payMentID, Note = note, Date = currentTime };
 
@@ -56,7 +57,7 @@ namespace BE.Controllers
             else
             {
                 //lấy ra orderList 
-                DateTime currentTime = DateTime.Now;
+                DateTime currentTime = DateTime.Now.AddHours(-7);
 
                 Order order = new Order { Status = 0, StoreId = storeId, TableId = tableId, PaymentId = payMentID, Note = note, Date = currentTime };
 
