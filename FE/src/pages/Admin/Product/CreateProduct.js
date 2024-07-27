@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button } from "antd";
+import { Form, Input, Select, Switch, Modal, InputNumber, message, Upload, Button, Spin } from "antd";
 import { get, post } from "../../../helpers/API.helper";
 import { CREATE_PRODUCT, LOCALHOST_API } from "../../../helpers/APILinks";
 import { UploadOutlined } from "@ant-design/icons";
+import { Image } from "cloudinary-react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const { Option } = Select;
+
 function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [form] = Form.useForm();
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -11,6 +16,19 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
   const [sizePrices, setSizePrices] = useState({});
   const [stores, setStores] = useState([]);
   const [category, setCategory] = useState([]);
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState(null);  
+  const account = useSelector(state => state.AccountReducer);
+  const navigate = useNavigate();
+  const cloudinaryConfig = {
+    cloudName: 'dbe0xyjvc',
+    apiKey: '659239438524682',
+    apiSecret: 'WDlT8pl5a7mCYclSszx7fYBuKjA',
+    presets: 'r8cndyxy',
+  };
+
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -37,6 +55,9 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
     values.sizes = sizesArray;
     values.isDelete = 0;
     values.status = values.status ? 1 : 0;
+    const urlImage = await uploadImage();
+    values.img = urlImage;
+    values.storeId=account.storeId;
     console.log(values);
     
     try {
@@ -44,8 +65,12 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
       if (response) {
         form.resetFields();
         message.success("Product created successfully!");
+        setUrl("")
+        setPreview(null);
+        setSelectedSizes([]);
         handleOk(); // Call parent component's handleOk to close modal and refresh list
         onReload();
+        navigate("/admin/product");
       }
     } catch (error) {
       message.error("Product creation failed!");
@@ -71,6 +96,43 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
     });
   };
 
+  const handleImageChange = ({ file }) => {
+    console.log(file)
+    setImage(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setPreview(reader.result);
+    };
+  };
+
+  const uploadImage = async () => {
+    let imageUrl = "";
+    setLoading(true);
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", cloudinaryConfig.presets);
+    data.append("cloud_name", cloudinaryConfig.cloudName);
+    data.append("folder", "Cloudinary-React");
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`,
+        data
+      );
+      console.log(response)
+      setUrl(response.data.public_id);
+      imageUrl = response.data.url;
+      message.success("Image uploaded successfully!");
+      setLoading(false);
+    } catch (error) {
+      message.error("Failed to upload image.");
+      setLoading(false);
+    }
+
+    return imageUrl;
+  };
+
 
   return (
     <Modal
@@ -91,7 +153,7 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
             {
                 validator(_, value) {
                     // Example regex: allows letters, spaces, hyphens, and apostrophes, and must be at least 2 characters long
-                    const ProductRegex = /^[a-zA-Z\s'-]{2,}$/;
+                    const ProductRegex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăắằẵẳặÂấầẩẫậÊếềểễệƠớờởỡợÙúụủưứừễệợỳỵỷỹảẢ\s'-]+$/;
                     if (!value) {
                         return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
                     }
@@ -199,29 +261,34 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           </div>
         ))}
 
-        <Form.Item
-          label="Image"
-          name="img"
-          rules={[{ required: true, message: "Please upload an image!" }]}
-          
-        >        
-            <Input/>
+        {/* IMAGE */}
+        <Form.Item label="Upload a file">
+          <Upload
+            beforeUpload={(file) => {
+              handleImageChange({ file });
+              return false; // Prevent automatic upload
+            }}
+            showUploadList={false}
+            accept="image/*"
+          >
+            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          </Upload>
         </Form.Item>
 
-        <Form.Item
-          label="Store"
-          name="storeId"
-          key="storeId"
-          rules={[{ required: true, message: "Please select a store!" }]}
-        >
-          <Select placeholder="Select a store">
-            {stores.map((store) => (
-              <Option key={store.storeId} value={store.storeId}>
-                {store.storeName}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
+        <div className="flex justify-center items-center mt-5 mx-3 max-w-xs">
+          {preview && <img src={preview} alt="preview" className="w-full" />}
+        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <Spin />
+            <span>Processing...</span>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {/* IMAGE */}
 
         <Form.Item
           name="status"
