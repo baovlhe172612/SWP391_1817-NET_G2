@@ -113,14 +113,21 @@ function CreateProduct({ isVisible, handleOk, handleCancel, onReload }) {
           label="Price"
           name="price"
           rules={[
-            {
-              required: true,
-              type:"number",
-              message: 'Please input price!',
-          }          
+            
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+                if (!value) {
+                    return Promise.reject('Please input your price!');
+                }
+                if (!/^\d$/.test(value)) {
+                    return Promise.reject('price must be digits!');
+                }                   
+                return Promise.resolve();
+            },
+        }),         
           ]}
         >
-          <InputNumber
+          <Input
             min={0}
             placeholder="Input price"
             style={{ width: "100%" }}
