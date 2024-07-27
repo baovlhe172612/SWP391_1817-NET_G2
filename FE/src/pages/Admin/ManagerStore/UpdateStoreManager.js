@@ -57,7 +57,7 @@ function UpdateStoreManager() {
     if(data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
-      navigate(`/admin/manager-store/`)
+      navigate(`/admin/managerStore/`)
     }
   };
   // api store
@@ -83,7 +83,6 @@ function UpdateStoreManager() {
   // lọc account hiện tại 
   const filteredAccounts = Accounts.filter(account => account.accountId !== accountmanager.accountId);
   console.log(filteredAccounts); 
-
   return (
     <>
       
