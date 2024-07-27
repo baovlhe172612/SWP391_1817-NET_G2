@@ -12,11 +12,15 @@ function CreateBlog() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const account = useSelector((state) => state.AccountReducer);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const blogData = await post(`${LOCALHOST_API}/api/Post/add_new`);
+
+        const dataCategories = await get(`${LOCALHOST_API}/api/Category`);
+        setCategory(dataCategories);
         if (blogData) {
           setBlog(blogData);
         }
@@ -130,22 +134,22 @@ function CreateBlog() {
         >
           <Input value={account.fullName} />
         </Form.Item>
+
         <Form.Item
           label="Tags"
           name="tags"
-          rules={[
-            {
-              required: true,
-              message: "Please input tags!",
-            },
-            {
-              pattern: whitespacePattern,
-              message: "Tags cannot be just whitespace!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please input tag with category name!" }]}
+
         >
-          <Input />
+          <Select placeholder="Select your tag">
+            {category.map((category) => (
+              <Option className="category" id="category" key={category.categoryName} value={category.categoryName}>
+                {category.categoryName}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
+
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit
