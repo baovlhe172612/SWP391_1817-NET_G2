@@ -159,6 +159,7 @@ function UpdateEmployee() {
                   Promise.resolve()
             }
           ]}
+          style={{display :'None'}}
         >
           <Input />
         </Form.Item>
