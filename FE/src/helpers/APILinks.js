@@ -61,7 +61,7 @@ export const LIST_PRODUCT_DTOS = `${LOCALHOST_API}/api/productDtos`;
 
 export const LIST_ACCOUNT_MANAGERS = `${LOCALHOST_API}/api/Account/manager`;
 export const CREATE_ACCOUNT_MANAGER = `${LOCALHOST_API}/api/Account`;
-export const UPDATE_ACCOUNT_MANAGER= `${LOCALHOST_API}api/Account/`;
+export const UPDATE_ACCOUNT_MANAGER= `${LOCALHOST_API}/api/Account/`;
 // API PRODUCTDTOS
 
 export const GET_PRODUCTSIZES_BY_ID= `${LOCALHOST_API}/api/ProductSizes/id?id=`;

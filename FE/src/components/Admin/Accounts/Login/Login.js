@@ -54,7 +54,7 @@ function Login() {
       const dataAuthen = await get(
         `${GET_ACCOUNT_BY_AUTH}?username=${encodeURIComponent(
           values.username.trim()
-        )}&password=${passwordMd5}`
+        )}&password=${values.password}`
       );
 
       if (dataAuthen) {

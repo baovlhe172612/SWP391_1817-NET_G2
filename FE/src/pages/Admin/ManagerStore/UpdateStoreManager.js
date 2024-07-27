@@ -13,6 +13,8 @@ function UpdateStoreManager() {
   const [accountmanager, setAccountmanager] = useState([]);
   const [form] = Form.useForm();
   const id = useParams().id;
+  const [Stores, setStores] = useState([]);
+  const [Accounts, setAccounts] = useState([]);
   const navigate = useNavigate()
   useEffect(() => {
     const fetchApi = async () => {
@@ -53,16 +55,19 @@ function UpdateStoreManager() {
     values.isDelete =  0;
     console.log(values);
     values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
-    const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
+    try {
+      const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
     if(data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
       navigate(`/admin/managerStore/`)
+    } }catch (error) {
+      console.log(error)
     }
+    
   };
   // api store
-  const [Stores, setStores] = useState([]);
-  const [Accounts, setAccounts] = useState([]);
+
   const fetchApi = async () => {
     try {
       const data = await get(`${LIST_STORES}`);  
@@ -290,7 +295,7 @@ function UpdateStoreManager() {
               ))}            
            </Select>
                 </Form.Item>       
-        <Form.Item name="status" label="Switch" valuePropName="checked">
+        <Form.Item name="status" label="status" valuePropName="checked">
           <Switch />
         </Form.Item>
         <Form.Item>
