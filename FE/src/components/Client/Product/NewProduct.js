@@ -39,7 +39,7 @@ function NewProduct() {
                     role="tabpanel"
                     aria-labelledby="featured-tab"
                   >
-                    <div class="product-item-wrap row">
+                   <div class="product-item-wrap row" style={{ "--bs-gutter-x": "0px" }}>
                       {/* <!-- PRODUCT --> */}
                       {products.length > 0 &&
                         products.map((product) => {
