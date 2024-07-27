@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { get, patch } from "../../../helpers/API.helper";
 import { useParams, useNavigate } from "react-router-dom";
 import { LOCALHOST_API } from "../../../helpers/APILinks";
+import { useSelector } from "react-redux";
 
 const UpdateCategory = () => {
   // Khởi tạo form và lấy id từ URL params
   const [form] = Form.useForm();
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const account = useSelector(state => state.AccountReducer);
   // useEffect để fetch dữ liệu category từ API khi component được render
   useEffect(() => {
     const fetchCategory = async () => {
@@ -44,7 +45,7 @@ const UpdateCategory = () => {
 
       // Chuyển đổi giá trị của isDelete thành 1 hoặc 0 để phù hợp với định dạng dữ liệu API
       values.isDelete = values.isDelete ? 1 : 0;
-
+      values.storeId = account.storeId
       // Gọi API để cập nhật thông tin category
       const data = await patch(`${LOCALHOST_API}/api/Category/update/${id}`, values);
       if (data) {

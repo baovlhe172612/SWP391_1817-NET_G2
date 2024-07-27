@@ -221,8 +221,7 @@ const ProcessOrder = () => {
     {
       title: 'Order date',
       dataIndex: 'date',
-      key: 'date',
-      render: (createdAt) => new Date(createdAt).toLocaleString(),
+      key: 'date',   
     },
     {
       title: 'Status',

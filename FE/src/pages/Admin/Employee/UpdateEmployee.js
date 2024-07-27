@@ -108,7 +108,7 @@ function UpdateEmployee() {
         <Form.Item
           label="PassWord"
           name="passWord" 
-          
+          style={{display:'None'}}
         >
           <Input  />
         </Form.Item>

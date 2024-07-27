@@ -67,9 +67,8 @@ function CreateBlog() {
 
     if (dataUpdate) {
       alear_success("Create!", "create");
-
       form.resetFields();
-
+      setPreview(null)
       navigate(`/admin/blogs/create`);
     }
   };
@@ -200,7 +199,7 @@ function CreateBlog() {
             },
           ]}
         >
-          <Input value={account.fullName} />
+          <Input value={account.fullName} readOnly/>
         </Form.Item>
 
         <Form.Item
