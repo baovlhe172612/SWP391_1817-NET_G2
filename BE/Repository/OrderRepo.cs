@@ -15,8 +15,7 @@ namespace BE.Repository
         /// <returns>toàn bộ hóa đơn</returns>
         public List<Order> getAllOrder()
         {
-            return context.Orders.
-                Where(o => o.Status==1)
+            return context.Orders
                 .ToList();
         }
 
@@ -44,7 +43,7 @@ namespace BE.Repository
             try
             {
                 var listOrder = context.Orders
-                                .Where(o => o.StoreId == id && o.Status == 1)
+                                .Where(o => o.StoreId == id )
                                 .OrderByDescending(o => o.Date)
                                 .ToList();
 

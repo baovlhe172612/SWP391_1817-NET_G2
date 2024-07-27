@@ -52,6 +52,7 @@ namespace BE.Controllers
 
                 return Ok(cartItems);
             }
+
             else
             {
                 //lấy ra orderList 
@@ -81,7 +82,6 @@ namespace BE.Controllers
 
                 return Ok(cartItems);
             }
-
 
         }
 
