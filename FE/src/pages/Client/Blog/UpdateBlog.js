@@ -52,10 +52,10 @@ function UpdateBlog() {
 
   const handleSubmit = async (values) => {
     try {
-      console.log("day la blog: "+blog);
-
-      console.log("day la value: "+values);
-      const data = await patch(`${LOCALHOST_API}/Post/update_post/${id}`, { ...blog, ...values }); 
+      console.log("day la blog: ",blog);
+      console.log("day la value: ",values);
+      console.log("day la bl+vl",({ ...blog, ...values }).createdDate)
+      const data = await patch(`${LOCALHOST_API}/api/Post/update_post/${id}`, { ...blog, ...values }); 
 
 
       if (data) {
@@ -72,7 +72,6 @@ function UpdateBlog() {
 
   return (
     <>
-      <h2>Update Blog</h2>
 
       <Form
         name="update-blog"

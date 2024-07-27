@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Input, Space, Table, Tag } from "antd";
@@ -5,7 +8,7 @@ import { get, patch } from "../../../helpers/API.helper";
 import { DELETE_BLOG_ID, GET_BLOGS_STATUS, LOCALHOST_API, UP_BLOG_ID } from "../../../helpers/APILinks";
 import Swal from "sweetalert2";
 import Search from "antd/es/input/Search";
-import { useSelector } from "react-redux";
+import { DeleteOutlined, EditOutlined, FilterOutlined, UndoOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
 
 function ListBlog() {
   const [blogs, setBlogs] = useState([]);
@@ -20,7 +23,7 @@ function ListBlog() {
   const navigate = useNavigate();
   let status = searchStatus.get(`status`);
   status = status === "active" ? 1 : status === "inactive" ? 0 : 1;
-  const account = useSelector(state => state.AccountReducer);
+
   let data = [];
 
   // Fetch data from API
@@ -28,10 +31,9 @@ function ListBlog() {
     const fetchApi = async () => {
       try {
         const data = await get(`${LOCALHOST_API}/api/Post`);
-        const dataFilter = data.filter(item => item.storeId == account.storeId)
-        console.log(dataFilter);
-        if (dataFilter) {
-          setBlogs(dataFilter);
+        console.log(data);
+        if (data) {
+          setBlogs(data);
         }
       } catch (error) {
         console.log("err in ListBlog", error);
@@ -159,11 +161,10 @@ function ListBlog() {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`edit/${record.postId}`}>
-            <Button type="primary">Update</Button>
+            <Button icon={<EditOutlined />}></Button>
           </Link>
           {record.status === 1 && record.isPublished !== 1 && (
-            <Button type="primary" onClick={() => handlePost(record.postId)}>
-              Post
+            <Button type="primary" icon={<VerticalAlignTopOutlined />} onClick={() => handlePost(record.postId)}>
             </Button>
           )}
           {record.status === 1 ? (
@@ -171,15 +172,17 @@ function ListBlog() {
               type="primary"
               danger
               onClick={() => handleDelete(record.postId)}
+              icon={<DeleteOutlined/>}
             >
-              Delete
+              
             </Button>
           ) : (
             <Button
               type="primary"
               onClick={() => handleUndelete(record.postId)}
+              icon={<UndoOutlined />}
             >
-              Undelete
+             
             </Button>
           )}
         </Space>
@@ -304,17 +307,17 @@ function ListBlog() {
 
   return (
     <>
-     <Space style={{ marginBottom: 16 }}>
+    <Space style={{ marginBottom: 16 }}>
         <Search
           placeholder="Search"
           onChange={handleSearch}
           style={{ width: 200 }}
         />
       </Space>
-      
+    
       <Table
         columns={columns}
-        //pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 5 }}
         dataSource={getFilteredData()}
         rowKey="title"
       />

@@ -232,8 +232,7 @@ const ProcessOrder = () => {
     {
       title: 'Order date',
       dataIndex: 'date',
-      key: 'date',   
-      
+      key: 'date',        
     },
     {
       title: 'Status',
