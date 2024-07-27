@@ -20,6 +20,7 @@ namespace Swp391.Repository
             List<AccountDtos> list = (from a in _context.Accounts
                                       join r in _context.Roles on a.RoleId equals r.RoleId
                                       join s in _context.Stores on a.StoreId equals s.StoreId
+                                      where a.IsDelete!=1
                                       select new AccountDtos
                                       {
                                           AccountId = a.AccountId,
@@ -58,7 +59,7 @@ namespace Swp391.Repository
             var accountDtos = (from a in _context.Accounts
                                join r in _context.Roles on a.RoleId equals r.RoleId
                                join s in _context.Stores on a.StoreId equals s.StoreId
-                               where Token == a.Token
+                               where Token == a.Token && a.IsDelete != 1
                                select new AccountDtos
                                {
                                    AccountId = a.AccountId,
