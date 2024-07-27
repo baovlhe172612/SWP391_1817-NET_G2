@@ -26,7 +26,6 @@
         // New property for total quantity
         public int ProductID { get; set; }
         public int TotalQuantity { get; set; }
-
         public DateTime? Date { get; set; }
 
     }
