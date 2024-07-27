@@ -132,18 +132,12 @@ function Login() {
               >
                 <Checkbox>Remember Me</Checkbox>
               </Form.Item>
-
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>
               </Form.Item>
             </Form>
-
-            <Link className="signup-image-link" to="/admin/register">
-              <Button type="primary">Create an account</Button>
-            </Link>
-
             <div style={{ marginTop: "10px" }}>
               <Link to="/admin/forgot-password">Forgot Password?</Link>
             </div>
