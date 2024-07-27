@@ -41,9 +41,9 @@ function ChatDetail({ conversation, listMessage }) {
                     <div className="msg-info-name">{message.userName}</div>
                   </div>
                   {/*  */}
-                  <div className="msg-info-time">
+                  {/* <div className="msg-info-time">
                     {getRelativeTime(message.timeStamp)}
-                  </div>
+                  </div> */}
  
  
                   <div className="msg-text">{message.contentChat}</div>
