@@ -250,9 +250,7 @@ function ListTable() {
               {account.roleId == 2 && <Button
                 style={{
                   border: 'none',
-                  background: 'green',
-
-
+                  background: 'blue',
                   cursor: 'pointer',
                   color: 'white',
                   fontWeight: 800,
@@ -260,6 +258,7 @@ function ListTable() {
                 }}
                 icon={<EditOutlined />}
                 onClick={() => openModal(table.tableId, table.tableName)}
+              
               >
               </Button>
               }
