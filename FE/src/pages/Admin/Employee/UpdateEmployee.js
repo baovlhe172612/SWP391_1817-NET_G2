@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { GET_ACCOUNT_BY_ID, GET_ALL_ACCOUNTS, LIST_ACCOUNT, LIST_STORES } from "../../../helpers/APILinks";
 import { alear_success } from "../../../helpers/Alert.helper";
+import CryptoJS from 'crypto-js';
 const { Option } = Select;
 
 function UpdateEmployee() {
@@ -66,7 +67,7 @@ function UpdateEmployee() {
     values.status = values.status ? 1 : 0;
     values.roleId = 3;
     values.isDelete = 0;
-
+    values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
     const data = await put(`${GET_ACCOUNT_BY_ID}/${id}`, values);
     console.log("accountsDataByID",data)
     if (data) {
