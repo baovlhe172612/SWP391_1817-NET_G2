@@ -12,7 +12,6 @@ import CheckPayment from './CheckPayment';
 import { API_ORDER, connectOrderHub } from '../../../helpers/APILinks';
 import { confirm } from '../../../helpers/Alert.helper';
 import { post } from '../../../helpers/API.helper';
-
 const { Option } = Select;
 
 function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, cartDataModal, dataToSend, value, note }) {
@@ -61,7 +60,6 @@ function CheckoutModal({ handleDeleteAll, isVisible, handleOk, handleCancel, car
       } catch (err) {
         console.error('SignalR Connection Error: ', err);
       }
-
       setConnection(newConnection);
     };
 

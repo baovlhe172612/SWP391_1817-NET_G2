@@ -13,6 +13,8 @@ function UpdateStoreManager() {
   const [accountmanager, setAccountmanager] = useState([]);
   const [form] = Form.useForm();
   const id = useParams().id;
+  const [Stores, setStores] = useState([]);
+  const [Accounts, setAccounts] = useState([]);
   const navigate = useNavigate()
   useEffect(() => {
     const fetchApi = async () => {
@@ -53,16 +55,19 @@ function UpdateStoreManager() {
     values.isDelete =  0;
     console.log(values);
     values.passWord = CryptoJS.MD5(values.passWord.trim()).toString().trim();
-    const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
+    try {
+      const data = await put(`${UPDATE_ACCOUNT_MANAGER}${id}`, values);   
     if(data) {
       // thông báo ra màn hình
       alear_success("Update!", "updated");
-      navigate(`/admin/manager-store/`)
+      navigate(`/admin/managerStore/`)
+    } }catch (error) {
+      console.log(error)
     }
+    
   };
   // api store
-  const [Stores, setStores] = useState([]);
-  const [Accounts, setAccounts] = useState([]);
+
   const fetchApi = async () => {
     try {
       const data = await get(`${LIST_STORES}`);  
@@ -83,7 +88,6 @@ function UpdateStoreManager() {
   // lọc account hiện tại 
   const filteredAccounts = Accounts.filter(account => account.accountId !== accountmanager.accountId);
   console.log(filteredAccounts); 
-
   return (
     <>
       
@@ -139,25 +143,7 @@ function UpdateStoreManager() {
           
           label="PassWord"
           name="passWord" 
-          rules={[
-            {
-                required: true,
-                message: 'Please input your password!',
-            },
-            {
-                validator(_, value) {
-                    // Example regex: minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
-                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-                    if (!value) {
-                        return Promise.resolve(); // If the field is empty, let the 'required' rule handle it
-                    }
-                    if (!passwordRegex.test(value)) {
-                        return Promise.reject('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
-                    }
-                    return Promise.resolve();
-                },
-            },
-        ]}
+          
         style={{ display: 'none' }}        
         >
           <Input  hidden/>
@@ -291,7 +277,7 @@ function UpdateStoreManager() {
               ))}            
            </Select>
                 </Form.Item>       
-        <Form.Item name="status" label="Switch" valuePropName="checked">
+        <Form.Item name="status" label="status" valuePropName="checked">
           <Switch />
         </Form.Item>
         <Form.Item>
