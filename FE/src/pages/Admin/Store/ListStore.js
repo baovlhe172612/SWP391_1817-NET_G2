@@ -29,7 +29,7 @@ function ListStore() {
        let data = []
        console.log(newStore == 'New Store')
        if(newStore == 'New Store') {
-         data = await get(`${GET_STORES_STATUS}/$ {kllllllll,.1}`);
+         data = await get(`${GET_STORES_STATUS}/${1}`);
        } else {
          data = await get(`${NEW_STORE}`);
        }
